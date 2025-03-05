@@ -1,10 +1,10 @@
-body{
+body {
     margin: 0;
     scroll-behavior: smooth;
     box-sizing: border-box;
 }
 
-a{
+a {
     text-decoration: none;
     font-family: Inter;
     text-decoration: none;
@@ -16,20 +16,20 @@ a{
 
 @font-face {
     font-family: 'Inter';
-    src: url('fonts/inter/Inter-VariableFont_opsz,wght.ttf'),
-  }
+    src: url('fonts/inter/Inter-VariableFont_opsz,wght.ttf');
+}
 
 * {
     box-sizing: border-box;
-  }
-
-.start-content{
-    width: 100vw; 
-    height: 100vh;    
 }
 
-header{
-    position: fixed;
+.start-content {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+}
+
+header {
     height: 96px;
     width: 100%;
     border-bottom: 1px solid rgba(42, 54, 71, 0.1);
@@ -37,22 +37,24 @@ header{
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding:0 40px 0 348px;
+    padding: 0 40px 0 348px;
     font-family: Inter;
     font-size: 24px;
     font-weight: 200;
+    z-index: 1;
+    position: relative;
 }
 
-.right-header-elements{
+.right-header-elements {
     display: flex;
     gap: 16px;
 }
 
-.help-button{
+.help-button {
     cursor: pointer;
 }
 
-.user-initials{
+.user-initials {
     cursor: pointer;
     height: 48px;
     width: 48px;
@@ -67,3 +69,16 @@ header{
     color: rgba(41, 171, 226, 1);
 }
 
+.right-side-content {
+    flex-grow: 1;
+    padding: 20px;
+    margin-left: 250px;
+}
+
+.right-side-content h2 {
+    color: #333;
+}
+
+.right-side-content p {
+    margin: 10px 0;
+}
