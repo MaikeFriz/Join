@@ -1,34 +1,3 @@
-body{
-    margin: 0;
-    scroll-behavior: smooth;
-    box-sizing: border-box;
-}
-
-a{
-    text-decoration: none;
-    font-family: Inter;
-    text-decoration: none;
-    color: rgba(255, 255, 255, 1);
-    font-weight: 200;
-    font-size: 16px;
-    padding: 8px;
-}
-
-@font-face {
-    font-family: 'Inter';
-    src: url('fonts/inter/Inter-VariableFont_opsz,wght.ttf'),
-         url('../fonts/myfont.woff') format('woff');
-  }
-
-* {
-    box-sizing: border-box;
-  }
-
-.start-content{
-    width: 100vw; 
-    height: 100vh;    
-}
-
 .sidebar-container{
     height: 100%;
     display: flex;
@@ -88,4 +57,3 @@ a{
     flex-direction: column;
 
 }
-
