@@ -2,6 +2,7 @@ body {
     margin: 0;
     scroll-behavior: smooth;
     box-sizing: border-box;
+    background-color:rgba(246, 247, 248, 1);
 }
 
 a {
@@ -30,8 +31,11 @@ a {
 }
 
 header {
+    position: sticky;
+    top: 0;
     height: 96px;
     width: 100%;
+    background-color: rgba(255, 255, 255, 1);
     border-bottom: 1px solid rgba(42, 54, 71, 0.1);
     box-shadow: 0px 0px 4px 2px rgba(42, 54, 71, 0.1);
     display: flex;
@@ -40,9 +44,8 @@ header {
     padding: 0 40px 0 348px;
     font-family: Inter;
     font-size: 24px;
-    font-weight: 200;
-    z-index: 1;
-    position: relative;
+    font-weight: 200;  
+    backdrop-filter: blur(10px);
 }
 
 .right-header-elements {
@@ -77,6 +80,11 @@ header {
 
 .right-side-content h2 {
     color: #333;
+}
+
+.right-side-content a {
+    color: rgba(42, 54, 71, 1);
+    font-weight: 600;
 }
 
 .right-side-content p {
