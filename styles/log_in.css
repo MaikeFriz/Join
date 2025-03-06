@@ -43,11 +43,6 @@ footer p:hover{
     color: black;
 }
 
-.main_content {
-    flex: 1; 
-    overflow: auto; 
-}
-
 .logo_header{
     height: 121px;
     width: auto;
@@ -63,7 +58,7 @@ footer p:hover{
 
 .sign_up_button_header{
     background-color: rgb(42, 54, 71);
-    border-radius: 5px;
+    border-radius: 10px;
     color: white;
     padding: 8px 16px;
     cursor: pointer;
@@ -80,13 +75,42 @@ footer p:hover{
 header {
     position: sticky;
     top: 0;
-    height: 140px;
+    height: 130px;
     max-width: 100%;
     background-color:rgba(246, 247, 248, 1);
     display: flex;
     justify-content: space-between;
     align-items:start;
     flex-direction: row;
-    padding: 32px 56px;
-    overflow: hidden;
+    padding: 32px 56px 0 56px;
+}
+
+.log_in_box{
+    height: 449px;
+    width: 652px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0px 0px 4px 2px rgba(42, 54, 71, 0.1);
+    overflow-y: scroll;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* Internet Explorer/Edge */
+}
+
+.log_in_box::-webkit-scrollbar { 
+    display: none; /* Chrome, Safari, Edge */
+}
+
+.main_content {
+    flex: 1; 
+    overflow: scroll; 
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    padding: 32px 0;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* Internet Explorer/Edge */
+}
+
+.main_content::-webkit-scrollbar { 
+    display: none; /* Chrome, Safari, Edge */
 }
