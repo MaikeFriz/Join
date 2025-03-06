@@ -201,3 +201,7 @@ header {
     transform: scale(1.05);
     color: white;
 }
+
+a{
+    text-decoration: none;
+}
