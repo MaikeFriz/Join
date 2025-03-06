@@ -127,6 +127,13 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: row;
+}
+
+.div_sign_in_h1_separator{
+    display: flex;
+    justify-content: center;
+    align-items: center;
     flex-direction: column;
 }
 
@@ -217,4 +224,15 @@ a{
 
 a:hover{
     text-decoration: underline;
+}
+
+.back_arrow_sign_in{
+    height: 32px;
+    width: 32px;
+    transform: translateX(-104px) scale(1);
+    cursor: pointer;
+}
+
+.back_arrow_sign_in:hover{
+    transform: translateX(-104px) scale(1.1);
 }
