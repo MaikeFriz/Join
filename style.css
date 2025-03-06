@@ -50,11 +50,17 @@ header {
 
 .right-header-elements {
     display: flex;
+    align-items: center;
+    justify-content: center;
     gap: 16px;
 }
 
 .help-button {
     cursor: pointer;
+}
+
+.help-button:hover {
+    height: 24px;
 }
 
 .user-initials {
@@ -70,6 +76,11 @@ header {
     font-size: 16px;
     font-weight: 400;
     color: rgba(41, 171, 226, 1);
+}
+
+
+.user-initials:hover{
+    background-color: rgba(226, 230, 237, 1);
 }
 
 .right-side-content {
@@ -89,4 +100,16 @@ header {
 
 .right-side-content p {
     margin: 10px 0;
+}
+
+footer a{
+    text-decoration: none;
+    font-weight: 300 !important;
+    font-size: 16px;
+    color: rgb(168, 168, 168) !important;
+}
+
+footer a:hover{
+    text-decoration: none;
+    color: black !important;
 }
