@@ -1,0 +1,92 @@
+html {
+    overflow: hidden;
+    height: 100%;
+  }
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color:rgba(246, 247, 248, 1);
+    max-width: 100%;
+    overflow: hidden;
+    height: 100%;
+    display: flex;
+    flex-direction: column; 
+  }
+
+  h1, h2, h3, h5 {
+    color: #333;
+  }
+
+footer{
+    position: sticky;
+    bottom: 0;
+    height: 80px;
+    max-width: 100%;
+    background-color:rgba(246, 247, 248, 1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+    color: rgb(168, 168, 168);
+}
+
+footer p{
+    transform: scale(1);
+    cursor: pointer;
+}
+
+footer p:hover{
+    transform: scale(1.05);
+    color: black;
+}
+
+.main_content {
+    flex: 1; 
+    overflow: auto; 
+}
+
+.logo_header{
+    height: 121px;
+    width: auto;
+}
+
+.right_header_section{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap: 32px;
+}
+
+.sign_up_button_header{
+    background-color: rgb(42, 54, 71);
+    border-radius: 5px;
+    color: white;
+    padding: 8px 16px;
+    cursor: pointer;
+    transform: scale(1);
+}
+
+.sign_up_button_header:hover{
+    background-color: rgb(41, 171, 226);
+    transform: scale(1.05);
+}
+
+/* Ab hier Sign Up und Log In individueller Style. Bis hier hin gleich*/
+
+header {
+    position: sticky;
+    top: 0;
+    height: 140px;
+    max-width: 100%;
+    background-color:rgba(246, 247, 248, 1);
+    display: flex;
+    justify-content:flex-start;
+    align-items:center;
+    flex-direction: row;
+    padding: 32px 56px;
+    overflow: hidden;
+}
