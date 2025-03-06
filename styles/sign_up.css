@@ -94,12 +94,16 @@ header {
     border-radius: 10px;
     box-shadow: 0px 0px 4px 2px rgba(42, 54, 71, 0.1);
     overflow-y: scroll;
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* Internet Explorer/Edge */
+    scrollbar-width: none; 
+    -ms-overflow-style: none;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
 }
 
 .sign_up_box::-webkit-scrollbar { 
-    display: none; /* Chrome, Safari, Edge */
+    display: none; 
 }
 
 .main_content {
@@ -109,10 +113,108 @@ header {
     justify-content: center;
     align-items: start;
     padding: 32px 0;
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* Internet Explorer/Edge */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
 
 .main_content::-webkit-scrollbar { 
-    display: none; /* Chrome, Safari, Edge */
+    display: none; 
+}
+
+.h1_div_sign_up_field{
+    min-height: 98px;
+    width: 315px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.h1_box{
+    font-size: 72px;
+    font-weight: 700;
+    text-align: center;
+    color: rgb(42, 54, 71);
+    margin-block-start: 0;
+    margin-block-end: 0;
+}
+
+.separation_line_h1{
+    height: 4px;
+    width: 160px;
+    background-color:  rgb(41, 171, 226);
+    border-radius: 50px;
+}
+
+.input_div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+    height: 326px;
+    width: 422px;
+}
+
+.input_div input{
+    width: 422px;
+    height: 48px;
+    border: rgb(209, 209, 209) solid 1px;
+    border-radius: 10px;
+    padding-left: 16px;
+}
+
+.button_sign_up_input_section{
+    background-color: rgb(42, 54, 71);
+    border: solid 2px  rgb(42, 54, 71);
+    border-radius: 10px;
+    color: white;
+    padding: 8px 16px;
+    cursor: pointer;
+    transform: scale(1);
+    font-weight: 600;
+}
+
+.button_sign_up_input_section:hover{
+    background-color: rgb(41, 171, 226);
+    transform: scale(1.05);
+    border: solid 2px rgb(41, 171, 226);
+}
+
+.checkbox_div {
+    display: flex;
+    align-items: center; 
+    gap: 8px; 
+    font-size: 16px;
+    color: rgb(42, 54, 71);
+}
+
+.checkbox_div input {
+    width: 20px; 
+    height: 20px;
+    appearance: none; 
+    border: 2px solid rgb(42, 54, 71);
+    border-radius: 4px; 
+    cursor: pointer;
+    transition: 0.3s ease, border 0.3s ease;
+}
+
+.checkbox_div input:checked::after {
+    content: "✓";
+    color: rgb(42, 54, 71);
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+a{
+    color:  rgb(41, 171, 226);
+    cursor: pointer;
+}
+
+a:hover{
+    text-decoration: underline;
 }

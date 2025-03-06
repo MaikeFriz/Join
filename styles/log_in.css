@@ -152,13 +152,6 @@ header {
     border: rgb(209, 209, 209) solid 1px;
     border-radius: 10px;
     padding-left: 16px;
-    background-image: url('./assets/img/placeholder_mail_input_field.svg');
-    background-repeat: no-repeat;
-}
-
-.input_div input:focus,
-.input_div input:not(:placeholder-shown) {
-    background-image: none; 
 }
 
 .button_div{
