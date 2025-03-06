@@ -30,17 +30,20 @@ footer{
     justify-content: center;
     align-items: center;
     gap: 24px;
-    color: rgb(168, 168, 168);
+    
 }
 
-footer p{
+footer a{
+    text-decoration: none;
+    color: rgb(168, 168, 168);
     transform: scale(1);
     cursor: pointer;
 }
 
-footer p:hover{
-    transform: scale(1.05);
+footer a:hover{
+    text-decoration: none;
     color: black;
+    transform: scale(1.05); 
 }
 
 .logo_header{
