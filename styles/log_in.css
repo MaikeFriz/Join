@@ -203,9 +203,9 @@ header {
 }
 
 .button_sign_up_input_section:hover{
-    background-color: rgb(42, 54, 71);
+    border: solid 2px rgb(41, 171, 226);
     transform: scale(1.05);
-    color: white;
+    color: rgb(41, 171, 226);
 }
 
 a{
