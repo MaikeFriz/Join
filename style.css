@@ -5,16 +5,6 @@ body {
     background-color:rgba(246, 247, 248, 1);
 }
 
-a {
-    text-decoration: none;
-    font-family: Inter;
-    text-decoration: none;
-    color: rgba(255, 255, 255, 1);
-    font-weight: 200;
-    font-size: 16px;
-    padding: 4px;
-}
-
 @font-face {
     font-family: 'Inter';
     src: url('fonts/inter/Inter-VariableFont_opsz,wght.ttf');
@@ -23,6 +13,16 @@ a {
 * {
     box-sizing: border-box;
     font-family: Inter;
+}
+
+a {
+    text-decoration: none;
+    font-family: 'Inter';
+    text-decoration: none;
+    color: rgba(255, 255, 255, 1);
+    font-weight: 200;
+    font-size: 16px;
+    padding: 4px;
 }
 
 .start-content {
@@ -46,7 +46,6 @@ header {
     font-family: Inter;
     font-size: 24px;
     font-weight: 200;  
-    backdrop-filter: blur(10px);
 }
 
 .right-header-elements {
@@ -91,7 +90,7 @@ header {
 
 .right-side-content {
     width: 100%;
-    margin: 0 96px 0 328px;
+    padding: 64px 96px 64px 328px;
     box-sizing: border-box;
 }
 
@@ -106,6 +105,10 @@ header {
 
 .right-side-content p {
     margin: 10px 0;
+}
+
+footer{
+    padding-bottom: 64px;
 }
 
 footer a{

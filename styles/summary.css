@@ -1,15 +1,9 @@
 .summary-left{
 display: flex;
 flex-direction: column;
-
-}
-
-.summary-head{
-
 }
 
 .summary-headline{
-    top: 206px;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -48,6 +42,10 @@ flex-direction: column;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+}
+
+.overview-line-three{
+    background-color: rgba(255,255,255,1);
 }
 
 .overview-line-two{

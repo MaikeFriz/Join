@@ -43,7 +43,6 @@ body {
     justify-content: space-between;
     align-items: center;
     flex-direction: row;
-    padding-top: 40px;
 }
 
 .h1_div h1{
@@ -63,6 +62,3 @@ body {
     color: rgb(41, 171, 226);
 }
 
-footer{
-    padding-bottom: 64px;
-}
