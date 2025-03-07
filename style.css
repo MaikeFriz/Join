@@ -12,7 +12,7 @@ a {
     color: rgba(255, 255, 255, 1);
     font-weight: 200;
     font-size: 16px;
-    padding: 8px;
+    padding: 4px;
 }
 
 @font-face {
@@ -22,6 +22,7 @@ a {
 
 * {
     box-sizing: border-box;
+    font-family: Inter;
 }
 
 .start-content {
@@ -55,8 +56,13 @@ header {
     gap: 16px;
 }
 
-.help-button {
+.right-header-elements a{
+    margin-top: 8px;
+}
+
+.help-button{
     cursor: pointer;
+    height: 20px;
 }
 
 .help-button:hover {

@@ -1,0 +1,141 @@
+.summary-left{
+display: flex;
+flex-direction: column;
+
+}
+
+.summary-head{
+
+}
+
+.summary-headline{
+    top: 206px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 30px;
+}
+
+.summary-headline h1{
+    line-height: 1;
+    color: rgba(0,0,0,1);
+    font-size: 61px;
+    font-weight: 700;  
+}
+
+.headline-separator{
+    border-right: 3px solid rgba(41, 171, 226, 1);
+    height: 61px;
+}
+
+.summary-headline p{
+    font-size: 27px;
+    font-weight: 400;
+    color: rgba(42, 54, 71, 1);
+    }
+
+.summary-overview {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 560px;
+    height: 562px;
+    padding-top: 20px;
+
+}   
+
+.overview-line-one, .overview-line-three{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.overview-line-two{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding: 0 48px 0 48px;
+    align-items: center;
+    border-radius: 30px;
+    box-shadow: 0px 0px 4px 1px rgba(42, 54, 71, 0.1);
+    gap: 61px;
+}
+
+.summary-to-do, 
+.summary-done{
+    width: 264px;
+    height: 168px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    border-radius: 30px;
+    box-shadow: 0px 0px 4px 1px rgba(42, 54, 71, 0.1);
+    gap: 18px;
+}
+
+.summary-urgent{
+    height: 168px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px; 
+}
+
+.summary-task-amount,
+.summary-task-progress,
+.summary-awaiting-feedback
+{
+    width: 168px;
+    height: 168px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    border-radius: 30px;
+    box-shadow: 0px 0px 4px 1px rgba(42, 54, 71, 0.1);
+    gap: 18px;
+}
+
+.line-two-separator{
+    height: 102px;
+    border-right: 3px solid rgba(209, 209, 209, 1);
+}
+
+.summary-deadline h3, 
+.summary-deadline p{
+    margin: 8px 0;
+    color: rgba(42, 54, 71, 1);
+    line-height: 1;
+}
+
+.overview-amount-contents{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.overview-amount-contents h1{
+    line-height: 120%;
+    font-size: 64px;
+    margin: 0; 
+}
+
+.overview-amount-contents p{
+    color: rgba(42, 54, 71, 1);
+    line-height: 1;
+    margin: 0; 
+    line-height: normal;
+}
+
+.summary-to-do img, 
+.summary-done img{
+        height: 69px;
+}
+
+.summary-urgent img{
+    height: 60px;
+}
+
