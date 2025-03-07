@@ -90,9 +90,9 @@ header {
 }
 
 .right-side-content {
-    flex-grow: 1;
-    padding: 20px;
-    margin-left: 250px;
+    width: 100%;
+    margin: 0 96px 0 328px;
+    box-sizing: border-box;
 }
 
 .right-side-content h2 {

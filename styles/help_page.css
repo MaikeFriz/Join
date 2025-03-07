@@ -63,12 +63,6 @@ body {
     color: rgb(41, 171, 226);
 }
 
-.right-side-content{
-    width: 100%; /* Die Breite immer so breit wie der Bildschirm */
-    padding: 0 104px; /* 24px Padding links und rechts */
-    box-sizing: border-box; /* Damit das Padding nicht zur Gesamtbreite dazugerechnet wird */
-}
-
 footer{
     padding-bottom: 64px;
 }
