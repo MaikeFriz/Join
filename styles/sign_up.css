@@ -199,6 +199,10 @@ header {
     color: rgb(42, 54, 71);
 }
 
+.checkbox_div label{
+    color: rgb(209, 209, 209);
+}
+
 a{
     color:  rgb(41, 171, 226);
     cursor: pointer;
@@ -247,6 +251,11 @@ a:hover{
 .input_label input {
     width: 100%;  
     padding-right: 40px;
+}
+
+.input_label input::placeholder{
+    font-size: 18px;
+    color: rgb(209, 209, 209);
 }
 
 .input_icon {
