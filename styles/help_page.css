@@ -43,8 +43,32 @@ body {
     justify-content: space-between;
     align-items: center;
     flex-direction: row;
+    padding-top: 40px;
+}
+
+.h1_div h1{
+    font-size: 48px;
+}
+
+.h1_div img{
+    transform: scale(1);
+    cursor: pointer;
+}
+
+.h1_div img:hover{
+    transform: scale(1.1);
 }
 
 .turquoise{
     color: rgb(41, 171, 226);
+}
+
+.right-side-content{
+    width: 100%; /* Die Breite immer so breit wie der Bildschirm */
+    padding: 0 104px; /* 24px Padding links und rechts */
+    box-sizing: border-box; /* Damit das Padding nicht zur Gesamtbreite dazugerechnet wird */
+}
+
+footer{
+    padding-bottom: 64px;
 }
