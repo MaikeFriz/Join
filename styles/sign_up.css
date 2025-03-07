@@ -40,7 +40,7 @@ footer a{
 
 footer a:hover{
     text-decoration: none;
-    color: black;
+    color: rgb(41, 171, 226);
     transform: scale(1.05); 
 }
 

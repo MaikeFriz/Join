@@ -40,7 +40,7 @@ footer a{
 
 footer a:hover{
     text-decoration: none;
-    color: black;
+    color: rgb(41, 171, 226);
     transform: scale(1.05); 
 }
 
@@ -131,14 +131,16 @@ header {
 .log_in_box{
     height: 449px;
     width: 652px;
+    max-height: 449px;
     background-color: white;
     border-radius: 10px;
     box-shadow: 0px 0px 4px 2px rgba(42, 54, 71, 0.1);
     display: flex;
-    justify-content:space-around;
+    justify-content:center;
     align-items:center;
     flex-direction: column;
     overflow-y: scroll;
+    padding: 40px 0;
     scrollbar-width: none;
     -ms-overflow-style: none;
 }
@@ -157,7 +159,7 @@ header {
 }
 
 .h1_div_log_in_field{
-    min-height: 98px;
+    min-height: fit-content;
     width: 315px;
     display: flex;
     justify-content: center;
