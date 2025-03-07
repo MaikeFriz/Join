@@ -46,11 +46,6 @@ footer a:hover{
     transform: scale(1.05); 
 }
 
-.logo_header{
-    height: 121px;
-    width: auto;
-}
-
 .right_header_section{
     display: flex;
     justify-content: center;
@@ -83,12 +78,49 @@ header {
     top: 0;
     height: 130px;
     max-width: 100%;
-    background-color:rgba(246, 247, 248, 1);
+    background-color: rgba(246, 247, 248, 1);
     display: flex;
     justify-content: space-between;
-    align-items:start;
+    align-items: start;
     flex-direction: row;
     padding: 32px 56px 0 56px;
+}
+
+.logo_header {
+    width: 100px;
+    position: fixed; 
+    top: 50%; 
+    left: 50%; 
+    margin-top: 20px; 
+    margin-left: 40px; 
+    transform: translate(-50%, -50%) scale(0.7); 
+    opacity: 0; 
+    animation: logoMove 1.5s ease forwards;
+}
+
+.right_header_section {
+    display: flex;
+    align-items: center;
+    gap: 16px; 
+    position: absolute;
+    top: 32px; 
+    right: 56px; 
+}
+
+@keyframes logoMove {
+    0% {
+        opacity: 0; 
+        transform: translate(-50%, -50%) scale(0.7); 
+    }
+    10% {
+        opacity: 1;
+    }
+    100% {
+        top: 0; 
+        left: 0; 
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+    }
 }
 
 .log_in_box{
@@ -149,7 +181,8 @@ header {
     align-items: center;
     flex-direction: column;
     gap: 20px;
-    height: 152px;
+    height: 326px;
+    width: 422px;
 }
 
 .input_div input{
@@ -158,6 +191,38 @@ header {
     border: rgb(209, 209, 209) solid 1px;
     border-radius: 10px;
     padding-left: 16px;
+}
+
+.input_label {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 422px;
+}
+
+.input_label input {
+    width: 100%;  
+    padding-right: 40px;
+    font-size: 16px;
+}
+
+.input_label input::placeholder{
+    font-size: 18px;
+    color: rgb(209, 209, 209);
+}
+
+.input_icon {
+    position: absolute; 
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px; 
+    height: 20px; 
+}
+
+.input_icon img {
+    width: 100%; 
+    height: 100%;
 }
 
 .button_div{
