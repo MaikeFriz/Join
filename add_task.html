@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="./styles/add_task.css" />
 </head>
 
-<body>
+<body onload="init()">
     <header>
         <p>Kanban Project Management Tool</p>
         <div class="right-header-elements">
@@ -110,9 +110,18 @@
                     <div class="input_div_left">
                         <p>Priority</p>
                         <div class="priority_buttons_div">
-                            <p class="urgent_button">Urgent</p>
-                            <p class="medium_button">Medium</p>
-                            <p class="low_button">Low</p>
+                            <div id="urgent_button" class="urgent_button">
+                                <p>Urgent</p>
+                                <img id="urgent_symbol_img" src="./assets/img/urgent_symbol.svg" alt="">
+                            </div>
+                            <div id="medium_button" class="medium_button">
+                                <p>Medium</p>
+                                <img id="medium_symbol_img" src="./assets/img/medium_symbol.svg" alt="">
+                            </div>
+                            <div id="low_button" class="low_button">
+                                <p>Low</p>
+                                <img id="low_symbol_img" class="low_symbol_img" src="./assets/img/low_symbol.svg" alt="">
+                            </div>
                         </div>
                         <p>Assigned to</p>
                         <label class="input_label">
@@ -144,6 +153,7 @@
             </footer>
         </div>
     </div>
+    <script src="./scripts/add_task.js"></script>
 </body>
 
 </html>

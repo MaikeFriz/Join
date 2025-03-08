@@ -119,13 +119,25 @@ footer{
     height: 56px;
     border-radius: 10px;
     box-shadow: 0px 0px 4px 2px rgba(42, 54, 71, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap: 8px;
+    cursor: pointer;
 }
 
 .medium_button{
     width: 136px;
     height: 56px;
     border-radius: 10px;
-    background-color: #FFA800;
+    box-shadow: 0px 0px 4px 2px rgba(42, 54, 71, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap: 8px;
+    cursor: pointer;
 }
 
 .low_button{
@@ -133,4 +145,43 @@ footer{
     height: 56px;
     border-radius: 10px;
     box-shadow: 0px 0px 4px 2px rgba(42, 54, 71, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.urgent_button:hover{
+    box-shadow: none;
+    background-color: #FF3D00;
+    color: white;
+}
+
+.medium_button:hover{
+    box-shadow: none;
+    background-color: #FFA800;
+    color: white;
+}
+
+.low_button:hover{
+    box-shadow: none;
+    background-color: #7AE229;
+    color: white;
+}
+
+.urgent_button p{
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.medium_button p{
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.low_button p{
+    font-size: 20px;
+    font-weight: 400;
 }
