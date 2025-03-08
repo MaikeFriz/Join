@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Join</title>
+
+    <link rel="icon" href="./assets/img/join_favicon.svg" type="image/x-icon" />
+    <link rel="stylesheet" href="./style.css" />
+    <link rel="stylesheet" href="./styles/sidebar.css" />
+    <link rel="stylesheet" href="./styles/privacy.css" />
+    <link rel="stylesheet" href="./styles/add_task.css" />
+</head>
+
+<body>
+    <header>
+        <p>Kanban Project Management Tool</p>
+        <div class="right-header-elements">
+            <a href="./help_page.html">
+                <img class="help-button" src="./assets/img/help.svg" alt="" />
+            </a>
+            <div class="user-initials">SM</div>
+        </div>
+    </header>
+
+    <div class="start-content">
+        <div class="sidebar-container">
+            <div class="sidebar-logo">
+                <a href="./index.html">
+                    <img src="./assets/img/join_logo_bright.svg" alt="Join Logo" />
+                </a>
+            </div>
+            <div class="sidebar-tabs">
+                <div class="tab-content">
+                    <a href="./summary.html" class="tab-content-inner">
+                        <img src="./assets/img/summary.svg" alt="" />
+                        <p>Summary</p>
+                    </a>
+                </div>
+                <div class="tab-content">
+                    <a href="./summary.html" class="tab-content-inner">
+                        <img src="./assets/img/add_task.svg" alt="" />
+                        <p>Add Task</p>
+                    </a>
+                </div>
+                <div class="tab-content">
+                    <a href="./summary.html" class="tab-content-inner">
+                        <img src="./assets/img/board.svg" alt="" />
+                        <p>Board</p>
+                    </a>
+                </div>
+                <div class="tab-content">
+                    <a href="./summary.html" class="tab-content-inner">
+                        <img src="./assets/img/contacts.svg" alt="" />
+                        <p>Contacts</p>
+                    </a>
+                </div>
+            </div>
+
+            <div class="terms-privacy">
+                <div class="tab-content">
+                    <div class="tab-content-inner">
+                        <a href="./privacy.html">
+                            <p>Privacy Policy</p>
+                        </a>
+                    </div>
+                </div>
+                <div class="tab-content">
+                    <div class="tab-content-inner">
+                        <a href="./legal.html">
+                            <p>Legal Notice</p>
+                        </a>
+                    </div>
+                </div>
+                <div class="tab-content">
+                    <div class="tab-content-inner">
+                        <a href="./log_in.html">
+                            <p>Login</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right side content -->
+        <div class="right-side-content">
+            <div class="h1_div">
+                <h1>Add task</h1>
+            </div>
+            <div class="add_task_board">
+                <div class="input_div_left">
+                    <p>Title</p>
+                    <label class="input_label">
+                        <input id="input_title" type="text" required placeholder="Enter a title">
+                    </label>
+                    <p>Description</p>
+                    <label class="input_label">
+                        <input id="input_description" type="text" required placeholder="Enter a description">
+                    </label>
+                    <p>Due Date</p>
+                    <label class="input_label">
+                        <input id="input_date" type="date" required placeholder="dd/mm/yyyy">
+                    </label>
+                </div>
+                <div class="separator">
+
+                </div>
+                <div class="input_div_right">
+                    <div class="input_div_left">
+                        <p>Priority</p>
+                        <div class="priority_buttons_div">
+                            <p class="urgent_button">Urgent</p>
+                            <p class="medium_button">Medium</p>
+                            <p class="low_button">Low</p>
+                        </div>
+                        <p>Assigned to</p>
+                        <label class="input_label">
+                            <input id="input_title" type="text" required placeholder="Enter a title">
+                            <div class="input_icon">
+                                <img src="./assets/img/placeholder_mail_input.svg" alt="Name">
+                            </div>
+                        </label>
+                        <p>Category</p>
+                        <label class="input_label">
+                            <input id="input_description" type="text" required placeholder="Enter a description">
+                            <div class="input_icon">
+                                <img src="./assets/img/placeholder_lock_input_field.svg" alt="Name">
+                            </div>
+                        </label>
+                        <p>Subtasks</p>
+                        <label class="input_label">
+                            <input id="input_date" type="date" required placeholder="dd/mm/yyyy">
+                        </label>
+                    </div>
+                </div>
+
+            </div>
+
+            <footer>
+                For more information, refer to our
+                <a href="./privacy.html">Privacy Policy</a> and
+                <a href="./legal.html">Legal Notice</a>.
+            </footer>
+        </div>
+    </div>
+</body>
+
+</html>

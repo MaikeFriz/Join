@@ -1,0 +1,136 @@
+body {
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('fonts/inter/Inter-VariableFont_opsz,wght.ttf');
+}
+
+footer{
+    margin-top: 120px;
+}
+
+.right-side-content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.h1_div h1 {
+    font-size: 48px;
+}
+
+.input_div_left {
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    flex-direction: column;
+    height: 326px;
+    width: 422px;
+}
+
+.input_div_left input {
+    border: rgb(209, 209, 209) solid 1px;
+    border-radius: 10px;
+    padding-left: 16px;
+}
+
+.input_div_left p{
+    margin-block-start: 0;
+    margin-block-end: 0;
+}
+
+.input_label {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    flex-direction: column;
+    margin-bottom: 24px;
+}
+
+.input_label input {
+    padding-right: 40px;
+    font-size: 16px;
+}
+
+.input_label input::placeholder {
+    font-size: 18px;
+    color: rgb(209, 209, 209);
+}
+
+#input_title{
+    height: 48px;
+    width: auto;
+}
+
+#input_description{
+    height: 120px;
+    width: auto;
+}
+
+#input_date{
+    height: 48px;
+    width: auto;
+}
+
+.input_icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+}
+
+.input_icon img {
+    width: 100%;
+    height: 100%;
+}
+
+.add_task_board{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap: 16px; 
+    width: 100%;
+}
+
+.separator{
+    height: 300px;
+    width: 3px;
+    background-color:  rgb(41, 171, 226);
+    border-radius: 50px;
+}
+
+.priority_buttons_div{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+}
+
+.urgent_button{
+    width: 136px;
+    height: 56px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 4px 2px rgba(42, 54, 71, 0.1);
+}
+
+.medium_button{
+    width: 136px;
+    height: 56px;
+    border-radius: 10px;
+    background-color: #FFA800;
+}
+
+.low_button{
+    width: 136px;
+    height: 56px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 4px 2px rgba(42, 54, 71, 0.1);
+}
