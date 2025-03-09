@@ -127,8 +127,8 @@ header {
 }
 
 .separation_line_h1{
-    height: 4px;
-    width: 160px;
+    height: 3px;
+    width: 150px;
     background-color:  rgb(41, 171, 226);
     border-radius: 50px;
 }

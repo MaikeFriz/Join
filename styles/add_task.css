@@ -76,6 +76,21 @@ footer{
     width: auto;
 }
 
+#input_assigned_to{
+    height: 48px;
+    width: auto;
+}
+
+#input_category{
+    height: 48px;
+    width: auto;
+}
+
+#input_subtask{
+    height: 48px;
+    width: auto;
+}
+
 .input_icon {
     position: absolute;
     right: 10px;
@@ -102,7 +117,7 @@ footer{
 .separator{
     height: 300px;
     width: 3px;
-    background-color:  rgb(41, 171, 226);
+    background-color:  #D1D1D1;
     border-radius: 50px;
 }
 
@@ -184,4 +199,9 @@ footer{
 .low_button p{
     font-size: 20px;
     font-weight: 400;
+}
+
+.drop_down_symbol{
+    height: 24px;
+    width: 24px;
 }
