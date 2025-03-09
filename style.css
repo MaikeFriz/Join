@@ -63,10 +63,11 @@ header {
 .help-button{
     cursor: pointer;
     height: 20px;
+    transition: transform 100ms ease-in-out;
 }
 
 .help-button:hover {
-    height: 24px;
+    transform: scale(1.1);
 }
 
 .user-initials {

@@ -62,29 +62,20 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    align-items: center;
     width: 560px;
     height: 562px;
-    padding-top: 20px;
-
+    margin-top: 20px;
 }   
 
-.overview-line-one, .overview-line-three{
+.overview-line-one, 
+.overview-line-three{
+    width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    gap: 18px;
-}
-
-.overview-line-two{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
     align-items: center;
-    background-color: rgba(255,255,255,1);
-    padding: 0 48px 0 48px;
-    border-radius: 30px;
-    box-shadow: 0px 0px 4px 2px rgba(0, 0, 0, 0.1);
-    gap: 61px;
+    overflow: visible;
 }
 
 .summary-to-do, 
@@ -98,20 +89,55 @@
     border-radius: 30px;
     box-shadow: 0px 0px 4px 2px rgba(0, 0, 0, 0.1);
     gap: 18px;
+    transition: background-color 100ms ease-in-out, 
+                transform 100ms ease-in-out;
 }
 
-.summary-urgent{
-    height: 168px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 18px; 
+.summary-to-do:hover, 
+.summary-done:hover{
+    transform: scale(1.07008, 1.09524);
+    background-color: rgba(42, 54, 71, 1);
+    box-shadow: 0px 2px 4px 2px rgba(0, 0, 0, 0.25);
+}
+
+.summary-to-do p,
+.summary-to-do h1,
+.summary-done p,
+.summary-done h1{
+    transition: color 100ms ease-in-out;
+}
+
+.summary-to-do:hover p,
+.summary-to-do:hover h1,
+.summary-done:hover p,
+.summary-done:hover h1{
+    color: rgba(255, 255, 255, 1);
+}
+
+.svg-icon .circle,
+.svg-icon path {
+  transition: fill 100ms ease;
+}
+
+.summary-to-do:hover .svg-icon circle {
+    fill: rgba(255, 255, 255, 1);
+}
+
+.summary-to-do:hover .svg-icon path {
+    fill: rgba(42, 54, 71, 1);
+}
+
+.summary-done:hover .svg-icon circle {
+    fill: rgba(255, 255, 255, 1);
+}
+
+.summary-done:hover .svg-icon path {
+    stroke: rgba(42, 54, 71, 1);
 }
 
 .summary-task-amount,
 .summary-task-progress,
-.summary-awaiting-feedback
-{
+.summary-awaiting-feedback{
     width: 168px;
     height: 168px;
     display: flex;
@@ -121,6 +147,80 @@
     border-radius: 30px;
     box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.1);
     gap: 18px;
+    transition: background-color 100ms ease-in-out, 
+                transform 100ms ease-in-out;
+}
+
+.summary-task-amount:hover,
+.summary-task-progress:hover,
+.summary-awaiting-feedback:hover{
+    transform: scale(1.1);
+    background-color: rgba(42, 54, 71, 1);
+    box-shadow: 0px 2px 4px 2px rgba(0, 0, 0, 0.25);
+}
+
+.summary-task-amount p,
+.summary-task-amount h1,
+.summary-task-progress p,
+.summary-task-progress h1,
+.summary-awaiting-feedback p,
+.summary-awaiting-feedback h1 {
+    transition: color 100ms ease-in-out;
+}
+
+.summary-task-amount:hover p,
+.summary-task-amount:hover h1,
+.summary-task-progress:hover p,
+.summary-task-progress:hover h1,
+.summary-awaiting-feedback:hover p,
+.summary-awaiting-feedback:hover h1 {
+    color: rgba(255, 255, 255, 1);
+}
+
+.overview-line-two{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255,255,255,1);
+    border-radius: 30px;
+    box-shadow: 0px 0px 4px 2px rgba(0, 0, 0, 0.1);
+    gap: 61px;
+    transition: background-color 100ms ease-in-out, 
+                transform 100ms ease-in-out;
+}
+
+.overview-line-two:hover{
+    background-color: rgba(42, 54, 71, 1);
+    box-shadow: 0px 2px 4px 2px rgba(0, 0, 0, 0.25);
+    transform: scale(1.02857, 1.09524);
+}
+
+.overview-line-two p,
+.overview-line-two h1,
+.overview-line-two h3{
+    transition: color 100ms ease-in-out;
+}
+
+.overview-line-two:hover p,
+.overview-line-two:hover h1,
+.overview-line-two:hover h3{
+    color: rgba(255, 255, 255, 1);
+}
+
+.font-color-white:hover{
+    color: rgba(255, 255, 255, 1);
+}
+
+
+
+.summary-urgent{
+    height: 168px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px; 
 }
 
 .line-two-separator{
@@ -130,6 +230,7 @@
 
 .summary-deadline h3, 
 .summary-deadline p{
+    transition: color 100ms ease-in-out;
     margin: 8px 0;
     color: rgba(42, 54, 71, 1);
     line-height: 1;
