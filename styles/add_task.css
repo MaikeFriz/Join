@@ -205,3 +205,92 @@ footer{
     height: 24px;
     width: 24px;
 }
+
+.medium_symbol path {
+    fill: #FFA800;
+}
+
+.medium_button:hover .medium_symbol path {
+    fill: white;
+}
+
+.low_symbol path {
+    fill: #7AE229;
+}
+
+.low_button:hover .low_symbol path {
+    fill: white;
+}
+
+.urgent_symbol path {
+    fill: #FF3D00;
+}
+
+.urgent_button:hover .urgent_symbol path {
+    fill: white;
+}
+
+.info_and_button_div{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    margin-top: 120px;
+}
+
+.clear_create_buttons{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap: 16px;
+}
+
+.clear_button_div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap: 8px;
+    border: #2A3647 solid 2px;
+    border-radius: 10px;
+    padding: 0 16px;
+}
+
+.clear_button_div:hover{
+    background-color: #2A3647;
+    color: white;
+}
+
+.create_button_div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap: 8px;
+    border: #2A3647 solid 2px;
+    border-radius: 10px;
+    padding: 0 16px;
+}
+
+.create_button_div:hover{
+    background-color: #2A3647;
+    color: white;
+}
+
+.create_symbol {
+    fill: #2A3647;
+}
+
+.create_button_div:hover .create_symbol path {
+    fill: white;
+}
+
+.clear_symbol{
+    stroke: #2A3647;
+}
+
+.clear_button_div:hover .clear_symbol path {
+    stroke: white;
+}
+
