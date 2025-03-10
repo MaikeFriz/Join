@@ -20,14 +20,31 @@
     gap: 32px;
 }
 
+
+.input-with-img{
+    position: relative;
+    display: flex;
+    align-items: center;
+    
+}
+
+.input-with-img img{
+    position: absolute;
+    right: 8px;
+    height: 32px;
+}
+
 input {
     border: rgb(209, 209, 209) solid 1px;
     border-radius: 10px;
     padding-left: 16px;
+    padding-right: 64px;
     width: 280px;
     height: 100%;
     font-size: 20px;
 }
+
+
 
 .button-input-section{
     width: 160px;
