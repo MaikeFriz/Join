@@ -1,13 +1,22 @@
 
 .board-head{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 132px;
+}
+
+.board-search-line{
+    width: 100%;
+    display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 32px;
+
 }
 
-.board-headline h1{
+.board-title h1{
     line-height: 1;
     color: rgba(0,0,0,1);
     font-size: 61px;
@@ -44,8 +53,6 @@ input {
     font-size: 20px;
 }
 
-
-
 .button-input-section{
     width: 160px;
     background-color: rgb(42, 54, 71);
@@ -71,4 +78,27 @@ input {
     background-color: rgb(41, 171, 226);
     transform: scale(1.05);
     border: solid 2px rgb(41, 171, 226);
+}
+
+.kanban-header{
+    color: rgba(66, 82, 110, 1);
+    width: 100%;
+    height: 24px;
+    display: flex;
+    justify-content: space-between;
+    gap: 26px;
+}
+
+span{
+    width: 25%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+span img{
+    height: 24px;
+    border: 2px solid rgba(42, 54, 71, 1);
+    border-radius: 8px;
+    padding: 4px;
 }
