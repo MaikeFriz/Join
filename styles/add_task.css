@@ -15,26 +15,46 @@ footer{
 .right-side-content {
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: calc(100% - 64px);
+    margin: 0 32px;
 }
 
 .h1_div h1 {
     font-size: 48px;
 }
 
+.input_div_right {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    flex-direction: column;
+    height: 100%;
+    width: calc(100% / 2 - 24px);    
+    flex: 1;
+}
+
+.input_div_right input {
+    border: rgb(209, 209, 209) solid 1px;
+    border-radius: 10px;
+    padding-left: 16px;
+    width: 100%;
+}
+
 .input_div_left {
     display: flex;
-    justify-content: center;
-    align-items: start;
+    justify-content: space-between;
+    align-items:stretch;
     flex-direction: column;
-    height: 326px;
-    width: 422px;
+    height: 100%;
+    width: calc(100% / 2 - 24px);    
+    flex: 1;
 }
 
 .input_div_left input {
     border: rgb(209, 209, 209) solid 1px;
     border-radius: 10px;
     padding-left: 16px;
+    width: 100%;
 }
 
 .input_div_left p{
@@ -45,7 +65,8 @@ footer{
 .input_label {
     position: relative;
     display: flex;
-    justify-content: center;
+    align-items: center;
+    width: 100%;
     align-items: start;
     flex-direction: column;
     margin-bottom: 24px;
@@ -54,6 +75,18 @@ footer{
 .input_label input {
     padding-right: 40px;
     font-size: 16px;
+    width: 100%;
+}
+
+.input_label select {
+    width: 100%;
+    padding: 12px 40px 12px 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    appearance: none; 
+    background-color: white;
+    cursor: pointer;
 }
 
 .input_label input::placeholder {
@@ -61,39 +94,14 @@ footer{
     color: rgb(209, 209, 209);
 }
 
-#input_title{
-    height: 48px;
-    width: auto;
-}
-
-#input_description{
-    height: 120px;
-    width: auto;
-}
-
-#input_date{
-    height: 48px;
-    width: auto;
-}
-
-#input_assigned_to{
-    height: 48px;
-    width: auto;
-}
-
-#input_category{
-    height: 48px;
-    width: auto;
-}
-
-#input_subtask{
-    height: 48px;
-    width: auto;
+.input_label select:invalid {
+    color: rgb(209, 209, 209);
 }
 
 .input_icon {
     position: absolute;
     right: 10px;
+    pointer-events: none; 
     top: 50%;
     transform: translateY(-50%);
     width: 20px;
@@ -101,17 +109,47 @@ footer{
 }
 
 .input_icon img {
+    width: 24px;
+    height: 24px;
+}
+
+#input_title{
+    height: 48px;
     width: 100%;
-    height: 100%;
+}
+
+#input_description{
+    height: 120px;
+    width: 100%;
+}
+
+#input_date{
+    height: 48px;
+    width: 100%;
+}
+
+#input_assigned_to{
+    height: 48px;
+    width: 100%;
+}
+
+#input_category{
+    height: 48px;
+    width: 100%;
+}
+
+#input_subtask{
+    height: 48px;
+    width: 100%;
 }
 
 .add_task_board{
     display: flex;
-    justify-content: center;
+    justify-content: start;
     align-items: center;
     flex-direction: row;
     gap: 16px; 
-    width: 100%;
+    min-width: 100%;
 }
 
 .separator{
@@ -127,10 +165,11 @@ footer{
     justify-content: space-between;
     align-items: center;
     flex-direction: row;
+    gap: 8px;
 }
 
 .urgent_button{
-    width: 136px;
+    width: 136px !important;
     height: 56px;
     border-radius: 10px;
     box-shadow: 0px 0px 4px 2px rgba(42, 54, 71, 0.1);
@@ -156,7 +195,7 @@ footer{
 }
 
 .low_button{
-    width: 136px;
+    width: 136px !important;
     height: 56px;
     border-radius: 10px;
     box-shadow: 0px 0px 4px 2px rgba(42, 54, 71, 0.1);
@@ -235,7 +274,7 @@ footer{
     justify-content: space-between;
     align-items: center;
     flex-direction: row;
-    margin-top: 120px;
+    margin-top: 80px;
 }
 
 .clear_create_buttons{
@@ -292,5 +331,9 @@ footer{
 
 .clear_button_div:hover .clear_symbol path {
     stroke: white;
+}
+
+.red_color{
+    color: red;
 }
 
