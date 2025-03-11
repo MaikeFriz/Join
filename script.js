@@ -30,55 +30,59 @@ function getDataContent(kanbanData) {
 }
         
 function getTodoContent(userDataContent) {
-    let todos = userDataContent.assignedTasks.todos;
-            if (todos) {
-                let todosArray = Object.values(todos);
-                    for (let todoIndex = 0; todoIndex < todosArray.length; todoIndex++) {
-                        let todoContent = todosArray[todoIndex];
-                        console.log("todo:", todoContent); 
-                    }
-                        } else {
-                            console.log("todo: keine Aufgaben");  
-                        }
+    
+    if (!userDataContent.assignedTasks || !userDataContent.assignedTasks.todos || Object.keys(userDataContent.assignedTasks.todos).length === 0) {
+        console.log("todo: keine Aufgaben"); 
+    } else {
+        let todos = userDataContent.assignedTasks.todos;
+        let todosArray = Object.values(todos);
+            for (let todoIndex = 0; todoIndex < todosArray.length; todoIndex++) {
+                let todoContent = todosArray[todoIndex];
+                console.log("todo:", todoContent); 
+            }
+    }
 };
 
 function getInProgressContent(userDataContent) {
-    let inProgress = userDataContent.assignedTasks.inProgress;
-            if (inProgress) {
-                let inProgressArray = Object.values(inProgress);
-                    for (let inProgressIndex = 0; inProgressIndex < inProgressArray.length; inProgressIndex++) {
-                        let inProgressContent = inProgressArray[inProgressIndex];
-                        console.log("in progress:", inProgressContent); 
-                    }
-                        } else {
-                            console.log("in progress: keine Aufgaben");  
-                        }
+    
+    if (!userDataContent.assignedTasks || !userDataContent.assignedTasks.inProgress || Object.keys(userDataContent.assignedTasks.inProgress).length === 0) {
+        console.log("in progress: keine Aufgaben");  
+    } else {
+        let inProgress = userDataContent.assignedTasks.inProgress;
+        let inProgressArray = Object.values(inProgress);
+            for (let inProgressIndex = 0; inProgressIndex < inProgressArray.length; inProgressIndex++) {
+                let inProgressContent = inProgressArray[inProgressIndex];
+                console.log("in progress:", inProgressContent); 
+            }
+    }
 }
 
 function getAwaitingFeedback(userDataContent) {
-    let awaitingFeedback = userDataContent.assignedTasks.awaitingFeedback;
-            if (awaitingFeedback) {
-                let awaitingFeedbackArray = Object.values(awaitingFeedback);
-                    for (let awaitingFeedbackIndex = 0; awaitingFeedbackIndex < awaitingFeedbackArray.length; awaitingFeedbackIndex++) {
-                        let awaitingFeedbackContent = awaitingFeedbackArray[awaitingFeedbackIndex];
-                        console.log("awaiting for feedback:", awaitingFeedbackContent); 
-                    }
-                        } else {
-                            console.log("awaiting for feedback: keine Aufgaben");  
-                        }
+    
+    if (!userDataContent.assignedTasks || !userDataContent.assignedTasks. awaitingFeedback || Object.keys(userDataContent.assignedTasks.awaitingFeedback).length === 0) {
+        console.log("awaiting for feedback: keine Aufgaben");
+    } else {
+        let awaitingFeedback = userDataContent.assignedTasks.awaitingFeedback;
+        let awaitingFeedbackArray = Object.values(awaitingFeedback);
+            for (let awaitingFeedbackIndex = 0; awaitingFeedbackIndex < awaitingFeedbackArray.length; awaitingFeedbackIndex++) {
+                let awaitingFeedbackContent = awaitingFeedbackArray[awaitingFeedbackIndex];
+                console.log("awaiting for feedback:", awaitingFeedbackContent); 
+            }
+    }
 }
 
 function getDone(userDataContent) {
-    let done = userDataContent.assignedTasks.done;
-            if (done) {
-                let doneArray = Object.values(done);
-                    for (let doneIndex = 0; doneIndex < doneArray.length; doneIndex++) {
-                        let doneContent = doneArray[doneIndex];
-                        console.log("done:", doneContent); 
-                    }
-                        } else {
-                            console.log("done: keine Aufgaben");  
-                        }
+    
+    if (!userDataContent.assignedTasks || !userDataContent.assignedTasks.done || Object.keys(userDataContent.assignedTasks.done).length === 0) {
+        console.log("done: keine Aufgaben");
+    } else {
+        let done = userDataContent.assignedTasks.done;
+        let doneArray = Object.values(done);
+            for (let doneIndex = 0; doneIndex < doneArray.length; doneIndex++) {
+                let doneContent = doneArray[doneIndex];
+                console.log("done:", doneContent); 
+            }
+    }
 }
 
     
