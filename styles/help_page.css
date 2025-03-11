@@ -1,12 +1,3 @@
-body {
-    font-family: 'Inter', sans-serif;
-    overflow-x: hidden;
-}
-
-@font-face {
-    font-family: 'Inter';
-    src: url('fonts/inter/Inter-VariableFont_opsz,wght.ttf');
-}
 
 .single_step{
     display: flex;
