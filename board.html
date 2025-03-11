@@ -8,7 +8,8 @@
     <link rel="icon" href="./assets/img/join_favicon.svg" type="image/x-icon" />
     <link rel="stylesheet" href="./style.css" />
     <link rel="stylesheet" href="./styles/sidebar.css" />
-    <link rel="stylesheet" href="./styles/privacy.css" />
+    <link rel="stylesheet" href="./styles/board.css">
+   
   </head>
   <body>
     <header>
@@ -74,23 +75,49 @@
         </div>
       </div>
 
-      <!-- Right side content -->
       <div class="right-side-content">
-        <h2>Welcome to Join</h2>
-        <p>
-          This is your Kanban Project Management Tool. Here you can manage your
-          tasks, view summaries, and keep track of your projects efficiently.
-        </p>
-        <p>
-          Use the sidebar to navigate through different sections such as
-          Summary, Add Task, Board, and Contacts.
-        </p>
-        <footer>
-          For more information, refer to our
-          <a href="./privacy.html">Privacy Policy</a> and
-          <a href="./legal.html">Legal Notice</a>.
-        </footer>
-      </div>
-    </div>
-  </body>
-</html>
+        
+        <div class="board-content">
+
+            <div class="board-head">
+                <div class="board-search-line">
+                    <div class="board-title">
+                        <h1>Board</h1>
+                    </div>
+                    <div class="board-input-section">
+                        <div class="input-with-img">
+                            <input class="headline-separator" placeholder="Find Task"></input>
+                            <img src="./assets/img/search.svg" alt="">
+                        </div>
+                        <button class="button-input-section">Add task<img src="./assets/img/add.svg" alt=""></button>
+                    </div>
+                </div>
+
+                <div class="kanban-header">
+                    <span>To do <p>+</p></span>
+                    <span>In progress <p>+</p></span>
+                    <span>Await for feedback <p>+</p></span>
+                    <span>Done</span>
+                </div>
+            </div>
+
+            <div class="board-columns">
+                <div>
+                    <div class="board-task"></div>
+                </div>
+                <div>
+                    <div class="board-task"></div>
+                    <div class="board-task"></div>
+                    <div class="board-task"></div>
+                </div>
+                <div>
+                    <div class="board-task"></div>
+                </div>
+                <div>
+                    <div class="board-task"></div>
+                    <div class="board-task"></div>
+                </div>
+            </div>
+        </div>
+    </body>
+            

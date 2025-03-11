@@ -126,7 +126,7 @@
 .summary-to-do h1,
 .summary-done p,
 .summary-done h1{
-    transition: color 100ms ease-in-out;
+    transition: color 100ms ease-in-out,
 }
 
 .summary-to-do:hover p,
@@ -143,9 +143,10 @@
     color: rgba(42, 54, 71, 1);
 }
 
-.svg-icon .circle,
+.svg-icon circle,
 .svg-icon path {
-  transition: fill 100ms ease;
+  transition:   fill 100ms ease-in-out,
+                stroke 100ms ease-in-out;
 }
 
 .summary-to-do:hover .svg-icon circle {

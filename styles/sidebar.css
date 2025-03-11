@@ -25,8 +25,6 @@
 
 .tab-content {
     width: 100%;
-    font-family: Inter;
-    font-weight: 200;
     font-size: 16px;
     color: rgba(255, 255, 255, 1);
     display: flex;
@@ -36,7 +34,7 @@
 
 .tab-content a{
     width: 100%;
-    padding-left: 48px;
+    padding: 0 48px;
 }
 
 .tab-content img {
@@ -49,8 +47,6 @@
 
 .tab-content-inner {
     width: 100%;
-    font-family: 'Inter';
-    font-weight: 200;
     font-size: 16px;
     color: rgba(255, 255, 255, 1);
     display: flex;

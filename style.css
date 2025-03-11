@@ -20,7 +20,7 @@ a {
     font-family: 'Inter';
     text-decoration: none;
     color: rgba(255, 255, 255, 1);
-    font-weight: 200;
+    font-weight: 300;
     font-size: 16px;
     padding: 4px;
 }
@@ -45,7 +45,7 @@ header {
     padding: 0 40px 0 348px;
     font-family: Inter;
     font-size: 24px;
-    font-weight: 200;  
+    font-weight: 400;  
     z-index: 500;
 }
 
@@ -83,6 +83,7 @@ header {
     font-size: 16px;
     font-weight: 400;
     color: rgba(41, 171, 226, 1);
+    transition: background-color 100ms ease-in-out;
 }
 
 
@@ -115,12 +116,12 @@ footer{
 
 footer a{
     text-decoration: none;
-    font-weight: 300 !important;
-    font-size: 16px;
-    color: rgb(168, 168, 168) !important;
+    color: rgba(168, 168, 168, 1) !important;
+    transform: scale(1);
+    cursor: pointer;
 }
 
 footer a:hover{
     text-decoration: none;
-    color: black !important;
+    color: rgb(41, 171, 226) !important;
 }
