@@ -90,7 +90,14 @@ footer{
 }
 
 .input_label input::placeholder {
-    font-size: 18px;
+    font-size: 20px;
+    font-weight: 400;
+    color: rgb(209, 209, 209);
+}
+
+.placeholder_category{
+    font-size: 20px;
+    font-weight: 400;
     color: rgb(209, 209, 209);
 }
 
@@ -101,7 +108,6 @@ footer{
 .input_icon {
     position: absolute;
     right: 10px;
-    pointer-events: none; 
     top: 50%;
     transform: translateY(-50%);
     width: 20px;
@@ -109,6 +115,20 @@ footer{
 }
 
 .input_icon img {
+    width: 24px;
+    height: 24px;
+}
+
+.enlarge_inputfield_symbol_div{
+    position: absolute;
+    right: 10px;
+    top: 84%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+}
+
+.enlarge_inputfield_symbol_div img{
     width: 24px;
     height: 24px;
 }
@@ -166,6 +186,7 @@ footer{
     align-items: center;
     flex-direction: row;
     gap: 8px;
+    margin-bottom: 16px;
 }
 
 .urgent_button{
@@ -335,5 +356,20 @@ footer{
 
 .red_color{
     color: red;
+}
+
+.button_add_subtask{
+    cursor: pointer !important;
+    position: absolute;
+    right: 10px; 
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    border: none;
+    background-color: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 

@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="./styles/add_task.css" />
 </head>
 
-<body>
+<body onload="init()">
     <header>
         <p>Kanban Project Management Tool</p>
         <div class="right-header-elements">
@@ -39,7 +39,7 @@
                     </a>
                 </div>
                 <div class="tab-content">
-                    <a href="./summary.html" class="tab-content-inner">
+                    <a href="./add_task.html" class="tab-content-inner">
                         <img src="./assets/img/add_task.svg" alt="" />
                         <p>Add Task</p>
                     </a>
@@ -97,6 +97,9 @@
                     <p>Description</p>
                     <label class="input_label">
                         <input id="input_description" type="text" required placeholder="Enter a description">
+                        <div class="enlarge_inputfield_symbol_div">
+                            <img src="./assets/img/enlarge_inputfield_symbol.svg" alt="open">
+                        </div>
                     </label>
                     <p>Due Date<span class="red_color">*</span></p>
                     <label class="input_label">
@@ -149,7 +152,7 @@
                     <form action="/action_page.php">
                         <div class="input_label">
                             <select id="category">
-                                <option value="" disabled selected>Select task category</option>
+                                <option class="placeholder_category" value="" disabled selected>Select task category</option>
                                 <option value="category 1">Category 1</option>
                                 <option value="category 2">Category 2</option>
                                 <option value="category 3">Category 3</option>
@@ -161,12 +164,24 @@
                         </div>
                     </form>
                     <p>Subtasks</p>
+                    <form class="input_label" class="form_subtask">
+                        <input id="input_subtask" type="text" required placeholder="Add new subtask">
+                        <button type="submit" class="button_add_subtask" id="button_add_subtask">
+                            <img id="add_icon" src="./assets/img/add_icon.svg" alt="">
+                        </button>
+                    </form>
+                    <div id="display_subtaskes"></div>
+
+
+                    <!-- <p>Subtasks</p>
                     <label class="input_label">
                         <input id="input_subtask" type="text" required placeholder="Add new subtask">
                         <div class="input_icon">
                             <img src="./assets/img/add_icon.svg" alt="Name">
                         </div>
-                    </label>
+                    </label> -->
+
+
                 </div>
             </div>
             <div class="info_and_button_div">
