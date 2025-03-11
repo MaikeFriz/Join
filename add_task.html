@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Join</title>
@@ -11,209 +10,285 @@
     <link rel="stylesheet" href="./styles/sidebar.css" />
     <link rel="stylesheet" href="./styles/privacy.css" />
     <link rel="stylesheet" href="./styles/add_task.css" />
-</head>
+  </head>
 
-<body onload="init()">
+  <body onload="init()">
     <header>
-        <p>Kanban Project Management Tool</p>
-        <div class="right-header-elements">
-            <a href="./help_page.html">
-                <img class="help-button" src="./assets/img/help.svg" alt="" />
-            </a>
-            <div class="user-initials">SM</div>
-        </div>
+      <p>Kanban Project Management Tool</p>
+      <div class="right-header-elements">
+        <a href="./help_page.html">
+          <img class="help-button" src="./assets/img/help.svg" alt="" />
+        </a>
+        <div class="user-initials">SM</div>
+      </div>
     </header>
 
     <div class="start-content">
-        <div class="sidebar-container">
-            <div class="sidebar-logo">
-                <a href="./index.html">
-                    <img src="./assets/img/join_logo_bright.svg" alt="Join Logo" />
-                </a>
-            </div>
-            <div class="sidebar-tabs">
-                <div class="tab-content">
-                    <a href="./summary.html" class="tab-content-inner">
-                        <img src="./assets/img/summary.svg" alt="" />
-                        <p>Summary</p>
-                    </a>
-                </div>
-                <div class="tab-content">
-                    <a href="./add_task.html" class="tab-content-inner">
-                        <img src="./assets/img/add_task.svg" alt="" />
-                        <p>Add Task</p>
-                    </a>
-                </div>
-                <div class="tab-content">
-                    <a href="./board.html" class="tab-content-inner">
-                        <img src="./assets/img/board.svg" alt="" />
-                        <p>Board</p>
-                    </a>
-                </div>
-                <div class="tab-content">
-                    <a href="./summary.html" class="tab-content-inner">
-                        <img src="./assets/img/contacts.svg" alt="" />
-                        <p>Contacts</p>
-                    </a>
-                </div>
-            </div>
-
-            <div class="terms-privacy">
-                <div class="tab-content">
-                    <div class="tab-content-inner">
-                        <a href="./privacy.html">
-                            <p>Privacy Policy</p>
-                        </a>
-                    </div>
-                </div>
-                <div class="tab-content">
-                    <div class="tab-content-inner">
-                        <a href="./legal.html">
-                            <p>Legal Notice</p>
-                        </a>
-                    </div>
-                </div>
-                <div class="tab-content">
-                    <div class="tab-content-inner">
-                        <a href="./log_in.html">
-                            <p>Login</p>
-                        </a>
-                    </div>
-                </div>
-            </div>
+      <div class="sidebar-container">
+        <div class="sidebar-logo">
+          <a href="./index.html">
+            <img src="./assets/img/join_logo_bright.svg" alt="Join Logo" />
+          </a>
+        </div>
+        <div class="sidebar-tabs">
+          <div class="tab-content">
+            <a href="./summary.html" class="tab-content-inner">
+              <img src="./assets/img/summary.svg" alt="" />
+              <p>Summary</p>
+            </a>
+          </div>
+          <div class="tab-content">
+            <a href="./add_task.html" class="tab-content-inner">
+              <img src="./assets/img/add_task.svg" alt="" />
+              <p>Add Task</p>
+            </a>
+          </div>
+          <div class="tab-content">
+            <a href="./board.html" class="tab-content-inner">
+              <img src="./assets/img/board.svg" alt="" />
+              <p>Board</p>
+            </a>
+          </div>
+          <div class="tab-content">
+            <a href="./summary.html" class="tab-content-inner">
+              <img src="./assets/img/contacts.svg" alt="" />
+              <p>Contacts</p>
+            </a>
+          </div>
         </div>
 
-        <!-- Right side content -->
-        <div class="right-side-content">
-            <div class="h1_div">
-                <h1>Add task</h1>
+        <div class="terms-privacy">
+          <div class="tab-content">
+            <div class="tab-content-inner">
+              <a href="./privacy.html">
+                <p>Privacy Policy</p>
+              </a>
             </div>
-            <div class="add_task_board">
-                <div class="input_div_left">
-                    <p>Title<span class="red_color">*</span></p>
-                    <label class="input_label">
-                        <input id="input_title" type="text" required placeholder="Enter a title">
-                    </label>
-                    <p>Description</p>
-                    <label class="input_label">
-                        <input id="input_description" type="text" required placeholder="Enter a description">
-                        <div class="enlarge_inputfield_symbol_div">
-                            <img src="./assets/img/enlarge_inputfield_symbol.svg" alt="open">
-                        </div>
-                    </label>
-                    <p>Due Date<span class="red_color">*</span></p>
-                    <label class="input_label">
-                        <input id="input_date" type="date" required placeholder="dd/mm/yyyy">
-                    </label>
+          </div>
+          <div class="tab-content">
+            <div class="tab-content-inner">
+              <a href="./legal.html">
+                <p>Legal Notice</p>
+              </a>
+            </div>
+          </div>
+          <div class="tab-content">
+            <div class="tab-content-inner">
+              <a href="./help_page.html"><p>Help</p></a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right side content -->
+      <div class="right-side-content">
+        <div class="h1_div">
+          <h1>Add task</h1>
+        </div>
+        <div class="add_task_board">
+          <div class="input_div_left">
+            <p>Title<span class="red_color">*</span></p>
+            <label class="input_label">
+              <input
+                id="input_title"
+                type="text"
+                required
+                placeholder="Enter a title"
+              />
+            </label>
+            <p>Description</p>
+            <label class="input_label">
+              <input
+                id="input_description"
+                type="text"
+                required
+                placeholder="Enter a description"
+              />
+              <div class="enlarge_inputfield_symbol_div">
+                <img
+                  src="./assets/img/enlarge_inputfield_symbol.svg"
+                  alt="open"
+                />
+              </div>
+            </label>
+            <p>Due Date<span class="red_color">*</span></p>
+            <label class="input_label">
+              <input
+                id="input_date"
+                type="date"
+                required
+                placeholder="dd/mm/yyyy"
+              />
+            </label>
+          </div>
+          <div class="separator"></div>
+          <div class="input_div_right">
+            <p>Priority</p>
+            <div class="priority_buttons_div">
+              <div id="urgent_button" class="urgent_button">
+                <p>Urgent</p>
+                <svg
+                  class="urgent_symbol"
+                  width="21"
+                  height="16"
+                  viewBox="0 0 21 16"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M19.65 15.25c-.23 0-.46-.07-.65-.21L10.75 8.96 2.5 15.04c-.23.17-.52.23-.81.2s-.52-.15-.73-.32c-.21-.18-.37-.41-.46-.66-.1-.26-.12-.53-.08-.79.04-.29.2-.55.44-.73L10.1 6.71c.19-.14.42-.22.65-.22s.46.08.65.22l8.9 6.57c.19.14.33.34.4.57.08.22.07.46 0 .68-.07.23-.2.42-.39.57-.19.15-.42.22-.66.22z"
+                  />
+                  <path
+                    d="M19.65 9.5c-.23 0-.46-.07-.65-.21L10.75 3.21 2.5 9.29c-.23.17-.52.23-.81.2s-.52-.15-.73-.32c-.21-.18-.37-.41-.46-.66-.1-.26-.12-.53-.08-.79.04-.29.2-.55.44-.73L10.1.96c.19-.14.42-.22.65-.22s.46.08.65.22l8.9 6.57c.19.14.33.34.4.57.08.22.07.46 0 .68-.07.23-.2.42-.39.57-.19.15-.42.22-.66.22z"
+                  />
+                </svg>
+              </div>
+              <div id="medium_button" class="medium_button">
+                <p>Medium</p>
+                <svg
+                  class="medium_symbol"
+                  width="21"
+                  height="8"
+                  viewBox="0 0 21 8"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M19.76 7.92H1.95a1.1 1.1 0 1 1 0-2.21h17.81a1.1 1.1 0 1 1 0 2.21Z"
+                  />
+                  <path
+                    d="M19.76 2.67H1.95A1.1 1.1 0 1 1 1.95.47h17.81a1.1 1.1 0 1 1 0 2.21Z"
+                  />
+                </svg>
+              </div>
+              <div id="low_button" class="low_button">
+                <p>Low</p>
+                <svg
+                  class="low_symbol"
+                  width="21"
+                  height="16"
+                  viewBox="0 0 21 16"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M10.25 9.51a1 1 0 0 1-.65-.22L0.69 2.72a1 1 0 0 1 .49-1.76 1 1 0 0 1 1.06.22l8 6 8-6a1 1 0 0 1 1.56 1.21l-8.9 6.57a1 1 0 0 1-.65.22Z"
+                  />
+                  <path
+                    d="M10.25 15.25a1 1 0 0 1-.65-.21L0.69 8.47a1 1 0 0 1 1.31-1.53l8.25 6.08 8.25-6.08a1 1 0 1 1 1.31 1.53l-8.9 6.57a1 1 0 0 1-.65.21Z"
+                  />
+                </svg>
+              </div>
+            </div>
+            <p>Assigned to</p>
+            <label class="input_label">
+              <input
+                id="input_assigned_to"
+                type="text"
+                required
+                placeholder="Select contacts to assign"
+              />
+              <div class="input_icon">
+                <img src="./assets/img/arrow_drop_down.svg" alt="Name" />
+              </div>
+            </label>
+            <p>Category<span class="red_color">*</span></p>
+            <form action="/action_page.php">
+              <div class="input_label">
+                <select id="category">
+                  <option
+                    class="placeholder_category"
+                    value=""
+                    disabled
+                    selected
+                  >
+                    Select task category
+                  </option>
+                  <option value="category 1">Category 1</option>
+                  <option value="category 2">Category 2</option>
+                  <option value="category 3">Category 3</option>
+                  <option value="category 4">Category 4</option>
+                </select>
+                <div class="input_icon">
+                  <img
+                    class="drop_down_symbol"
+                    src="./assets/img/arrow_drop_down.svg"
+                    alt="Dropdown"
+                  />
                 </div>
-                <div class="separator">
+              </div>
+            </form>
+            <p>Subtasks</p>
+            <form class="input_label" class="form_subtask">
+              <input
+                id="input_subtask"
+                type="text"
+                required
+                placeholder="Add new subtask"
+              />
+              <button
+                type="submit"
+                class="button_add_subtask"
+                id="button_add_subtask"
+              >
+                <img id="add_icon" src="./assets/img/add_icon.svg" alt="" />
+              </button>
+            </form>
+            <div id="display_subtaskes"></div>
 
-                </div>
-                <div class="input_div_right">
-                    <p>Priority</p>
-                    <div class="priority_buttons_div">
-                        <div id="urgent_button" class="urgent_button">
-                            <p>Urgent</p>
-                            <svg class="urgent_symbol" width="21" height="16" viewBox="0 0 21 16" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M19.65 15.25c-.23 0-.46-.07-.65-.21L10.75 8.96 2.5 15.04c-.23.17-.52.23-.81.2s-.52-.15-.73-.32c-.21-.18-.37-.41-.46-.66-.1-.26-.12-.53-.08-.79.04-.29.2-.55.44-.73L10.1 6.71c.19-.14.42-.22.65-.22s.46.08.65.22l8.9 6.57c.19.14.33.34.4.57.08.22.07.46 0 .68-.07.23-.2.42-.39.57-.19.15-.42.22-.66.22z" />
-                                <path
-                                    d="M19.65 9.5c-.23 0-.46-.07-.65-.21L10.75 3.21 2.5 9.29c-.23.17-.52.23-.81.2s-.52-.15-.73-.32c-.21-.18-.37-.41-.46-.66-.1-.26-.12-.53-.08-.79.04-.29.2-.55.44-.73L10.1.96c.19-.14.42-.22.65-.22s.46.08.65.22l8.9 6.57c.19.14.33.34.4.57.08.22.07.46 0 .68-.07.23-.2.42-.39.57-.19.15-.42.22-.66.22z" />
-                            </svg>
-                        </div>
-                        <div id="medium_button" class="medium_button">
-                            <p>Medium</p>
-                            <svg class="medium_symbol" width="21" height="8" viewBox="0 0 21 8"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path d="M19.76 7.92H1.95a1.1 1.1 0 1 1 0-2.21h17.81a1.1 1.1 0 1 1 0 2.21Z" />
-                                <path d="M19.76 2.67H1.95A1.1 1.1 0 1 1 1.95.47h17.81a1.1 1.1 0 1 1 0 2.21Z" />
-                            </svg>
-                        </div>
-                        <div id="low_button" class="low_button">
-                            <p>Low</p>
-                            <svg class="low_symbol" width="21" height="16" viewBox="0 0 21 16"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M10.25 9.51a1 1 0 0 1-.65-.22L0.69 2.72a1 1 0 0 1 .49-1.76 1 1 0 0 1 1.06.22l8 6 8-6a1 1 0 0 1 1.56 1.21l-8.9 6.57a1 1 0 0 1-.65.22Z" />
-                                <path
-                                    d="M10.25 15.25a1 1 0 0 1-.65-.21L0.69 8.47a1 1 0 0 1 1.31-1.53l8.25 6.08 8.25-6.08a1 1 0 1 1 1.31 1.53l-8.9 6.57a1 1 0 0 1-.65.21Z" />
-                            </svg>
-                        </div>
-                    </div>
-                    <p>Assigned to</p>
-                    <label class="input_label">
-                        <input id="input_assigned_to" type="text" required placeholder="Select contacts to assign">
-                        <div class="input_icon">
-                            <img src="./assets/img/arrow_drop_down.svg" alt="Name">
-                        </div>
-                    </label>
-                    <p>Category<span class="red_color">*</span></p>
-                    <form action="/action_page.php">
-                        <div class="input_label">
-                            <select id="category">
-                                <option class="placeholder_category" value="" disabled selected>Select task category</option>
-                                <option value="category 1">Category 1</option>
-                                <option value="category 2">Category 2</option>
-                                <option value="category 3">Category 3</option>
-                                <option value="category 4">Category 4</option>
-                            </select>
-                            <div class="input_icon">
-                                <img class="drop_down_symbol" src="./assets/img/arrow_drop_down.svg" alt="Dropdown">
-                            </div>
-                        </div>
-                    </form>
-                    <p>Subtasks</p>
-                    <form class="input_label" class="form_subtask">
-                        <input id="input_subtask" type="text" required placeholder="Add new subtask">
-                        <button type="submit" class="button_add_subtask" id="button_add_subtask">
-                            <img id="add_icon" src="./assets/img/add_icon.svg" alt="">
-                        </button>
-                    </form>
-                    <div id="display_subtaskes"></div>
-
-
-                    <!-- <p>Subtasks</p>
+            <!-- <p>Subtasks</p>
                     <label class="input_label">
                         <input id="input_subtask" type="text" required placeholder="Add new subtask">
                         <div class="input_icon">
                             <img src="./assets/img/add_icon.svg" alt="Name">
                         </div>
                     </label> -->
-
-
-                </div>
-            </div>
-            <div class="info_and_button_div">
-                <p><span class="red_color">*</span>This field is required</p>
-                <div class="clear_create_buttons">
-                    <div class="clear_button_div">
-                        <p>Clear</p>
-                        <svg class="clear_symbol" width="13" height="14" viewBox="0 0 13 14"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path d="M6.25 7L11.49 12.24M1.01 12.24L6.25 7M11.49 1.76L6.25 7M6.25 7L1.01 1.76"
-                                stroke="#2A3647" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
-                    </div>
-                    <div class="create_button_div">
-                        <p>Create</p>
-                        <svg class="create_symbol" width="24" height="25" viewBox="0 0 24 25" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M9.55 15.65 18.03 7.175a.89.89 0 0 1 1.26 1.26L10.25 17.8a.89.89 0 0 1-1.26 0L4.55 13.5a.89.89 0 0 1 1.26-1.26l3.74 3.41z" />
-                        </svg>
-                    </div>
-                </div>
-            </div>
-
-            <footer>
-                For more information, refer to our
-                <a href="./privacy.html">Privacy Policy</a> and
-                <a href="./legal.html">Legal Notice</a>.
-            </footer>
+          </div>
         </div>
+        <div class="info_and_button_div">
+          <p><span class="red_color">*</span>This field is required</p>
+          <div class="clear_create_buttons">
+            <div class="clear_button_div">
+              <p>Clear</p>
+              <svg
+                class="clear_symbol"
+                width="13"
+                height="14"
+                viewBox="0 0 13 14"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M6.25 7L11.49 12.24M1.01 12.24L6.25 7M11.49 1.76L6.25 7M6.25 7L1.01 1.76"
+                  stroke="#2A3647"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
+            <div class="create_button_div">
+              <p>Create</p>
+              <svg
+                class="create_symbol"
+                width="24"
+                height="25"
+                viewBox="0 0 24 25"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M9.55 15.65 18.03 7.175a.89.89 0 0 1 1.26 1.26L10.25 17.8a.89.89 0 0 1-1.26 0L4.55 13.5a.89.89 0 0 1 1.26-1.26l3.74 3.41z"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <footer>
+          For more information, refer to our
+          <a href="./privacy.html">Privacy Policy</a> and
+          <a href="./legal.html">Legal Notice</a>.
+        </footer>
+      </div>
     </div>
     <script src="./scripts/add_task.js"></script>
-</body>
-
+  </body>
 </html>
