@@ -1,72 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Join</title>
 
     <link rel="icon" href="./assets/img/join_favicon.svg" type="image/x-icon" />
     <link rel="stylesheet" href="./styles/sign_up.css" />
-</head>
-
-<body>
+    <script src="sign_up.js" defer></script>
+  </head>
+  <body>
     <header>
-        <img class="logo_header" src="./assets/img/join_logo_dark.svg">
+      <img class="logo_header" src="./assets/img/join_logo_dark.svg" />
     </header>
 
     <div class="main_content">
-        <div class="sign_up_box">
-            <div class="h1_div_sign_up_field">
-                <a href="./log_in.html"><img class="back_arrow_sign_in" src="./assets/img/arrow-left-line.svg"
-                        alt=""></a>
-                <div class="div_sign_in_h1_separator">
-                    <p class="h1_box">Sign up</p>
-                    <div class="separation_line_h1"></div>
-                </div>
-            </div>
-            <form class="input_div">
-                <label class="input_label">
-                    <input id="input_name" type="text" required placeholder="Name">
-                    <div class="input_icon">
-                        <img src="./assets/img/placeholder_person_input_field.svg" alt="Name">
-                    </div>
-                </label>
-                <label class="input_label">
-                    <input id="input_email" type="text" required placeholder="Email">
-                    <div class="input_icon">
-                        <img src="./assets/img/placeholder_mail_input.svg" alt="Name">
-                    </div>
-                </label>
-                <label class="input_label">
-                    <input id="input_password" type="text" required placeholder="Password">
-                    <div class="input_icon">
-                        <img src="./assets/img/placeholder_lock_input_field.svg" alt="Name">
-                    </div>
-                </label>
-                <label class="input_label">
-                    <input id="input_confirm_password" type="text" required placeholder="Confirm Password">
-                    <div class="input_icon">
-                        <img src="./assets/img/placeholder_lock_input_field.svg" alt="Name">
-                    </div>
-                </label>
-                <div class="checkbox_div">
-                    <img onclick="checkCheckbox()" id="check_box_image" src="./assets/img/disabled_checkbox.svg"
-                        alt="checkbox">
-                    <label for="privacy">I accept the <a class="link_accept_privacy_policy"
-                            href="./privacy.html">Privacy policy</a></label>
-                </div>
-            </form>
-            <div class="button_div">
-                <p class="button_sign_up_input_section">Sign up</p>
-            </div>
+      <div class="sign_up_box">
+        <div class="h1_div_sign_up_field">
+          <a href="./log_in.html">
+            <img
+              class="back_arrow_sign_in"
+              src="./assets/img/arrow-left-line.svg"
+              alt=""
+            />
+          </a>
+          <div class="div_sign_in_h1_separator">
+            <p class="h1_box">Sign up</p>
+            <div class="separation_line_h1"></div>
+          </div>
         </div>
+        <form id="sign-up-form" class="input_div">
+          <label class="input_label">
+            <input id="input_name" type="text" required placeholder="Name" />
+            <div class="input_icon">
+              <img
+                src="./assets/img/placeholder_person_input_field.svg"
+                alt="Name"
+              />
+            </div>
+          </label>
+          <label class="input_label">
+            <input id="input_email" type="email" required placeholder="Email" />
+            <div class="input_icon">
+              <img src="./assets/img/placeholder_mail_input.svg" alt="Email" />
+            </div>
+          </label>
+          <label class="input_label">
+            <input
+              id="input_password"
+              type="password"
+              required
+              placeholder="Password"
+            />
+            <div class="input_icon">
+              <img
+                src="./assets/img/placeholder_lock_input_field.svg"
+                alt="Password"
+              />
+            </div>
+          </label>
+          <label class="input_label">
+            <input
+              id="input_confirm_password"
+              type="password"
+              required
+              placeholder="Confirm Password"
+            />
+            <div class="input_icon">
+              <img
+                src="./assets/img/placeholder_lock_input_field.svg"
+                alt="Confirm Password"
+              />
+            </div>
+          </label>
+          <div class="checkbox_div">
+            <img
+              onclick="checkCheckbox()"
+              id="check_box_image"
+              src="./assets/img/disabled_checkbox.svg"
+              alt="checkbox"
+            />
+            <label for="privacy"
+              >I accept the
+              <a class="link_accept_privacy_policy" href="./privacy.html"
+                >Privacy policy</a
+              ></label
+            >
+          </div>
+          <button type="submit" class="button_sign_up_input_section">
+            Sign up
+          </button>
+        </form>
+      </div>
     </div>
     <footer>
-        <a href="./privacy.html">Privacy Policy</a>
-        <a href="./privacy.html">Legal Notice</a>
+      <a href="./privacy.html">Privacy Policy</a>
+      <a href="./privacy.html">Legal Notice</a>
     </footer>
     <script src="./scripts/sign_in.js"></script>
-</body>
-
+  </body>
 </html>
