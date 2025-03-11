@@ -8,7 +8,6 @@
     <link rel="icon" href="./assets/img/join_favicon.svg" type="image/x-icon" />
     <link rel="stylesheet" href="./styles/log_in.css" />
   </head>
-
   <body>
     <header>
       <img class="logo_header" src="./assets/img/join_logo_dark.svg" />
@@ -25,37 +24,38 @@
           <p class="h1_box">Log in</p>
           <div class="separation_line_h1"></div>
         </div>
-        <div class="input_div">
+        <form id="log-in-form" class="input_div">
           <label class="input_label">
-            <input id="input_email" type="text" required placeholder="Email" />
+            <input id="input_email" type="email" required placeholder="Email" />
             <div class="input_icon">
-              <img src="./assets/img/placeholder_mail_input.svg" alt="Name" />
+              <img src="./assets/img/placeholder_mail_input.svg" alt="Email" />
             </div>
           </label>
           <label class="input_label">
             <input
               id="input_password"
-              type="text"
+              type="password"
               required
               placeholder="Password"
             />
             <div class="input_icon">
               <img
                 src="./assets/img/placeholder_lock_input_field.svg"
-                alt="Name"
+                alt="Password"
               />
             </div>
           </label>
-        </div>
-        <div class="button_div">
-          <p class="button_log_in_input_section">Log in</p>
-          <p class="button_sign_up_input_section">Guest Log In</p>
-        </div>
+          <button type="submit" class="button_log_in_input_section">
+            Log in
+          </button>
+        </form>
+        <p class="button_sign_up_input_section">Guest Log In</p>
       </div>
     </div>
     <footer>
       <a href="./privacy.html">Privacy Policy</a>
       <a href="./privacy.html">Legal Notice</a>
     </footer>
+    <script src="./scripts/log_in.js" defer></script>
   </body>
 </html>
