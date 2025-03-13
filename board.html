@@ -9,6 +9,9 @@
     <link rel="stylesheet" href="./style.css" />
     <link rel="stylesheet" href="./styles/sidebar.css" />
     <link rel="stylesheet" href="./styles/board.css">
+    <link rel="stylesheet" href="./styles/task_card.css">
+
+    
    
   </head>
   <body>
@@ -100,24 +103,15 @@
                     <span>Done</span>
                 </div>
             </div>
-
+            
             <div class="board-columns">
-                <div>
-                    <div class="board-task"></div>
-                </div>
-                <div>
-                    <div class="board-task"></div>
-                    <div class="board-task"></div>
-                    <div class="board-task"></div>
-                </div>
-                <div>
-                    <div class="board-task"></div>
-                </div>
-                <div>
-                    <div class="board-task"></div>
-                    <div class="board-task"></div>
-                </div>
+              <div id="toDoCard"></div>
+              <div id="inProgressCard"></div>
+              <div id="awaitFeedbackCard"></div>
+              <div id="doneCard"></div>
             </div>
         </div>
+
+        <script src="./script.js"></script>
     </body>
-            
+    
