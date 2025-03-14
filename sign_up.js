@@ -3,9 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const nameInput = document.getElementById("input_name");
   const emailInput = document.getElementById("input_email");
   const passwordInput = document.getElementById("input_password");
-  const confirmPasswordInput = document.getElementById(
-    "input_confirm_password"
-  );
+  const confirmPasswordInput = document.getElementById("input_confirm_password");
   const privacyCheckbox = document.getElementById("privacy");
   const errorMessage = document.createElement("p");
   errorMessage.style.color = "red";

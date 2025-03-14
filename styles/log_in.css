@@ -248,6 +248,8 @@ header {
     cursor: pointer;
     transform: scale(1);
     font-weight: 600;
+    width: 110px;
+    height: 48px;
 }
 
 .button_log_in_input_section:hover{
@@ -274,4 +276,12 @@ header {
 
 a{
     text-decoration: none;
+}
+
+.button_div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    width: 100% !important;
 }
