@@ -17,9 +17,9 @@
     display: flex;
     align-self: flex-start;
     color: rgba(255, 255, 255, 1);
+    
     padding: 4px 16px 4px 16px;
     border-radius: 8px;
-    background-color: black;
     margin-block: 0;
 }
 
@@ -31,4 +31,48 @@
 .board-task p{
     color: rgba(168, 168, 168, 1);
     margin-block: 0;
+}
+
+.user-story {
+    background-color: rgba(0, 56, 255, 1);
+}
+
+.technical-task {
+    background-color: rgba(31, 215, 193, 1);
+}
+
+.css {
+    background-color: rgba(64, 158, 255, 1);
+}
+
+.html {
+    background-color: rgba(255, 105, 180, 1);
+}
+
+.javascript {
+    background-color: rgba(255, 140, 0, 1);
+}
+
+.bug-fix {
+    background-color: rgba(255, 99, 71, 1);
+}
+
+.design {
+    background-color: rgba(0, 204, 153, 1);
+}
+
+.backend {
+    background-color: rgba(34, 139, 34, 1);
+}
+
+.frontend {
+    background-color: rgba(255, 165, 0, 1);
+}
+
+.documentation {
+    background-color: rgba(211, 211, 211, 1);
+}
+
+.technical-task-dark {
+    background-color: rgba(13, 45, 75, 1);
 }
