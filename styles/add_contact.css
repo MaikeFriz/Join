@@ -165,7 +165,7 @@
     width: 100% !important;
 }
 
-.button_cancel{
+.button_save{
     background-color: rgb(42, 54, 71);
     border: solid 2px  rgb(42, 54, 71);
     border-radius: 10px;
@@ -178,15 +178,21 @@
     height: 48px;
     font-size: 21px;
     font-weight: 700;
+    width: fit-content !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap: 8px;
 }
 
-.button_cancel:hover{
+.button_save:hover{
     background-color: rgb(41, 171, 226);
     transform: scale(1.05);
     border: solid 2px rgb(41, 171, 226);
 }
 
-.button_save{
+.button_cancel{
     border: solid 2px  rgb(42, 54, 71);
     border-radius: 10px;
     color:  rgb(42, 54, 71);
@@ -200,7 +206,7 @@
     font-weight: 700;
 }
 
-.button_save:hover{
+.button_cancel:hover{
     border: solid 2px rgb(41, 171, 226);
     transform: scale(1.05);
     color: rgb(41, 171, 226);
@@ -216,4 +222,6 @@ a{
     background-color:  rgb(41, 171, 226);
     border-radius: 50px;
 }
+
+
 
