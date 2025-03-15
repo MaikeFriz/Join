@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JOIN</title>
+    <link rel="icon" href="./assets/img/join_favicon.svg" type="image/x-icon" />
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="script.js" />
+    <link rel="stylesheet" href="./styles/edit_contact.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+
+<body>
+    <div class="content">
+        <div class="card">
+            <img class="close-btn" src="./assets/img/close_black.svg" alt="">
+
+            <div class="left-column">
+                <div class="logo_left">
+                    <img src="./assets/img/join_logo_bright.svg" alt="Join Logo" class="logo" />
+                </div>
+                <h2>Edit Contact</h2>
+                <div class="separator"></div>
+            </div>
+
+            <div class="profile-container">
+                <div class="profile-icon">
+                    <img src="./assets/img/placeholder_name_initials.svg" alt="">
+                </div>
+            </div>
+
+            <div class="right-column">
+                <form class="input_div">
+                    <label class="input_label">
+                        <input id="input_name" type="text" required placeholder="Name" />
+                        <div class="input_icon">
+                            <img src="./assets/img/placeholder_mail_input.svg" alt="Name" />
+                        </div>
+                    </label>
+                    <label class="input_label">
+                        <input type="email" required placeholder="Email" />
+                        <div class="input_icon">
+                            <img src="./assets/img/placeholder_lock_input_field.svg" alt="Email" />
+                        </div>
+                    </label>
+                    <label class="input_label">
+                        <input type="phone" required placeholder="Phone" />
+                        <div class="input_icon">
+                            <img src="./assets/img/call.svg" alt="Phone" />
+                        </div>
+                    </label>
+                    <div class="button_div">
+                        <button type="submit" class="button_delete_input_section">
+                            Delete
+                        </button>
+                        <button type="submit" class="button_save_input_section">
+                            Save
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
