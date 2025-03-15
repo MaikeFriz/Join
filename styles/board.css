@@ -133,7 +133,7 @@ span p:hover{
     padding: 2px 4px 4px 4px;
 }
 
-.board-columns{
+.board-table{
     width: 100%;
     height: auto;
     display: flex;
@@ -143,7 +143,7 @@ span p:hover{
     padding-top: 16px;
 }
 
-.board-columns div{
+.board-table-columns{
     width: 100%;
     display: flex;
     flex-direction: column;

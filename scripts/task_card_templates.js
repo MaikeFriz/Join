@@ -1,7 +1,7 @@
 
-function assigneeTemplate(taskAssignee) {
+function assigneeTemplate(assigneeInitials) {
     return /*html*/`
-    <span class="assignee">${taskAssignee}</span>
+    <span class="assignee-initials">${assigneeInitials}</span>
     `;
 }
 

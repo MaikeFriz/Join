@@ -79,13 +79,24 @@ function getDoneContent(userDataContent) {
 function getAssignees(taskContent) {
     let assigneesHTML = '';
     if (taskContent.assignees && taskContent.assignees.length > 0) {
-        for (let assigneesIndex = 0; assigneesIndex < taskContent.assignees.length; assigneesIndex++) {
-            const taskAssignee = taskContent.assignees[assigneesIndex];
-            console.log("Mitarbeiter:", taskAssignee);
-            assigneesHTML += assigneeTemplate(taskAssignee);
+        for (let assigneeIndex = 0; assigneeIndex < taskContent.assignees.length; assigneeIndex++) {
+            let assignee = taskContent.assignees[assigneeIndex];
+            let assigneeInitials = getAssigneeInitals(assignee);
+            assigneesHTML += assigneeTemplate(assigneeInitials);
+            console.log("Mitarbeiter:", assignee, assigneeInitials);
         }
     } else {
-        assigneesHTML = "<span class='no-assignees'>Keine Mitarbeiter zugewiesen</span>";
+        assigneesHTML = "<span>Keine Mitarbeiter zugewiesen</span>";
     }
     return assigneesHTML;
+}
+
+function getAssigneeInitals(assignee){
+    let assigneeInitials = '';
+    let firstLetter = assignee.charAt(0).toUpperCase();
+    assigneeInitials += firstLetter;
+    let secondPart = assignee.slice(1);
+    let secondLetter = secondPart.charAt(0).toUpperCase();
+    assigneeInitials += secondLetter;
+    return assigneeInitials;
 }
