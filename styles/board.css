@@ -32,6 +32,10 @@
     gap: 32px;
 }
 
+.board-input-section a{
+    padding: 0;
+}
+
 .input-with-img{
     position: relative;
     display: flex;
@@ -55,8 +59,10 @@ input {
     font-size: 20px;
 }
 
+
 .button-input-section{
     width: 160px;
+    height: 48px;
     background-color: rgb(42, 54, 71);
     border: solid 2px  rgb(42, 54, 71);
     border-radius: 10px;

@@ -95,6 +95,7 @@ function getDone(userDataContent) {
 function todoCardTemplate(todoContent) {
     return /*html*/`
     <div class="board-task">
+        <label>${todoContent.label}</label>
         <h3>${todoContent.title || "Unbenannte Aufgabe"}</h3>
         <p>${todoContent.description || "Keine Beschreibung"}</p>
     </div>
@@ -104,6 +105,7 @@ function todoCardTemplate(todoContent) {
 function inProgressCardTemplate(inProgressContent) {
     return /*html*/`
     <div class="board-task">
+        <label>${inProgressContent.label}</label>
         <h3>${inProgressContent.title || "Unbenannte Aufgabe"}</h3>
         <p>${inProgressContent.description || "Keine Beschreibung"}</p>
     </div>
@@ -113,6 +115,7 @@ function inProgressCardTemplate(inProgressContent) {
 function awaitingFeedbackCardTemplate(awaitingFeedbackContent) {
     return /*html*/`
     <div class="board-task">
+        <label>${awaitingFeedbackContent.label}</label>
         <h3>${awaitingFeedbackContent.title || "Unbenannte Aufgabe"}</h3>
         <p>${awaitingFeedbackContent.description || "Keine Beschreibung"}</p>
     </div>
@@ -122,6 +125,7 @@ function awaitingFeedbackCardTemplate(awaitingFeedbackContent) {
 function doneCardTemplate(doneContent) {
     return /*html*/`
     <div class="board-task">
+        <label>${doneContent.label}</label>
         <h3>${doneContent.title || "Unbenannte Aufgabe"}</h3>
         <p>${doneContent.description || "Keine Beschreibung"}</p>
     </div>
