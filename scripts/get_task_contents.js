@@ -91,12 +91,12 @@ function getAssignees(taskContent) {
     return assigneesHTML;
 }
 
-function getAssigneeInitals(assignee){
+function getAssigneeInitals(assignee) {
     let assigneeInitials = '';
     let firstLetter = assignee.charAt(0).toUpperCase();
-    assigneeInitials += firstLetter;
-    let secondPart = assignee.slice(1);
-    let secondLetter = secondPart.charAt(0).toUpperCase();
-    assigneeInitials += secondLetter;
+    let firstUppercaseIndex = assignee.search(/[A-Z]/);
+    let lastNameFirstLetter = assignee.charAt(firstUppercaseIndex).toUpperCase();
+    assigneeInitials += firstLetter + lastNameFirstLetter;
+
     return assigneeInitials;
 }

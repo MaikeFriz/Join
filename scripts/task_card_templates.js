@@ -1,7 +1,7 @@
 
 function assigneeTemplate(assigneeInitials) {
     return /*html*/`
-    <span class="assignee-initials">${assigneeInitials}</span>
+    <span class="assignee-initials ${assigneeInitials.charAt(0).toLowerCase()}">${assigneeInitials}</span>
     `;
 }
 
