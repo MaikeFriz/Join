@@ -19,6 +19,13 @@
     padding: 4px 16px 4px 16px;
     border-radius: 8px;
     margin-block: 0;
+    cursor: pointer;
+}
+
+.review-task-bottom{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .assignees-container {
@@ -49,8 +56,4 @@
 .board-task p{
     color: rgba(168, 168, 168, 1);
     margin-block: 0;
-}
-
-.user-story {
-    background-color: rgba(0, 56, 255, 1);
 }

@@ -134,3 +134,5 @@ function getAssigneeInitals(assignee) {
 
   return assigneeInitials;
 }
+
+

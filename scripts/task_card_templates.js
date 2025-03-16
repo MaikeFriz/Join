@@ -11,8 +11,11 @@ function todoCardTemplate(todoContent) {
         <label class="${todoContent.label.split(' ').join('-').toLowerCase()}">${todoContent.label}</label>
         <h3>${todoContent.title || "Unbenannte Aufgabe"}</h3>
         <p>${todoContent.description || "Keine Beschreibung"}</p>
-        <div class="assignees-container">
-            ${getAssignees(todoContent)}
+        <div class="review-task-bottom">
+            <div class="assignees-container">
+                ${getAssignees(todoContent)}
+            </div>
+            <div>${todoContent.priority}</div>
         </div>
     </div>
     `;
@@ -24,8 +27,11 @@ function inProgressCardTemplate(inProgressContent) {
         <label class="${inProgressContent.label.split(' ').join('-').toLowerCase()}">${inProgressContent.label}</label>
         <h3>${inProgressContent.title || "Unbenannte Aufgabe"}</h3>
         <p>${inProgressContent.description || "Keine Beschreibung"}</p>
-        <div class="assignees-container">
-            ${getAssignees(inProgressContent)}
+        <div class="review-task-bottom">
+            <div class="assignees-container">
+                ${getAssignees(inProgressContent)}
+            </div>
+            <div>${inProgressContent.priority}</div>
         </div>
     </div>
     `;
@@ -37,8 +43,11 @@ function awaitingFeedbackCardTemplate(awaitingFeedbackContent) {
         <label class="${awaitingFeedbackContent.label.split(' ').join('-').toLowerCase()}">${awaitingFeedbackContent.label}</label>
         <h3>${awaitingFeedbackContent.title || "Unbenannte Aufgabe"}</h3>
         <p>${awaitingFeedbackContent.description || "Keine Beschreibung"}</p>
-        <div class="assignees-container">
-            ${getAssignees(awaitingFeedbackContent)}
+        <div class="review-task-bottom">
+            <div class="assignees-container">
+                ${getAssignees(awaitingFeedbackContent)}
+            </div>
+            <div>${awaitingFeedbackContent.priority}</div>
         </div>
     </div>
     `;
@@ -50,8 +59,11 @@ function doneCardTemplate(doneContent) {
         <label class="${doneContent.label.split(' ').join('-').toLowerCase()}">${doneContent.label}</label>
         <h3>${doneContent.title || "Unbenannte Aufgabe"}</h3>
         <p>${doneContent.description || "Keine Beschreibung"}</p>
-        <div class="assignees-container">
-            ${getAssignees(doneContent)}
+        <div class="review-task-bottom">
+            <div class="assignees-container">
+                ${getAssignees(doneContent)}
+            </div>
+            <div>${doneContent.priority}</div>
         </div>
     </div>
     `;
