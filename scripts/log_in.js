@@ -22,14 +22,17 @@ document.addEventListener("DOMContentLoaded", () => {
     )
       .then((response) => response.json())
       .then((data) => {
-        const userFound = Object.values(data).some(
+        const user = Object.values(data).find(
           (user) => user.email === email && user.password === password
         );
 
-        errorMessage.textContent = userFound
-          ? ""
-          : "Invalid email or password.";
-        if (userFound) window.location.href = "./index.html";
+        if (user) {
+          errorMessage.textContent = "";
+          localStorage.setItem("loggedInUser", JSON.stringify(user));
+          window.location.href = "./board.html";
+        } else {
+          errorMessage.textContent = "Invalid email or password.";
+        }
       })
       .catch((error) => {
         errorMessage.textContent = "Error logging in: " + error.message;
