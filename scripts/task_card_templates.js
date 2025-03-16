@@ -15,7 +15,7 @@ function todoCardTemplate(todoContent) {
             <div class="assignees-container">
                 ${getAssignees(todoContent)}
             </div>
-            <div>${todoContent.priority}</div>
+            <div class="${todoContent.priority}"></div>
         </div>
     </div>
     `;
@@ -31,7 +31,7 @@ function inProgressCardTemplate(inProgressContent) {
             <div class="assignees-container">
                 ${getAssignees(inProgressContent)}
             </div>
-            <div>${inProgressContent.priority}</div>
+            <div class="${inProgressContent.priority}"></div>
         </div>
     </div>
     `;
@@ -47,7 +47,7 @@ function awaitingFeedbackCardTemplate(awaitingFeedbackContent) {
             <div class="assignees-container">
                 ${getAssignees(awaitingFeedbackContent)}
             </div>
-            <div>${awaitingFeedbackContent.priority}</div>
+            <div class="${awaitingFeedbackContent.priority}"></div>
         </div>
     </div>
     `;
@@ -63,7 +63,7 @@ function doneCardTemplate(doneContent) {
             <div class="assignees-container">
                 ${getAssignees(doneContent)}
             </div>
-            <div>${doneContent.priority}</div>
+            <div class="${doneContent.priority}"></div>
         </div>
     </div>
     `;
