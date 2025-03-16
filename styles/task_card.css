@@ -7,7 +7,7 @@
     align-items: left;
     background-color: white;
     padding: 16px;
-    gap: 10px;
+    gap: 20px;
     border-radius: 24px;
     box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.1);
 }
@@ -18,7 +18,6 @@
     color: rgba(255, 255, 255, 1);
     padding: 4px 16px 4px 16px;
     border-radius: 8px;
-    margin-block: 0;
     cursor: pointer;
 }
 
@@ -35,7 +34,6 @@
 
 .assignee-initials {
     margin-left: -8px;
-    z-index: 1; 
     background-color: black;
     color: rgba(255, 255, 255, 1);
     border-radius: 50%;
@@ -55,5 +53,6 @@
 
 .board-task p{
     color: rgba(168, 168, 168, 1);
+    padding-top: 8px;
     margin-block: 0;
 }
