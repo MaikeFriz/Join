@@ -8,6 +8,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const BASE_URL =
     "https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/users.json";
+  
+  let dataArray = [];
 
   Promise.resolve().then(async () => {
     await fetchKanbanData();
@@ -20,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function getDataContent(kanbanData) {
-    let dataArray = Object.values(kanbanData);
+    dataArray = Object.values(kanbanData);
     console.log(dataArray);
     for (let dataIndex = 0; dataIndex < dataArray.length; dataIndex++) {
       let userDataContent = dataArray[dataIndex];

@@ -10,9 +10,13 @@
     <link rel="stylesheet" href="./styles/sidebar.css" />
     <link rel="stylesheet" href="./styles/privacy.css" />
     <link rel="stylesheet" href="./styles/summary.css" />
+
     <script src="./script.js"></script>
+    <script src="./scripts/get_task_contents.js"></script>
+    <script src="./scripts/get_summary_content.js"></script>
+
   </head>
-  <body>
+  <body onload="getSummaryCount()">
     <header>
       <p>Kanban Project Management Tool</p>
       <div class="right-header-elements">
@@ -126,7 +130,7 @@
                     </g>
                   </svg>
                   <div class="overview-amount-contents">
-                    <h1>1</h1>
+                    <h1 id="todo-tasks-count"></h1>
                     <p>To-Do</p>
                   </div>
                 </div>
@@ -150,7 +154,7 @@
                     />
                   </svg>
                   <div class="overview-amount-contents">
-                    <h1>1</h1>
+                    <h1 id="done-tasks-count"></h1>
                     <p>Done</p>
                   </div>
                 </div>
@@ -160,7 +164,7 @@
                 <div class="summary-urgent">
                   <img src="./assets/img/urgency_summery.svg" alt="" />
                   <div class="overview-amount-contents">
-                    <h1>1</h1>
+                    <h1 id="urgent-tasks-count"></h1>
                     <p>Urgent</p>
                   </div>
                 </div>
@@ -174,21 +178,21 @@
               <div class="overview-line-three">
                 <div class="summary-task-amount">
                   <div class="overview-amount-contents">
-                    <h1>5</h1>
+                    <h1 id="all-tasks-count"></h1>
                     <p>Tasks in<br />Boards</p>
                   </div>
                 </div>
 
                 <div class="summary-task-progress">
                   <div class="overview-amount-contents">
-                    <h1>2</h1>
+                    <h1 id="inprocess-tasks-count"></h1>
                     <p>Tasks in<br />Process</p>
                   </div>
                 </div>
 
                 <div class="summary-awaiting-feedback">
                   <div class="overview-amount-contents">
-                    <h1>2</h1>
+                    <h1 id="awaiting-tasks-count"></h1>
                     <p>Awaiting<br />Feedback</p>
                   </div>
                 </div>
@@ -198,7 +202,7 @@
 
           <div class="summary-right">
             <h2>Good morning,</h2>
-            <h1>Sofia Müller</h1>
+            <h1 id="logged-username"></h1>
           </div>
         </div>
       </div>
