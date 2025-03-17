@@ -12,7 +12,7 @@ let localDatabaseExamples = {
             "label": "User Story",
             "assignees": ["anjaSchulz", "benediktZiegler"],
             "createdAt": "2025-03-11T09:00:00Z",
-            "priority": "high"
+            "priority": "urgent"
           },
           "task2": {
             "title": "Create Recipe Database Schema",
@@ -50,7 +50,7 @@ let localDatabaseExamples = {
             "label": "Technical Task",
             "assignees": ["antonMayer"],
             "createdAt": "2025-03-12T10:30:00Z",
-            "priority": "high"
+            "priority": "urgent"
           },
           "task2": {
             "title": "Write CSS for Recipe Cards",
@@ -75,7 +75,7 @@ let localDatabaseExamples = {
             "label": "Technical Task",
             "assignees": ["sofiaMueller", "manuelSchmidt"],
             "createdAt": "2025-03-12T10:30:00Z",
-            "priority": "high"
+            "priority": "urgent"
           }
         },
         "inProgress": {
@@ -105,7 +105,7 @@ let localDatabaseExamples = {
             "label": "JavaScript",
             "assignees": ["benediktZiegler"],
             "createdAt": "2025-03-12T14:30:00Z",
-            "priority": "high"
+            "priority": "urgent"
           }
         }
       }
@@ -122,7 +122,7 @@ let localDatabaseExamples = {
             "label": "User Story",
             "assignees": ["sofiaMueller", "benediktZiegler"],
             "createdAt": "2025-03-11T09:00:00Z",
-            "priority": "high"
+            "priority": "urgent"
           }
         },
         "inProgress": {

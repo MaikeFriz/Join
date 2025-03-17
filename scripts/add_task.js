@@ -150,22 +150,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const title = document.getElementById("input_title").value;
         const description = document.getElementById("input_description").value;
-        const dueDate = document.getElementById("input_date").value;
+        const createAt = document.getElementById("input_date").value;
         const priority = document.querySelector(".priority_buttons_div .active p").textContent;
-        const assignedTo = Array.from(document.querySelectorAll("#show_assignees div")).map(div => {
+        const assignees = Array.from(document.querySelectorAll("#show_assignees div")).map(div => {
             return div.dataset.userId; // Speichert die User-ID
         });
-        const category = document.getElementById("category").value;
+        const label = document.getElementById("category").value;
         const subtasks = Array.from(document.querySelectorAll("#display_subtasks div span")).map(span => span.textContent);
 
         // Erstellt ein Objekt mit den Task-Daten
         const taskData = {
             title: title,
             description: description,
-            dueDate: dueDate,
+            label: label,
+            assignees: assignees,
+            createAt: createAt,
             priority: priority,
-            assignedTo: assignedTo,
-            category: category,
             subtasks: subtasks,
             status: "todo"
         };

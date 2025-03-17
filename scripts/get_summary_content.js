@@ -26,7 +26,7 @@ function getDoneCount(loggedInUser) {
 function getUrgentCount(loggedInUser) {
     let urgentCountHTML = document.getElementById('urgent-tasks-count');
         urgentCountHTML.innerHTML = Object.keys(loggedInUser.assignedTasks).reduce((urgentCount, key) => urgentCount +
-                                    Object.values(loggedInUser.assignedTasks[key]).filter(task => task.priority === 'high').length, 0);
+                                    Object.values(loggedInUser.assignedTasks[key]).filter(task => task.priority === 'urgent').length, 0);
 }
 
 function getAllTasksCount(loggedInUser) {
