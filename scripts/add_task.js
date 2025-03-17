@@ -1,3 +1,5 @@
+let assigneesObject = {};
+
 // --------------------Kontakte als Dropdown hinzufügen
 document.addEventListener("DOMContentLoaded", async function () {
     const selectElement = document.getElementById("input_assigned_to");
@@ -34,7 +36,13 @@ document.addEventListener("DOMContentLoaded", async function () {
                 const nameElement = document.createElement("span");
                 nameElement.textContent = selectedName;
                 assigneeElement.appendChild(nameElement); // Fügt das <span> zum <div> hinzu
-
+                
+                assigneesObject[selectedName] = selectedName
+                                                .toLowerCase()
+                                                .replace(/\s(.)/g, (firstLetterFromLastname) => firstLetterFromLastname.toUpperCase())
+                                                .replace(/\s+/g, '');;
+                console.log(assigneesObject);
+                
                 //"Löschen"-Button
                 const deleteButton = document.createElement("button");
                 deleteButton.textContent = "Löschen";
@@ -142,7 +150,7 @@ document.addEventListener("DOMContentLoaded", function () {
         return; 
     }
     const userId = user.userId;
-    const BASE_URL = `https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/users/${userId}/tasks.json`;
+    const BASE_URL = `https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/users/${userId}/assignedTasks/todos.json`;
     const taskForm = document.getElementById("task_form");
 
     taskForm.addEventListener("submit", function (event) {
@@ -152,9 +160,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const description = document.getElementById("input_description").value;
         const createAt = document.getElementById("input_date").value;
         const priority = document.querySelector(".priority_buttons_div .active p").textContent;
-        const assignees = Array.from(document.querySelectorAll("#show_assignees div")).map(div => {
-            return div.dataset.userId; // Speichert die User-ID
-        });
+        const assignees = assigneesObject; // Speichert die User-ID
         const label = document.getElementById("category").value;
         const subtasks = Array.from(document.querySelectorAll("#display_subtasks div span")).map(span => span.textContent);
 
@@ -167,7 +173,6 @@ document.addEventListener("DOMContentLoaded", function () {
             createAt: createAt,
             priority: priority,
             subtasks: subtasks,
-            status: "todo"
         };
 
         fetch(BASE_URL, {

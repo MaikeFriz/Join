@@ -1,3 +1,5 @@
+let dataArray = [];
+
 // Check if the user is logged in
 document.addEventListener("DOMContentLoaded", () => {
   const user = JSON.parse(localStorage.getItem("loggedInUser"));
@@ -9,7 +11,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const BASE_URL =
     "https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/users.json";
   
-  let dataArray = [];
 
   Promise.resolve().then(async () => {
     await fetchKanbanData();
