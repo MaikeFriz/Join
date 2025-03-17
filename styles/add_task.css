@@ -1,4 +1,4 @@
-body{
+body {
     overflow-x: hidden;
 }
 
@@ -20,7 +20,7 @@ body{
     align-items: stretch;
     flex-direction: column;
     height: 100%;
-    width: calc(100% / 2 - 24px);    
+    width: calc(100% / 2 - 24px);
     flex: 1;
 }
 
@@ -34,10 +34,10 @@ body{
 .input_div_left {
     display: flex;
     justify-content: space-between;
-    align-items:stretch;
+    align-items: stretch;
     flex-direction: column;
     height: 100%;
-    width: calc(100% / 2 - 24px);    
+    width: calc(100% / 2 - 24px);
     flex: 1;
 }
 
@@ -48,7 +48,7 @@ body{
     width: 100%;
 }
 
-.input_div_left p{
+.input_div_left p {
     margin-block-start: 0;
     margin-block-end: 0;
 }
@@ -71,7 +71,7 @@ body{
     transition: border-color 0.3s ease-in-out;
 }
 
-.input_label input:focus{
+.input_label input:focus {
     border-color: #29ABE2 !important;
 }
 
@@ -81,7 +81,7 @@ body{
     font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    appearance: none; 
+    appearance: none;
     background-color: white;
     cursor: pointer;
 }
@@ -92,7 +92,7 @@ body{
     color: rgb(209, 209, 209);
 }
 
-.placeholder_category{
+.placeholder_category {
     font-size: 20px;
     font-weight: 400;
     color: rgb(209, 209, 209);
@@ -116,7 +116,7 @@ body{
     height: 24px;
 }
 
-.enlarge_inputfield_symbol_div{
+.enlarge_inputfield_symbol_div {
     position: absolute;
     right: 10px;
     top: 84%;
@@ -125,58 +125,81 @@ body{
     height: 20px;
 }
 
-.enlarge_inputfield_symbol_div img{
+.enlarge_inputfield_symbol_div img {
     width: 24px;
     height: 24px;
 }
 
-#input_title{
+#input_title {
     height: 48px;
     width: 100%;
 }
 
-#input_description{
+#input_description {
     height: 120px;
     width: 100%;
 }
 
-#input_date{
+#input_date {
     height: 48px;
     width: 100%;
 }
 
-#input_assigned_to{
+#input_assigned_to {
+    height: 48px;
+    width: 100%;
+    background-image: url('./assets/img/arrow_drop_down.svg');
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+}
+
+#input_category {
     height: 48px;
     width: 100%;
 }
 
-#input_category{
+#input_subtask {
     height: 48px;
     width: 100%;
 }
 
-#input_subtask{
-    height: 48px;
-    width: 100%;
+#button_add_subtask {
+    position: absolute;
+    top: 50%;
+    right: 5px;
+    transform: translateY(-50%);
+    border: none;
+    background: transparent;
+    cursor: pointer;
 }
 
-.add_task_board{
+#button_add_subtask img {
+    width: 24px;
+    height: 24px;
+    transform: scale(1);
+}
+
+#button_add_subtask img:hover {
+    transform: scale(1.2);
+}
+
+.add_task_board {
     display: flex;
     justify-content: start;
     align-items: center;
     flex-direction: row;
-    gap: 16px; 
+    gap: 16px;
     min-width: 100%;
 }
 
-.separator{
+.separator {
     height: 300px;
     width: 3px;
-    background-color:  #D1D1D1;
+    background-color: #D1D1D1;
     border-radius: 50px;
 }
 
-.priority_buttons_div{
+.priority_buttons_div {
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -186,7 +209,7 @@ body{
     margin-bottom: 16px;
 }
 
-.urgent_button{
+.urgent_button {
     width: 136px !important;
     height: 56px;
     border-radius: 10px;
@@ -199,7 +222,7 @@ body{
     cursor: pointer;
 }
 
-.medium_button{
+.medium_button {
     width: 136px;
     height: 56px;
     border-radius: 10px;
@@ -212,7 +235,7 @@ body{
     cursor: pointer;
 }
 
-.low_button{
+.low_button {
     width: 136px !important;
     height: 56px;
     border-radius: 10px;
@@ -225,40 +248,40 @@ body{
     cursor: pointer;
 }
 
-.urgent_button:hover{
+.urgent_button:hover {
     box-shadow: none;
     background-color: #FF3D00;
     color: white;
 }
 
-.medium_button:hover{
+.medium_button:hover {
     box-shadow: none;
     background-color: #FFA800;
     color: white;
 }
 
-.low_button:hover{
+.low_button:hover {
     box-shadow: none;
     background-color: #7AE229;
     color: white;
 }
 
-.urgent_button p{
+.urgent_button p {
     font-size: 20px;
     font-weight: 400;
 }
 
-.medium_button p{
+.medium_button p {
     font-size: 20px;
     font-weight: 400;
 }
 
-.low_button p{
+.low_button p {
     font-size: 20px;
     font-weight: 400;
 }
 
-.drop_down_symbol{
+.drop_down_symbol {
     height: 24px;
     width: 24px;
 }
@@ -287,7 +310,42 @@ body{
     fill: white;
 }
 
-.info_and_button_div{
+/*Fur js priority buttons*/
+
+.urgent_button.active {
+    box-shadow: none;
+    background-color: #FF3D00;
+    color: white;
+}
+
+.medium_button.active {
+    box-shadow: none;
+    background-color: #FFA800;
+    color: white;
+}
+
+.low_button.active {
+    box-shadow: none;
+    background-color: #7AE229;
+    color: white;
+}
+
+.urgent_button.active .urgent_symbol path {
+    fill: white;
+}
+
+.medium_button.active .medium_symbol path {
+    fill: white;
+}
+
+.low_button.active .low_symbol path {
+    fill: white;
+}
+
+/*Ende*/
+
+
+.info_and_button_div {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -296,7 +354,7 @@ body{
     margin-bottom: 40px;
 }
 
-.clear_create_buttons{
+.clear_create_buttons {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -305,7 +363,7 @@ body{
     cursor: pointer;
 }
 
-.clear_button_div{
+.clear_button_div {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -316,12 +374,12 @@ body{
     padding: 0 16px;
 }
 
-.clear_button_div:hover{
+.clear_button_div:hover {
     background-color: #2A3647;
     color: white;
 }
 
-.create_button_div{
+.create_button_div {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -332,7 +390,7 @@ body{
     padding: 0 16px;
 }
 
-.create_button_div:hover{
+.create_button_div:hover {
     background-color: #2A3647;
     color: white;
 }
@@ -345,7 +403,7 @@ body{
     fill: white;
 }
 
-.clear_symbol{
+.clear_symbol {
     stroke: #2A3647;
 }
 
@@ -353,14 +411,14 @@ body{
     stroke: white;
 }
 
-.red_color{
+.red_color {
     color: red;
 }
 
-.button_add_subtask{
+.button_add_subtask {
     cursor: pointer !important;
     position: absolute;
-    right: 10px; 
+    right: 10px;
     top: 50%;
     transform: translateY(-50%);
     width: 20px;
@@ -371,4 +429,3 @@ body{
     justify-content: center;
     align-items: center;
 }
-
