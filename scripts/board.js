@@ -9,9 +9,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   async function fetchData(url) {
     try {
       const response = await fetch(url);
-      if (!response.ok) {
+      if (!response.ok)
         throw new Error(`HTTP error! status: ${response.status}`);
-      }
       return await response.json();
     } catch (error) {
       console.error("Failed to fetch data:", error);
@@ -19,38 +18,42 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   }
 
+  async function updateTaskStatus(taskId, newStatus) {
+    const url = `https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/users/${user.userId}/assignedTasks/${taskId}.json`;
+    try {
+      const response = await fetch(url, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ status: newStatus }),
+      });
+      if (!response.ok)
+        throw new Error(`HTTP error! status: ${response.status}`);
+    } catch (error) {
+      console.error("Failed to update task status:", error);
+    }
+  }
+
   function addHTMLToTaskContainers(
-    todoCardsHTML,
-    inProgressCardsHTML,
-    awaitingFeedbackCardsHTML,
-    doneCardsHTML
+    todoHTML,
+    inProgressHTML,
+    feedbackHTML,
+    doneHTML
   ) {
-    let todoCardContainer = document.getElementById("toDoCard");
-    let inProgressCardContainer = document.getElementById("inProgressCard");
-    let awaitingFeedbackContainer =
-      document.getElementById("awaitFeedbackCard");
-    let doneCardContainer = document.getElementById("doneCard");
-
-    todoCardContainer.innerHTML = todoCardsHTML;
-    inProgressCardContainer.innerHTML = inProgressCardsHTML;
-    awaitingFeedbackContainer.innerHTML = awaitingFeedbackCardsHTML;
-    doneCardContainer.innerHTML = doneCardsHTML;
-
+    document.getElementById("toDoCard").innerHTML = todoHTML;
+    document.getElementById("inProgressCard").innerHTML = inProgressHTML;
+    document.getElementById("awaitFeedbackCard").innerHTML = feedbackHTML;
+    document.getElementById("doneCard").innerHTML = doneHTML;
     addDragAndDropHandlers();
   }
 
   function generateTaskContent(tasks, templateFunction) {
-    let taskCardsHTML = "";
     if (!tasks || Object.keys(tasks).length === 0) {
       console.log("No tasks for this category");
-    } else {
-      let tasksArray = Object.values(tasks);
-      for (let taskIndex = 0; taskIndex < tasksArray.length; taskIndex++) {
-        let taskContent = tasksArray[taskIndex];
-        taskCardsHTML += templateFunction(taskContent);
-      }
+      return "";
     }
-    return taskCardsHTML;
+    return Object.values(tasks).map(templateFunction).join("");
   }
 
   function addDragAndDropHandlers() {
@@ -58,13 +61,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     const containers = document.querySelectorAll(".task-container");
 
     draggables.forEach((draggable) => {
-      draggable.addEventListener("dragstart", () => {
-        draggable.classList.add("dragging");
-      });
-
-      draggable.addEventListener("dragend", () => {
-        draggable.classList.remove("dragging");
-      });
+      draggable.addEventListener("dragstart", () =>
+        draggable.classList.add("dragging")
+      );
+      draggable.addEventListener("dragend", () =>
+        draggable.classList.remove("dragging")
+      );
     });
 
     containers.forEach((container) => {
@@ -78,6 +80,13 @@ document.addEventListener("DOMContentLoaded", async () => {
           container.insertBefore(draggable, afterElement);
         }
       });
+
+      container.addEventListener("drop", async (e) => {
+        const draggable = document.querySelector(".dragging");
+        const taskId = draggable.dataset.taskId;
+        const newStatus = container.id.replace("Card", "").toLowerCase();
+        await updateTaskStatus(taskId, newStatus);
+      });
     });
   }
 
@@ -85,16 +94,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     const draggableElements = [
       ...container.querySelectorAll(".draggable:not(.dragging)"),
     ];
-
     return draggableElements.reduce(
       (closest, child) => {
         const box = child.getBoundingClientRect();
         const offset = y - box.top - box.height / 2;
-        if (offset < 0 && offset > closest.offset) {
-          return { offset: offset, element: child };
-        } else {
-          return closest;
-        }
+        return offset < 0 && offset > closest.offset
+          ? { offset, element: child }
+          : closest;
       },
       { offset: Number.NEGATIVE_INFINITY }
     ).element;
@@ -104,39 +110,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     "https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/.json";
   const data = await fetchData(dataUrl);
 
-  console.log("Fetched data:", data); // Log the fetched data
-
-  if (
-    data &&
-    data.users &&
-    data.users[user.userId] &&
-    data.users[user.userId].assignedTasks
-  ) {
-    const assignedTasks = data.users[user.userId].assignedTasks;
-    console.log("Assigned tasks:", assignedTasks); // Log the assigned tasks
-
-    const todoContent = generateTaskContent(
-      assignedTasks.todos,
-      todoCardTemplate
-    );
-    const inProgressContent = generateTaskContent(
-      assignedTasks.inProgress,
-      inProgressCardTemplate
-    );
-    const awaitingFeedbackContent = generateTaskContent(
-      assignedTasks.awaitingFeedback,
-      awaitingFeedbackCardTemplate
-    );
-    const doneContent = generateTaskContent(
-      assignedTasks.done,
-      doneCardTemplate
-    );
-
+  if (data?.users?.[user.userId]?.assignedTasks) {
+    const { todos, inProgress, awaitingFeedback, done } =
+      data.users[user.userId].assignedTasks;
     addHTMLToTaskContainers(
-      todoContent,
-      inProgressContent,
-      awaitingFeedbackContent,
-      doneContent
+      generateTaskContent(todos, todoCardTemplate),
+      generateTaskContent(inProgress, inProgressCardTemplate),
+      generateTaskContent(awaitingFeedback, awaitingFeedbackCardTemplate),
+      generateTaskContent(done, doneCardTemplate)
     );
   } else {
     console.log("No assigned tasks found in the fetched data.");

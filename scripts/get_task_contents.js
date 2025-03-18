@@ -106,6 +106,10 @@ function getDoneContent(userDataContent) {
   return doneCardsHTML;
 }
 
+function assigneeTemplate(assigneeInitials) {
+  return `<div class="assignee">${assigneeInitials}</div>`;
+}
+
 function getAssignees(taskContent) {
   let assigneesHTML = "";
   if (taskContent.assignees && taskContent.assignees.length > 0) {
@@ -126,14 +130,11 @@ function getAssignees(taskContent) {
 }
 
 function getAssigneeInitals(assignee) {
-  let assigneeInitials = "";  
-  let [firstName, lastName] = assignee.split('-');
+  let assigneeInitials = "";
+  let [firstName, lastName] = assignee.split("-");
   let firstLetter = firstName.charAt(0).toUpperCase();
   let lastNameFirstLetter = lastName.charAt(0).toUpperCase();
   assigneeInitials = firstLetter + lastNameFirstLetter;
 
   return assigneeInitials;
 }
-
-
-
