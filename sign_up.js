@@ -22,7 +22,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const email = emailInput.value;
     const password = passwordInput.value;
     const confirmPassword = confirmPasswordInput.value;
-
+    const userId = email.replace(/@/g, "0").replace(/\./g, "-");
+    console.log(userId);
+    
     emailInput.setCustomValidity("");
     confirmPasswordInput.setCustomValidity("");
 
@@ -50,11 +52,11 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       await fetch(
-        "https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/users.json",
+        `https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/users/${userId}.json`,
         {
-          method: "POST",
+          method: "PUT",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ name, email, password }),
+          body: JSON.stringify({ name, email, password, userId }),
         }
       );
 

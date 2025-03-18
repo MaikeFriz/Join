@@ -159,7 +159,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const title = document.getElementById("input_title").value;
         const description = document.getElementById("input_description").value;
         const createAt = document.getElementById("input_date").value;
-        const priority = document.querySelector(".priority_buttons_div .active p").textContent;
+        const priority = document.querySelector(".priority_buttons_div .active p").textContent.toLocaleLowerCase();
         const assignees = assigneesObject; // Speichert die User-ID
         const label = document.getElementById("category").value;
         const subtasks = Array.from(document.querySelectorAll("#display_subtasks div span")).map(span => span.textContent);
