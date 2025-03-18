@@ -8,10 +8,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const loggedInUser = localStorage.getItem("loggedInUser");
 
   if (loggedInUser) {
-    
     return;
   }
-  
+
   form.appendChild(errorMessage);
 
   form.addEventListener("submit", (event) => {
