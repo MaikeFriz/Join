@@ -8,10 +8,8 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   }
 
-  const BASE_URL =
-    "https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/users.json";
+  const BASE_URL = "https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/users.json";
   
-
   Promise.resolve().then(async () => {
     await fetchKanbanData();
   });
@@ -28,11 +26,18 @@ document.addEventListener("DOMContentLoaded", () => {
     for (let dataIndex = 0; dataIndex < dataArray.length; dataIndex++) {
       let userDataContent = dataArray[dataIndex];
       console.log(`User: ${userDataContent.name}`);
+      getDataContentHTML(userDataContent);
+    }
+  }
 
+  function getDataContentHTML(userDataContent) {
+    const loggedInUser = localStorage.getItem("loggedInUser");
+    if (loggedInUser) {
+      return;
+    }
       let todoCardsHTML = getTodoContent(userDataContent);
       let inProgressCardsHTML = getInProgressContent(userDataContent);
-      let awaitingFeedbackCardsHTML =
-        getAwaitingFeedbackContent(userDataContent);
+      let awaitingFeedbackCardsHTML = getAwaitingFeedbackContent(userDataContent);
       let doneCardsHTML = getDoneContent(userDataContent);
 
       addHTMLToTaskContainers(
@@ -42,5 +47,4 @@ document.addEventListener("DOMContentLoaded", () => {
         doneCardsHTML
       );
     }
-  }
 });

@@ -4,6 +4,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const passwordInput = document.getElementById("input_password");
   const errorMessage = document.createElement("p");
   errorMessage.style.color = "red";
+
+  const loggedInUser = localStorage.getItem("loggedInUser");
+
+  if (loggedInUser) {
+    
+    return;
+  }
+  
   form.appendChild(errorMessage);
 
   form.addEventListener("submit", (event) => {
@@ -29,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (user) {
           errorMessage.textContent = "";
           localStorage.setItem("loggedInUser", JSON.stringify(user));
-          window.location.href = "./board.html";
+          window.location.href = "./summary.html";
         } else {
           errorMessage.textContent = "Invalid email or password.";
         }
