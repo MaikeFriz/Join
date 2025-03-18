@@ -1,5 +1,9 @@
 let dataArray = [];
 
+function onloadFunc(){
+  getUserName();
+}
+
 // Check if the user is logged in
 document.addEventListener("DOMContentLoaded", () => {
   const user = JSON.parse(localStorage.getItem("loggedInUser"));
@@ -13,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
   Promise.resolve().then(async () => {
     await fetchKanbanData();
   });
-
+  
   async function fetchKanbanData() {
     let response = await fetch(BASE_URL);
     let kanbanData = await response.json();
@@ -48,3 +52,25 @@ document.addEventListener("DOMContentLoaded", () => {
       );
     }
 });
+
+function getUserName() {
+  const loggedInUser = localStorage.getItem("loggedInUser");
+  if (loggedInUser) {
+    let userObject = JSON.parse(loggedInUser);
+    let userName = userObject.name;
+    console.log("Benutzername:", userName);
+    getUserInitialForHeader(userName);
+    }
+}
+
+function getUserInitialForHeader(userName) {
+  let [firstName, lastName] = userName.split(' ');
+  let firstLetter = firstName.charAt(0).toUpperCase();
+  let lastNameFirstLetter = lastName.charAt(0).toUpperCase();
+  let initials = firstLetter + lastNameFirstLetter;
+  let headerInitials = document.getElementById('user-initials-header');
+  
+  headerInitials.innerHTML = /*html*/`
+    <div>${initials}</div>
+  `;
+}

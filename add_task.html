@@ -11,16 +11,19 @@
     <link rel="stylesheet" href="./styles/privacy.css" />
     <link rel="stylesheet" href="./styles/add_task.css" />
     
+    <script src="./script.js"></script>
+    <script src="./scripts/log_in.js"></script>
+    <script src="./scripts/add_task.js"></script>
   </head>
 
-  <body>
+  <body onload="onloadFunc()">
     <header>
       <p>Kanban Project Management Tool</p>
       <div class="right-header-elements">
         <a href="./help_page.html">
           <img class="help-button" src="./assets/img/help.svg" alt="" />
         </a>
-        <div class="user-initials">SM</div>
+        <div id="user-initials-header" class="user-initials"></div>
       </div>
     </header>
 
@@ -178,8 +181,5 @@
           </div>
         </form>        
     </div>
-    <script src="./script.js"></script>
-    <script src="./scripts/log_in.js"></script>
-    <script src="./scripts/add_task.js"></script>
   </body>
 </html>
