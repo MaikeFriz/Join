@@ -16,6 +16,7 @@
     <script src="./scripts/board.js"></script>
     <script src="./scripts/task_card_templates.js"></script>
     <script src="./scripts/get_task_contents.js"></script>
+    <script src="./scripts/collapse.js" defer></script>
   </head>
   
   <body onload="onloadFunc()">
@@ -93,7 +94,7 @@
                     </div>
                     <div class="board-input-section">
                         <div class="input-with-img">
-                            <input class="headline-separator" placeholder="Find Task"></input>
+                          <input type="text" id="search-input" placeholder="Search tasks..." oninput="searchTasks(this.value)">
                             <img src="./assets/img/search.svg" alt="">
                         </div>
                         <a href="./add_task.html">
@@ -103,13 +104,13 @@
                 </div>
 
                 <div class="kanban-header">
-                    <span>To do <p>+</p></span>
-                    <span>In progress <p>+</p></span>
-                    <span>Await for feedback <p>+</p></span>
-                    <span>Done</span>
+                    <span>To do <button class="collapse-button" data-target="toDoCard">-</button></span>
+                    <span>In progress <button class="collapse-button" data-target="inProgressCard">-</button></span>
+                    <span>Await for feedback <button class="collapse-button" data-target="awaitFeedbackCard">-</button></span>
+                    <span>Done <button class="collapse-button" data-target="doneCard">-</button></span>
                 </div>
             </div>
-            
+            <div id="search-results"></div>
             <div class="board-table">
               <div id="toDoCard" class="board-table-columns task-container"></div>
               <div id="inProgressCard" class="board-table-columns task-container"></div>
@@ -118,4 +119,4 @@
             </div>
         </div>
     </body>
-    
+</html>
