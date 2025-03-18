@@ -6,9 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
   errorMessage.style.color = "red";
 
   const loggedInUser = localStorage.getItem("loggedInUser");
-
   if (loggedInUser) {
-    
     return;
   }
   

@@ -9,7 +9,8 @@
     <link rel="stylesheet" href="./style.css" />
     <link rel="stylesheet" href="./styles/sidebar.css" />
     <link rel="stylesheet" href="./styles/privacy.css" />
-    
+
+    <script src="./script.js"></script>
   </head>
 
   <!--
@@ -19,14 +20,14 @@
     <body onload="uploadExampleDatabase()">
   -->
 
-  <body>
+  <body onload="onloadFunc()">
     <header>
       <p>Kanban Project Management Tool</p>
       <div class="right-header-elements">
         <a href="./help_page.html">
           <img class="help-button" src="./assets/img/help.svg" alt="" />
         </a>
-        <div class="user-initials">SM</div>
+        <div id="user-initials-header" class="user-initials"></div>
       </div>
     </header>
 
@@ -100,6 +101,5 @@
         </footer>
       </div>
     </div>
-    <script src="./script.js"></script>
   </body>
 </html>
