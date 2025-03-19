@@ -1,6 +1,6 @@
 let dataArray = [];
 
-function onloadFunc(){
+function onloadFunc() {
   getUserName();
 }
 
@@ -12,12 +12,13 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   }
 
-  const BASE_URL = "https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/users.json";
-  
+  const BASE_URL =
+    "https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/users.json";
+
   Promise.resolve().then(async () => {
     await fetchKanbanData();
   });
-  
+
   async function fetchKanbanData() {
     let response = await fetch(BASE_URL);
     let kanbanData = await response.json();
@@ -39,18 +40,18 @@ document.addEventListener("DOMContentLoaded", () => {
     if (loggedInUser) {
       return;
     }
-      let todoCardsHTML = getTodoContent(userDataContent);
-      let inProgressCardsHTML = getInProgressContent(userDataContent);
-      let awaitingFeedbackCardsHTML = getAwaitingFeedbackContent(userDataContent);
-      let doneCardsHTML = getDoneContent(userDataContent);
+    let todoCardsHTML = getTodoContent(userDataContent);
+    let inProgressCardsHTML = getInProgressContent(userDataContent);
+    let awaitingFeedbackCardsHTML = getAwaitingFeedbackContent(userDataContent);
+    let doneCardsHTML = getDoneContent(userDataContent);
 
-      addHTMLToTaskContainers(
-        todoCardsHTML,
-        inProgressCardsHTML,
-        awaitingFeedbackCardsHTML,
-        doneCardsHTML
-      );
-    }
+    addHTMLToTaskContainers(
+      todoCardsHTML,
+      inProgressCardsHTML,
+      awaitingFeedbackCardsHTML,
+      doneCardsHTML
+    );
+  }
 });
 
 function getUserName() {
@@ -60,17 +61,17 @@ function getUserName() {
     let userName = userObject.name;
     console.log("Benutzername:", userName);
     getUserInitialForHeader(userName);
-    }
+  }
 }
 
 function getUserInitialForHeader(userName) {
-  let [firstName, lastName] = userName.split(' ');
+  let [firstName, lastName] = userName.split(" ");
   let firstLetter = firstName.charAt(0).toUpperCase();
   let lastNameFirstLetter = lastName.charAt(0).toUpperCase();
   let initials = firstLetter + lastNameFirstLetter;
-  let headerInitials = document.getElementById('user-initials-header');
-  
-  headerInitials.innerHTML = /*html*/`
+  let headerInitials = document.getElementById("user-initials-header");
+
+  headerInitials.innerHTML = /*html*/ `
     <div>${initials}</div>
   `;
 }

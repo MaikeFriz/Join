@@ -6,20 +6,21 @@
     <title>Join</title>
 
     <link rel="icon" href="./assets/img/join_favicon.svg" type="image/x-icon" />
+    <link
+      rel="stylesheet"
+      href="node_modules/bootstrap/dist/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
     <link rel="stylesheet" href="./style.css" />
     <link rel="stylesheet" href="./styles/sidebar.css" />
-    <link rel="stylesheet" href="./styles/privacy.css" />
+    <link rel="stylesheet" href="../styles/help_page.css" />
 
     <script src="./script.js"></script>
+    <script src="./scripts/add_contact.js"></script>
   </head>
-
-  <!--
-    was used once to upload the examples ->
-    <script src="./scripts/examples/upload_example_database.js"></script>
-    <script src="./scripts/examples/local_example_database.js"></script>
-    <body onload="uploadExampleDatabase()">
-  -->
-
   <body onload="onloadFunc()">
     <header>
       <p>Kanban Project Management Tool</p>
@@ -84,21 +85,26 @@
         </div>
       </div>
 
-      <div class="right-side-content">
-        <h2>Welcome to Join</h2>
-        <p>
-          This is your Kanban Project Management Tool. Here you can manage your
-          tasks, view summaries, and keep track of your projects efficiently.
-        </p>
-        <p>
-          Use the sidebar to navigate through different sections such as
-          Summary, Add Task, Board, and Contacts.
-        </p>
-        <footer>
-          For more information, refer to our
-          <a href="./privacy.html">Privacy Policy</a> and
-          <a href="./legal.html">Legal Notice</a>
-        </footer>
+      <div class="right-side-content-contacts">
+        <div class="contacts-list">
+          <h2>Contacts</h2>
+          <button id="add-contact-button">
+            <img
+              src="./assets/img/person_placeholder.svg"
+              alt="Person Icon"
+              class="button-icon"
+            />
+            Add Contacts
+            <img
+              src="./assets/img/add.svg"
+              alt="Add Icon"
+              class="button-icon"
+            />
+          </button>
+          <ul>
+            <!-- Add more contacts as needed -->
+          </ul>
+        </div>
       </div>
     </div>
   </body>

@@ -1,3 +1,9 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
 body {
     margin: 0;
     scroll-behavior: smooth;
@@ -19,7 +25,7 @@ a {
     text-decoration: none;
     font-family: 'Inter';
     text-decoration: none;
-    color: rgba(255, 255, 255, 1);
+    color: rgb(255, 255, 255);
     font-weight: 300;
     font-size: 16px;
     padding: 4px;
@@ -27,8 +33,10 @@ a {
 
 .start-content {
     display: flex;
-    width: 100vw;
-    height: 100vh;
+    height: 100%;
+}
+.sidebar-container {
+    flex-shrink: 0;
 }
 
 header {
@@ -86,7 +94,6 @@ header {
     transition: background-color 100ms ease-in-out;
 }
 
-
 .user-initials:hover{
     background-color: rgba(226, 230, 237, 1);
 }
@@ -124,4 +131,87 @@ footer a{
 footer a:hover{
     text-decoration: none;
     color: rgb(41, 171, 226) !important;
+}
+
+.contacts-list {
+    max-width: 456px;
+    width: 100%;
+    flex-grow: 1;
+    overflow-y: auto;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.contacts-list ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.contacts-list li {
+    display: flex;
+    align-items: center;
+    padding: 5px 0;
+    border-bottom: 1px solid #eee;
+    padding: 18px;
+}
+
+.contact-initials {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #007bff;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+#add-contact-button {
+    width: 280px;
+    height: 48px;
+    background-color: rgb(42, 54, 71);
+    border: solid 2px  rgb(42, 54, 71);
+    border-radius: 10px;
+    color: white;
+    padding: 8px 16px;
+    cursor: pointer;
+    transform: scale(1);
+    font-size: 21px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+}
+
+.add-contact-button:hover {
+    background-color: rgb(41, 171, 226);
+    transform: scale(1.05);
+    border: solid 2px rgb(41, 171, 226);
+}
+
+.button-icon {
+    width: 20px;
+    height: 20px;
+}
+
+.right-side-content-contacts {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+    padding: 0px 96px 64px 251px;
+    box-sizing: border-box;
+}
+
+.right-side-content-contacts a {
+    color: blue; /* Specific rule for links in contacts.html */
+}
+
+.contact-details {
+    padding: 20px;
 }
