@@ -1,6 +1,6 @@
 let assigneesObject = {};
 
-// --------------------Kontakte als Dropdown hinzufügen
+// -------------------- Add contacts as a dropdown
 document.addEventListener("DOMContentLoaded", async function () {
   const selectElement = document.getElementById("input_assigned_to");
   const showAssigneesDiv = document.getElementById("show_assignees");
@@ -11,34 +11,34 @@ document.addEventListener("DOMContentLoaded", async function () {
     );
     const data = await response.json();
     
-    // Extrahiert Benutzerwerte aus dem Datenobjekt
-    const users = Object.values(data.users); // Benutzer aus der "users"-Datenstruktur extrahieren
+    // Extracts users from the data object
+    const users = Object.values(data.users); // Extract users from the "users" data structure
 
-    // Durchlauft jeden Benutzer und fügt ihn als <option> zum <select>-Element hinzu
+    // Loops through each user and adds them as an <option> to the <select> element
     users.forEach((user) => {
       const option = document.createElement("option");
-      option.value = user.name; // Setzt den Wert der Option auf den Benutzernamen
-      option.textContent = user.name; // Setzt den Text der Option auf den Benutzernamen
-      selectElement.appendChild(option); // Fügt die Option zum <select>-Element hinzu
+      option.value = user.name; // Sets the option's value to the user's name
+      option.textContent = user.name; // Sets the option's text to the user's name
+      selectElement.appendChild(option); // Appends the option to the <select> element
     });
 
-    // Fügt einen Event-Listener hinzu, der ausgelöst wird, wenn sich die Auswahl im <select>-Element ändert
+    // Adds an event listener that is triggered when the selection changes in the <select> element
     selectElement.addEventListener("change", function () {
-      // Holt die ausgewählte Option
+      // Gets the selected option
       const selectedOption = selectElement.options[selectElement.selectedIndex];
-      // Holt den Text der ausgewählten Option (Benutzernamen)
+      // Gets the text content of the selected option (user's name)
       const selectedName = selectedOption.textContent;
 
-      // Überprüft, ob nicht der Platzhalter ausgewählt ist
+      // Checks if the placeholder option is not selected
       if (selectedOption.value !== "") {
-        // Erstellt ein <div>-Element, um den ausgewählten Kontakt anzuzeigen
+        // Creates a <div> element to display the selected contact
         const assigneeElement = document.createElement("div");
         assigneeElement.className = "assignee-item";
 
-        // Erstellt ein <span>-Element, um den Benutzernamen anzuzeigen
+        // Creates a <span> element to display the username
         const nameElement = document.createElement("span");
         nameElement.textContent = selectedName;
-        assigneeElement.appendChild(nameElement); // Fügt das <span> zum <div> hinzu
+        assigneeElement.appendChild(nameElement); // Appends the <span> to the <div>
 
         assigneesObject[selectedName] = selectedName
           .toLowerCase()
@@ -48,24 +48,25 @@ document.addEventListener("DOMContentLoaded", async function () {
           .replace(/\s+/g, "");
         console.log(assigneesObject);
 
-        // "Löschen"-Button
+        // "Delete" button
         const deleteButton = document.createElement("button");
-        deleteButton.textContent = "Löschen";
+        deleteButton.textContent = "Delete";
         deleteButton.addEventListener("click", function () {
           showAssigneesDiv.removeChild(assigneeElement);
+          delete assigneesObject[selectedName]; // Entfernt den Assignee aus dem Objekt
         });
         assigneeElement.appendChild(deleteButton);
         showAssigneesDiv.appendChild(assigneeElement);
-        // Setzt das <select>-Element auf den Platzhalter zurück
+        // Resets the <select> element to the placeholder
         selectElement.selectedIndex = 0;
       }
     });
   } catch (error) {
-    console.error("Fehler beim Laden der Nutzer:", error);
+    console.error("Error loading users:", error);
   }
 });
 
-// ------------------------Subtasks hinzufügen
+// ------------------------ Add subtasks
 document.addEventListener("DOMContentLoaded", function () {
   const inputSubtask = document.getElementById("input_subtask");
   const addIcon = document.getElementById("add_icon");
@@ -126,17 +127,17 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-// --------------------------------Priority auswählen
+// --------------------------------Select priority
 document.addEventListener("DOMContentLoaded", function () {
   const urgentButton = document.getElementById("urgent_button");
   const mediumButton = document.getElementById("medium_button");
   const lowButton = document.getElementById("low_button");
 
-  // Variable, um den aktuell aktiven Button zu speichern
+  // Variable to track the currently active button
   let activeButton = null;
 
   function handleButtonClick(button) {
-    // Wenn ein anderer Button aktiv ist, entfernt die "active"-Klasse
+    // If another button is active, remove the "active" class
     if (activeButton && activeButton !== button) {
       activeButton.classList.remove("active");
     }
@@ -158,12 +159,12 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-//-----------------------------Category auswählen
+//-----------------------------Select category
 document.addEventListener("DOMContentLoaded", function() {
   const dropdown = document.getElementById("dropdown_category");
   const optionsContainer = document.querySelector(".dropdown_options");
   const selectedText = document.getElementById("dropdown_selected");
-  const inputField = document.getElementById("category"); // Das versteckte Input-Feld
+  const inputField = document.getElementById("category"); // The hidden input field
 
   dropdown.addEventListener("click", function() {
     dropdown.parentElement.classList.toggle("open");
@@ -171,8 +172,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
   document.querySelectorAll(".custom-dropdown-option").forEach(option => {
     option.addEventListener("click", function() {
-      selectedText.textContent = this.textContent; // Anzeige aktualisieren
-      inputField.value = this.dataset.value; // Wert in hidden input speichern
+      selectedText.textContent = this.textContent; // Update display
+      inputField.value = this.dataset.value; // Save value in hidden input
       dropdown.parentElement.classList.remove("open");
     });
   });
@@ -184,8 +185,8 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 });
 
-//--------------------------------------Daten in Datenbank speichern
-document.addEventListener("DOMContentLoaded", function () {
+//--------------------------------------Save data to database
+document.addEventListener("DOMContentLoaded", async function () {
   const user = JSON.parse(localStorage.getItem("loggedInUser"));
   if (!user) {
     window.location.href = "./log_in.html";
@@ -193,58 +194,109 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   const userId = user.userId;
-  const BASE_URL = `https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData/${userId}/assignedTasks/todos.json`;
+  const BASE_URL = `https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData/`;
   const taskForm = document.getElementById("task_form");
 
-  taskForm.addEventListener("submit", function (event) {
+  // Funktion, um die neue Aufgaben-ID als 'task1', 'task2' etc. zu ermitteln
+  async function getNewTaskId() {
+    try {
+      const response = await fetch(`${BASE_URL}tasks.json`);
+      const data = await response.json();
+
+      // Falls keine Tasks vorhanden sind, starten wir mit task1
+      if (!data) {
+        return "task1";
+      }
+
+      // Extrahiere alle Task-IDs und berechne die höchste Zahl
+      const taskIds = Object.keys(data);
+      if (taskIds.length === 0) {
+        return "task1"; // Falls keine Tasks vorhanden sind, starten mit 'task1'
+      }
+
+      // Die maximal vorhandene Task-ID finden
+      const maxTaskId = taskIds.reduce((max, id) => {
+        const numericId = parseInt(id.replace("task", ""), 10); // Entferne 'task' und parse die Zahl
+        return numericId > max ? numericId : max;
+      }, 0);
+
+      return `task${maxTaskId + 1}`; // Die neue Task-ID ist die höchste + 1
+    } catch (error) {
+      console.error("Error fetching tasks:", error);
+      return "task1"; // Falls ein Fehler auftritt, starte mit 'task1'
+    }
+  }
+
+  // Event-Listener für das Speichern der Aufgabe
+  taskForm.addEventListener("submit", async function (event) {
     event.preventDefault();
 
-    // Aufgaben-Daten sammeln
+    // Sammeln der Aufgaben-Daten
     const title = document.getElementById("input_title").value;
     const description = document.getElementById("input_description").value;
-    const dueDate = new Date(document.getElementById("input_date").value).toISOString(); // ISO-Format
+    const dueDate = new Date(document.getElementById("input_date").value).toISOString();
     const priority = document.querySelector(".priority_buttons_div .active p").textContent.toLowerCase();
-    const assignees = assigneesObject; // Hier werden die zugewiesenen Benutzer gespeichert
-    const label = document.getElementById("category").value; // Wert aus dem versteckten Input holen
-    const subtasks = Array.from(document.querySelectorAll("#display_subtasks div span")).map(span => span.textContent);
+    const assignees = {}; // Benutzer-Zuweisungen
+    Object.keys(assigneesObject).forEach(assigneeName => {
+      assignees[assigneeName.toLowerCase()] = true;
+    });
+    const label = document.getElementById("category").value; // Kategorie
+    const subtasks = {}; // Unteraufgaben
+    const subtasksList = Array.from(document.querySelectorAll("#display_subtasks div span")).map(span => span.textContent);
+    subtasksList.forEach((subtask, index) => {
+      subtasks[`subtask${index + 1}`] = true;
+    });
 
-    // Zusammenstellen des Aufgabenobjekts
+    // Berechnung der neuen Task-ID (task1, task2, etc.)
+    let newTaskId = await getNewTaskId();
+
+    // Aufgaben-Datenobjekt (struktur wie gewünscht)
     const taskData = {
+      label: "Technical Task", // Beispiel für Label
       title: title,
       description: description,
-      label: label,
-      assignees: assignees,
-      dueDate: dueDate,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
       priority: priority,
-      subtasks: subtasks,
+      createdBy: userId, // Dynamischer Benutzer
+      assignees: assignees,  // Zuweisungen der Benutzer
+      subtasks: subtasks,    // Unteraufgaben
     };
 
-    // Debugging: Ausgabe der gesammelten Task-Daten
-    console.log("Task Data: ", taskData);
-
-    // Anfrage an Firebase senden
-    fetch(BASE_URL, {
-      method: "POST",
+    // Aufgabe in der Firebase-Datenbank speichern
+    fetch(`${BASE_URL}tasks/${newTaskId}.json`, {
+      method: "PUT", // PUT, um die spezifische ID zu setzen
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(taskData),
     })
-    .then((response) => {
-      console.log(response); // Zeigt die Antwort von Firebase an
+    .then((response) => response.json()) // Antwort von Firebase verarbeiten
+    .then((taskResponse) => {
+      const taskId = newTaskId; // Die neue Aufgaben-ID (z. B. 'task1')
 
-      // Wenn die Antwort ok ist, zum Board weiterleiten
-      if (response.ok) {
-        window.location.href = "./board.html";
-      } else {
-        console.error("Fehler beim Hinzufügen des Tasks:", response.statusText);
-        alert("Es gab einen Fehler beim Hinzufügen des Tasks. Bitte versuche es später erneut.");
-      }
+      // Aufgabe zu den "toDo"-Listen des angemeldeten Benutzers hinzufügen
+      const taskForUser = {
+        taskId: taskId, // Speichert die Aufgabe als "taskId" im "toDo" des Benutzers
+      };
+
+      fetch(`${BASE_URL}users/${userId}/assignedTasks/toDo.json`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(taskForUser),
+      })
+      .then((response) => response.json())
+      .then((userResponse) => {
+        console.log(`Task added to user ${userId} toDo list`);
+      })
+      .catch((error) => {
+        console.error("Error adding task to user:", error);
+      });
     })
     .catch((error) => {
-      // Fehlerbehandlung, falls Fetch fehlschlägt
-      console.error("Fehler beim Senden der Daten:", error);
-      alert("Es gab ein Problem beim Senden der Task-Daten. Bitte versuche es später erneut.");
+      console.error("Error saving task:", error);
     });
   });
 });

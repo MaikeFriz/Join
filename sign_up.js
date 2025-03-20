@@ -45,7 +45,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const existingUserIds = Object.keys(data.users || {});
       const maxUserId = existingUserIds.length > 0
-        ? Math.max(...existingUserIds.map(id => parseInt(id.replace('user', ''))))
+        ? Math.max(...existingUserIds.map(id => {
+            const userIdNumber = parseInt(id.replace('user', ''), 10);
+            return isNaN(userIdNumber) ? 0 : userIdNumber; // Ensure NaN doesn't break the calculation
+          }))
         : 0;
       const newUserId = `user${maxUserId + 1}`;
 
@@ -61,13 +64,12 @@ document.addEventListener("DOMContentLoaded", () => {
         },
       };
 
-      
       await fetch(
         `https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData/users/${newUserId}.json`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(newUser), 
+          body: JSON.stringify(newUser),
         }
       );
 
