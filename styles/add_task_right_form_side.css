@@ -1,0 +1,266 @@
+.input_div_right {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    flex-direction: column;
+    height: 100%;
+    width: calc(100% / 2 - 24px);
+    flex: 1;
+}
+
+.input_div_right input {
+    border: rgb(209, 209, 209) solid 1px;
+    border-radius: 10px;
+    padding-left: 16px;
+    width: 100%;
+}
+
+.placeholder_category {
+    font-size: 20px;
+    font-weight: 400;
+    color: rgb(209, 209, 209);
+}
+
+#input_assigned_to {
+    height: 48px;
+    width: 100%;
+    background-image: url('../assets/img/arrow_drop_down.svg');
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+}
+
+#input_category {
+    height: 48px;
+    width: 100%;
+}
+
+#input_subtask {
+    height: 48px;
+    width: 100%;
+}
+
+#button_add_subtask {
+    position: absolute;
+    top: 50%;
+    right: 5px;
+    transform: translateY(-50%);
+    border: none;
+    background: transparent;
+    cursor: pointer;
+}
+
+#button_add_subtask img {
+    width: 24px;
+    height: 24px;
+    transform: scale(1);
+}
+
+#button_add_subtask img:hover {
+    transform: scale(1.2);
+}
+
+
+.priority_buttons_div {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.urgent_button {
+    width: 136px !important;
+    height: 56px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 4px 2px rgba(42, 54, 71, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.medium_button {
+    width: 136px;
+    height: 56px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 4px 2px rgba(42, 54, 71, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.low_button {
+    width: 136px !important;
+    height: 56px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 4px 2px rgba(42, 54, 71, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.urgent_button:hover {
+    box-shadow: none;
+    background-color: #FF3D00;
+    color: white;
+}
+
+.medium_button:hover {
+    box-shadow: none;
+    background-color: #FFA800;
+    color: white;
+}
+
+.low_button:hover {
+    box-shadow: none;
+    background-color: #7AE229;
+    color: white;
+}
+
+.urgent_button p {
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.medium_button p {
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.low_button p {
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.medium_symbol path {
+    fill: #FFA800;
+}
+
+.medium_button:hover .medium_symbol path {
+    fill: white;
+}
+
+.low_symbol path {
+    fill: #7AE229;
+}
+
+.low_button:hover .low_symbol path {
+    fill: white;
+}
+
+.urgent_symbol path {
+    fill: #FF3D00;
+}
+
+.urgent_button:hover .urgent_symbol path {
+    fill: white;
+}
+
+/*Fur js priority buttons*/
+
+.urgent_button.active {
+    box-shadow: none;
+    background-color: #FF3D00;
+    color: white;
+}
+
+.medium_button.active {
+    box-shadow: none;
+    background-color: #FFA800;
+    color: white;
+}
+
+.low_button.active {
+    box-shadow: none;
+    background-color: #7AE229;
+    color: white;
+}
+
+.urgent_button.active .urgent_symbol path {
+    fill: white;
+}
+
+.medium_button.active .medium_symbol path {
+    fill: white;
+}
+
+.low_button.active .low_symbol path {
+    fill: white;
+}
+
+/*Ende*/
+
+.button_add_subtask {
+    cursor: pointer !important;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    border: none;
+    background-color: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.category_div {
+    width: 100%;
+    min-width: 100%;
+    max-width: 300px; /* Optional: Maximale Breite setzen */
+    position: relative;
+}
+.dropdown_category {
+    width: 100%;
+    height: 48px;
+    border: 1px solid #ccc;
+    padding: 5px 16px;
+    cursor: pointer;
+    background: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 10px;
+}
+.dropdown_arrow {
+    width: 12px;
+    transition: transform 0.3s;
+}
+.dropdown_options {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: white;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 0 0 5px 5px;
+    overflow: hidden;
+    z-index: 1000;
+    border-radius: 10px;
+}
+.dropdown_options div {
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 10px;
+}
+.dropdown_options div:hover {
+    background: #f0f0f0;
+}
+.open .dropdown_options {
+    display: block;
+}
+.open .dropdown_arrow {
+    transform: rotate(180deg);
+}

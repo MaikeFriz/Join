@@ -139,16 +139,41 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
+
+//-----------------------------Category auswaehlen
+document.addEventListener("DOMContentLoaded", function() {
+    const dropdown = document.getElementById("dropdown_category");
+    const optionsContainer = document.querySelector(".dropdown_options");
+    const selectedText = document.getElementById("dropdown_selected");
+    const inputField = document.getElementById("category"); // Das versteckte Input-Feld
+
+    dropdown.addEventListener("click", function() {
+        dropdown.parentElement.classList.toggle("open");
+    });
+
+    document.querySelectorAll(".custom-dropdown-option").forEach(option => {
+        option.addEventListener("click", function() {
+            selectedText.textContent = this.textContent; // Anzeige aktualisieren
+            inputField.value = this.dataset.value; // Wert in hidden input speichern
+            dropdown.parentElement.classList.remove("open");
+        });
+    });
+
+    document.addEventListener("click", function(event) {
+        if (!dropdown.parentElement.contains(event.target)) {
+            dropdown.parentElement.classList.remove("open");
+        }
+    });
+});
+
 //--------------------------------------Daten in Datenbank speichern
 document.addEventListener("DOMContentLoaded", function () {
-  // Überprüft, ob der Benutzer im localStorage als "loggedInUser" gespeichert ist
   const user = JSON.parse(localStorage.getItem("loggedInUser"));
-
-  // Wenn kein eingeloggter Benutzer gefunden wird, leite zur Login-Seite weiter
   if (!user) {
     window.location.href = "./log_in.html";
     return;
   }
+
   const userId = user.userId;
   const BASE_URL = `https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/users/${userId}/assignedTasks/todos.json`;
   const taskForm = document.getElementById("task_form");
@@ -158,23 +183,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const title = document.getElementById("input_title").value;
     const description = document.getElementById("input_description").value;
-    const createAt = document.getElementById("input_date").value;
-    const priority = document
-      .querySelector(".priority_buttons_div .active p")
-      .textContent.toLocaleLowerCase();
-    const assignees = assigneesObject; // Speichert die User-ID
-    const label = document.getElementById("category").value;
-    const subtasks = Array.from(
-      document.querySelectorAll("#display_subtasks div span")
-    ).map((span) => span.textContent);
+    const dueDate = document.getElementById("input_date").value;
+    const priority = document.querySelector(".priority_buttons_div .active p").textContent.toLocaleLowerCase();
+    const assignees = assigneesObject;
+    const label = document.getElementById("category").value; // Wert aus dem versteckten Input holen
+    const subtasks = Array.from(document.querySelectorAll("#display_subtasks div span")).map(span => span.textContent);
 
-    // Erstellt ein Objekt mit den Task-Daten
     const taskData = {
       title: title,
       description: description,
-      label: label,
+      label: label, // Hier bleibt alles gleich
       assignees: assignees,
-      createAt: createAt,
+      dueDate: dueDate, //umbenannt weil hier Fälligkeitstermin gemeint ist
       priority: priority,
       subtasks: subtasks,
     };
@@ -186,18 +206,15 @@ document.addEventListener("DOMContentLoaded", function () {
       },
       body: JSON.stringify(taskData),
     })
-      .then((response) => {
-        if (response.ok) {
-          window.location.href = "./board.html";
-        } else {
-          console.error(
-            "Fehler beim Hinzufügen des Tasks:",
-            response.statusText
-          );
-        }
-      })
-      .catch((error) => {
-        console.error("Fehler beim Senden der Daten:", error);
-      });
+    .then((response) => {
+      if (response.ok) {
+        window.location.href = "./board.html";
+      } else {
+        console.error("Fehler beim Hinzufügen des Tasks:", response.statusText);
+      }
+    })
+    .catch((error) => {
+      console.error("Fehler beim Senden der Daten:", error);
+    });
   });
 });

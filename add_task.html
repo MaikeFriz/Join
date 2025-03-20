@@ -10,6 +10,9 @@
     <link rel="stylesheet" href="./styles/sidebar.css" />
     <link rel="stylesheet" href="./styles/privacy.css" />
     <link rel="stylesheet" href="./styles/add_task.css" />
+    <link rel="stylesheet" href="./styles/add_task_left_form_side.css" />
+    <link rel="stylesheet" href="./styles/add_task_right_form_side.css" />
+
     
     <script src="./script.js"></script>
     <script src="./scripts/log_in.js"></script>
@@ -144,18 +147,23 @@
                 </select>
               </label>
               <div class="show_assignees" id="show_assignees"></div>
-              
+
 
               <p>Category<span class="red_color">*</span></p>
-              <label class="input_label">
-                <select id="category" required>
-                  <option class="technical-task" value="User Story">User Story</option>
-                  <option value="Technical Task">Technical Task</option>
-                  <option value="HTML">HTML</option>
-                  <option value="JavaScript">JavaScript</option>
-                  <option value="CSS">CSS</option>
-                </select>
-              </label>
+              <div class="category_div">
+                  <div class="dropdown_category" id="dropdown_category">
+                      <span id="dropdown_selected">Select task category</span>
+                      <img src="./assets/img/arrow_drop_down.svg" alt="dropdown arrow" class="dropdown_arrow" />
+                  </div>
+                  <div class="dropdown_options">
+                      <div class="custom-dropdown-option" data-value="User Story">User Story</div>
+                      <div class="custom-dropdown-option" data-value="Technical task">Technical task</div>
+                      <div class="custom-dropdown-option" data-value="HTML">HTML</div>
+                      <div class="custom-dropdown-option" data-value="Javascript">Javascript</div>
+                      <div class="custom-dropdown-option" data-value="CSS">CSS</div>
+                  </div>
+                  <input type="hidden" id="category" name="category" required/>
+              </div>
          
               <p>Subtasks</p>
               <label class="input_label">
