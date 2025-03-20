@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     const userId = loggedInUser.userId;
-    const BASE_URL = `https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/users/${userId}/contacts.json`;
+    const BASE_URL = `https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData/${userId}/contacts.json`;
 
     fetch(BASE_URL, {
       method: "POST",
@@ -87,7 +87,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     const userId = loggedInUser.userId;
-    const BASE_URL = `https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/users/${userId}/contacts.json`;
+    const BASE_URL = `https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData/${userId}/contacts.json`;
 
     fetch(BASE_URL)
       .then((response) => response.json())
@@ -184,7 +184,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     const userId = loggedInUser.userId;
-    const BASE_URL = `https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/users/${userId}/contacts/${contactId}.json`;
+    const BASE_URL = `https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData/${userId}/contacts/${contactId}.json`;
 
     fetch(BASE_URL)
       .then((response) => response.json())

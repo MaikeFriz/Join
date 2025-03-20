@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     fetch(
-      "https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/users.json"
+      "https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData/users.json"
     )
       .then((response) => response.json())
       .then((data) => {

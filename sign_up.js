@@ -22,9 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const email = emailInput.value;
     const password = passwordInput.value;
     const confirmPassword = confirmPasswordInput.value;
-    const userId = email.replace(/@/g, "0").replace(/\./g, "-");
-    console.log(userId);
-    
+
     emailInput.setCustomValidity("");
     confirmPasswordInput.setCustomValidity("");
 
@@ -41,22 +39,35 @@ document.addEventListener("DOMContentLoaded", () => {
 
     try {
       const response = await fetch(
-        "https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/users.json"
+        "https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData.json"
       );
       const data = await response.json();
 
-      if (Object.values(data).some((user) => user.email === email)) {
-        emailInput.setCustomValidity("Email already exists!");
-        emailInput.reportValidity();
-        return;
-      }
+      const existingUserIds = Object.keys(data.users || {});
+      const maxUserId = existingUserIds.length > 0
+        ? Math.max(...existingUserIds.map(id => parseInt(id.replace('user', ''))))
+        : 0;
+      const newUserId = `user${maxUserId + 1}`;
 
+      const newUser = {
+        name,
+        email,
+        password,
+        assignedTasks: {
+          toDo: {},
+          inProgress: {},
+          awaitingFeedback: {},
+          done: {},
+        },
+      };
+
+      
       await fetch(
-        `https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/users/${userId}.json`,
+        `https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData/users/${newUserId}.json`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ name, email, password, userId }),
+          body: JSON.stringify(newUser), 
         }
       );
 

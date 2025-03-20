@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   async function updateTaskStatus(taskId, newStatus) {
-    const url = `https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/users/${user.userId}/assignedTasks/${taskId}.json`;
+    const url = `https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData/${user.userId}/assignedTasks/${taskId}.json`;
     try {
       const response = await fetch(url, {
         method: "PUT",
@@ -107,7 +107,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   const dataUrl =
-    "https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/.json";
+    "https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData.json";
   const data = await fetchData(dataUrl);
 
   if (data?.users?.[user.userId]?.assignedTasks) {

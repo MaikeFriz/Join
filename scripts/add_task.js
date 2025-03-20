@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   try {
     const response = await fetch(
-      "https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/users.json"
+      "https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData.json"
     );
     const data = await response.json();
     // Extrahiert Benutzerwerte aus dem Datenobjekt
@@ -194,7 +194,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   const userId = user.userId;
-  const BASE_URL = `https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/users/${userId}/assignedTasks/todos.json`;
+  const BASE_URL = `https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData/${userId}/assignedTasks/todos.json`;
   const taskForm = document.getElementById("task_form");
 
   taskForm.addEventListener("submit", function (event) {

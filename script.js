@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   const BASE_URL =
-    "https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/users.json";
+    "https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData.json";
 
   Promise.resolve().then(async () => {
     await fetchKanbanData();
