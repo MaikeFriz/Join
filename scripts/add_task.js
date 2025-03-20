@@ -10,13 +10,14 @@ document.addEventListener("DOMContentLoaded", async function () {
       "https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData.json"
     );
     const data = await response.json();
+    
     // Extrahiert Benutzerwerte aus dem Datenobjekt
-    const users = Object.values(data);
+    const users = Object.values(data.users); // Benutzer aus der "users"-Datenstruktur extrahieren
 
     // Durchlauft jeden Benutzer und fügt ihn als <option> zum <select>-Element hinzu
     users.forEach((user) => {
       const option = document.createElement("option");
-      option.value = user.id; // Setzt den Wert der Option auf die Benutzer-ID
+      option.value = user.name; // Setzt den Wert der Option auf den Benutzernamen
       option.textContent = user.name; // Setzt den Text der Option auf den Benutzernamen
       selectElement.appendChild(option); // Fügt die Option zum <select>-Element hinzu
     });
@@ -47,7 +48,7 @@ document.addEventListener("DOMContentLoaded", async function () {
           .replace(/\s+/g, "");
         console.log(assigneesObject);
 
-        //"Löschen"-Button
+        // "Löschen"-Button
         const deleteButton = document.createElement("button");
         deleteButton.textContent = "Löschen";
         deleteButton.addEventListener("click", function () {
@@ -66,65 +67,64 @@ document.addEventListener("DOMContentLoaded", async function () {
 
 // ------------------------Subtasks hinzufügen
 document.addEventListener("DOMContentLoaded", function () {
-    const inputSubtask = document.getElementById("input_subtask");
-    const addIcon = document.getElementById("add_icon");
-    const inputIcons = document.getElementById("input_icons");
-    const checkIcon = document.getElementById("check_icon");
-    const clearIcon = document.getElementById("clear_icon");
-    const displaySubtask = document.getElementById("display_subtasks");
+  const inputSubtask = document.getElementById("input_subtask");
+  const addIcon = document.getElementById("add_icon");
+  const inputIcons = document.getElementById("input_icons");
+  const checkIcon = document.getElementById("check_icon");
+  const clearIcon = document.getElementById("clear_icon");
+  const displaySubtask = document.getElementById("display_subtasks");
 
-    inputSubtask.addEventListener("input", function () {
-        if (inputSubtask.value.trim() !== "") {
-            addIcon.style.display = "none";
-            inputIcons.style.display = "flex";
-        } else {
-            addIcon.style.display = "inline";
-            inputIcons.style.display = "none";
-        }
-    });
+  inputSubtask.addEventListener("input", function () {
+    if (inputSubtask.value.trim() !== "") {
+      addIcon.style.display = "none";
+      inputIcons.style.display = "flex";
+    } else {
+      addIcon.style.display = "inline";
+      inputIcons.style.display = "none";
+    }
+  });
 
-    inputSubtask.addEventListener("blur", function () {
-        if (inputSubtask.value.trim() === "") {
-            addIcon.style.display = "inline";
-            inputIcons.style.display = "none";
-        }
-    });
+  inputSubtask.addEventListener("blur", function () {
+    if (inputSubtask.value.trim() === "") {
+      addIcon.style.display = "inline";
+      inputIcons.style.display = "none";
+    }
+  });
 
-    clearIcon.addEventListener("click", function () {
-        inputSubtask.value = "";
-        addIcon.style.display = "inline";
-        inputIcons.style.display = "none";
-        inputSubtask.focus();
-    });
+  clearIcon.addEventListener("click", function () {
+    inputSubtask.value = "";
+    addIcon.style.display = "inline";
+    inputIcons.style.display = "none";
+    inputSubtask.focus();
+  });
 
-    checkIcon.addEventListener("click", function () {
-        const subtaskText = inputSubtask.value.trim();
+  checkIcon.addEventListener("click", function () {
+    const subtaskText = inputSubtask.value.trim();
 
-        if (subtaskText !== "") {
-            const subtaskElement = document.createElement("li");
-            subtaskElement.className = "subtask-item";
+    if (subtaskText !== "") {
+      const subtaskElement = document.createElement("li");
+      subtaskElement.className = "subtask-item";
 
-            const nameElement = document.createElement("span");
-            nameElement.textContent = subtaskText;
-            subtaskElement.appendChild(nameElement);
+      const nameElement = document.createElement("span");
+      nameElement.textContent = subtaskText;
+      subtaskElement.appendChild(nameElement);
 
-            const deleteButton = document.createElement("button");
-            deleteButton.innerHTML = '<img class="delete_button_subtask" src="./assets/img/delete.svg" alt="Delete" />';
+      const deleteButton = document.createElement("button");
+      deleteButton.innerHTML = '<img class="delete_button_subtask" src="./assets/img/delete.svg" alt="Delete" />';
 
-            deleteButton.addEventListener("click", function () {
-                displaySubtask.removeChild(subtaskElement);
-            });
+      deleteButton.addEventListener("click", function () {
+        displaySubtask.removeChild(subtaskElement);
+      });
 
-            subtaskElement.appendChild(deleteButton);
-            displaySubtask.appendChild(subtaskElement);
+      subtaskElement.appendChild(deleteButton);
+      displaySubtask.appendChild(subtaskElement);
 
-            inputSubtask.value = "";
-            addIcon.style.display = "inline";
-            inputIcons.style.display = "none";
-        }
-    });
+      inputSubtask.value = "";
+      addIcon.style.display = "inline";
+      inputIcons.style.display = "none";
+    }
+  });
 });
-
 
 // --------------------------------Priority auswählen
 document.addEventListener("DOMContentLoaded", function () {
@@ -158,31 +158,30 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-
-//-----------------------------Category auswaehlen
+//-----------------------------Category auswählen
 document.addEventListener("DOMContentLoaded", function() {
-    const dropdown = document.getElementById("dropdown_category");
-    const optionsContainer = document.querySelector(".dropdown_options");
-    const selectedText = document.getElementById("dropdown_selected");
-    const inputField = document.getElementById("category"); // Das versteckte Input-Feld
+  const dropdown = document.getElementById("dropdown_category");
+  const optionsContainer = document.querySelector(".dropdown_options");
+  const selectedText = document.getElementById("dropdown_selected");
+  const inputField = document.getElementById("category"); // Das versteckte Input-Feld
 
-    dropdown.addEventListener("click", function() {
-        dropdown.parentElement.classList.toggle("open");
-    });
+  dropdown.addEventListener("click", function() {
+    dropdown.parentElement.classList.toggle("open");
+  });
 
-    document.querySelectorAll(".custom-dropdown-option").forEach(option => {
-        option.addEventListener("click", function() {
-            selectedText.textContent = this.textContent; // Anzeige aktualisieren
-            inputField.value = this.dataset.value; // Wert in hidden input speichern
-            dropdown.parentElement.classList.remove("open");
-        });
+  document.querySelectorAll(".custom-dropdown-option").forEach(option => {
+    option.addEventListener("click", function() {
+      selectedText.textContent = this.textContent; // Anzeige aktualisieren
+      inputField.value = this.dataset.value; // Wert in hidden input speichern
+      dropdown.parentElement.classList.remove("open");
     });
+  });
 
-    document.addEventListener("click", function(event) {
-        if (!dropdown.parentElement.contains(event.target)) {
-            dropdown.parentElement.classList.remove("open");
-        }
-    });
+  document.addEventListener("click", function(event) {
+    if (!dropdown.parentElement.contains(event.target)) {
+      dropdown.parentElement.classList.remove("open");
+    }
+  });
 });
 
 //--------------------------------------Daten in Datenbank speichern
@@ -200,24 +199,30 @@ document.addEventListener("DOMContentLoaded", function () {
   taskForm.addEventListener("submit", function (event) {
     event.preventDefault();
 
+    // Aufgaben-Daten sammeln
     const title = document.getElementById("input_title").value;
     const description = document.getElementById("input_description").value;
-    const dueDate = document.getElementById("input_date").value;
-    const priority = document.querySelector(".priority_buttons_div .active p").textContent.toLocaleLowerCase();
-    const assignees = assigneesObject;
+    const dueDate = new Date(document.getElementById("input_date").value).toISOString(); // ISO-Format
+    const priority = document.querySelector(".priority_buttons_div .active p").textContent.toLowerCase();
+    const assignees = assigneesObject; // Hier werden die zugewiesenen Benutzer gespeichert
     const label = document.getElementById("category").value; // Wert aus dem versteckten Input holen
     const subtasks = Array.from(document.querySelectorAll("#display_subtasks div span")).map(span => span.textContent);
 
+    // Zusammenstellen des Aufgabenobjekts
     const taskData = {
       title: title,
       description: description,
-      label: label, // Hier bleibt alles gleich
+      label: label,
       assignees: assignees,
-      dueDate: dueDate, //umbenannt weil hier Fälligkeitstermin gemeint ist
+      dueDate: dueDate,
       priority: priority,
       subtasks: subtasks,
     };
 
+    // Debugging: Ausgabe der gesammelten Task-Daten
+    console.log("Task Data: ", taskData);
+
+    // Anfrage an Firebase senden
     fetch(BASE_URL, {
       method: "POST",
       headers: {
@@ -226,14 +231,20 @@ document.addEventListener("DOMContentLoaded", function () {
       body: JSON.stringify(taskData),
     })
     .then((response) => {
+      console.log(response); // Zeigt die Antwort von Firebase an
+
+      // Wenn die Antwort ok ist, zum Board weiterleiten
       if (response.ok) {
         window.location.href = "./board.html";
       } else {
         console.error("Fehler beim Hinzufügen des Tasks:", response.statusText);
+        alert("Es gab einen Fehler beim Hinzufügen des Tasks. Bitte versuche es später erneut.");
       }
     })
     .catch((error) => {
+      // Fehlerbehandlung, falls Fetch fehlschlägt
       console.error("Fehler beim Senden der Daten:", error);
+      alert("Es gab ein Problem beim Senden der Task-Daten. Bitte versuche es später erneut.");
     });
   });
 });
