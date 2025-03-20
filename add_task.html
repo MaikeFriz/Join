@@ -164,16 +164,19 @@
                   </div>
                   <input type="hidden" id="category" name="category" required/>
               </div>
-         
               <p>Subtasks</p>
               <label class="input_label">
                 <input id="input_subtask" type="text" placeholder="Add new subtask" />
                 <button type="button" id="button_add_subtask">
-                  <img src="./assets/img/add_icon.svg" alt="Add" />
+                  <img id="add_icon" src="./assets/img/add_icon.svg" alt="Add" />
+                  <div id="input_icons" class="input-icons">
+                    <img id="clear_icon" src="./assets/img/clear_symbol.svg" alt="Clear" />
+                    <div class="separator_subtasks">|</div>
+                    <img id="check_icon" src="./assets/img/check_dark.svg" alt="Check" />
+                  </div>
                 </button>
               </label>
-              <div id="display_subtasks" class="display_subtasks"></div>
-
+              <ul id="display_subtasks" class="display_subtasks"></ul>
             </div>
           </div>
           <div class="info_and_button_div">

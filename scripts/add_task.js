@@ -66,46 +66,65 @@ document.addEventListener("DOMContentLoaded", async function () {
 
 // ------------------------Subtasks hinzufügen
 document.addEventListener("DOMContentLoaded", function () {
-  const inputSubtask = document.getElementById("input_subtask");
-  const addButton = document.getElementById("button_add_subtask");
-  const displaySubtask = document.getElementById("display_subtasks");
+    const inputSubtask = document.getElementById("input_subtask");
+    const addIcon = document.getElementById("add_icon");
+    const inputIcons = document.getElementById("input_icons");
+    const checkIcon = document.getElementById("check_icon");
+    const clearIcon = document.getElementById("clear_icon");
+    const displaySubtask = document.getElementById("display_subtasks");
 
-  // Überprüft, ob das Anzeigeelement gefunden wurde
-  if (displaySubtask) {
-    addButton.addEventListener("click", function () {
-      const subtaskText = inputSubtask.value.trim();
+    inputSubtask.addEventListener("input", function () {
+        if (inputSubtask.value.trim() !== "") {
+            addIcon.style.display = "none";
+            inputIcons.style.display = "flex";
+        } else {
+            addIcon.style.display = "inline";
+            inputIcons.style.display = "none";
+        }
+    });
 
-      if (subtaskText !== "") {
-        const subtaskElement = document.createElement("div");
-        subtaskElement.className = "subtask-item";
+    inputSubtask.addEventListener("blur", function () {
+        if (inputSubtask.value.trim() === "") {
+            addIcon.style.display = "inline";
+            inputIcons.style.display = "none";
+        }
+    });
 
-        // Erstelle ein <span>-Element, um den Subtask-Text anzuzeigen
-        const nameElement = document.createElement("span");
-        nameElement.textContent = subtaskText;
-        subtaskElement.appendChild(nameElement);
-
-        // Erstelle einen "Löschen"-Button
-        const deleteButton = document.createElement("button");
-        deleteButton.textContent = "Löschen";
-        deleteButton.addEventListener("click", function () {
-          displaySubtask.removeChild(subtaskElement);
-        });
-        subtaskElement.appendChild(deleteButton);
-        displaySubtask.appendChild(subtaskElement);
+    clearIcon.addEventListener("click", function () {
         inputSubtask.value = "";
-      }
+        addIcon.style.display = "inline";
+        inputIcons.style.display = "none";
+        inputSubtask.focus();
     });
 
-    // Fügt einen Event-Listener hinzu, der ausgelöst wird, wenn die "Enter"-Taste im <input>-Element gedrückt wird
-    inputSubtask.addEventListener("keydown", function (event) {
-      if (event.key === "Enter") {
-        addButton.click();
-      }
+    checkIcon.addEventListener("click", function () {
+        const subtaskText = inputSubtask.value.trim();
+
+        if (subtaskText !== "") {
+            const subtaskElement = document.createElement("li");
+            subtaskElement.className = "subtask-item";
+
+            const nameElement = document.createElement("span");
+            nameElement.textContent = subtaskText;
+            subtaskElement.appendChild(nameElement);
+
+            const deleteButton = document.createElement("button");
+            deleteButton.innerHTML = '<img class="delete_button_subtask" src="./assets/img/delete.svg" alt="Delete" />';
+
+            deleteButton.addEventListener("click", function () {
+                displaySubtask.removeChild(subtaskElement);
+            });
+
+            subtaskElement.appendChild(deleteButton);
+            displaySubtask.appendChild(subtaskElement);
+
+            inputSubtask.value = "";
+            addIcon.style.display = "inline";
+            inputIcons.style.display = "none";
+        }
     });
-  } else {
-    console.error("display_subtasks Element nicht gefunden!");
-  }
 });
+
 
 // --------------------------------Priority auswählen
 document.addEventListener("DOMContentLoaded", function () {

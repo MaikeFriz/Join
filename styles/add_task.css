@@ -25,7 +25,7 @@ body {
 }
 
 .input_label input {
-    padding-right: 40px;
+    padding-right: 16px;
     font-size: 16px;
     width: 100%;
     border: solid 1px grey;
