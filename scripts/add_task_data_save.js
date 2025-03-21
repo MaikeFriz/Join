@@ -119,7 +119,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       let taskForUser = { taskId: taskId };
   
       fetch(`${BASE_URL}users/${userId}/assignedTasks/toDo.json`, {
-        method: "POST",
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },

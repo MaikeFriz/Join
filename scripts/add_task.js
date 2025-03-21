@@ -17,7 +17,11 @@ async function initDropdown() {
 async function fetchUsers() {
     const response = await fetch("https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData.json");
     const data = await response.json();
-    return Object.values(data.users);
+    // Extrahiert die Benutzer und deren IDs aus dem Datenbank-Objekt
+    return Object.entries(data.users).map(([userId, user]) => ({
+        id: userId,  // Der Benutzer-Schlüssel ist die ID (z.B. "user1")
+        name: user.name
+    }));
 }
 
 // Erstellt die Dropdown-Optionen basierend auf den Benutzern
@@ -27,8 +31,9 @@ function createDropdownOptions(users) {
         const option = document.createElement("div");
         option.classList.add("custom-dropdown-option");
         option.dataset.value = user.name;
+        option.dataset.userId = user.id; // Speichern der Benutzer-ID in dataset
         option.innerHTML = templateDropdownOption(user);
-        option.addEventListener("click", () => selectAssignee(user.name));
+        option.addEventListener("click", () => selectAssignee(user.id)); // Übergibt die ID direkt
         dropdownOptions.appendChild(option);
     });
 }
@@ -42,48 +47,44 @@ function templateDropdownOption(user) {
             <span class="dropdown-item">${user.name}</span>
         </div>    
         <img src="./assets/img/checkbox_unchecked.svg" alt="">
-    </di>`;
+    </div>`;
 }
 
-
 // Wählt eine Person aus der Liste aus und fügt sie hinzu
-function selectAssignee(selectedName) {
-    if (!assigneesObject[selectedName]) {
-        assigneesObject[selectedName] = formatAssigneeKey(selectedName);
-        addAssigneeElement(selectedName);
+async function selectAssignee(userId) {
+    const users = await fetchUsers(); // Holen der Benutzerliste
+    const selectedUser = users.find(user => user.id === userId); // Verwende direkt die ID
+
+    if (!assigneesObject[selectedUser.id]) {
+        // Speichern der Benutzer-ID und Name im assigneesObject
+        assigneesObject[selectedUser.id] = { id: selectedUser.id, name: selectedUser.name };
+        addAssigneeElement(selectedUser);
     }
     resetDropdownSelection();
 }
 
-// Formatiert den Namen in eine kompakte Schreibweise
-function formatAssigneeKey(name) {
-    return name.toLowerCase()
-        .replace(/\s(.)/g, match => match.toUpperCase())
-        .replace(/\s+/g, "");
-}
-
 // Erstellt das Assignee-Element und zeigt es in der UI an
-function addAssigneeElement(name) {
+function addAssigneeElement(user) {
     const showAssigneesDiv = document.getElementById("show_assignees");
     const assigneeElement = document.createElement("div");
     assigneeElement.className = "assignee-item";
     
     const nameElement = document.createElement("span");
-    nameElement.textContent = name;
+    nameElement.textContent = user.name; // Benutzername
     assigneeElement.appendChild(nameElement);
     
     const deleteButton = document.createElement("button");
     deleteButton.textContent = "Delete";
-    deleteButton.addEventListener("click", () => removeAssignee(name, assigneeElement));
+    deleteButton.addEventListener("click", () => removeAssignee(user.id, assigneeElement));
     assigneeElement.appendChild(deleteButton);
     
     showAssigneesDiv.appendChild(assigneeElement);
 }
 
 // Entfernt einen ausgewählten Assignee aus der Liste
-function removeAssignee(name, element) {
+function removeAssignee(userId, element) {
     document.getElementById("show_assignees").removeChild(element);
-    delete assigneesObject[name];
+    delete assigneesObject[userId]; // Benutzer-ID wird verwendet, um den Assignee zu entfernen
 }
 
 // Setzt die Dropdown-Anzeige zurück
@@ -130,8 +131,6 @@ function closeDropdown() {
     document.getElementById("dropdown_options_assignee").classList.remove("show");
     document.getElementById("dropdown_assigned_to").classList.remove("dropdown_open");
 }
-
-
 
 // ------------------------ Add subtasks
 document.addEventListener("DOMContentLoaded", function () {
@@ -194,7 +193,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-// --------------------------------Select priority
+//-------------------------------- Select priority
 document.addEventListener("DOMContentLoaded", function () {
   const urgentButton = document.getElementById("urgent_button");
   const mediumButton = document.getElementById("medium_button");
@@ -226,7 +225,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-//-----------------------------Select category
+//-------------------------------- Select category
 document.addEventListener("DOMContentLoaded", function() {
   const dropdown = document.getElementById("dropdown_category");
   const optionsContainer = document.querySelector(".dropdown_options");
