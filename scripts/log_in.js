@@ -28,13 +28,18 @@ document.addEventListener("DOMContentLoaded", () => {
     )
       .then((response) => response.json())
       .then((data) => {
-        const user = Object.values(data).find(
-          (user) => user.email === email && user.password === password
+        
+        const userKey = Object.keys(data).find(
+          (key) => data[key].email === email && data[key].password === password
         );
 
-        if (user) {
+        if (userKey) {
+          const user = data[userKey];
           errorMessage.textContent = "";
+
+          localStorage.setItem("userId", userKey);
           localStorage.setItem("loggedInUser", JSON.stringify(user));
+
           window.location.href = "./summary.html";
         } else {
           errorMessage.textContent = "Invalid email or password.";
