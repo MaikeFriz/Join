@@ -1,4 +1,3 @@
-let dataArray = [];
 
 function onloadFunc() {
   getUserName();
@@ -26,10 +25,10 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function getDataContent(kanbanData) {
-    dataArray = Object.values(kanbanData);
-    console.log(dataArray);
-    for (let dataIndex = 0; dataIndex < dataArray.length; dataIndex++) {
-      let userDataContent = dataArray[dataIndex];
+    let userData = Object.values(kanbanData.users);
+    console.log(userData);
+    for (let dataIndex = 0; dataIndex < userData.length; dataIndex++) {
+      let userDataContent = userData[dataIndex];
       console.log(`User: ${userDataContent.name}`);
       getDataContentHTML(userDataContent);
     }
