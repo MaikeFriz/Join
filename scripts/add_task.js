@@ -1,70 +1,137 @@
 let assigneesObject = {};
 
-// -------------------- Add contacts as a dropdown
-document.addEventListener("DOMContentLoaded", async function () {
-  const selectElement = document.getElementById("input_assigned_to");
-  const showAssigneesDiv = document.getElementById("show_assignees");
+document.addEventListener("DOMContentLoaded", initDropdown);
 
-  try {
-    const response = await fetch(
-      "https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData.json"
-    );
+// Initialisiert das Dropdown, lädt die Benutzer und setzt Events
+async function initDropdown() {
+    try {
+        const users = await fetchUsers();
+        createDropdownOptions(users);
+        setupDropdownEvents();
+    } catch (error) {
+        console.error("Error loading users:", error);
+    }
+}
+
+// Lädt die Benutzer aus der Firebase-Datenbank
+async function fetchUsers() {
+    const response = await fetch("https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData.json");
     const data = await response.json();
+    return Object.values(data.users);
+}
+
+// Erstellt die Dropdown-Optionen basierend auf den Benutzern
+function createDropdownOptions(users) {
+    const dropdownOptions = document.getElementById("dropdown_options_assignee");
+    users.forEach(user => {
+        const option = document.createElement("div");
+        option.classList.add("custom-dropdown-option");
+        option.dataset.value = user.name;
+        option.innerHTML = templateDropdownOption(user);
+        option.addEventListener("click", () => selectAssignee(user.name));
+        dropdownOptions.appendChild(option);
+    });
+}
+
+// Gibt das HTML-Template für eine einzelne Dropdown-Option zurück
+function templateDropdownOption(user) {
+    return `
+    <div class="option_row">
+        <div class="name_initials_div">
+            <span>...</span>
+            <span class="dropdown-item">${user.name}</span>
+        </div>    
+        <img src="./assets/img/checkbox_unchecked.svg" alt="">
+    </di>`;
+}
+
+
+// Wählt eine Person aus der Liste aus und fügt sie hinzu
+function selectAssignee(selectedName) {
+    if (!assigneesObject[selectedName]) {
+        assigneesObject[selectedName] = formatAssigneeKey(selectedName);
+        addAssigneeElement(selectedName);
+    }
+    resetDropdownSelection();
+}
+
+// Formatiert den Namen in eine kompakte Schreibweise
+function formatAssigneeKey(name) {
+    return name.toLowerCase()
+        .replace(/\s(.)/g, match => match.toUpperCase())
+        .replace(/\s+/g, "");
+}
+
+// Erstellt das Assignee-Element und zeigt es in der UI an
+function addAssigneeElement(name) {
+    const showAssigneesDiv = document.getElementById("show_assignees");
+    const assigneeElement = document.createElement("div");
+    assigneeElement.className = "assignee-item";
     
-    // Extracts users from the data object
-    const users = Object.values(data.users); // Extract users from the "users" data structure
+    const nameElement = document.createElement("span");
+    nameElement.textContent = name;
+    assigneeElement.appendChild(nameElement);
+    
+    const deleteButton = document.createElement("button");
+    deleteButton.textContent = "Delete";
+    deleteButton.addEventListener("click", () => removeAssignee(name, assigneeElement));
+    assigneeElement.appendChild(deleteButton);
+    
+    showAssigneesDiv.appendChild(assigneeElement);
+}
 
-    // Loops through each user and adds them as an <option> to the <select> element
-    users.forEach((user) => {
-      const option = document.createElement("option");
-      option.value = user.name; // Sets the option's value to the user's name
-      option.textContent = user.name; // Sets the option's text to the user's name
-      selectElement.appendChild(option); // Appends the option to the <select> element
-    });
+// Entfernt einen ausgewählten Assignee aus der Liste
+function removeAssignee(name, element) {
+    document.getElementById("show_assignees").removeChild(element);
+    delete assigneesObject[name];
+}
 
-    // Adds an event listener that is triggered when the selection changes in the <select> element
-    selectElement.addEventListener("change", function () {
-      // Gets the selected option
-      const selectedOption = selectElement.options[selectElement.selectedIndex];
-      // Gets the text content of the selected option (user's name)
-      const selectedName = selectedOption.textContent;
+// Setzt die Dropdown-Anzeige zurück
+function resetDropdownSelection() {
+    document.getElementById("dropdown_selected_assignee").textContent = "Select a person";
+    document.getElementById("assigned_to").value = "";
+    closeDropdown();
+}
 
-      // Checks if the placeholder option is not selected
-      if (selectedOption.value !== "") {
-        // Creates a <div> element to display the selected contact
-        const assigneeElement = document.createElement("div");
-        assigneeElement.className = "assignee-item";
+// Setzt die Event-Listener für das Dropdown
+function setupDropdownEvents() {
+    const dropdown = document.getElementById("dropdown_assigned_to");
+    dropdown.addEventListener("click", toggleDropdown);
+    document.addEventListener("click", closeDropdownOnClickOutside);
+}
 
-        // Creates a <span> element to display the username
-        const nameElement = document.createElement("span");
-        nameElement.textContent = selectedName;
-        assigneeElement.appendChild(nameElement); // Appends the <span> to the <div>
+// Öffnet oder schließt das Dropdown
+function toggleDropdown(event) {
+    event.stopPropagation();
+    const dropdown = document.getElementById("dropdown_assigned_to");
+    const dropdownOptions = document.getElementById("dropdown_options_assignee");
+    
+    const isOpen = dropdownOptions.classList.contains("show");
+    document.querySelectorAll(".dropdown_options_assignee").forEach(el => el.classList.remove("show"));
+    document.querySelectorAll(".dropdown_open").forEach(el => el.classList.remove("dropdown_open"));
+    
+    if (!isOpen) {
+        dropdownOptions.classList.add("show");
+        dropdown.classList.add("dropdown_open");
+    }
+}
 
-        assigneesObject[selectedName] = selectedName
-          .toLowerCase()
-          .replace(/\s(.)/g, (firstLetterFromLastname) =>
-            firstLetterFromLastname.toUpperCase()
-          )
-          .replace(/\s+/g, "");
-        console.log(assigneesObject);
+// Schließt das Dropdown, wenn außerhalb geklickt wird
+function closeDropdownOnClickOutside(event) {
+    const dropdown = document.getElementById("dropdown_assigned_to");
+    const dropdownOptions = document.getElementById("dropdown_options_assignee");
+    if (!dropdown.contains(event.target) && !dropdownOptions.contains(event.target)) {
+        closeDropdown();
+    }
+}
 
-        // "Delete" button
-        const deleteButton = document.createElement("button");
-        deleteButton.textContent = "Delete";
-        deleteButton.addEventListener("click", function () {
-          showAssigneesDiv.removeChild(assigneeElement);
-          delete assigneesObject[selectedName]; // Entfernt den Assignee aus dem Objekt
-        });
-        assigneeElement.appendChild(deleteButton);
-        showAssigneesDiv.appendChild(assigneeElement);
-        // Resets the <select> element to the placeholder
-        selectElement.selectedIndex = 0;
-      }
-    });
-  } catch (error) {
-    console.error("Error loading users:", error);
-  }
-});
+// Schließt das Dropdown-Menü
+function closeDropdown() {
+    document.getElementById("dropdown_options_assignee").classList.remove("show");
+    document.getElementById("dropdown_assigned_to").classList.remove("dropdown_open");
+}
+
+
 
 // ------------------------ Add subtasks
 document.addEventListener("DOMContentLoaded", function () {
