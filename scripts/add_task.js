@@ -52,33 +52,33 @@ function templateDropdownOption(user) {
 
 // Wählt eine Person aus der Liste aus und fügt sie hinzu
 async function selectAssignee(userId) {
-  const users = await fetchUsers(); // Holen der Benutzerliste
-  const selectedUser = users.find(user => user.id === userId); // Verwende direkt die ID
+    const users = await fetchUsers(); // Holen der Benutzerliste
+    const selectedUser = users.find(user => user.id === userId); // Verwende direkt die ID
 
-  if (!assigneesObject[selectedUser.id]) {
-      // Speichern der Benutzer-ID und Name im assigneesObject
-      assigneesObject[selectedUser.id] = { id: selectedUser.id, name: selectedUser.name };
-      addAssigneeElement(selectedUser);
-  }
-  resetDropdownSelection();
+    if (!assigneesObject[selectedUser.id]) {
+        // Speichern der Benutzer-ID und Name im assigneesObject
+        assigneesObject[selectedUser.id] = { id: selectedUser.id, name: selectedUser.name };
+        addAssigneeElement(selectedUser);
+    }
+    resetDropdownSelection();
 }
 
 // Erstellt das Assignee-Element und zeigt es in der UI an
 function addAssigneeElement(user) {
-  const showAssigneesDiv = document.getElementById("show_assignees");
-  const assigneeElement = document.createElement("div");
-  assigneeElement.className = "assignee-item";
-
-  const nameElement = document.createElement("span");
-  nameElement.textContent = user.name; // Benutzername
-  assigneeElement.appendChild(nameElement);
-
-  const deleteButton = document.createElement("button");
-  deleteButton.textContent = "Delete";
-  deleteButton.addEventListener("click", () => removeAssignee(user.id, assigneeElement));
-  assigneeElement.appendChild(deleteButton);
-
-  showAssigneesDiv.appendChild(assigneeElement);
+    const showAssigneesDiv = document.getElementById("show_assignees");
+    const assigneeElement = document.createElement("div");
+    assigneeElement.className = "assignee-item";
+    
+    const nameElement = document.createElement("span");
+    nameElement.textContent = user.name; // Benutzername
+    assigneeElement.appendChild(nameElement);
+    
+    const deleteButton = document.createElement("button");
+    deleteButton.textContent = "Delete";
+    deleteButton.addEventListener("click", () => removeAssignee(user.id, assigneeElement));
+    assigneeElement.appendChild(deleteButton);
+    
+    showAssigneesDiv.appendChild(assigneeElement);
 }
 
 // Entfernt einen ausgewählten Assignee aus der Liste
@@ -232,9 +232,17 @@ document.addEventListener("DOMContentLoaded", function() {
   const selectedText = document.getElementById("dropdown_selected");
   const inputField = document.getElementById("category"); // The hidden input field
 
-    dropdown.addEventListener("click", function () {
-        dropdown.parentElement.classList.toggle("open");
+  dropdown.addEventListener("click", function() {
+    dropdown.parentElement.classList.toggle("open");
+  });
+
+  document.querySelectorAll(".custom-dropdown-option").forEach(option => {
+    option.addEventListener("click", function() {
+      selectedText.textContent = this.textContent; // Update display
+      inputField.value = this.dataset.value; // Save value in hidden input
+      dropdown.parentElement.classList.remove("open");
     });
+  });
 
   document.addEventListener("click", function(event) {
     if (!dropdown.parentElement.contains(event.target)) {
