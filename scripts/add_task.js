@@ -1,7 +1,6 @@
 let assigneesObject = {};
 
 document.addEventListener("DOMContentLoaded", initDropdown);
-
 async function initDropdown() {
   try {
     const users = await fetchUsers();
@@ -21,9 +20,10 @@ async function fetchUsers() {
   }));
 }
 
+// Erstellt Dropdown-Optionen.
 function createDropdownOptions(users) {
   const dropdownOptions = document.getElementById("dropdown_options_assignee");
-  dropdownOptions.innerHTML = ""; // Sicherstellen, dass keine doppelten Einträge entstehen
+  dropdownOptions.innerHTML = ""; 
 
   users.forEach((user) => {
     const option = createDropdownOptionTemplate(user);
@@ -31,13 +31,13 @@ function createDropdownOptions(users) {
   });
 }
 
+//HTML-Template für einzelne Dropdown-Option.
 function createDropdownOptionTemplate(user) {
   const option = document.createElement("div");
   option.classList.add("custom-dropdown-option");
   option.dataset.value = user.name;
   option.dataset.userId = user.id;
 
-  // Standardbild für nicht gewählte Nutzer
   const isChecked = assigneesObject[user.id] ? "checked_checkbox.svg" : "checkbox_unchecked.svg";
 
   // Initialen berechnen
@@ -57,6 +57,7 @@ function createDropdownOptionTemplate(user) {
   return option;
 }
 
+// Berechnet die Initialen eines Nutzernamens.
 function getAssigneeInitials(assignee) {
   let assigneeInitials = "";
   if (assignee) {
@@ -70,6 +71,7 @@ function getAssigneeInitials(assignee) {
   return assigneeInitials;
 }
 
+// Fügt einen Nutzer zu oder entfernt ihn aus der Liste der zugewiesenen Nutzer.
 function toggleAssignee(userId, userName, optionElement) {
   const imgElement = optionElement.querySelector(".checkbox-img");
 
@@ -86,6 +88,7 @@ function toggleAssignee(userId, userName, optionElement) {
   }
 }
 
+// Fügt ein Nutzer-Element zum "show_assignees"-Div hinzu.
 function addAssigneeElement(userId, userName) {
   const showAssigneesDiv = document.getElementById("show_assignees");
 
@@ -93,39 +96,37 @@ function addAssigneeElement(userId, userName) {
 
   const assigneeTemplate = createAssigneeTemplate(userId, userName);
   showAssigneesDiv.innerHTML += assigneeTemplate;
-
-  // Event-Listener für den Löschen-Button hinzufügen
-  const deleteButton = document.getElementById(`assignee-${userId}`).querySelector(".delete-assignee-button");
-  deleteButton.addEventListener("click", () => removeAssignee(userId));
 }
 
+// HTML-Template für Nutzer-Element.
 function createAssigneeTemplate(userId, userName) {
   // Initialen berechnen
   const initials = getAssigneeInitials(userName);
 
-  // Erste Buchstabe des Vornamens ermitteln
+  // Erste Buchstabe Vorname
   const firstLetter = userName.charAt(0).toLowerCase(); // Ersten Buchstaben klein schreiben für CSS-Klassen
 
   return `
     <div class="assignee-item" id="assignee-${userId}">
       <div class="name_initials_div">
-        <span class="initials-circle">${initials}</span> 
+        <span class="initials-circle ${firstLetter}">${initials}</span> 
         <span class="dropdown-item">${userName}</span>
       </div>
-      <button class="delete-assignee-button">
+      <button class="delete-assignee-button" onclick="removeAssignee('${userId}')">
         <img src="./assets/img/delete.svg" alt="Delete" />
       </button>
     </div>
   `;
 }
 
+// Loeschen-Button
 function removeAssignee(userId) {
   delete assigneesObject[userId];
 
   const assigneeElement = document.getElementById(`assignee-${userId}`);
   if (assigneeElement) assigneeElement.remove();
 
-  // Bild im Dropdown zurücksetzen
+  // Checkbox im Dropdown zurücksetzen
   const dropdownOptions = document.querySelectorAll(".custom-dropdown-option");
   dropdownOptions.forEach((option) => {
     if (option.dataset.userId === userId) {
@@ -134,27 +135,31 @@ function removeAssignee(userId) {
   });
 }
 
+// Oeffnen/Schliesen Dropdown-Menü.
 function setupDropdownEvents() {
   const dropdown = document.getElementById("dropdown_assigned_to");
   dropdown.addEventListener("click", toggleDropdown);
   document.addEventListener("click", closeDropdownOnClickOutside);
 }
 
+// Schaltet die Sichtbarkeit des Dropdown-Menüs um.
 function toggleDropdown(event) {
   event.stopPropagation();
   const dropdown = document.getElementById("dropdown_assigned_to");
   const dropdownOptions = document.getElementById("dropdown_options_assignee");
 
   const isOpen = dropdownOptions.classList.contains("show");
-  document.querySelectorAll(".dropdown_options_assignee").forEach((el) => el.classList.remove("show"));
-  document.querySelectorAll(".dropdown_open").forEach((el) => el.classList.remove("dropdown_open"));
 
   if (!isOpen) {
     dropdownOptions.classList.add("show");
     dropdown.classList.add("dropdown_open");
+  } else {
+    dropdownOptions.classList.remove("show");
+    dropdown.classList.remove("dropdown_open");
   }
 }
 
+// Schließt das Dropdown-Menü, wenn außerhalb geklickt wird.
 function closeDropdownOnClickOutside(event) {
   const dropdown = document.getElementById("dropdown_assigned_to");
   const dropdownOptions = document.getElementById("dropdown_options_assignee");
@@ -163,6 +168,7 @@ function closeDropdownOnClickOutside(event) {
   }
 }
 
+// Schließt das Dropdown-Menü.
 function closeDropdown() {
   document.getElementById("dropdown_options_assignee").classList.remove("show");
   document.getElementById("dropdown_assigned_to").classList.remove("dropdown_open");
@@ -170,103 +176,157 @@ function closeDropdown() {
 
 // ------------------------ Add subtasks
 document.addEventListener("DOMContentLoaded", function () {
+  initializeSubtaskListeners();
+});
+
+//Event-Listener Hinzufügen Subtasks.
+function initializeSubtaskListeners() {
   const inputSubtask = document.getElementById("input_subtask");
   const addIcon = document.getElementById("add_icon");
   const inputIcons = document.getElementById("input_icons");
   const checkIcon = document.getElementById("check_icon");
   const clearIcon = document.getElementById("clear_icon");
-  const displaySubtask = document.getElementById("display_subtasks");
 
-  inputSubtask.addEventListener("input", function () {
-    if (inputSubtask.value.trim() !== "") {
-      addIcon.style.display = "none";
-      inputIcons.style.display = "flex";
-    } else {
-      addIcon.style.display = "inline";
-      inputIcons.style.display = "none";
-    }
-  });
+  setupInputSubtaskEvents(inputSubtask, addIcon, inputIcons);
+  setupClearIconEvent(clearIcon, inputSubtask, addIcon, inputIcons);
+  setupCheckIconEvent(checkIcon);
+}
 
-  inputSubtask.addEventListener("blur", function () {
-    if (inputSubtask.value.trim() === "") {
-      addIcon.style.display = "inline";
-      inputIcons.style.display = "none";
-    }
-  });
+// Event-Listener Eingabefeld des Subtasks
+function setupInputSubtaskEvents(inputSubtask, addIcon, inputIcons) {
+  inputSubtask.addEventListener("input", () => toggleInputIcons(inputSubtask, addIcon, inputIcons));
+  inputSubtask.addEventListener("blur", () => resetInputIconsOnBlur(inputSubtask, addIcon, inputIcons));
+}
 
-  clearIcon.addEventListener("click", function () {
-    inputSubtask.value = "";
+// Zeigt/versteckt Icons Hinzufügen/Löschen 
+function toggleInputIcons(inputSubtask, addIcon, inputIcons) {
+  if (inputSubtask.value.trim() !== "") {
+    addIcon.style.display = "none";
+    inputIcons.style.display = "flex";
+  } else {
     addIcon.style.display = "inline";
     inputIcons.style.display = "none";
-    inputSubtask.focus();
-  });
+  }
+}
 
-  checkIcon.addEventListener("click", function () {
-    const subtaskText = inputSubtask.value.trim();
+// Add-Icon wenn Eingabefeld leer
+function resetInputIconsOnBlur(inputSubtask, addIcon, inputIcons) {
+  if (inputSubtask.value.trim() === "") {
+    addIcon.style.display = "inline";
+    inputIcons.style.display = "none";
+  }
+}
 
-    if (subtaskText !== "") {
-      const subtaskElement = document.createElement("li");
-      subtaskElement.className = "subtask-item";
+// Event-Listener Löschen-Icon.
+function setupClearIconEvent(clearIcon, inputSubtask, addIcon, inputIcons) {
+  clearIcon.addEventListener("click", () => clearSubtaskInput(inputSubtask, addIcon, inputIcons));
+}
 
-      const nameElement = document.createElement("span");
-      nameElement.textContent = subtaskText;
-      subtaskElement.appendChild(nameElement);
+// Löscht Inhalt Eingabefelds und zeigt Add-Icon.
+function clearSubtaskInput(inputSubtask, addIcon, inputIcons) {
+  inputSubtask.value = "";
+  addIcon.style.display = "inline";
+  inputIcons.style.display = "none";
+  inputSubtask.focus();
+}
 
-      const deleteButton = document.createElement("button");
-      deleteButton.innerHTML = '<img class="delete_button_subtask" src="./assets/img/delete.svg" alt="Delete" />';
+// Event-Listener Check-Icon.
+function setupCheckIconEvent(checkIcon) {
+  checkIcon.addEventListener("click", () => addNewSubtask());
+}
 
-      deleteButton.addEventListener("click", function () {
-        displaySubtask.removeChild(subtaskElement);
-      });
+// Fügt neuen Subtask zur Liste hinzu, wenn Check-Icon geklickt
+function addNewSubtask() {
+  const inputSubtask = document.getElementById("input_subtask");
+  const displaySubtask = document.getElementById("display_subtasks");
+  const addIcon = document.getElementById("add_icon");
+  const inputIcons = document.getElementById("input_icons");
 
-      subtaskElement.appendChild(deleteButton);
-      displaySubtask.appendChild(subtaskElement);
+  const subtaskText = inputSubtask.value.trim();
 
-      inputSubtask.value = "";
-      addIcon.style.display = "inline";
-      inputIcons.style.display = "none";
-    }
-  });
-});
+  if (subtaskText !== "") {
+    const subtaskElement = createSubtaskElement(subtaskText, displaySubtask);
+    displaySubtask.appendChild(subtaskElement);
+    resetSubtaskInput(inputSubtask, addIcon, inputIcons);
+  }
+}
+
+// Erstellt Subtask-Element.
+function createSubtaskElement(subtaskText, displaySubtask) {
+  const subtaskElement = document.createElement("li");
+  subtaskElement.className = "subtask-item";
+
+  const nameElement = document.createElement("span");
+  nameElement.textContent = subtaskText;
+  subtaskElement.appendChild(nameElement);
+
+  const deleteButton = createDeleteButton(displaySubtask, subtaskElement);
+  subtaskElement.appendChild(deleteButton);
+
+  return subtaskElement;
+}
+
+// Erstellt Löschen-Button für Subtask-Element.
+function createDeleteButton(displaySubtask, subtaskElement) {
+  const deleteButton = document.createElement("button");
+  deleteButton.innerHTML = '<img class="delete_button_subtask" src="./assets/img/delete.svg" alt="Delete" />';
+  deleteButton.addEventListener("click", () => displaySubtask.removeChild(subtaskElement));
+  return deleteButton;
+}
+
+// Setzt Eingabefeld zurück und zeigt Add-Icon.
+function resetSubtaskInput(inputSubtask, addIcon, inputIcons) {
+  inputSubtask.value = "";
+  addIcon.style.display = "inline";
+  inputIcons.style.display = "none";
+}
 
 //-------------------------------- Select priority
 document.addEventListener("DOMContentLoaded", function () {
+  initializePrioritySelection();
+});
+
+function initializePrioritySelection() {
   const urgentButton = document.getElementById("urgent_button");
   const mediumButton = document.getElementById("medium_button");
   const lowButton = document.getElementById("low_button");
 
-  // Variable to track the currently active button
-  let activeButton = null;
+  setupPriorityButtons(urgentButton, mediumButton, lowButton);
+}
 
-  function handleButtonClick(button) {
-    // If another button is active, remove the "active" class
-    if (activeButton && activeButton !== button) {
-      activeButton.classList.remove("active");
+function setupPriorityButtons(urgentButton, mediumButton, lowButton) {
+  urgentButton.addEventListener("click", () => handlePriorityClick(urgentButton));
+  mediumButton.addEventListener("click", () => handlePriorityClick(mediumButton));
+  lowButton.addEventListener("click", () => handlePriorityClick(lowButton));
+}
+
+// Klick auf Prioritätsbutton.
+function handlePriorityClick(clickedButton) {
+  removeActiveClassFromOtherButtons(clickedButton);
+  setActiveButton(clickedButton);
+}
+
+// Entfernt aktive Klasse von anderen Prioritätsbuttons.
+function removeActiveClassFromOtherButtons(clickedButton) {
+  const allButtons = document.querySelectorAll("#urgent_button, #medium_button, #low_button");
+  allButtons.forEach(button => {
+    if (button !== clickedButton && button.classList.contains("active")) {
+      button.classList.remove("active");
     }
-
-    button.classList.add("active");
-    activeButton = button;
-  }
-
-  urgentButton.addEventListener("click", function () {
-    handleButtonClick(urgentButton);
   });
+}
 
-  mediumButton.addEventListener("click", function () {
-    handleButtonClick(mediumButton);
-  });
-
-  lowButton.addEventListener("click", function () {
-    handleButtonClick(lowButton);
-  });
-});
+// Setzt angeklickten Button aktiv.
+function setActiveButton(clickedButton) {
+  clickedButton.classList.add("active");
+}
 
 //-------------------------------- Select category
 document.addEventListener("DOMContentLoaded", function() {
   const dropdown = document.getElementById("dropdown_category");
   const optionsContainer = document.querySelector(".dropdown_options");
   const selectedText = document.getElementById("dropdown_selected");
-  const inputField = document.getElementById("category"); // The hidden input field
+  const inputField = document.getElementById("category"); 
 
   dropdown.addEventListener("click", function() {
     dropdown.parentElement.classList.toggle("open");
@@ -274,8 +334,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
   document.querySelectorAll(".custom-dropdown-option").forEach(option => {
     option.addEventListener("click", function() {
-      selectedText.textContent = this.textContent; // Update display
-      inputField.value = this.dataset.value; // Save value in hidden input
+      selectedText.textContent = this.textContent; 
+      inputField.value = this.dataset.value;
       dropdown.parentElement.classList.remove("open");
     });
   });
