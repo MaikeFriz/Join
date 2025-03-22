@@ -116,24 +116,35 @@ document.addEventListener("DOMContentLoaded", async function () {
   
     // Function to add the task to the user's "toDo" list
     function addTaskToUserToDo(taskId, userId) {
-      let taskForUser = { taskId: taskId };
-  
-      fetch(`${BASE_URL}users/${userId}/assignedTasks/toDo.json`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(taskForUser),
-      })
-      .then((response) => response.json())
-      .then(() => {
-        console.log(`Task added to user ${userId} toDo list`);
-      })
-      .catch((error) => {
-        console.error("Error adding task to user:", error);
-      });
+      // Zuerst die vorhandenen Aufgaben des Benutzers abrufen
+      fetch(`${BASE_URL}users/${userId}/assignedTasks/toDo.json`)
+        .then((response) => response.json())
+        .then((existingTasks) => {
+          // Falls noch keine Aufgaben vorhanden sind, initialisiere ein leeres Objekt
+          existingTasks = existingTasks || {};
+    
+          // Den neuen Task zum bestehenden Aufgaben-Objekt hinzufügen, im Format taskId: true
+          existingTasks[taskId] = true;
+    
+          // Die aktualisierte Liste der Aufgaben zurück in die Firebase-Datenbank speichern
+          return fetch(`${BASE_URL}users/${userId}/assignedTasks/toDo.json`, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(existingTasks),
+          });
+        })
+        .then(() => {
+          console.log(`Task ${taskId} added to user ${userId}'s toDo list`);
+        })
+        .catch((error) => {
+          console.error("Error adding task to user:", error);
+        });
     }
-  
+    
     addTaskFormListener();
+    
+    
   });
   
