@@ -2,7 +2,7 @@ let assigneesObject = {};
 
 document.addEventListener("DOMContentLoaded", initDropdown);
 
-// Initialisiert das Dropdown, lädt die Benutzer und setzt Events
+// Initialisiert das Dropdown, lädt die Nutzer und setzt Events
 async function initDropdown() {
     try {
         const users = await fetchUsers();
@@ -13,14 +13,14 @@ async function initDropdown() {
     }
 }
 
-// Lädt die Benutzer aus der Firebase-Datenbank
+// Lädt die Nutzer aus Firebase
 async function fetchUsers() {
     const response = await fetch("https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData.json");
     const data = await response.json();
     return Object.values(data.users);
 }
 
-// Erstellt die Dropdown-Optionen basierend auf den Benutzern
+// Erstellt Dropdown-Optionen basierend auf den Nutzern
 function createDropdownOptions(users) {
     const dropdownOptions = document.getElementById("dropdown_options_assignee");
     users.forEach(user => {
@@ -33,7 +33,7 @@ function createDropdownOptions(users) {
     });
 }
 
-// Gibt das HTML-Template für eine einzelne Dropdown-Option zurück
+// HTML-Template für einzelne Dropdown-Option
 function templateDropdownOption(user) {
     return `
     <div class="option_row">
@@ -46,7 +46,7 @@ function templateDropdownOption(user) {
 }
 
 
-// Wählt eine Person aus der Liste aus und fügt sie hinzu
+// Wählt Person aus der Liste aus und fügt sie hinzu
 function selectAssignee(selectedName) {
     if (!assigneesObject[selectedName]) {
         assigneesObject[selectedName] = formatAssigneeKey(selectedName);
@@ -55,28 +55,28 @@ function selectAssignee(selectedName) {
     resetDropdownSelection();
 }
 
-// Formatiert den Namen in eine kompakte Schreibweise
+// Formatiert den Namen in kompakte Schreibweise
 function formatAssigneeKey(name) {
     return name.toLowerCase()
         .replace(/\s(.)/g, match => match.toUpperCase())
         .replace(/\s+/g, "");
 }
 
-// Erstellt das Assignee-Element und zeigt es in der UI an
+// Erstellt Assignee-Element und zeigt es in der UI an
 function addAssigneeElement(name) {
     const showAssigneesDiv = document.getElementById("show_assignees");
     const assigneeElement = document.createElement("div");
     assigneeElement.className = "assignee-item";
-    
+
     const nameElement = document.createElement("span");
     nameElement.textContent = name;
     assigneeElement.appendChild(nameElement);
-    
+
     const deleteButton = document.createElement("button");
     deleteButton.textContent = "Delete";
     deleteButton.addEventListener("click", () => removeAssignee(name, assigneeElement));
     assigneeElement.appendChild(deleteButton);
-    
+
     showAssigneesDiv.appendChild(assigneeElement);
 }
 
@@ -86,14 +86,14 @@ function removeAssignee(name, element) {
     delete assigneesObject[name];
 }
 
-// Setzt die Dropdown-Anzeige zurück
+// Setzt Dropdown-Anzeige zurück
 function resetDropdownSelection() {
     document.getElementById("dropdown_selected_assignee").textContent = "Select a person";
     document.getElementById("assigned_to").value = "";
     closeDropdown();
 }
 
-// Setzt die Event-Listener für das Dropdown
+// Setzt Event-Listener für das Dropdown
 function setupDropdownEvents() {
     const dropdown = document.getElementById("dropdown_assigned_to");
     dropdown.addEventListener("click", toggleDropdown);
@@ -105,11 +105,11 @@ function toggleDropdown(event) {
     event.stopPropagation();
     const dropdown = document.getElementById("dropdown_assigned_to");
     const dropdownOptions = document.getElementById("dropdown_options_assignee");
-    
+
     const isOpen = dropdownOptions.classList.contains("show");
     document.querySelectorAll(".dropdown_options_assignee").forEach(el => el.classList.remove("show"));
     document.querySelectorAll(".dropdown_open").forEach(el => el.classList.remove("dropdown_open"));
-    
+
     if (!isOpen) {
         dropdownOptions.classList.add("show");
         dropdown.classList.add("dropdown_open");
@@ -135,119 +135,119 @@ function closeDropdown() {
 
 // ------------------------ Add subtasks
 document.addEventListener("DOMContentLoaded", function () {
-  const inputSubtask = document.getElementById("input_subtask");
-  const addIcon = document.getElementById("add_icon");
-  const inputIcons = document.getElementById("input_icons");
-  const checkIcon = document.getElementById("check_icon");
-  const clearIcon = document.getElementById("clear_icon");
-  const displaySubtask = document.getElementById("display_subtasks");
+    const inputSubtask = document.getElementById("input_subtask");
+    const addIcon = document.getElementById("add_icon");
+    const inputIcons = document.getElementById("input_icons");
+    const checkIcon = document.getElementById("check_icon");
+    const clearIcon = document.getElementById("clear_icon");
+    const displaySubtask = document.getElementById("display_subtasks");
 
-  inputSubtask.addEventListener("input", function () {
-    if (inputSubtask.value.trim() !== "") {
-      addIcon.style.display = "none";
-      inputIcons.style.display = "flex";
-    } else {
-      addIcon.style.display = "inline";
-      inputIcons.style.display = "none";
-    }
-  });
+    inputSubtask.addEventListener("input", function () {
+        if (inputSubtask.value.trim() !== "") {
+            addIcon.style.display = "none";
+            inputIcons.style.display = "flex";
+        } else {
+            addIcon.style.display = "inline";
+            inputIcons.style.display = "none";
+        }
+    });
 
-  inputSubtask.addEventListener("blur", function () {
-    if (inputSubtask.value.trim() === "") {
-      addIcon.style.display = "inline";
-      inputIcons.style.display = "none";
-    }
-  });
+    inputSubtask.addEventListener("blur", function () {
+        if (inputSubtask.value.trim() === "") {
+            addIcon.style.display = "inline";
+            inputIcons.style.display = "none";
+        }
+    });
 
-  clearIcon.addEventListener("click", function () {
-    inputSubtask.value = "";
-    addIcon.style.display = "inline";
-    inputIcons.style.display = "none";
-    inputSubtask.focus();
-  });
+    clearIcon.addEventListener("click", function () {
+        inputSubtask.value = "";
+        addIcon.style.display = "inline";
+        inputIcons.style.display = "none";
+        inputSubtask.focus();
+    });
 
-  checkIcon.addEventListener("click", function () {
-    const subtaskText = inputSubtask.value.trim();
+    checkIcon.addEventListener("click", function () {
+        const subtaskText = inputSubtask.value.trim();
 
-    if (subtaskText !== "") {
-      const subtaskElement = document.createElement("li");
-      subtaskElement.className = "subtask-item";
+        if (subtaskText !== "") {
+            const subtaskElement = document.createElement("li");
+            subtaskElement.className = "subtask-item";
 
-      const nameElement = document.createElement("span");
-      nameElement.textContent = subtaskText;
-      subtaskElement.appendChild(nameElement);
+            const nameElement = document.createElement("span");
+            nameElement.textContent = subtaskText;
+            subtaskElement.appendChild(nameElement);
 
-      const deleteButton = document.createElement("button");
-      deleteButton.innerHTML = '<img class="delete_button_subtask" src="./assets/img/delete.svg" alt="Delete" />';
+            const deleteButton = document.createElement("button");
+            deleteButton.innerHTML = '<img class="delete_button_subtask" src="./assets/img/delete.svg" alt="Delete" />';
 
-      deleteButton.addEventListener("click", function () {
-        displaySubtask.removeChild(subtaskElement);
-      });
+            deleteButton.addEventListener("click", function () {
+                displaySubtask.removeChild(subtaskElement);
+            });
 
-      subtaskElement.appendChild(deleteButton);
-      displaySubtask.appendChild(subtaskElement);
+            subtaskElement.appendChild(deleteButton);
+            displaySubtask.appendChild(subtaskElement);
 
-      inputSubtask.value = "";
-      addIcon.style.display = "inline";
-      inputIcons.style.display = "none";
-    }
-  });
+            inputSubtask.value = "";
+            addIcon.style.display = "inline";
+            inputIcons.style.display = "none";
+        }
+    });
 });
 
 // --------------------------------Select priority
 document.addEventListener("DOMContentLoaded", function () {
-  const urgentButton = document.getElementById("urgent_button");
-  const mediumButton = document.getElementById("medium_button");
-  const lowButton = document.getElementById("low_button");
+    const urgentButton = document.getElementById("urgent_button");
+    const mediumButton = document.getElementById("medium_button");
+    const lowButton = document.getElementById("low_button");
 
-  // Variable to track the currently active button
-  let activeButton = null;
+    // Variable to track the currently active button
+    let activeButton = null;
 
-  function handleButtonClick(button) {
-    // If another button is active, remove the "active" class
-    if (activeButton && activeButton !== button) {
-      activeButton.classList.remove("active");
+    function handleButtonClick(button) {
+        // If another button is active, remove the "active" class
+        if (activeButton && activeButton !== button) {
+            activeButton.classList.remove("active");
+        }
+
+        button.classList.add("active");
+        activeButton = button;
     }
 
-    button.classList.add("active");
-    activeButton = button;
-  }
+    urgentButton.addEventListener("click", function () {
+        handleButtonClick(urgentButton);
+    });
 
-  urgentButton.addEventListener("click", function () {
-    handleButtonClick(urgentButton);
-  });
+    mediumButton.addEventListener("click", function () {
+        handleButtonClick(mediumButton);
+    });
 
-  mediumButton.addEventListener("click", function () {
-    handleButtonClick(mediumButton);
-  });
-
-  lowButton.addEventListener("click", function () {
-    handleButtonClick(lowButton);
-  });
+    lowButton.addEventListener("click", function () {
+        handleButtonClick(lowButton);
+    });
 });
 
 //-----------------------------Select category
-document.addEventListener("DOMContentLoaded", function() {
-  const dropdown = document.getElementById("dropdown_category");
-  const optionsContainer = document.querySelector(".dropdown_options");
-  const selectedText = document.getElementById("dropdown_selected");
-  const inputField = document.getElementById("category"); // The hidden input field
+document.addEventListener("DOMContentLoaded", function () {
+    const dropdown = document.getElementById("dropdown_category");
+    const optionsContainer = document.querySelector(".dropdown_options");
+    const selectedText = document.getElementById("dropdown_selected");
+    const inputField = document.getElementById("category"); // The hidden input field
 
-  dropdown.addEventListener("click", function() {
-    dropdown.parentElement.classList.toggle("open");
-  });
-
-  document.querySelectorAll(".custom-dropdown-option").forEach(option => {
-    option.addEventListener("click", function() {
-      selectedText.textContent = this.textContent; // Update display
-      inputField.value = this.dataset.value; // Save value in hidden input
-      dropdown.parentElement.classList.remove("open");
+    dropdown.addEventListener("click", function () {
+        dropdown.parentElement.classList.toggle("open");
     });
-  });
 
-  document.addEventListener("click", function(event) {
-    if (!dropdown.parentElement.contains(event.target)) {
-      dropdown.parentElement.classList.remove("open");
-    }
-  });
+    document.querySelectorAll(".custom-dropdown-option").forEach(option => {
+        option.addEventListener("click", function () {
+            selectedText.textContent = this.textContent; // Update display
+            inputField.value = this.dataset.value; // Save value in hidden input
+            dropdown.parentElement.classList.remove("open");
+        });
+    });
+
+    document.addEventListener("click", function (event) {
+        if (!dropdown.parentElement.contains(event.target)) {
+            dropdown.parentElement.classList.remove("open");
+        }
+    });
 });
