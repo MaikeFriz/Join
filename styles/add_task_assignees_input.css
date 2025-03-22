@@ -70,6 +70,8 @@
     .show_assignees {
         margin-top: 10px;
         display: flex;
+        width: 100%;
+        max-width: 100%;
       }
       
       .assignee-item {
@@ -94,8 +96,7 @@
         width: 30px; 
         height: 30px; 
         border-radius: 50%; 
-        background-color: gray;
-        border: 1px black solid;
+        border: 2px white solid;
         color: white; 
         font-size: 12px;
         margin-right: 3px; 

@@ -1,82 +1,109 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const form = document.getElementById("sign-up-form");
-  const nameInput = document.getElementById("input_name");
-  const emailInput = document.getElementById("input_email");
-  const passwordInput = document.getElementById("input_password");
-  const confirmPasswordInput = document.getElementById("input_confirm_password");
-  const privacyCheckbox = document.getElementById("privacy");
-  const errorMessage = document.createElement("p");
-  errorMessage.style.color = "red";
-  form.appendChild(errorMessage);
+  initForm();
+});
 
+function initForm() {
+  const form = document.getElementById("sign-up-form");
+  form.appendChild(createErrorMessage());
+  document.body.appendChild(createOverlay());
+  form.addEventListener("submit", handleFormSubmit);
+}
+
+function createErrorMessage() {
+  const errorMessage = document.createElement("p");
+  errorMessage.id = "error-message";
+  errorMessage.style.color = "red";
+  return errorMessage;
+}
+
+function createOverlay() {
   const overlay = document.createElement("div");
   overlay.className = "overlay";
   overlay.innerHTML = "<p>User signed up successfully!</p>";
-  document.body.appendChild(overlay);
   overlay.style.display = "none";
+  return overlay;
+}
 
-  form.addEventListener("submit", async (event) => {
-    event.preventDefault();
+async function handleFormSubmit(event) {
+  event.preventDefault();
+  const { name, email, password, confirmPassword, privacyCheckbox } = getFormData();
 
-    const name = nameInput.value;
-    const email = emailInput.value;
-    const password = passwordInput.value;
-    const confirmPassword = confirmPasswordInput.value;
+  if (!validateInputs(password, confirmPassword, privacyCheckbox)) return;
+  await registerUser(name, email, password);
+}
 
-    emailInput.setCustomValidity("");
-    confirmPasswordInput.setCustomValidity("");
+function getFormData() {
+  return {
+    name: document.getElementById("input_name").value,
+    email: document.getElementById("input_email").value,
+    password: document.getElementById("input_password").value,
+    confirmPassword: document.getElementById("input_confirm_password").value,
+    privacyCheckbox: document.getElementById("privacy"),
+  };
+}
 
-    if (password !== confirmPassword) {
-      confirmPasswordInput.setCustomValidity("Passwords do not match!");
-      confirmPasswordInput.reportValidity();
-      return;
+function validateInputs(password, confirmPassword, privacyCheckbox) {
+  const errorMessage = document.getElementById("error-message");
+  errorMessage.textContent = "";
+
+  if (password !== confirmPassword) {
+    document.getElementById("input_confirm_password").setCustomValidity("Passwords do not match!");
+    document.getElementById("input_confirm_password").reportValidity();
+    return false;
+  }
+
+  if (!privacyCheckbox.checked) {
+    errorMessage.textContent = "You must accept the Privacy Policy.";
+    return false;
+  }
+  return true;
+}
+
+async function registerUser(name, email, password) {
+  try {
+    const userId = await generateUserId();
+    const newUser = createUserObject(name, email, password);
+    await saveUserToDatabase(userId, newUser);
+    showSuccessMessage();
+  } catch (error) {
+    document.getElementById("error-message").textContent = `Error: ${error.message}`;
+  }
+}
+
+async function generateUserId() {
+  const response = await fetch(
+    "https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData.json"
+  );
+  const data = await response.json();
+  const existingUserIds = Object.keys(data.users || {});
+  const maxUserId = existingUserIds.length > 0
+    ? Math.max(...existingUserIds.map(id => parseInt(id.replace('user', ''), 10) || 0))
+    : 0;
+  return `user${maxUserId + 1}`;
+}
+
+function createUserObject(name, email, password) {
+  return {
+    name,
+    email,
+    password,
+    assignedTasks: { toDo: {}, inProgress: {}, awaitingFeedback: {}, done: {} },
+  };
+}
+
+async function saveUserToDatabase(userId, user) {
+  await fetch(
+    `https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData/users/${userId}.json`,
+    {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(user),
     }
+  );
+}
 
-    if (!privacyCheckbox.checked) {
-      errorMessage.textContent = "You must accept the Privacy Policy.";
-      return;
-    }
-
-    try {
-      const response = await fetch(
-        "https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData.json"
-      );
-      const data = await response.json();
-
-      const existingUserIds = Object.keys(data.users || {});
-      const maxUserId = existingUserIds.length > 0
-        ? Math.max(...existingUserIds.map(id => {
-            const userIdNumber = parseInt(id.replace('user', ''), 10);
-            return isNaN(userIdNumber) ? 0 : userIdNumber; // Ensure NaN doesn't break the calculation
-          }))
-        : 0;
-      const newUserId = `user${maxUserId + 1}`;
-
-      const newUser = {
-        name,
-        email,
-        password,
-        assignedTasks: {
-          toDo: {},
-          inProgress: {},
-          awaitingFeedback: {},
-          done: {},
-        },
-      };
-
-      await fetch(
-        `https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData/users/${newUserId}.json`,
-        {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(newUser),
-        }
-      );
-
-      overlay.style.display = "flex";
-      setTimeout(() => (window.location.href = "./index.html"), 1000);
-    } catch (error) {
-      errorMessage.textContent = `Error: ${error.message}`;
-    }
-  });
-});
+function showSuccessMessage() {
+  const overlay = document.querySelector(".overlay");
+  overlay.style.display = "flex";
+  setTimeout(() => (window.location.href = "./index.html"), 1000);
+}
