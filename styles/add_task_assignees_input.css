@@ -2,7 +2,6 @@
 /* Container für das "Assigned to" Dropdown */
 .assigned_to_div {
     position: relative;
-    width: 250px;
     width: 100%;
   }
   
@@ -70,12 +69,13 @@
     /* Assignee-Anzeige */
     .show_assignees {
         margin-top: 10px;
+        display: flex;
       }
       
       .assignee-item {
         display: flex;
-        align-items: center;
-        justify-content: space-between;
+        align-items: baseline !important;
+        flex-direction: row;
         margin-top: 5px;
         padding: 0 4px;
       }
@@ -98,5 +98,9 @@
         border: 1px black solid;
         color: white; 
         font-size: 12px;
-        margin-right: 8px; 
+        margin-right: 3px; 
       }
+
+      .delete-assignee-button svg {
+        transform: translateY(9px) !important;
+    }

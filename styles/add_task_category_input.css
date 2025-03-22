@@ -22,9 +22,8 @@
 
 .category_div {
     width: 100%;
+    min-height: 48px;
     min-width: 100%;
-    max-width: 300px;
-    /* Optional: Maximale Breite setzen */
     position: relative;
 }
 
