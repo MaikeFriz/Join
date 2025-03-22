@@ -2,10 +2,7 @@ function toDoCardTemplate(toDoContent, userDataContent) {
     const userName = userDataContent.name || "Unbekannter Benutzer";
     return /*html*/ `
       <div class="board-task draggable" draggable="true">
-          <label class="${toDoContent.label
-            .split(" ")
-            .join("-")
-            .toLowerCase()}">${toDoContent.label}</label>
+          <label class="${toDoContent.label}">${toDoContent.label}</label>
           <div>
               <h3>${toDoContent.title || "Untitled Task"}</h3>
               <p>${toDoContent.description || "No Description"}</p>
@@ -27,10 +24,7 @@ function toDoCardTemplate(toDoContent, userDataContent) {
 function inProgressCardTemplate(inProgressContent) {
   return /*html*/ `
         <div class="board-task draggable" draggable="true">
-            <label class="${inProgressContent.label
-              .split(" ")
-              .join("-")
-              .toLowerCase()}">${inProgressContent.label}</label>
+            <label class="${inProgressContent.label}">${inProgressContent.label}</label>
             <div>
                 <h3>${inProgressContent.title || "Untitled Task"}</h3>
                 <p>${inProgressContent.description || "No Description"}</p>
@@ -48,10 +42,7 @@ function inProgressCardTemplate(inProgressContent) {
 function awaitingFeedbackCardTemplate(awaitingFeedbackContent) {
   return /*html*/ `
         <div class="board-task draggable" draggable="true">
-            <label class="${awaitingFeedbackContent.label
-              .split(" ")
-              .join("-")
-              .toLowerCase()}">${awaitingFeedbackContent.label}</label>
+            <label class="${awaitingFeedbackContent.label}">${awaitingFeedbackContent.label}</label>
             <div>
                 <h3>${awaitingFeedbackContent.title || "Untitled Task"}</h3>
                 <p>${
@@ -71,10 +62,7 @@ function awaitingFeedbackCardTemplate(awaitingFeedbackContent) {
 function doneCardTemplate(doneContent) {
   return /*html*/ `
         <div class="board-task draggable" draggable="true">
-            <label class="${doneContent.label
-              .split(" ")
-              .join("-")
-              .toLowerCase()}">${doneContent.label}</label>
+            <label class="${doneContent.label}">${doneContent.label}</label>
             <div>  
                 <h3>${doneContent.title || "Untitled Task"}</h3>
                 <p>${doneContent.description || "No Description"}</p>
