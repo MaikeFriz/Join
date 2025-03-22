@@ -1,23 +1,28 @@
-function todoCardTemplate(todoContent) {
-  return /*html*/ `
-        <div class="board-task draggable" draggable="true">
-            <label class="${todoContent.label
-              .split(" ")
-              .join("-")
-              .toLowerCase()}">${todoContent.label}</label>
-            <div>
-                <h3>${todoContent.title || "Untitled Task"}</h3>
-                <p>${todoContent.description || "No Description"}</p>
-            </div>
-            <div class="review-task-bottom">
-                <div class="assignees-container">
-                    ${getAssignees(todoContent)}
-                </div>
-                <div class="${todoContent.priority}"></div>
-            </div>
-        </div>
-        `;
-}
+function toDoCardTemplate(toDoContent, userDataContent) {
+    const userName = userDataContent.name || "Unbekannter Benutzer";
+    return /*html*/ `
+      <div class="board-task draggable" draggable="true">
+          <label class="${toDoContent.label
+            .split(" ")
+            .join("-")
+            .toLowerCase()}">${toDoContent.label}</label>
+          <div>
+              <h3>${toDoContent.title || "Untitled Task"}</h3>
+              <p>${toDoContent.description || "No Description"}</p>
+          </div>
+          <div class="review-task-bottom">
+              <div class="assignees-container">
+                  ${getAssignees(toDoContent)}
+              </div>
+              <div class="${toDoContent.priority}"></div>
+          </div>
+          <div class="assigned-user">
+              <p>Assigned to: ${userName}</p>
+          </div>
+      </div>
+    `;
+  }
+  
 
 function inProgressCardTemplate(inProgressContent) {
   return /*html*/ `

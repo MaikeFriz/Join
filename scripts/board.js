@@ -35,13 +35,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   }
 
-  function addHTMLToTaskContainers(
-    todoHTML,
-    inProgressHTML,
-    feedbackHTML,
-    doneHTML
-  ) {
-    document.getElementById("toDoCard").innerHTML = todoHTML;
+  function addHTMLToTaskContainers(toDoHTML, inProgressHTML, feedbackHTML, doneHTML) {
+    document.getElementById("toDoCard").innerHTML = toDoHTML;
     document.getElementById("inProgressCard").innerHTML = inProgressHTML;
     document.getElementById("awaitFeedbackCard").innerHTML = feedbackHTML;
     document.getElementById("doneCard").innerHTML = doneHTML;
@@ -111,10 +106,10 @@ document.addEventListener("DOMContentLoaded", async () => {
   const data = await fetchData(dataUrl);
 
   if (data?.users?.[user.userId]?.assignedTasks) {
-    const { todos, inProgress, awaitingFeedback, done } =
+    const { toDo, inProgress, awaitingFeedback, done } =
       data.users[user.userId].assignedTasks;
     addHTMLToTaskContainers(
-      generateTaskContent(todos, todoCardTemplate),
+      generateTaskContent(toDo, toDoCardTemplate),
       generateTaskContent(inProgress, inProgressCardTemplate),
       generateTaskContent(awaitingFeedback, awaitingFeedbackCardTemplate),
       generateTaskContent(done, doneCardTemplate)

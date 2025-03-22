@@ -1,7 +1,7 @@
 function getSummaryCount() {
     let loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
         if (loggedInUser) {
-            getTodoCount(loggedInUser);
+            getToDoCount(loggedInUser);
             getDoneCount(loggedInUser);
             getUrgentCount(loggedInUser);
             getAllTasksCount(loggedInUser);
@@ -13,10 +13,10 @@ function getSummaryCount() {
         }
 }
 
-function getTodoCount(loggedInUser) {
-    let todoCountHTML = document.getElementById('todo-tasks-count');
-    todoCountHTML.innerHTML = loggedInUser.assignedTasks && loggedInUser.assignedTasks.todos
-        ? Object.keys(loggedInUser.assignedTasks.todos).length : 0;
+function getToDoCount(loggedInUser) {
+    let toDoCountHTML = document.getElementById('toDo-tasks-count');
+    toDoCountHTML.innerHTML = loggedInUser.assignedTasks && loggedInUser.assignedTasks.toDo
+        ? Object.keys(loggedInUser.assignedTasks.toDo).length : 0;
 }
 
 function getDoneCount(loggedInUser) {

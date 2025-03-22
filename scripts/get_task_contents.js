@@ -1,38 +1,33 @@
-function addHTMLToTaskContainers(
-  todoCardsHTML,
-  inProgressCardsHTML,
-  awaitingFeedbackCardsHTML,
-  doneCardsHTML
-) {
-  let todoCardContainer = document.getElementById("toDoCard");
+function addHTMLToTaskContainers(toDoCardsHTML, inProgressCardsHTML, awaitingFeedbackCardsHTML, doneCardsHTML) {
+  let toDoCardContainer = document.getElementById("toDoCard");
   let inProgressCardContainer = document.getElementById("inProgressCard");
   let awaitingFeedbackContainer = document.getElementById("awaitFeedbackCard");
   let doneCardContainer = document.getElementById("doneCard");
 
-  todoCardContainer.innerHTML += todoCardsHTML;
+  toDoCardContainer.innerHTML += toDoCardsHTML;
   inProgressCardContainer.innerHTML += inProgressCardsHTML;
   awaitingFeedbackContainer.innerHTML += awaitingFeedbackCardsHTML;
   doneCardContainer.innerHTML += doneCardsHTML;
 }
 
-function getTodoContent(userDataContent) {
-  let todoCardsHTML = "";
+function getToDoContent(userDataContent) {
+  let toDoCardsHTML = "";
   if (
     !userDataContent.assignedTasks ||
-    !userDataContent.assignedTasks.todos ||
-    Object.keys(userDataContent.assignedTasks.todos).length === 0
+    !userDataContent.assignedTasks.toDo ||
+    Object.keys(userDataContent.assignedTasks.toDo).length === 0
   ) {
-    console.log("Todo: Keine Aufgaben für diesen User");
+    console.log("toDo: Keine Aufgaben für diesen User");
   } else {
-    let todos = userDataContent.assignedTasks.todos;
-    let todosArray = Object.values(todos);
-    for (let todoIndex = 0; todoIndex < todosArray.length; todoIndex++) {
-      let todoContent = todosArray[todoIndex];
-      console.log("Todo:", todoContent);
-      todoCardsHTML += todoCardTemplate(todoContent);
+    let toDo = userDataContent.assignedTasks.toDo;
+    let toDoArray = Object.values(toDo);
+    for (let toDoIndex = 0; toDoIndex < toDoArray.length; toDoIndex++) {
+      let toDoContent = toDoArray[toDoIndex];
+      console.log("toDo:", toDoContent);
+      toDoCardsHTML += toDoCardTemplate(toDoContent);
     }
   }
-  return todoCardsHTML;
+  return toDoCardsHTML;
 }
 
 function getInProgressContent(userDataContent) {

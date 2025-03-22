@@ -16,6 +16,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   Promise.resolve().then(async () => {
     await fetchKanbanData();
+
+    console.log(user);
+    
   });
 
   async function fetchKanbanData() {
@@ -29,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log(userData);
     for (let dataIndex = 0; dataIndex < userData.length; dataIndex++) {
       let userDataContent = userData[dataIndex];
-      console.log(`User: ${userDataContent.name}`);
+      console.log(`!!!: ${userDataContent.userId}`);
       getDataContentHTML(userDataContent);
     }
   }
@@ -39,18 +42,14 @@ document.addEventListener("DOMContentLoaded", () => {
     if (loggedInUser) {
       return;
     }
-    let todoCardsHTML = getTodoContent(userDataContent);
+    let toDoCardsHTML = getToDoContent(userDataContent);
     let inProgressCardsHTML = getInProgressContent(userDataContent);
     let awaitingFeedbackCardsHTML = getAwaitingFeedbackContent(userDataContent);
     let doneCardsHTML = getDoneContent(userDataContent);
-
-    addHTMLToTaskContainers(
-      todoCardsHTML,
-      inProgressCardsHTML,
-      awaitingFeedbackCardsHTML,
-      doneCardsHTML
-    );
+  
+    addHTMLToTaskContainers(toDoCardsHTML, inProgressCardsHTML,awaitingFeedbackCardsHTML, doneCardsHTML);
   }
+  
 });
 
 function getUserName() {

@@ -107,7 +107,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       })
       .then((response) => response.json())
       .then(() => {
-        addTaskToUserToDo(taskId, userId);
+        addTaskToUsertoDo(taskId, userId);
       })
       .catch((error) => {
         console.error("Error saving task:", error);
@@ -115,7 +115,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
   
     // Function to add the task to the user's "toDo" list
-    function addTaskToUserToDo(taskId, userId) {
+    function addTaskToUsertoDo(taskId, userId) {
       // Zuerst die vorhandenen Aufgaben des Benutzers abrufen
       fetch(`${BASE_URL}users/${userId}/assignedTasks/toDo.json`)
         .then((response) => response.json())
