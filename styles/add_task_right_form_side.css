@@ -449,25 +449,8 @@ ul{
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 5px 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
     margin-top: 5px;
-    background-color: #f9f9f9;
-  }
-  
-  .assignee-item button {
-    margin-left: 10px;
-    background: #ff4d4d;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
-    border-radius: 3px;
-  }
-  
-  .assignee-item button:hover {
-    background: #cc0000;
+    padding: 0 4px;
   }
 
   .option_row{
@@ -476,3 +459,19 @@ ul{
     align-items: center;
     flex-direction: row;
   }
+  
+  .initials-circle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px; 
+    height: 30px; 
+    border-radius: 50%; 
+    background-color: gray;
+    border: 1px black solid;
+    color: white; 
+    font-size: 12px;
+    margin-right: 8px; 
+  }
+
+  

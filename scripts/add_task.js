@@ -2,134 +2,170 @@ let assigneesObject = {};
 
 document.addEventListener("DOMContentLoaded", initDropdown);
 
-// Initialisiert das Dropdown, lädt die Benutzer und setzt Events
 async function initDropdown() {
-    try {
-        const users = await fetchUsers();
-        createDropdownOptions(users);
-        setupDropdownEvents();
-    } catch (error) {
-        console.error("Error loading users:", error);
-    }
+  try {
+    const users = await fetchUsers();
+    createDropdownOptions(users);
+    setupDropdownEvents();
+  } catch (error) {
+    console.error("Error loading users:", error);
+  }
 }
 
-// Lädt die Benutzer aus der Firebase-Datenbank
 async function fetchUsers() {
-    const response = await fetch("https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData.json");
-    const data = await response.json();
-    // Extrahiert die Benutzer und deren IDs aus dem Datenbank-Objekt
-    return Object.entries(data.users).map(([userId, user]) => ({
-        id: userId,  // Der Benutzer-Schlüssel ist die ID (z.B. "user1")
-        name: user.name
-    }));
+  const response = await fetch("https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData.json");
+  const data = await response.json();
+  return Object.entries(data.users).map(([userId, user]) => ({
+    id: userId,
+    name: user.name,
+  }));
 }
 
-// Erstellt die Dropdown-Optionen basierend auf den Benutzern
 function createDropdownOptions(users) {
-    const dropdownOptions = document.getElementById("dropdown_options_assignee");
-    users.forEach(user => {
-        const option = document.createElement("div");
-        option.classList.add("custom-dropdown-option");
-        option.dataset.value = user.name;
-        option.dataset.userId = user.id; // Speichern der Benutzer-ID in dataset
-        option.innerHTML = templateDropdownOption(user);
-        option.addEventListener("click", () => selectAssignee(user.id)); // Übergibt die ID direkt
-        dropdownOptions.appendChild(option);
-    });
+  const dropdownOptions = document.getElementById("dropdown_options_assignee");
+  dropdownOptions.innerHTML = ""; // Sicherstellen, dass keine doppelten Einträge entstehen
+
+  users.forEach((user) => {
+    const option = createDropdownOptionTemplate(user);
+    dropdownOptions.appendChild(option);
+  });
 }
 
-// Gibt das HTML-Template für eine einzelne Dropdown-Option zurück
-function templateDropdownOption(user) {
-    return `
+function createDropdownOptionTemplate(user) {
+  const option = document.createElement("div");
+  option.classList.add("custom-dropdown-option");
+  option.dataset.value = user.name;
+  option.dataset.userId = user.id;
+
+  // Standardbild für nicht gewählte Nutzer
+  const isChecked = assigneesObject[user.id] ? "checked_checkbox.svg" : "checkbox_unchecked.svg";
+
+  // Initialen berechnen
+  const initials = getAssigneeInitials(user.name);
+
+  option.innerHTML = `
     <div class="option_row">
-        <div class="name_initials_div">
-            <span>...</span>
-            <span class="dropdown-item">${user.name}</span>
-        </div>    
-        <img src="./assets/img/checkbox_unchecked.svg" alt="">
-    </div>`;
+      <div class="name_initials_div">
+        <span class="initials-circle">${initials}</span> 
+        <span class="dropdown-item">${user.name}</span>
+      </div>      
+      <img src="./assets/img/${isChecked}" alt="Checkbox" class="checkbox-img">
+    </div>
+  `;
+
+  option.addEventListener("click", () => toggleAssignee(user.id, user.name, option));
+  return option;
 }
 
-// Wählt eine Person aus der Liste aus und fügt sie hinzu
-async function selectAssignee(userId) {
-    const users = await fetchUsers(); // Holen der Benutzerliste
-    const selectedUser = users.find(user => user.id === userId); // Verwende direkt die ID
-
-    if (!assigneesObject[selectedUser.id]) {
-        // Speichern der Benutzer-ID und Name im assigneesObject
-        assigneesObject[selectedUser.id] = { id: selectedUser.id, name: selectedUser.name };
-        addAssigneeElement(selectedUser);
+function getAssigneeInitials(assignee) {
+  let assigneeInitials = "";
+  if (assignee) {
+    let names = assignee.split(" ");
+    if (names.length >= 2) {
+      assigneeInitials = names[0].charAt(0).toUpperCase() + names[1].charAt(0).toUpperCase();
+    } else if (names.length === 1) {
+      assigneeInitials = names[0].charAt(0).toUpperCase();
     }
-    resetDropdownSelection();
+  }
+  return assigneeInitials;
 }
 
-// Erstellt das Assignee-Element und zeigt es in der UI an
-function addAssigneeElement(user) {
-    const showAssigneesDiv = document.getElementById("show_assignees");
-    const assigneeElement = document.createElement("div");
-    assigneeElement.className = "assignee-item";
-    
-    const nameElement = document.createElement("span");
-    nameElement.textContent = user.name; // Benutzername
-    assigneeElement.appendChild(nameElement);
-    
-    const deleteButton = document.createElement("button");
-    deleteButton.textContent = "Delete";
-    deleteButton.addEventListener("click", () => removeAssignee(user.id, assigneeElement));
-    assigneeElement.appendChild(deleteButton);
-    
-    showAssigneesDiv.appendChild(assigneeElement);
+function toggleAssignee(userId, userName, optionElement) {
+  const imgElement = optionElement.querySelector(".checkbox-img");
+
+  if (assigneesObject[userId]) {
+    // Entfernen des Nutzers
+    delete assigneesObject[userId];
+    imgElement.src = "./assets/img/checkbox_unchecked.svg";
+    removeAssigneeElement(userId);
+  } else {
+    // Hinzufügen des Nutzers
+    assigneesObject[userId] = { id: userId, name: userName };
+    imgElement.src = "./assets/img/checked_checkbox.svg";
+    addAssigneeElement(userId, userName);
+  }
 }
 
-// Entfernt einen ausgewählten Assignee aus der Liste
-function removeAssignee(userId, element) {
-    document.getElementById("show_assignees").removeChild(element);
-    delete assigneesObject[userId]; // Benutzer-ID wird verwendet, um den Assignee zu entfernen
+function addAssigneeElement(userId, userName) {
+  const showAssigneesDiv = document.getElementById("show_assignees");
+
+  if (document.getElementById(`assignee-${userId}`)) return; // Doppelte Einträge verhindern
+
+  const assigneeTemplate = createAssigneeTemplate(userId, userName);
+  showAssigneesDiv.innerHTML += assigneeTemplate;
+
+  // Event-Listener für den Löschen-Button hinzufügen
+  const deleteButton = document.getElementById(`assignee-${userId}`).querySelector(".delete-assignee-button");
+  deleteButton.addEventListener("click", () => removeAssignee(userId));
 }
 
-// Setzt die Dropdown-Anzeige zurück
-function resetDropdownSelection() {
-    document.getElementById("dropdown_selected_assignee").textContent = "Select a person";
-    document.getElementById("assigned_to").value = "";
-    closeDropdown();
+function createAssigneeTemplate(userId, userName) {
+  // Initialen berechnen
+  const initials = getAssigneeInitials(userName);
+
+  // Erste Buchstabe des Vornamens ermitteln
+  const firstLetter = userName.charAt(0).toLowerCase(); // Ersten Buchstaben klein schreiben für CSS-Klassen
+
+  return `
+    <div class="assignee-item" id="assignee-${userId}">
+      <div class="name_initials_div">
+        <span class="initials-circle">${initials}</span> 
+        <span class="dropdown-item">${userName}</span>
+      </div>
+      <button class="delete-assignee-button">
+        <img src="./assets/img/delete.svg" alt="Delete" />
+      </button>
+    </div>
+  `;
 }
 
-// Setzt die Event-Listener für das Dropdown
+function removeAssignee(userId) {
+  delete assigneesObject[userId];
+
+  const assigneeElement = document.getElementById(`assignee-${userId}`);
+  if (assigneeElement) assigneeElement.remove();
+
+  // Bild im Dropdown zurücksetzen
+  const dropdownOptions = document.querySelectorAll(".custom-dropdown-option");
+  dropdownOptions.forEach((option) => {
+    if (option.dataset.userId === userId) {
+      option.querySelector(".checkbox-img").src = "./assets/img/checkbox_unchecked.svg";
+    }
+  });
+}
+
 function setupDropdownEvents() {
-    const dropdown = document.getElementById("dropdown_assigned_to");
-    dropdown.addEventListener("click", toggleDropdown);
-    document.addEventListener("click", closeDropdownOnClickOutside);
+  const dropdown = document.getElementById("dropdown_assigned_to");
+  dropdown.addEventListener("click", toggleDropdown);
+  document.addEventListener("click", closeDropdownOnClickOutside);
 }
 
-// Öffnet oder schließt das Dropdown
 function toggleDropdown(event) {
-    event.stopPropagation();
-    const dropdown = document.getElementById("dropdown_assigned_to");
-    const dropdownOptions = document.getElementById("dropdown_options_assignee");
-    
-    const isOpen = dropdownOptions.classList.contains("show");
-    document.querySelectorAll(".dropdown_options_assignee").forEach(el => el.classList.remove("show"));
-    document.querySelectorAll(".dropdown_open").forEach(el => el.classList.remove("dropdown_open"));
-    
-    if (!isOpen) {
-        dropdownOptions.classList.add("show");
-        dropdown.classList.add("dropdown_open");
-    }
+  event.stopPropagation();
+  const dropdown = document.getElementById("dropdown_assigned_to");
+  const dropdownOptions = document.getElementById("dropdown_options_assignee");
+
+  const isOpen = dropdownOptions.classList.contains("show");
+  document.querySelectorAll(".dropdown_options_assignee").forEach((el) => el.classList.remove("show"));
+  document.querySelectorAll(".dropdown_open").forEach((el) => el.classList.remove("dropdown_open"));
+
+  if (!isOpen) {
+    dropdownOptions.classList.add("show");
+    dropdown.classList.add("dropdown_open");
+  }
 }
 
-// Schließt das Dropdown, wenn außerhalb geklickt wird
 function closeDropdownOnClickOutside(event) {
-    const dropdown = document.getElementById("dropdown_assigned_to");
-    const dropdownOptions = document.getElementById("dropdown_options_assignee");
-    if (!dropdown.contains(event.target) && !dropdownOptions.contains(event.target)) {
-        closeDropdown();
-    }
+  const dropdown = document.getElementById("dropdown_assigned_to");
+  const dropdownOptions = document.getElementById("dropdown_options_assignee");
+  if (!dropdown.contains(event.target) && !dropdownOptions.contains(event.target)) {
+    closeDropdown();
+  }
 }
 
-// Schließt das Dropdown-Menü
 function closeDropdown() {
-    document.getElementById("dropdown_options_assignee").classList.remove("show");
-    document.getElementById("dropdown_assigned_to").classList.remove("dropdown_open");
+  document.getElementById("dropdown_options_assignee").classList.remove("show");
+  document.getElementById("dropdown_assigned_to").classList.remove("dropdown_open");
 }
 
 // ------------------------ Add subtasks
