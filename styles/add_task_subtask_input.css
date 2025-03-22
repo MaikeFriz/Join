@@ -1,0 +1,145 @@
+
+.separator_subtasks {
+    margin: 0 5px;
+}
+
+#input_subtask {
+    height: 48px;
+    width: 100%;
+    padding: 8px;
+    font-size: 14px;
+}
+
+.display_subtasks {
+    list-style-type: disc !important;
+    padding-left: 20px;
+}
+
+.display_subtasks {
+    list-style-type: disc;
+    padding-left: 0;
+    margin-left: 20px;
+}
+
+.subtask-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 5px;
+    list-style-type: disc;
+    list-style-position: inside;
+}
+
+.subtask-item::before {
+    content: "•";
+    font-size: 18px;
+    color: black;
+}
+
+.input_icons img {
+    height: 8px;
+    width: auto;
+}
+
+#clear_icon,
+#check_icon {
+    width: 16px !important;
+    height: 16px !important;
+}
+
+button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+.delete_button_subtask{
+    margin-left: 32px;
+}
+
+ul{
+    margin-block-start: 0;
+    margin-block-end: 0;
+    margin-top: 10px;
+}
+
+
+.delete-subtask-button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    padding-left: 24px;
+}
+
+.delete-subtask-button img {
+    width: 16px;
+    height: 16px;
+}
+
+.subtask-text {
+    padding-left: 8px;
+}
+
+.subtask-item {
+    display: flex;
+    align-items: center;
+}
+
+.input-icons {
+    display: none;
+    padding-right: 8px;
+    align-items: center;
+    gap: 4px;
+}
+
+.input-label button {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+
+
+#button_add_subtask {
+    position: absolute;
+    top: 50%;
+    right: 5px;
+    transform: translateY(-50%);
+    border: none;
+    background: transparent;
+    cursor: pointer;
+}
+
+#button_add_subtask img {
+    width: 24px;
+    height: 24px;
+    transform: scale(1);
+}
+
+#button_add_subtask img:hover {
+    transform: scale(1.2);
+}
+
+
+.button_add_subtask {
+    cursor: pointer !important;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    border: none;
+    background-color: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+
+
+  

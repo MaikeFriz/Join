@@ -20,20 +20,6 @@
     margin-block-end: 0;
 }
 
-.enlarge_inputfield_symbol_div {
-    position: absolute;
-    right: 10px;
-    top: 84%;
-    transform: translateY(-50%);
-    width: 20px;
-    height: 20px;
-}
-
-.enlarge_inputfield_symbol_div img {
-    width: 24px;
-    height: 24px;
-}
-
 #input_title {
     height: 48px;
     width: 100%;
@@ -47,4 +33,18 @@
 #input_date {
     height: 48px;
     width: 100%;
+}
+
+.enlarge_inputfield_symbol_div {
+    position: absolute;
+    right: 10px;
+    top: 84%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+}
+
+.enlarge_inputfield_symbol_div img {
+    width: 24px;
+    height: 24px;
 }

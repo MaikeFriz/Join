@@ -1,0 +1,141 @@
+.priority_buttons_div {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+
+
+.urgent_button {
+    width: 136px !important;
+    height: 56px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 4px 2px rgba(42, 54, 71, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.medium_button {
+    width: 136px;
+    height: 56px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 4px 2px rgba(42, 54, 71, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.low_button {
+    width: 136px !important;
+    height: 56px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 4px 2px rgba(42, 54, 71, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.urgent_button:hover {
+    box-shadow: none;
+    background-color: #FF3D00;
+    color: white;
+}
+
+.medium_button:hover {
+    box-shadow: none;
+    background-color: #FFA800;
+    color: white;
+}
+
+.low_button:hover {
+    box-shadow: none;
+    background-color: #7AE229;
+    color: white;
+}
+
+.urgent_button p {
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.medium_button p {
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.low_button p {
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.medium_symbol path {
+    fill: #FFA800;
+}
+
+.medium_button:hover .medium_symbol path {
+    fill: white;
+}
+
+.low_symbol path {
+    fill: #7AE229;
+}
+
+.low_button:hover .low_symbol path {
+    fill: white;
+}
+
+.urgent_symbol path {
+    fill: #FF3D00;
+}
+
+.urgent_button:hover .urgent_symbol path {
+    fill: white;
+}
+
+/*Fur js priority buttons*/
+
+.urgent_button.active {
+    box-shadow: none;
+    background-color: #FF3D00;
+    color: white;
+}
+
+.medium_button.active {
+    box-shadow: none;
+    background-color: #FFA800;
+    color: white;
+}
+
+.low_button.active {
+    box-shadow: none;
+    background-color: #7AE229;
+    color: white;
+}
+
+.urgent_button.active .urgent_symbol path {
+    fill: white;
+}
+
+.medium_button.active .medium_symbol path {
+    fill: white;
+}
+
+.low_button.active .low_symbol path {
+    fill: white;
+}
+
+/*ENDE*/

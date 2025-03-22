@@ -104,12 +104,10 @@ function createAssigneeTemplate(userId, userName) {
   const initials = getAssigneeInitials(userName);
 
   // Erste Buchstabe Vorname
-  const firstLetter = userName.charAt(0).toLowerCase(); // Ersten Buchstaben klein schreiben für CSS-Klassen
-
   return `
     <div class="assignee-item" id="assignee-${userId}">
       <div class="name_initials_div">
-        <span class="initials-circle ${firstLetter}">${initials}</span> 
+        <span class="initials-circle">${initials}</span> 
         <span class="dropdown-item">${userName}</span>
       </div>
       <button class="delete-assignee-button" onclick="removeAssignee('${userId}')">

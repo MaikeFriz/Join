@@ -156,3 +156,21 @@ body {
 .red_color {
     color: red;
 }
+
+
+.input_div_right {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    flex-direction: column;
+    height: 100%;
+    width: calc(100% / 2 - 24px);
+    flex: 1;
+}
+
+.input_div_right input {
+    border: rgb(209, 209, 209) solid 1px;
+    border-radius: 10px;
+    padding-left: 16px;
+    width: 100%;
+}
