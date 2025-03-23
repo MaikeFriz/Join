@@ -96,11 +96,11 @@ function processAssignedStatuses(currentAssignedStatus, kanbanData) {
         if (status === "toDo") {
           toDoCardsHTML += toDoCardTemplate(processedTask, kanbanData.users[processedTask.assignedTo] || {});
         } else if (status === "inProgress") {
-          inProgressCardsHTML += toDoCardTemplate(processedTask, kanbanData.users[processedTask.assignedTo] || {});
+          inProgressCardsHTML += inProgressCardTemplate(processedTask, kanbanData.users[processedTask.assignedTo] || {});
         } else if (status === "awaitingFeedback") {
-          awaitingFeedbackCardsHTML += toDoCardTemplate(processedTask, kanbanData.users[processedTask.assignedTo] || {});
+          awaitingFeedbackCardsHTML += awaitingFeedbackCardTemplate(processedTask, kanbanData.users[processedTask.assignedTo] || {});
         } else if (status === "done") {
-          doneCardsHTML += toDoCardTemplate(processedTask, kanbanData.users[processedTask.assignedTo] || {});
+          doneCardsHTML += doneCardTemplate(processedTask, kanbanData.users[processedTask.assignedTo] || {});
         }
       }
     }

@@ -20,10 +20,11 @@ function toDoCardTemplate(toDoContent) {
     `;
   }
   
-  function inProgressCardTemplate(inProgressContent) {
-    return /*html*/ `
+function inProgressCardTemplate(inProgressContent) {
+    let fitLabelForCSS = inProgressContent.label.toLowerCase().replace(/\s+/g, '-');
+      return /*html*/ `
       <div class="board-task draggable" draggable="true" data-task-id="${inProgressContent.taskId}">
-          <label class="${inProgressContent.label}">${inProgressContent.label}</label>
+          <label class="${fitLabelForCSS}">${inProgressContent.label}</label>
           <div>
               <h3>${inProgressContent.title || "Untitled Task"}</h3>
               <p>${inProgressContent.description || "No Description"}</p>
@@ -39,9 +40,10 @@ function toDoCardTemplate(toDoContent) {
   }
   
 function awaitingFeedbackCardTemplate(awaitingFeedbackContent) {
+    let fitLabelForCSS = awaitingFeedbackContent.label.toLowerCase().replace(/\s+/g, '-');
     return /*html*/ `
       <div class="board-task draggable" draggable="true" data-task-id="${awaitingFeedbackContent.taskId}">
-          <label class="${awaitingFeedbackContent.label}">${awaitingFeedbackContent.label}</label>
+          <label class="${fitLabelForCSS}">${awaitingFeedbackContent.label}</label>
           <div>
               <h3>${awaitingFeedbackContent.title || "Untitled Task"}</h3>
               <p>${awaitingFeedbackContent.description || "No Description"}</p>
@@ -57,9 +59,10 @@ function awaitingFeedbackCardTemplate(awaitingFeedbackContent) {
   }
   
 function doneCardTemplate(doneContent) {
+    let fitLabelForCSS = doneContent.label.toLowerCase().replace(/\s+/g, '-');
     return /*html*/ `
       <div class="board-task draggable" draggable="true" data-task-id="${doneContent.taskId}">
-          <label class="${doneContent.label}">${doneContent.label}</label>
+          <label class="${fitLabelForCSS}">${doneContent.label}</label>
           <div>  
               <h3>${doneContent.title || "Untitled Task"}</h3>
               <p>${doneContent.description || "No Description"}</p>

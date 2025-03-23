@@ -6,85 +6,115 @@ document.addEventListener("DOMContentLoaded", async () => {
     return;
   }
 
-  const BASE_URL = `https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData/.json`;
-  const currentAssignedStatus = await fetchKanbanData(BASE_URL, user); // Holt die zugewiesenen Aufgaben
+  async function fetchData(url) {
+    try {
+      const response = await fetch(url);
+      if (!response.ok)
+        throw new Error(`HTTP error! status: ${response.status}`);
+      return await response.json();
+    } catch (error) {
+      console.error("Failed to fetch data:", error);
+      return null;
+    }
+  }
 
-  if (currentAssignedStatus) {
-    // Da die Daten jetzt von 'scripts.js' verarbeitet wurden, rendert 'board.js' die Karten
-    renderKanbanBoard(currentAssignedStatus, user);
+  async function updateTaskStatus(taskId, newStatus) {
+    const url = `https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData/${user.userId}/assignedTasks/${taskId}.json`;
+    try {
+      const response = await fetch(url, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ status: newStatus }),
+      });
+      if (!response.ok)
+        throw new Error(`HTTP error! status: ${response.status}`);
+    } catch (error) {
+      console.error("Failed to update task status:", error);
+    }
+  }
+
+  function addHTMLToTaskContainers(toDoHTML, inProgressHTML, feedbackHTML, doneHTML) {
+    document.getElementById("toDoCard").innerHTML = toDoHTML;
+    document.getElementById("inProgressCard").innerHTML = inProgressHTML;
+    document.getElementById("awaitFeedbackCard").innerHTML = feedbackHTML;
+    document.getElementById("doneCard").innerHTML = doneHTML;
+    addDragAndDropHandlers();
+  }
+
+  function generateTaskContent(tasks, templateFunction) {
+    if (!tasks || Object.keys(tasks).length === 0) {
+      console.log("No tasks for this category");
+      return "";
+    }
+    return Object.values(tasks).map(templateFunction).join("");
+  }
+
+  function addDragAndDropHandlers() {
+    const draggables = document.querySelectorAll(".draggable");
+    const containers = document.querySelectorAll(".task-container");
+
+    draggables.forEach((draggable) => {
+      draggable.addEventListener("dragstart", () =>
+        draggable.classList.add("dragging")
+      );
+      draggable.addEventListener("dragend", () =>
+        draggable.classList.remove("dragging")
+      );
+    });
+
+    containers.forEach((container) => {
+      container.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        const afterElement = getDragAfterElement(container, e.clientY);
+        const draggable = document.querySelector(".dragging");
+        if (afterElement == null) {
+          container.appendChild(draggable);
+        } else {
+          container.insertBefore(draggable, afterElement);
+        }
+      });
+
+      container.addEventListener("drop", async (e) => {
+        const draggable = document.querySelector(".dragging");
+        const taskId = draggable.dataset.taskId;
+        const newStatus = container.id.replace("Card", "");
+        await updateTaskStatus(taskId, newStatus);
+      });
+    });
+  }
+
+  function getDragAfterElement(container, y) {
+    const draggableElements = [
+      ...container.querySelectorAll(".draggable:not(.dragging)"),
+    ];
+    return draggableElements.reduce(
+      (closest, child) => {
+        const box = child.getBoundingClientRect();
+        const offset = y - box.top - box.height / 2;
+        return offset < 0 && offset > closest.offset
+          ? { offset, element: child }
+          : closest;
+      },
+      { offset: Number.NEGATIVE_INFINITY }
+    ).element;
+  }
+
+  const dataUrl =
+    "https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData.json";
+  const data = await fetchData(dataUrl);
+
+  if (data?.users?.[user.userId]?.assignedTasks) {
+    const { toDo, inProgress, awaitingFeedback, done } =
+      data.users[user.userId].assignedTasks;
+    addHTMLToTaskContainers(
+      generateTaskContent(toDo, toDoCardTemplate),
+      generateTaskContent(inProgress, inProgressCardTemplate),
+      generateTaskContent(awaitingFeedback, awaitingFeedbackCardTemplate),
+      generateTaskContent(done, doneCardTemplate)
+    );
+  } else {
+    console.log("No assigned tasks found in the fetched data.");
   }
 });
-
-// Funktion zum Rendern des Kanban-Boards in 'board.js'
-function renderKanbanBoard(currentAssignedStatus, user) {
-  let toDoCardsHTML = "", inProgressCardsHTML = "", awaitingFeedbackCardsHTML = "", doneCardsHTML = "";
-  
-  const statuses = Object.keys(currentAssignedStatus);
-
-  statuses.forEach(status => {
-    const tasks = currentAssignedStatus[status];
-    const taskHTML = generateTaskContent(tasks, status);
-    
-    if (status === "toDo") toDoCardsHTML += taskHTML;
-    else if (status === "inProgress") inProgressCardsHTML += taskHTML;
-    else if (status === "awaitingFeedback") awaitingFeedbackCardsHTML += taskHTML;
-    else if (status === "done") doneCardsHTML += taskHTML;
-  });
-
-  // Karten-HTML in die jeweiligen Container einfügen
-  addHTMLToTaskContainers(toDoCardsHTML, inProgressCardsHTML, awaitingFeedbackCardsHTML, doneCardsHTML);
-}
-
-// Funktion zum Erstellen des HTML-Inhalts für die Aufgaben
-function generateTaskContent(tasks, status) {
-  if (!tasks || Object.keys(tasks).length === 0) {
-    console.log("No tasks for this category");
-    return "";
-  }
-
-  return Object.keys(tasks)
-    .map(taskId => {
-      const taskData = tasks[taskId];
-      const task = processTask(taskData, taskId); // Verarbeitet die Aufgaben-Daten
-      return createCardHTML(task, status);
-    })
-    .join("");
-}
-
-// Funktion zum Erstellen des HTML-Templates für eine Aufgabe
-function createCardHTML(task, status) {
-  switch (status) {
-    case "toDo":
-      return toDoCardTemplate(task);
-    case "inProgress":
-      return inProgressCardTemplate(task);
-    case "awaitingFeedback":
-      return awaitingFeedbackCardTemplate(task);
-    case "done":
-      return doneCardTemplate(task);
-    default:
-      return "";
-  }
-}
-
-// Funktion, um das HTML in die Container einzufügen
-function addHTMLToTaskContainers(toDoHTML, inProgressHTML, feedbackHTML, doneHTML) {
-  document.getElementById("toDoCard").innerHTML = toDoHTML;
-  document.getElementById("inProgressCard").innerHTML = inProgressHTML;
-  document.getElementById("awaitFeedbackCard").innerHTML = feedbackHTML;
-  document.getElementById("doneCard").innerHTML = doneHTML;
-  addDragAndDropHandlers(); // Drag-and-Drop nach dem Rendern hinzufügen
-}
-
-// Task-Daten verarbeiten, um sicherzustellen, dass alle Felder ausgefüllt sind
-function processTask(taskData, taskId) {
-  return {
-    ...taskData,
-    taskId: taskId,
-    title: taskData.title || "No Title",
-    description: taskData.description || "No Description",
-    label: taskData.label || "No Label",
-    priority: taskData.priority || "Low",
-    assignedUserName: taskData.assignedTo || "Unknown"
-  };
-}
