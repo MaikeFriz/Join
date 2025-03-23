@@ -6,8 +6,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       return;
     }
   
-    let userId = localStorage.getItem("userId");
-    console.log(userId);(userId)
+  console.log("!!!", user.userId);
     let BASE_URL = `https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData/`;
     let taskForm = document.getElementById("task_form");
   
@@ -42,23 +41,23 @@ document.addEventListener("DOMContentLoaded", async function () {
         let newTaskId = await getNewTaskId();
   
         // Save the task to the Firebase database
-        saveTaskToDatabase(newTaskId, taskData, userId);
+        saveTaskToDatabase(newTaskId, taskData, user.userId);
       });
     }
-  console.log(userId);
+  console.log(user.userId);
   
     // Function to get the task details
     function getTaskDetails() {
       let title = document.getElementById("input_title").value;
       let description = document.getElementById("input_description").value;
         let createdAt = new Date().toISOString(); // Current timestamp for creation
-        let createdBy = userId;
+        let createdBy = user.userId;
       let updatedAt = createdAt; // Set updatedAt to createdAt initially
       let priority = document.querySelector(".priority_buttons_div .active p").textContent.toLowerCase();
       let assignees = getAssignedUsers();
       let label = document.getElementById("category").value;
         let subtasks = getSubtaskList();
-        console.log(userId);
+        console.log(user.userId);
   
       // Return the task data in the specified format
       return {
@@ -144,7 +143,5 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
     
     addTaskFormListener();
-    
-    
   });
   

@@ -43,14 +43,15 @@ async function fetchKanbanData(baseUrl, user) {
     let response = await fetch(baseUrl);
     let kanbanData = await response.json();
 
+    console.log("Kanban-Daten aus Firebase:", kanbanData);
+
     if (!kanbanData.users[user.userId]) {
       console.error("Benutzer nicht gefunden oder ungültige userId.");
       return;
     }
 
     const currentAssignedStatus = kanbanData.users[user.userId].assignedTasks;
-    console.log("FireBase all Data:", kanbanData);
-    console.log("FireBase current AssignedStatus:", currentAssignedStatus);
+    console.log("Aktueller zugewiesener Status:", currentAssignedStatus);
 
     if (currentAssignedStatus && typeof currentAssignedStatus === 'object') {
       processAssignedStatuses(currentAssignedStatus, kanbanData);
@@ -63,72 +64,76 @@ async function fetchKanbanData(baseUrl, user) {
 }
 
 function processAssignedStatuses(currentAssignedStatus, kanbanData) {
+  // Initialisieren der HTML-Strings für die verschiedenen Status-Container
+  let toDoCardsHTML = "";
+  let inProgressCardsHTML = "";
+  let awaitingFeedbackCardsHTML = "";
+  let doneCardsHTML = "";
+
+  // Iteration über die Status und deren zugewiesene Aufgaben
   for (let status in currentAssignedStatus) {
     if (currentAssignedStatus.hasOwnProperty(status)) {
-      console.log("Status:", status); // Status anzeigen
-      console.log("Aufgaben für Status", status, ":");
+      console.log(`Status: ${status}`);
+      console.log(`Aufgaben für Status ${status}:`, currentAssignedStatus[status]);
 
       const tasks = currentAssignedStatus[status];
-      processTasks(tasks, kanbanData);
-    }
-  }
-}
+      const taskIds = Object.keys(tasks);
 
-function processTasks(tasks, kanbanData) {
-  for (let taskId in tasks) {
-    if (tasks.hasOwnProperty(taskId)) {
-      const task = kanbanData.tasks[taskId];
-      if (task) {
-        console.log(`Task ID: ${taskId}`);
-        console.log("Aufgabe:", task.title);
-        console.log("Beschreibung:", task.description);
-        console.log("Priorität:", task.priority);
+      for (let taskId of taskIds) {
+        console.log("Task-ID vor Verarbeitung:", taskId);
 
-        processSubtasks(task.subtasks);
+        // Verarbeite die Aufgabe mit `processTasks`, um vollständige Daten zu erhalten
+        const processedTask = processTasks(taskId, kanbanData);
+
+        if (!processedTask) {
+          console.error(`Task ${taskId} konnte nicht verarbeitet werden.`);
+          continue;
+        }
+
+        console.log("Task nach Verarbeitung:", processedTask);
+
+        // Passende HTML-Strings basierend auf dem Status erstellen
+        if (status === "toDo") {
+          toDoCardsHTML += toDoCardTemplate(processedTask, kanbanData.users[processedTask.assignedTo] || {});
+        } else if (status === "inProgress") {
+          inProgressCardsHTML += toDoCardTemplate(processedTask, kanbanData.users[processedTask.assignedTo] || {});
+        } else if (status === "awaitingFeedback") {
+          awaitingFeedbackCardsHTML += toDoCardTemplate(processedTask, kanbanData.users[processedTask.assignedTo] || {});
+        } else if (status === "done") {
+          doneCardsHTML += toDoCardTemplate(processedTask, kanbanData.users[processedTask.assignedTo] || {});
+        }
       }
     }
   }
+
+  console.log("Generierte HTML für ToDo:", toDoCardsHTML);
+  console.log("Generierte HTML für InProgress:", inProgressCardsHTML);
+  console.log("Generierte HTML für AwaitingFeedback:", awaitingFeedbackCardsHTML);
+  console.log("Generierte HTML für Done:", doneCardsHTML);
+
+  // Einfügen der HTML-Strings in die passenden DOM-Elemente
+  addHTMLToTaskContainers(toDoCardsHTML, inProgressCardsHTML, awaitingFeedbackCardsHTML, doneCardsHTML);
 }
 
-function processSubtasks(subtasks) {
-  if (subtasks && typeof subtasks === 'object') {
-    for (let subtaskId in subtasks) {
-      if (subtasks.hasOwnProperty(subtaskId)) {
-        const isCompleted = subtasks[subtaskId];
-        console.log(`Subtask ID: ${subtaskId}, Status: ${isCompleted ? "Completed" : "Pending"}`);
-      }
-    }
-  } else {
-    console.log("Keine Subtasks gefunden.");
+
+function processTasks(taskId, kanbanData) {
+  // Extrahiere die tatsächlichen Daten aus `kanbanData.tasks`
+  const task = kanbanData.tasks[taskId];
+  if (!task) {
+    console.error(`Task mit ID ${taskId} nicht gefunden.`);
+    return null;
   }
-} 
 
+  // Ergänze fehlende Felder mit Standardwerten
+  task.assignedUserName = kanbanData.users[task.assignedTo]?.name || "Unbekannter Benutzer";
+  task.label = task.label || "Keine Kategorie";
+  task.priority = task.priority || "low";
+  task.title = task.title || "Kein Titel";
+  task.description = task.description || "Keine Beschreibung";
 
-
-   /* 
-    //getDataContent(kanbanData);
-
-      getDataContentHTML(userDataContent);
-
-
-  function getDataContentHTML(userDataContent) {
-    const loggedInUser = localStorage.getItem("loggedInUser");
-    if (loggedInUser) {
-      return;
-    }
-    let toDoCardsHTML = getToDoContent(userDataContent);
-    let inProgressCardsHTML = getInProgressContent(userDataContent);
-    let awaitingFeedbackCardsHTML = getAwaitingFeedbackContent(userDataContent);
-    let doneCardsHTML = getDoneContent(userDataContent);
-  
-    addHTMLToTaskContainers(toDoCardsHTML, inProgressCardsHTML,awaitingFeedbackCardsHTML, doneCardsHTML);
-  }
-  
-});
-
-
-
-
+  console.log("Task in processTasks nach Ergänzungen:", task);
+  return task; // Rückgabe der verarbeiteten Aufgabe
+}
 
 function addHTMLToTaskContainers(toDoCardsHTML, inProgressCardsHTML, awaitingFeedbackCardsHTML, doneCardsHTML) {
   let toDoCardContainer = document.getElementById("toDoCard");
@@ -142,113 +147,20 @@ function addHTMLToTaskContainers(toDoCardsHTML, inProgressCardsHTML, awaitingFee
   doneCardContainer.innerHTML += doneCardsHTML;
 }
 
-function getToDoContent(userDataContent) {
-  let toDoCardsHTML = "";
-  if (
-    !userDataContent.assignedTasks ||
-    !userDataContent.assignedTasks.toDo ||
-    Object.keys(userDataContent.assignedTasks.toDo).length === 0
-  ) {
-    console.log("toDo: Keine Aufgaben für diesen User");
-  } else {
-    let toDo = userDataContent.assignedTasks.toDo;
-    let toDoArray = Object.values(toDo);
-    for (let toDoIndex = 0; toDoIndex < toDoArray.length; toDoIndex++) {
-      let toDoContent = toDoArray[toDoIndex];
-      console.log("toDo:", toDoContent);
-      toDoCardsHTML += toDoCardTemplate(toDoContent);
-    }
-  }
-  return toDoCardsHTML;
-}
-
-function getInProgressContent(userDataContent) {
-  let inProgressCardsHTML = "";
-  if (
-    !userDataContent.assignedTasks ||
-    !userDataContent.assignedTasks.inProgress ||
-    Object.keys(userDataContent.assignedTasks.inProgress).length === 0
-  ) {
-    console.log("In Progress: Keine Aufgaben für diesen User");
-  } else {
-    let inProgress = userDataContent.assignedTasks.inProgress;
-    let inProgressArray = Object.values(inProgress);
-    for (
-      let inProgressIndex = 0;
-      inProgressIndex < inProgressArray.length;
-      inProgressIndex++
-    ) {
-      let inProgressContent = inProgressArray[inProgressIndex];
-      console.log("In Progress:", inProgressContent);
-      inProgressCardsHTML += inProgressCardTemplate(inProgressContent);
-    }
-  }
-  return inProgressCardsHTML;
-}
-
-function getAwaitingFeedbackContent(userDataContent) {
-  let awaitingFeedbackCardsHTML = "";
-  if (
-    !userDataContent.assignedTasks ||
-    !userDataContent.assignedTasks.awaitingFeedback ||
-    Object.keys(userDataContent.assignedTasks.awaitingFeedback).length === 0
-  ) {
-    console.log("Awaiting Feedback: Keine Aufgaben für diesen User");
-  } else {
-    let awaitingFeedback = userDataContent.assignedTasks.awaitingFeedback;
-    let awaitingFeedbackArray = Object.values(awaitingFeedback);
-    for (
-      let awaitingFeedbackIndex = 0;
-      awaitingFeedbackIndex < awaitingFeedbackArray.length;
-      awaitingFeedbackIndex++
-    ) {
-      let awaitingFeedbackContent =
-        awaitingFeedbackArray[awaitingFeedbackIndex];
-      console.log("Awaiting Feedback:", awaitingFeedbackContent);
-      awaitingFeedbackCardsHTML += awaitingFeedbackCardTemplate(
-        awaitingFeedbackContent
-      );
-    }
-  }
-  return awaitingFeedbackCardsHTML;
-}
-
-function getDoneContent(userDataContent) {
-  let doneCardsHTML = "";
-  if (
-    !userDataContent.assignedTasks ||
-    !userDataContent.assignedTasks.done ||
-    Object.keys(userDataContent.assignedTasks.done).length === 0
-  ) {
-    console.log("Done: Keine Aufgaben für diesen User");
-  } else {
-    let done = userDataContent.assignedTasks.done;
-    let doneArray = Object.values(done);
-    for (let doneIndex = 0; doneIndex < doneArray.length; doneIndex++) {
-      let doneContent = doneArray[doneIndex];
-      console.log("Done:", doneContent);
-      doneCardsHTML += doneCardTemplate(doneContent);
-    }
-  }
-  return doneCardsHTML;
-}
-
-function assigneeTemplate(assigneeInitials) {
-  return `<div class="assignee">${assigneeInitials}</div>`;
-}
-
 function getAssignees(taskContent) {
   let assigneesHTML = "";
-  if (taskContent.assignees && taskContent.assignees.length > 0) {
-    for (
-      let assigneeIndex = 0;
-      assigneeIndex < taskContent.assignees.length;
-      assigneeIndex++
-    ) {
-      let assignee = taskContent.assignees[assigneeIndex];
-      let assigneeInitials = getAssigneeInitals(assignee);
-      assigneesHTML += assigneeTemplate(assigneeInitials);
-      console.log("Mitarbeiter:", assignee, assigneeInitials);
+  // Durchlaufen der Assignees-IDs und Abrufen der zugehörigen Benutzerdaten
+  if (taskContent.assignees && Object.keys(taskContent.assignees).length > 0) {
+    for (let assigneeId in taskContent.assignees) {
+      let assignee = localExampleDatabase.users[assigneeId]; // Hole die Benutzerdaten
+      console.log("Assignee ID:", assigneeId); // Loggt die Assignee-ID
+      console.log("Assignee Daten:", assignee); // Loggt die Benutzerdaten für diese ID
+
+      if (assignee) {
+        let assigneeInitials = getAssigneeInitals(assignee.name); // Verwende den vollständigen Namen
+        assigneesHTML += assigneeTemplate(assigneeInitials);
+        console.log("Mitarbeiter:", assignee.name, assigneeInitials);
+      }
     }
   } else {
     assigneesHTML = "<span>Keine Mitarbeiter zugewiesen</span>";
@@ -256,15 +168,23 @@ function getAssignees(taskContent) {
   return assigneesHTML;
 }
 
-function getAssigneeInitals(assignee) {
-  let assigneeInitials = "";
-  let [firstName, lastName] = assignee.split("-");
-  let firstLetter = firstName.charAt(0).toUpperCase();
-  let lastNameFirstLetter = lastName.charAt(0).toUpperCase();
-  assigneeInitials = firstLetter + lastNameFirstLetter;
 
+function getAssigneeInitals(assigneeName) {
+  let assigneeInitials = "";
+  let [firstName, lastName] = assigneeName.split(" "); // Spaltet den Namen in Vorname und Nachname
+  if (firstName && lastName) {
+    assigneeInitials = firstName.charAt(0).toUpperCase() + lastName.charAt(0).toUpperCase();
+  } else {
+    assigneeInitials = assigneeName.charAt(0).toUpperCase(); // Falls nur ein Name vorhanden ist
+  }
   return assigneeInitials;
 }
-*/
 
+function assigneeTemplate(initials) {
+  return `
+    <div class="assignee">
+      <span class="assignee-initials">${initials}</span>
+    </div>
+  `;
+}
 
