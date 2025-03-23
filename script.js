@@ -1,5 +1,6 @@
 
 function onloadFunc() {
+  getUserName();
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -14,6 +15,27 @@ function checkUserLogin() {
     window.location.href = "./log_in.html";
   }
   return user;
+}
+
+function getUserName() {
+  const loggedInUser = checkUserLogin();
+  if (loggedInUser) {
+    let userName = loggedInUser.name;
+    console.log("Benutzername:", userName);
+    getUserInitialForHeader(userName);
+  }
+}
+
+function getUserInitialForHeader(userName) {
+  let [firstName, lastName] = userName.split(" ");
+  let firstLetter = firstName.charAt(0).toUpperCase();
+  let lastNameFirstLetter = lastName.charAt(0).toUpperCase();
+  let initials = firstLetter + lastNameFirstLetter;
+  let headerInitials = document.getElementById("user-initials-header");
+
+  headerInitials.innerHTML =  `
+    <div>${initials}</div>
+  `;
 }
 
 async function fetchKanbanData(baseUrl, user) {
@@ -79,10 +101,9 @@ function processSubtasks(subtasks) {
   } else {
     console.log("Keine Subtasks gefunden.");
   }
-}
+} 
 
 
-    
 
    /* 
     //getDataContent(kanbanData);
@@ -105,27 +126,9 @@ function processSubtasks(subtasks) {
   
 });
 
-function getUserName() {
-  const loggedInUser = localStorage.getItem("loggedInUser");
-  if (loggedInUser) {
-    let userObject = JSON.parse(loggedInUser);
-    let userName = userObject.name;
-    console.log("Benutzername:", userName);
-    getUserInitialForHeader(userName);
-  }
-}
 
-function getUserInitialForHeader(userName) {
-  let [firstName, lastName] = userName.split(" ");
-  let firstLetter = firstName.charAt(0).toUpperCase();
-  let lastNameFirstLetter = lastName.charAt(0).toUpperCase();
-  let initials = firstLetter + lastNameFirstLetter;
-  let headerInitials = document.getElementById("user-initials-header");
 
-  headerInitials.innerHTML =  `
-    <div>${initials}</div>
-  `;
-}
+
 
 function addHTMLToTaskContainers(toDoCardsHTML, inProgressCardsHTML, awaitingFeedbackCardsHTML, doneCardsHTML) {
   let toDoCardContainer = document.getElementById("toDoCard");
