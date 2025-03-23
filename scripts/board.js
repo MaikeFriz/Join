@@ -108,6 +108,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (data?.users?.[user.userId]?.assignedTasks) {
     const { toDo, inProgress, awaitingFeedback, done } =
       data.users[user.userId].assignedTasks;
+    console.log(user.userId);
+    
     addHTMLToTaskContainers(
       generateTaskContent(toDo, toDoCardTemplate),
       generateTaskContent(inProgress, inProgressCardTemplate),

@@ -1,5 +1,4 @@
 
-
 function addHTMLToTaskContainers(toDoCardsHTML, inProgressCardsHTML, awaitingFeedbackCardsHTML, doneCardsHTML) {
   let toDoCardContainer = document.getElementById("toDoCard");
   let inProgressCardContainer = document.getElementById("inProgressCard");
@@ -12,35 +11,50 @@ function addHTMLToTaskContainers(toDoCardsHTML, inProgressCardsHTML, awaitingFee
   doneCardContainer.innerHTML += doneCardsHTML;
 }
 
-function assigneeTemplate(assigneeInitials) {
-  return `<div class="assignee">${assigneeInitials}</div>`;
-}
-
-function getAssignees(taskContent) {
-  let assigneesHTML = "";
-  if (taskContent.assignees && taskContent.assignees.length > 0) {
-    for (
-      let assigneeIndex = 0;
-      assigneeIndex < taskContent.assignees.length;
-      assigneeIndex++
-    ) {
-      let assignee = taskContent.assignees[assigneeIndex];
-      let assigneeInitials = getAssigneeInitals(assignee);
-      assigneesHTML += assigneeTemplate(assigneeInitials);
-      console.log("Mitarbeiter:", assignee, assigneeInitials);
+function getAssigneesNames(assignees, kanbanData) {
+  let assigneesNames = [];
+  for (let assigneeId in assignees) {
+    if (assignees.hasOwnProperty(assigneeId)) {
+      const assigneeName = kanbanData.users[assigneeId]?.name || "Unbekannter Benutzer";
+      assigneesNames.push(assigneeName);
+      console.log(`Assignee ID: ${assigneeId}, Assignee Name: ${assigneeName}`);
     }
-  } else {
-    assigneesHTML = "<span>Keine Mitarbeiter zugewiesen</span>";
   }
-  return assigneesHTML;
+  return assigneesNames;
 }
 
 function getAssigneeInitals(assignee) {
   let assigneeInitials = "";
-  let [firstName, lastName] = assignee.split("-");
+  let [firstName, lastName] = assignee.split(" ");
   let firstLetter = firstName.charAt(0).toUpperCase();
   let lastNameFirstLetter = lastName.charAt(0).toUpperCase();
   assigneeInitials = firstLetter + lastNameFirstLetter;
 
   return assigneeInitials;
+}
+
+function getFitAssigneesToCSS(assignee){
+  let firstLetterLowerCase = assignee.charAt(0).toLowerCase();
+  return firstLetterLowerCase;
+}
+
+function getAssignees(taskContent) {
+  let assigneesHTML = "";
+  if (taskContent.assigneesNames && taskContent.assigneesNames.length > 0) {
+    for (
+      let assigneeIndex = 0; assigneeIndex < taskContent.assigneesNames.length; assigneeIndex++ ) {
+      let assignee = taskContent.assigneesNames[assigneeIndex];
+      let assigneeInitials = getAssigneeInitals(assignee);
+      let firstLetterLowerCase = getFitAssigneesToCSS(assignee);
+      assigneesHTML += assigneeTemplate(assigneeInitials, firstLetterLowerCase);
+      console.log("Mitarbeiter:", assignee, assigneeInitials);
+    }
+  } else {
+    assigneesHTML = "<span>!!!</span>";
+  }
+  return assigneesHTML;
+}
+
+function assigneeTemplate(assigneeInitials, firstLetterLowerCase) {
+  return `<div class="assignee-initials ${firstLetterLowerCase}">${assigneeInitials}</div>`;
 }

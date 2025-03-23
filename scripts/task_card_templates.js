@@ -13,10 +13,7 @@ function toDoCardTemplate(toDoContent) {
               </div>
               <div class="${toDoContent.priority}"></div>
           </div>
-          <div class="assigned-user">
-              
-          </div>
-      </div>
+        </div>
     `;
   }
   
