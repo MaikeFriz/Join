@@ -162,7 +162,7 @@
     width: 100% !important;
 }
 
-.button_save{
+.button_save, .button_save_input_section{
     background-color: rgb(42, 54, 71);
     border: solid 2px  rgb(42, 54, 71);
     border-radius: 10px;
@@ -183,13 +183,13 @@
     gap: 8px;
 }
 
-.button_save:hover{
+.button_save,.button_save_input_section:hover{
     background-color: rgb(41, 171, 226);
     transform: scale(1.05);
     border: solid 2px rgb(41, 171, 226);
 }
 
-.button_cancel{
+.button_cancel, .button_delete_input_section{
     border: solid 2px  rgb(42, 54, 71);
     border-radius: 10px;
     color:  rgb(42, 54, 71);
@@ -203,7 +203,7 @@
     font-weight: 700;
 }
 
-.button_cancel:hover{
+.button_cancel, .button_delete_input_section:hover{
     border: solid 2px rgb(41, 171, 226);
     transform: scale(1.05);
     color: rgb(41, 171, 226);

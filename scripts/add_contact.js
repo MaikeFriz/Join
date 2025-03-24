@@ -11,35 +11,7 @@ document.addEventListener("DOMContentLoaded", function () {
   document
     .getElementById("add-contact-button")
     .addEventListener("click", function () {
-      const overlay = document.createElement("div");
-      overlay.id = "overlay";
-      overlay.style.position = "fixed";
-      overlay.style.top = "0";
-      overlay.style.left = "0";
-      overlay.style.width = "100%";
-      overlay.style.height = "100%";
-      overlay.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
-      overlay.style.zIndex = "1000";
-      overlay.style.display = "flex";
-      overlay.style.justifyContent = "center";
-      overlay.style.alignItems = "center";
-
-      const iframe = document.createElement("iframe");
-      iframe.src = "add_contact.html";
-      iframe.style.width = "80%";
-      iframe.style.height = "80%";
-      iframe.style.border = "none";
-      iframe.style.borderRadius = "8px";
-
-      overlay.appendChild(iframe);
-
-      document.body.appendChild(overlay);
-
-      overlay.addEventListener("click", function (event) {
-        if (event.target === overlay) {
-          document.body.removeChild(overlay);
-        }
-      });
+      openOverlay("add_contact.html");
     });
 });
 
@@ -47,17 +19,54 @@ window.addEventListener("message", function (event) {
   if (event.data.type === "createContact") {
     const newContact = event.data.contact;
     addContact(newContact);
-    const overlay = document.getElementById("overlay");
-    if (overlay) {
-      document.body.removeChild(overlay);
-    }
+    closeOverlay();
   } else if (event.data.type === "closeOverlay") {
-    const overlay = document.getElementById("overlay");
-    if (overlay) {
-      document.body.removeChild(overlay);
-    }
+    closeOverlay();
+  } else if (event.data.type === "editContact") {
+    const updatedContact = event.data.contact;
+    updateContact(updatedContact);
+    closeOverlay();
   }
 });
+
+function openOverlay(url) {
+  const overlay = document.createElement("div");
+  overlay.id = "overlay";
+  overlay.style.position = "fixed";
+  overlay.style.top = "0";
+  overlay.style.left = "0";
+  overlay.style.width = "100%";
+  overlay.style.height = "100%";
+  overlay.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
+  overlay.style.zIndex = "1000";
+  overlay.style.display = "flex";
+  overlay.style.justifyContent = "center";
+  overlay.style.alignItems = "center";
+
+  const iframe = document.createElement("iframe");
+  iframe.src = url;
+  iframe.style.width = "80%";
+  iframe.style.height = "80%";
+  iframe.style.border = "none";
+  iframe.style.borderRadius = "8px";
+
+  overlay.appendChild(iframe);
+
+  document.body.appendChild(overlay);
+
+  overlay.addEventListener("click", function (event) {
+    if (event.target === overlay) {
+      closeOverlay();
+    }
+  });
+}
+
+function closeOverlay() {
+  const overlay = document.getElementById("overlay");
+  if (overlay) {
+    document.body.removeChild(overlay);
+  }
+}
 
 function addContact(contact) {
   const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
@@ -83,6 +92,33 @@ function addContact(contact) {
     })
     .catch((error) => {
       console.error("Error adding contact:", error);
+    });
+}
+
+function updateContact(contact) {
+  const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+  if (!loggedInUser || !loggedInUser.userId) {
+    console.error("No logged-in user found");
+    return;
+  }
+
+  const userId = loggedInUser.userId;
+  const BASE_URL = `https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData/users/${userId}/contacts/${contact.id}.json`;
+
+  fetch(BASE_URL, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(contact),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log("Contact updated:", data);
+      renderContacts();
+    })
+    .catch((error) => {
+      console.error("Error updating contact:", error);
     });
 }
 
@@ -219,12 +255,50 @@ function displayContactDetails(contactId) {
           <p><strong>Phone:</strong> ${contact.phone}</p>
           <p><strong>Address:</strong> ${contact.address}</p>
         </div>
+        <div class="contact-buttons">
+          <button id="edit-contact-button">Edit Contact</button>
+          <button id="delete-contact-button">Delete Contact</button>
+        </div>
       `;
       document
         .querySelector(".right-side-content-contacts")
         .appendChild(newContactDetailsDiv);
+
+      document
+        .getElementById("delete-contact-button")
+        .addEventListener("click", function () {
+          deleteContact(contactId);
+        });
+
+      document
+        .getElementById("edit-contact-button")
+        .addEventListener("click", function () {
+          openOverlay(`edit_contact.html?contactId=${contactId}`);
+        });
     })
     .catch((error) => {
       console.error("Error fetching contact details:", error);
+    });
+}
+
+function deleteContact(contactId) {
+  const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+  if (!loggedInUser || !loggedInUser.userId) {
+    console.error("No logged-in user found");
+    return;
+  }
+
+  const userId = loggedInUser.userId;
+  const BASE_URL = `https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData/users/${userId}/contacts/${contactId}.json`;
+
+  fetch(BASE_URL, {
+    method: "DELETE",
+  })
+    .then(() => {
+      console.log("Contact deleted");
+      renderContacts();
+    })
+    .catch((error) => {
+      console.error("Error deleting contact:", error);
     });
 }
