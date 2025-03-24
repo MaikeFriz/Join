@@ -95,6 +95,11 @@ document.addEventListener("DOMContentLoaded", function () {
         const contactsList = document.querySelector(".contacts-list ul");
         contactsList.innerHTML = "";
 
+        if (!contacts) {
+          console.error("No contacts found");
+          return;
+        }
+
         // Convert contacts object to an array and sort alphabetically by name
         const sortedContacts = Object.keys(contacts)
           .map((key) => ({ id: key, ...contacts[key] }))

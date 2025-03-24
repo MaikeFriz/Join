@@ -32,7 +32,7 @@ function getUserInitialForHeader(userName) {
   let initials = firstLetter + lastNameFirstLetter;
   let headerInitials = document.getElementById("user-initials-header");
 
-  headerInitials.innerHTML =  `
+  headerInitials.innerHTML = `
     <div>${initials}</div>
   `;
 }
@@ -52,10 +52,12 @@ async function fetchKanbanData(baseUrl, user) {
     const currentAssignedStatus = kanbanData.users[user.userId].assignedTasks;
     console.log("Aktueller zugewiesener Status:", currentAssignedStatus);
 
-    if (currentAssignedStatus && typeof currentAssignedStatus === 'object') {
+    if (currentAssignedStatus && typeof currentAssignedStatus === "object") {
       processAssignedStatuses(currentAssignedStatus, kanbanData);
     } else {
-      console.log("Der Benutzer hat keine zugewiesenen Aufgaben oder assignedTasks ist nicht korrekt.");
+      console.log(
+        "Der Benutzer hat keine zugewiesenen Aufgaben oder assignedTasks ist nicht korrekt."
+      );
     }
   } catch (error) {
     console.error("Fehler beim Abrufen der Kanban-Daten:", error);
@@ -72,7 +74,10 @@ function processAssignedStatuses(currentAssignedStatus, kanbanData) {
   for (let status in currentAssignedStatus) {
     if (currentAssignedStatus.hasOwnProperty(status)) {
       console.log(`Status: ${status}`);
-      console.log(`Aufgaben für Status ${status}:`, currentAssignedStatus[status]);
+      console.log(
+        `Aufgaben für Status ${status}:`,
+        currentAssignedStatus[status]
+      );
 
       const tasks = currentAssignedStatus[status];
       const taskIds = Object.keys(tasks);
@@ -94,9 +99,15 @@ function processAssignedStatuses(currentAssignedStatus, kanbanData) {
         if (status === "toDo") {
           toDoCardsHTML += toDoCardTemplate(processedTask, kanbanData);
         } else if (status === "inProgress") {
-          inProgressCardsHTML += inProgressCardTemplate(processedTask, kanbanData);
+          inProgressCardsHTML += inProgressCardTemplate(
+            processedTask,
+            kanbanData
+          );
         } else if (status === "awaitingFeedback") {
-          awaitingFeedbackCardsHTML += awaitingFeedbackCardTemplate(processedTask, kanbanData);
+          awaitingFeedbackCardsHTML += awaitingFeedbackCardTemplate(
+            processedTask,
+            kanbanData
+          );
         } else if (status === "done") {
           doneCardsHTML += doneCardTemplate(processedTask, kanbanData);
         }
@@ -104,7 +115,24 @@ function processAssignedStatuses(currentAssignedStatus, kanbanData) {
     }
   }
 
-  addHTMLToTaskContainers(toDoCardsHTML, inProgressCardsHTML, awaitingFeedbackCardsHTML, doneCardsHTML);
+  addHTMLToTaskContainers(
+    toDoCardsHTML,
+    inProgressCardsHTML,
+    awaitingFeedbackCardsHTML,
+    doneCardsHTML
+  );
+}
+
+function getAssigneesNames(assignees, kanbanData) {
+  let assigneesNames = [];
+  for (let assigneeId in assignees) {
+    if (assignees.hasOwnProperty(assigneeId)) {
+      let userName =
+        kanbanData.users[assigneeId]?.name || "Unbekannter Benutzer";
+      assigneesNames.push(userName);
+    }
+  }
+  return assigneesNames;
 }
 
 function processTasks(taskId, kanbanData) {
@@ -115,7 +143,8 @@ function processTasks(taskId, kanbanData) {
   }
 
   // Ergänze fehlende Felder mit Standardwerten
-  task.assignedUserName = kanbanData.users[task.assignedTo]?.name || "Unbekannter Benutzer";
+  task.assignedUserName =
+    kanbanData.users[task.assignedTo]?.name || "Unbekannter Benutzer";
   task.label = task.label || "Keine Kategorie";
   task.priority = task.priority || "low";
   task.title = task.title || "Kein Titel";
@@ -125,8 +154,5 @@ function processTasks(taskId, kanbanData) {
   task.assigneesNames = getAssigneesNames(task.assignees, kanbanData); // Hole Assignee-Namen
 
   console.log("Task nach Verarbeitung:", task);
-  return task; 
+  return task;
 }
-
-
-
