@@ -1,11 +1,16 @@
 function toDoCardTemplate(toDoContent) {
-    let fitLabelForCSS = toDoContent.label.toLowerCase().replace(/\s+/g, '-');
-    return /*html*/ `
-      <div class="board-task draggable" draggable="true" data-task-id="${toDoContent.taskId}">
-          <label class="${fitLabelForCSS}">${toDoContent.label}</label>
+  let label = toDoContent.label || "Keine Kategorie"; // Provide a default value
+  let fitLabelForCSS = label.toLowerCase().replace(/\s+/g, "-");
+  let title = toDoContent.title || "Untitled Task"; // Provide a default value
+  let description = toDoContent.description || "No Description"; // Provide a default value
+  return /*html*/ `
+      <div class="board-task draggable" draggable="true" data-task-id="${
+        toDoContent.taskId
+      }">
+          <label class="${fitLabelForCSS}">${label}</label>
           <div>
-              <h3>${toDoContent.title || "Untitled Task"}</h3>
-              <p>${toDoContent.description || "No Description"}</p>
+              <h3>${title}</h3>
+              <p>${description}</p>
           </div>
           <div class="review-task-bottom">
               <div class="assignees-container">
@@ -15,16 +20,21 @@ function toDoCardTemplate(toDoContent) {
           </div>
         </div>
     `;
-  }
-  
+}
+
 function inProgressCardTemplate(inProgressContent) {
-    let fitLabelForCSS = inProgressContent.label.toLowerCase().replace(/\s+/g, '-');
-      return /*html*/ `
-      <div class="board-task draggable" draggable="true" data-task-id="${inProgressContent.taskId}">
-          <label class="${fitLabelForCSS}">${inProgressContent.label}</label>
+  let label = inProgressContent.label || "Keine Kategorie"; // Provide a default value
+  let fitLabelForCSS = label.toLowerCase().replace(/\s+/g, "-");
+  let title = inProgressContent.title || "Untitled Task"; // Provide a default value
+  let description = inProgressContent.description || "No Description"; // Provide a default value
+  return /*html*/ `
+      <div class="board-task draggable" draggable="true" data-task-id="${
+        inProgressContent.taskId
+      }">
+          <label class="${fitLabelForCSS}">${label}</label>
           <div>
-              <h3>${inProgressContent.title || "Untitled Task"}</h3>
-              <p>${inProgressContent.description || "No Description"}</p>
+              <h3>${title}</h3>
+              <p>${description}</p>
           </div>
           <div class="review-task-bottom">
               <div class="assignees-container">
@@ -34,16 +44,21 @@ function inProgressCardTemplate(inProgressContent) {
           </div>
       </div>
     `;
-  }
-  
+}
+
 function awaitingFeedbackCardTemplate(awaitingFeedbackContent) {
-    let fitLabelForCSS = awaitingFeedbackContent.label.toLowerCase().replace(/\s+/g, '-');
-    return /*html*/ `
-      <div class="board-task draggable" draggable="true" data-task-id="${awaitingFeedbackContent.taskId}">
-          <label class="${fitLabelForCSS}">${awaitingFeedbackContent.label}</label>
+  let label = awaitingFeedbackContent.label || "Keine Kategorie"; // Provide a default value
+  let fitLabelForCSS = label.toLowerCase().replace(/\s+/g, "-");
+  let title = awaitingFeedbackContent.title || "Untitled Task"; // Provide a default value
+  let description = awaitingFeedbackContent.description || "No Description"; // Provide a default value
+  return /*html*/ `
+      <div class="board-task draggable" draggable="true" data-task-id="${
+        awaitingFeedbackContent.taskId
+      }">
+          <label class="${fitLabelForCSS}">${label}</label>
           <div>
-              <h3>${awaitingFeedbackContent.title || "Untitled Task"}</h3>
-              <p>${awaitingFeedbackContent.description || "No Description"}</p>
+              <h3>${title}</h3>
+              <p>${description}</p>
           </div>
           <div class="review-task-bottom">
               <div class="assignees-container">
@@ -53,16 +68,21 @@ function awaitingFeedbackCardTemplate(awaitingFeedbackContent) {
           </div>
       </div>
     `;
-  }
-  
+}
+
 function doneCardTemplate(doneContent) {
-    let fitLabelForCSS = doneContent.label.toLowerCase().replace(/\s+/g, '-');
-    return /*html*/ `
-      <div class="board-task draggable" draggable="true" data-task-id="${doneContent.taskId}">
-          <label class="${fitLabelForCSS}">${doneContent.label}</label>
+  let label = doneContent.label || "Keine Kategorie"; // Provide a default value
+  let fitLabelForCSS = label.toLowerCase().replace(/\s+/g, "-");
+  let title = doneContent.title || "Untitled Task"; // Provide a default value
+  let description = doneContent.description || "No Description"; // Provide a default value
+  return /*html*/ `
+      <div class="board-task draggable" draggable="true" data-task-id="${
+        doneContent.taskId
+      }">
+          <label class="${fitLabelForCSS}">${label}</label>
           <div>  
-              <h3>${doneContent.title || "Untitled Task"}</h3>
-              <p>${doneContent.description || "No Description"}</p>
+              <h3>${title}</h3>
+              <p>${description}</p>
           </div>  
           <div class="review-task-bottom">
               <div class="assignees-container">
@@ -72,5 +92,4 @@ function doneCardTemplate(doneContent) {
           </div>
       </div>
     `;
-  }
-  
+}

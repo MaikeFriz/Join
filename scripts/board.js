@@ -6,6 +6,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     return;
   }
 
+  const BASE_URL = `https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData/${user.userId}/assignedTasks.json`;
+
   async function fetchData(url) {
     try {
       const response = await fetch(url);
@@ -35,7 +37,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   }
 
-  function addHTMLToTaskContainers(toDoHTML, inProgressHTML, feedbackHTML, doneHTML) {
+  function addHTMLToTaskContainers(
+    toDoHTML,
+    inProgressHTML,
+    feedbackHTML,
+    doneHTML
+  ) {
     document.getElementById("toDoCard").innerHTML = toDoHTML;
     document.getElementById("inProgressCard").innerHTML = inProgressHTML;
     document.getElementById("awaitFeedbackCard").innerHTML = feedbackHTML;
@@ -75,13 +82,6 @@ document.addEventListener("DOMContentLoaded", async () => {
           container.insertBefore(draggable, afterElement);
         }
       });
-
-      container.addEventListener("drop", async (e) => {
-        const draggable = document.querySelector(".dragging");
-        const taskId = draggable.dataset.taskId;
-        const newStatus = container.id.replace("Card", "");
-        await updateTaskStatus(taskId, newStatus);
-      });
     });
   }
 
@@ -89,34 +89,34 @@ document.addEventListener("DOMContentLoaded", async () => {
     const draggableElements = [
       ...container.querySelectorAll(".draggable:not(.dragging)"),
     ];
+
     return draggableElements.reduce(
       (closest, child) => {
         const box = child.getBoundingClientRect();
         const offset = y - box.top - box.height / 2;
-        return offset < 0 && offset > closest.offset
-          ? { offset, element: child }
-          : closest;
+        if (offset < 0 && offset > closest.offset) {
+          return { offset: offset, element: child };
+        } else {
+          return closest;
+        }
       },
       { offset: Number.NEGATIVE_INFINITY }
     ).element;
   }
 
-  const dataUrl =
-    "https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData.json";
-  const data = await fetchData(dataUrl);
-
-  if (data?.users?.[user.userId]?.assignedTasks) {
-    const { toDo, inProgress, awaitingFeedback, done } =
-      data.users[user.userId].assignedTasks;
-    console.log(user.userId);
-    
-    addHTMLToTaskContainers(
-      generateTaskContent(toDo, toDoCardTemplate),
-      generateTaskContent(inProgress, inProgressCardTemplate),
-      generateTaskContent(awaitingFeedback, awaitingFeedbackCardTemplate),
-      generateTaskContent(done, doneCardTemplate)
+  const kanbanData = await fetchData(BASE_URL);
+  if (kanbanData) {
+    const toDoHTML = generateTaskContent(kanbanData.toDo, toDoCardTemplate);
+    const inProgressHTML = generateTaskContent(
+      kanbanData.inProgress,
+      inProgressCardTemplate
     );
-  } else {
-    console.log("No assigned tasks found in the fetched data.");
+    const feedbackHTML = generateTaskContent(
+      kanbanData.awaitingFeedback,
+      awaitingFeedbackCardTemplate
+    );
+    const doneHTML = generateTaskContent(kanbanData.done, doneCardTemplate);
+
+    addHTMLToTaskContainers(toDoHTML, inProgressHTML, feedbackHTML, doneHTML);
   }
 });
