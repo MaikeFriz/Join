@@ -14,26 +14,26 @@ document.addEventListener("DOMContentLoaded", () => {
 function checkUserLogin() {
   const user = JSON.parse(localStorage.getItem("loggedInUser"));
   if (!user) {
-    window.location.href = "./log_in.html"; // Redirect to login if user is not logged in
+    window.location.href = "./log_in.html";
   }
   return user;
 }
 
 // Retrieves the logged-in user's name and displays the initials in the header
 function getUserName() {
-  const loggedInUser = checkUserLogin(); // Get the logged-in user
+  const loggedInUser = checkUserLogin();
   if (loggedInUser) {
     let userName = loggedInUser.name;
     console.log("User name:", userName);
-    getUserInitialForHeader(userName); // Get initials for the header
+    getUserInitialForHeader(userName);
   }
 }
 
 // Extracts the first and last name to display the initials in the header
 function getUserInitialForHeader(userName) {
   let [firstName, lastName] = userName.split(" ");
-  let firstLetter = firstName.charAt(0).toUpperCase(); // First letter of first name
-  let lastNameFirstLetter = lastName.charAt(0).toUpperCase(); // First letter of last name
+  let firstLetter = firstName.charAt(0).toUpperCase();
+  let lastNameFirstLetter = lastName.charAt(0).toUpperCase();
   let initials = firstLetter + lastNameFirstLetter;
   let headerInitials = document.getElementById("user-initials-header");
 
@@ -45,8 +45,8 @@ function getUserInitialForHeader(userName) {
 // Fetches kanban data from Firebase and processes it
 async function fetchKanbanData(baseUrl, user) {
   try {
-    let response = await fetch(baseUrl); // Fetch data from Firebase
-    let kanbanData = await response.json(); // Parse JSON response
+    let response = await fetch(baseUrl);
+    let kanbanData = await response.json();
 
     console.log("Kanban data from Firebase:", kanbanData);
 
@@ -55,11 +55,12 @@ async function fetchKanbanData(baseUrl, user) {
       return;
     }
 
-    const currentAssignedStatus = kanbanData.users[user.userId].assignedTasks; // Get assigned tasks for the user
+    const currentAssignedStatus = kanbanData.users[user.userId].assignedTasks;
     console.log("Current assigned status:", currentAssignedStatus);
 
     if (currentAssignedStatus && typeof currentAssignedStatus === "object") {
-      processAssignedStatuses(currentAssignedStatus, kanbanData); // Process the assigned tasks by status
+      const statusHTMLMap = processAssignedStatuses(currentAssignedStatus, kanbanData);
+      assignStatusHTMLToContainers(statusHTMLMap);
     } else {
       console.log("User has no assigned tasks or assignedTasks is not correctly formatted.");
     }
@@ -68,73 +69,48 @@ async function fetchKanbanData(baseUrl, user) {
   }
 }
 
-// Processes the assigned tasks by each status (ToDo, In Progress, Awaiting Feedback, Done)
+// Processes tasks for each status and generates HTML strings
 function processAssignedStatuses(currentAssignedStatus, kanbanData) {
-  let toDoCardsHTML = "";
-  let inProgressCardsHTML = "";
-  let awaitingFeedbackCardsHTML = "";
-  let doneCardsHTML = "";
+  const statusHTMLMap = {
+    toDo: "",
+    inProgress: "",
+    awaitingFeedback: "",
+    done: ""
+  };
 
-  // Iterate through the statuses and their assigned tasks
   for (let status in currentAssignedStatus) {
     if (currentAssignedStatus.hasOwnProperty(status)) {
-      console.log(`Status: ${status}`);
-      console.log(`Tasks for status ${status}:`, currentAssignedStatus[status]);
-
       const tasks = currentAssignedStatus[status];
       const taskIds = Object.keys(tasks);
-
-      // Iterate through each task ID
-      for (let taskId of taskIds) {
-        console.log("Task ID before processing:", taskId);
-
-        // Process the task to get full data using processTasks
-        const processedTask = processTasks(taskId, kanbanData);
-
-        if (!processedTask) {
-          console.error(`Task ${taskId} could not be processed.`);
-          continue;
-        }
-
-        console.log("Task after processing:", processedTask);
-
-        // Use a common template for all statuses
-        const taskHTML = taskCardTemplate(processedTask); // A template for all statuses
-
-        // Create HTML strings for each status
-        if (status === "toDo") {
-          toDoCardsHTML += taskHTML;
-        } else if (status === "inProgress") {
-          inProgressCardsHTML += taskHTML;
-        } else if (status === "awaitingFeedback") {
-          awaitingFeedbackCardsHTML += taskHTML;
-        } else if (status === "done") {
-          doneCardsHTML += taskHTML;
-        }
-      }
+      statusHTMLMap[status] = processTasksByStatus(taskIds, status, kanbanData);
     }
   }
-
-  // Add the generated HTML to the corresponding containers
-  addHTMLToTaskContainers(
-    toDoCardsHTML,
-    inProgressCardsHTML,
-    awaitingFeedbackCardsHTML,
-    doneCardsHTML
-  );
+  return statusHTMLMap;
 }
 
-// Adds the generated HTML for each status to the respective containers
-function addHTMLToTaskContainers(
-  toDoCardsHTML,
-  inProgressCardsHTML,
-  awaitingFeedbackCardsHTML,
-  doneCardsHTML
-) {
-  document.getElementById("toDoCardsColumn").innerHTML = toDoCardsHTML;
-  document.getElementById("inProgressCardsColumn").innerHTML = inProgressCardsHTML;
-  document.getElementById("awaitFeedbackCardsColumn").innerHTML = awaitingFeedbackCardsHTML;
-  document.getElementById("doneCardsColumn").innerHTML = doneCardsHTML;
+// Processes tasks for a specific status and returns the HTML string
+function processTasksByStatus(taskIds, status, kanbanData) {
+  let statusHTML = "";
+
+  for (let taskId of taskIds) {
+    const processedTask = processTasks(taskId, kanbanData);
+
+    if (!processedTask) {
+      console.error(`Task ${taskId} could not be processed.`);
+      continue;
+    }
+    const taskHTML = taskCardTemplate(processedTask);
+    statusHTML += taskHTML;
+  }
+  return statusHTML;
+}
+
+// Assigns generated HTML strings to their respective status containers
+function assignStatusHTMLToContainers(statusHTMLMap) {
+  document.getElementById("toDoCardsColumn").innerHTML = statusHTMLMap.toDo;
+  document.getElementById("inProgressCardsColumn").innerHTML = statusHTMLMap.inProgress;
+  document.getElementById("awaitFeedbackCardsColumn").innerHTML = statusHTMLMap.awaitingFeedback;
+  document.getElementById("doneCardsColumn").innerHTML = statusHTMLMap.done;
 }
 
 // Processes each task, filling in missing fields and returning the complete task object
@@ -145,17 +121,14 @@ function processTasks(taskId, kanbanData) {
     return null;
   }
 
-  // Fill missing fields with default values
-  task.taskId = taskId; // Explicitly add task ID
+  task.taskId = taskId; 
   task.assignedUserName = kanbanData.users[task.assignedTo]?.name || "Unknown User";
   task.label = task.label || "No Category";
   task.priority = task.priority || "low";
   task.title = task.title || "No Title";
   task.description = task.description || "No Description";
-  task.assignees = task.assignees || {}; // Ensure assignees is an object
-  task.assigneesNames = getAssigneesNames(task.assignees, kanbanData); // Get assignee names
-
-  console.log("Task after processing:", task);
+  task.assignees = task.assignees || {};
+  task.assigneesNames = getAssigneesNames(task.assignees, kanbanData); 
   return task;
 }
 
@@ -171,4 +144,3 @@ function getAssigneesNames(assignees, kanbanData) {
   }
   return assigneesNames;
 }
-
