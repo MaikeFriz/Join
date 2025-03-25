@@ -1,27 +1,87 @@
-// Function to initialize drag-and-drop behavior for tasks
+// Initializes the drag-and-drop functionality for each task container
 function initializeDragAndDrop(taskContainers) {
-  let draggedTask = null;
-
   taskContainers.forEach((container) => {
-    container.addEventListener("dragstart", (event) => handleDragStart(event, (task) => (draggedTask = task)));
-    container.addEventListener("dragend", (event) => handleDragEnd(event, () => (draggedTask = null)));
-    container.addEventListener("dragover", (event) => event.preventDefault()); // Allow drop
-    container.addEventListener("drop", (event) => handleDrop(event, container, draggedTask, (task) => updateTaskStatus(task.dataset.taskId, container.id)));
+    setupDragStartListener(container);
+    setupDragEndListener(container);
+    setupDragOverListener(container);
+    setupDropListener(container);
   });
 }
 
-// Drag-and-drop event handlers
-function handleDragStart(event, onDragStart) {
-  const task = event.target;
-  task.classList.add("dragging");
-  onDragStart(task);
+// Sets up the 'dragstart' event listener for the task container
+function setupDragStartListener(container) {
+  container.addEventListener("dragstart", (event) =>
+    handleDragStart(event, (task, clone) => {
+      draggedTask = task;
+      taskClone = clone;
+    })
+  );
 }
 
+// Sets up the 'dragend' event listener for the task container
+function setupDragEndListener(container) {
+  container.addEventListener("dragend", (event) =>
+    handleDragEnd(event, () => {
+      draggedTask = null;
+      if (taskClone) {
+        taskClone.remove();
+        taskClone = null;
+      }
+    })
+  );
+}
+
+// Sets up the 'dragover' event listener for the task container
+function setupDragOverListener(container) {
+  container.addEventListener("dragover", (event) => handleDragOver(event, taskClone));
+}
+
+// Sets up the 'drop' event listener for the task container
+function setupDropListener(container) {
+  container.addEventListener("drop", (event) =>
+    handleDrop(event, container, draggedTask, (task) => updateTaskStatus(task.dataset.taskId, container.id))
+  );
+}
+
+// Handles the dragstart event, setting up the task and its clone
+function handleDragStart(event, onDragStart) {
+  const task = event.target;
+  event.dataTransfer.setData("text/plain", "");
+  const taskClone = task.cloneNode(true);
+  taskClone.classList.add("dragging-clone");
+  document.body.appendChild(taskClone);
+  const rect = task.getBoundingClientRect();
+  const offsetX = event.clientX - rect.left;
+  const offsetY = event.clientY - rect.top;
+  taskClone.style.left = `${event.pageX - offsetX}px`;
+  taskClone.style.top = `${event.pageY - offsetY}px`;
+  taskClone.style.width = `${task.offsetWidth}px`;
+  taskClone.style.height = `${task.offsetHeight}px`;
+  const invisibleElement = document.createElement("div");
+  invisibleElement.style.width = "0px";
+  invisibleElement.style.height = "0px";
+  event.dataTransfer.setDragImage(invisibleElement, 0, 0);
+  task.classList.add("dragging");
+  onDragStart(task, taskClone);
+}
+
+// Handles the dragend event, cleaning up after the drag operation
 function handleDragEnd(event, onDragEnd) {
-  event.target.classList.remove("dragging");
+  const task = event.target;
+  task.classList.remove("dragging");
   onDragEnd();
 }
 
+// Updates the position of the task clone as it follows the cursor during drag
+function handleDragOver(event, taskClone) {
+  event.preventDefault();
+  if (taskClone) {
+    taskClone.style.left = `${event.pageX - taskClone.offsetWidth / 2}px`;
+    taskClone.style.top = `${event.pageY - taskClone.offsetHeight / 2}px`;
+  }
+}
+
+// Handles the drop event, moving the dragged task to its new container
 function handleDrop(event, container, draggedTask, onTaskDropped) {
   event.preventDefault();
   if (draggedTask) {
@@ -30,18 +90,15 @@ function handleDrop(event, container, draggedTask, onTaskDropped) {
   }
 }
 
-// Initialize drag-and-drop functionality when DOM is loaded
+// Initializes the drag-and-drop functionality after the document is loaded
 document.addEventListener("DOMContentLoaded", () => {
   const taskContainers = document.querySelectorAll(".task-container");
   initializeDragAndDrop(taskContainers);
 });
 
-
-// Function to update the task status
+// Updates the task's status in the Firebase database
 function updateTaskStatus(taskId, newStatusColumnId) {
   const newStatus = mapColumnIdToStatus(newStatusColumnId);
-
-  // Update the task status in Firebase
   updateTaskInFirebase(taskId, newStatus)
     .then(() => {
       console.log(`Task ID: ${taskId} successfully moved to status ${newStatus}.`);
@@ -51,7 +108,7 @@ function updateTaskStatus(taskId, newStatusColumnId) {
     });
 }
 
-// Function to map column IDs to actual statuses
+// Maps the column ID to the task's status
 function mapColumnIdToStatus(columnId) {
   const columnStatusMap = {
     toDoCardsColumn: "toDo",
@@ -62,19 +119,20 @@ function mapColumnIdToStatus(columnId) {
   return columnStatusMap[columnId];
 }
 
-// Function to remove the task from all other status lists in Firebase
+
+// Removes the task from all other status lists in Firebase
 function removeTaskFromOtherStatuses(taskId, userId, baseUrl) {
   const statusPaths = ["toDo", "inProgress", "awaitingFeedback", "done"];
   const deletePromises = statusPaths.map((status) => {
     const taskPath = `${baseUrl}users/${userId}/assignedTasks/${status}/${taskId}.json`;
     return fetch(taskPath, {
-      method: "DELETE", // Remove the task from the previous list
+      method: "DELETE",
     });
   });
   return Promise.all(deletePromises);
 }
 
-// Function to add the task to the new status list in Firebase
+// Adds the task to the new status list in Firebase
 function addTaskToNewStatus(taskId, newStatus, userId, baseUrl) {
   const taskPath = `${baseUrl}users/${userId}/assignedTasks/${newStatus}/${taskId}.json`;
   return fetch(taskPath, {
@@ -82,11 +140,11 @@ function addTaskToNewStatus(taskId, newStatus, userId, baseUrl) {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(true), // Mark the task as active in the new list
+    body: JSON.stringify(true),
   });
 }
 
-// Main function to update the task in Firebase
+// Updates the task's status in Firebase by removing it from other statuses and adding it to the new one
 function updateTaskInFirebase(taskId, newStatus) {
   const BASE_URL = `https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData/`;
   const user = JSON.parse(localStorage.getItem("loggedInUser"));
