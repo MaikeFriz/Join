@@ -1,16 +1,3 @@
-// Function to add HTML content to task containers for each status
-function addHTMLToTaskContainers(toDoCardsHTML, inProgressCardsHTML, awaitingFeedbackCardsHTML, doneCardsHTML) {
-  let toDoCardContainer = document.getElementById("toDoCard");
-  let inProgressCardContainer = document.getElementById("inProgressCard");
-  let awaitingFeedbackContainer = document.getElementById("awaitFeedbackCard");
-  let doneCardContainer = document.getElementById("doneCard");
-
-  // Append the respective task HTML content to the containers
-  toDoCardContainer.innerHTML += toDoCardsHTML;
-  inProgressCardContainer.innerHTML += inProgressCardsHTML;
-  awaitingFeedbackContainer.innerHTML += awaitingFeedbackCardsHTML;
-  doneCardContainer.innerHTML += doneCardsHTML;
-}
 
 // Function to extract and format task data (label, title, description)
 function getTaskData(taskContent) {
