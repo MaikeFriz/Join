@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="./styles/label_and_user_backgrounds.css">
 
     <script src="./script.js"></script>
-    <script src="./scripts/board.js"></script>
+    <script src="./scripts/board_drag_drop.js"></script>
     <script src="./scripts/task_card_templates.js"></script>
     <script src="./scripts/get_task_contents.js"></script>
     <script src="./scripts/collapse.js" defer></script>
@@ -104,21 +104,21 @@
                 </div>
 
                 <div class="kanban-header">
-                    <span>To do <button class="collapse-button" data-target="toDoCard">-</button></span>
-                    <span>In progress <button class="collapse-button" data-target="inProgressCard">-</button></span>
-                    <span>Await for feedback <button class="collapse-button" data-target="awaitFeedbackCard">-</button></span>
-                    <span>Done <button class="collapse-button" data-target="doneCard">-</button></span>
+                    <span>To do <button class="collapse-button" data-target="toDoCardsColumn">-</button></span>
+                    <span>In progress <button class="collapse-button" data-target="inProgressCardsColumn">-</button></span>
+                    <span>Await for feedback <button class="collapse-button" data-target="awaitFeedbackCardsColumn">-</button></span>
+                    <span>Done <button class="collapse-button" data-target="doneCardsColumn">-</button></span>
                 </div>
             </div>
             <div id="search-results"></div>
             <div class="board-table">
-              <div id="toDoCard" class="board-table-columns task-container">
+              <div id="toDoCardsColumn" class="board-table-columns task-container">
               </div>
-              <div id="inProgressCard" class="board-table-columns task-container">
+              <div id="inProgressCardsColumn" class="board-table-columns task-container">
               </div>
-              <div id="awaitFeedbackCard" class="board-table-columns task-container">
+              <div id="awaitFeedbackCardsColumn" class="board-table-columns task-container">
               </div>
-              <div id="doneCard" class="board-table-columns task-container">
+              <div id="doneCardsColumn" class="board-table-columns task-container">
               </div>
               
             </div>

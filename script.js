@@ -131,10 +131,10 @@ function addHTMLToTaskContainers(
   awaitingFeedbackCardsHTML,
   doneCardsHTML
 ) {
-  document.getElementById("toDoCard").innerHTML = toDoCardsHTML;
-  document.getElementById("inProgressCard").innerHTML = inProgressCardsHTML;
-  document.getElementById("awaitFeedbackCard").innerHTML = awaitingFeedbackCardsHTML;
-  document.getElementById("doneCard").innerHTML = doneCardsHTML;
+  document.getElementById("toDoCardsColumn").innerHTML = toDoCardsHTML;
+  document.getElementById("inProgressCardsColumn").innerHTML = inProgressCardsHTML;
+  document.getElementById("awaitFeedbackCardsColumn").innerHTML = awaitingFeedbackCardsHTML;
+  document.getElementById("doneCardsColumn").innerHTML = doneCardsHTML;
 }
 
 // Processes each task, filling in missing fields and returning the complete task object
@@ -171,3 +171,4 @@ function getAssigneesNames(assignees, kanbanData) {
   }
   return assigneesNames;
 }
+
