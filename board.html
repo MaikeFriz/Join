@@ -8,6 +8,7 @@
     <link rel="icon" href="./assets/img/join_favicon.svg" type="image/x-icon" />
     <link rel="stylesheet" href="./style.css" />
     <link rel="stylesheet" href="./styles/sidebar.css" />
+    <link rel="stylesheet" href="./styles/header.css" />
     <link rel="stylesheet" href="./styles/board.css">
     <link rel="stylesheet" href="./styles/task_card.css">
     <link rel="stylesheet" href="./styles/label_and_user_backgrounds.css">
@@ -17,72 +18,13 @@
     <script src="./scripts/task_card_templates.js"></script>
     <script src="./scripts/get_task_contents.js"></script>
     <script src="./scripts/collapse.js" defer></script>
+    <script src="./scripts/load_header_sidebar.js"></script>
   </head>
   
-  <body onload="onloadFunc()">
-    <header>
-      <p>Kanban Project Management Tool</p>
-      <div class="right-header-elements">
-        <a href="./help_page.html">
-          <img class="help-button" src="./assets/img/help.svg" alt="" />
-        </a>
-        <div id="user-initials-header" class="user-initials"></div>
-      </div>
-    </header>
-
+  <body onload="onloadFunc();  loadHeaderAndSidebar()">
+    <div id="header-container"></div> 
     <div class="start-content">
-      <div class="sidebar-container">
-        <div class="sidebar-logo">
-          <a href="./index.html">
-            <img src="./assets/img/join_logo_bright.svg" alt="Join Logo" />
-          </a>
-        </div>
-        <div class="sidebar-tabs">
-          <div class="tab-content">
-            <a href="./summary.html" class="tab-content-inner">
-              <img src="./assets/img/summary.svg" alt="" />
-              <p>Summary</p>
-            </a>
-          </div>
-          <div class="tab-content">
-            <a href="./add_task.html" class="tab-content-inner">
-              <img src="./assets/img/add_task.svg" alt="" />
-              <p>Add Task</p>
-            </a>
-          </div>
-          <div class="tab-content">
-            <a href="./board.html" class="tab-content-inner">
-              <img src="./assets/img/board.svg" alt="" />
-              <p>Board</p>
-            </a>
-          </div>
-          <div class="tab-content">
-            <a href="./contacts.html" class="tab-content-inner">
-              <img src="./assets/img/contacts.svg" alt="" />
-              <p>Contacts</p>
-            </a>
-          </div>
-        </div>
-
-        <div class="terms-privacy">
-          <div class="tab-content">
-            <div class="tab-content-inner">
-              <a href="./privacy.html"><p>Privacy Policy</p></a>
-            </div>
-          </div>
-          <div class="tab-content">
-            <div class="tab-content-inner">
-              <a href="./legal.html"><p>Legal Notice</p></a>
-            </div>
-          </div>
-          <div class="tab-content">
-            <div class="tab-content-inner">
-              <a href="./help_page.html"><p>Help</p></a>
-            </div>
-          </div>
-        </div>
-      </div>
-
+      <div id="sidebar-container"></div> 
       <div class="right-side-content">
         
         <div class="board-content">
