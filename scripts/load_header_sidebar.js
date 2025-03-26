@@ -37,3 +37,9 @@ function loadHeaderAndSidebar() {
 
 document.addEventListener("DOMContentLoaded", loadHeaderAndSidebar);
 
+function loadHeaderAndSidebarLoggedOut() {
+    loadComponent("header.html", "header-container");
+    loadComponent("sidebar_logged_out.html", "sidebar-container");
+    }
+
+document.addEventListener("DOMContentLoaded", loadHeaderAndSidebarLoggedOut);
