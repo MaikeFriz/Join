@@ -43,27 +43,58 @@ function setupDropListener(container) {
   );
 }
 
-// Handles the dragstart event, setting up the task and its clone
+// Handles the start of the drag-and-drop operation
 function handleDragStart(event, onDragStart) {
   const task = event.target;
   event.dataTransfer.setData("text/plain", "");
+
+  const taskClone = createTaskClone(task, event);
+  const invisibleElement = createInvisibleDragImage(event);
+
+  task.classList.add("dragging");
+  onDragStart(task, taskClone);
+
+  cleanUpInvisibleDragImage(invisibleElement);
+}
+
+// Creates a clone of the dragged task and positions it near the cursor
+function createTaskClone(task, event) {
   const taskClone = task.cloneNode(true);
   taskClone.classList.add("dragging-clone");
   document.body.appendChild(taskClone);
+
   const rect = task.getBoundingClientRect();
   const offsetX = event.clientX - rect.left;
   const offsetY = event.clientY - rect.top;
+
   taskClone.style.left = `${event.pageX - offsetX}px`;
   taskClone.style.top = `${event.pageY - offsetY}px`;
   taskClone.style.width = `${task.offsetWidth}px`;
   taskClone.style.height = `${task.offsetHeight}px`;
-  const invisibleElement = document.createElement("div");
-  invisibleElement.style.width = "0px";
-  invisibleElement.style.height = "0px";
-  event.dataTransfer.setDragImage(invisibleElement, 0, 0);
-  task.classList.add("dragging");
-  onDragStart(task, taskClone);
+
+  return taskClone;
 }
+
+// Creates an invisible drag image to prevent the default globe icon from showing
+function createInvisibleDragImage(event) {
+  const invisibleElement = document.createElement("div");
+  invisibleElement.style.width = "1px";
+  invisibleElement.style.height = "1px";
+  invisibleElement.style.opacity = "0";
+  document.body.appendChild(invisibleElement);
+
+  event.dataTransfer.setDragImage(invisibleElement, 0, 0);
+
+  return invisibleElement;
+}
+
+// Cleans up the invisible drag image after it is used
+function cleanUpInvisibleDragImage(invisibleElement) {
+  setTimeout(() => {
+    invisibleElement.remove();
+  }, 0);
+}
+
 
 // Handles the dragend event, cleaning up after the drag operation
 function handleDragEnd(event, onDragEnd) {
