@@ -289,3 +289,21 @@ a{
     flex-direction: row;
     width: 100% !important;
 }
+
+/*Change color of border and icons etc. when writing*/
+#input_email:focus,
+#input_email:not(:placeholder-shown){
+    border-color: rgb(41, 171, 226); 
+    outline: none;
+}
+
+.input_label input:focus,
+.input_label input:not(:placeholder-shown) {
+    border-color: rgb(41, 171, 226); /* Blau */
+    outline: none; /* Entfernt den Standardrahmen */
+    box-shadow: 0 0 5px rgba(41, 171, 226, 0.5); /* Optionaler Leuchteffekt */
+}
+
+#password_icon{
+    cursor: pointer;
+}
