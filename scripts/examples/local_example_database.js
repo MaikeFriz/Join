@@ -1,5 +1,4 @@
 let localExampleDatabase = {
-  
   "users": {
     "user1": {
       "name": "Sofia Müller",
@@ -125,7 +124,7 @@ let localExampleDatabase = {
       },
       "subtasks": {
         "subtask1": true,
-        "subtask2": false
+        "subtask2": true
       }
     },
     "task2": {
@@ -159,7 +158,7 @@ let localExampleDatabase = {
       },
       "subtasks": {
         "subtask5": true,
-        "subtask6": false
+        "subtask6": true
       }
     },
     "task4": {
@@ -176,7 +175,7 @@ let localExampleDatabase = {
       },
       "subtasks": {
         "subtask7": true,
-        "subtask8": false
+        "subtask8": true
       }
     },
     "task5": {
@@ -225,7 +224,7 @@ let localExampleDatabase = {
         "user3": true
       },
       "subtasks": {
-        "subtask12": false,
+        "subtask12": true,
         "subtask13": true
       }
     },
@@ -278,67 +277,83 @@ let localExampleDatabase = {
   "subtasks": {
     "subtask1": {
       "title": "Design homepage layout",
-      "task1": true
+      "task1": true,
+      "completed": true
     },
     "subtask2": {
       "title": "Implement recipe card design",
-      "task1": true
+      "task1": true,
+      "completed": false
     },
     "subtask3": {
       "title": "Design database schema",
-      "task2": true
+      "task2": true,
+      "completed": true
     },
     "subtask4": {
       "title": "Implement schema validation",
-      "task2": true
+      "task2": true,
+      "completed": false
     },
     "subtask5": {
       "title": "Setup responsive grid",
-      "task3": true
+      "task3": true,
+      "completed": false
     },
     "subtask6": {
       "title": "Test layout on devices",
-      "task3": true
+      "task3": true,
+      "completed": true
     },
     "subtask7": {
       "title": "Debug mobile login issue",
-      "task4": true
+      "task4": true,
+      "completed": false
     },
     "subtask8": {
       "title": "Optimize button placement",
-      "task4": true
+      "task4": true,
+      "completed": true
     },
     "subtask9": {
       "title": "Build search function logic",
-      "task5": true
+      "task5": true,
+      "completed": true
     },
     "subtask10": {
       "title": "Style hover effects",
-      "task6": true
+      "task6": true,
+      "completed": false
     },
     "subtask11": {
       "title": "Ensure cross-browser compatibility",
-      "task6": true
+      "task6": true,
+      "completed": true
     },
     "subtask12": {
       "title": "Develop image slider logic",
-      "task7": true
+      "task7": true,
+      "completed": false
     },
     "subtask13": {
       "title": "Optimize slider animations",
-      "task7": true
+      "task7": true,
+      "completed": true
     },
     "subtask14": {
       "title": "Create image upload UI",
-      "task8": true
+      "task8": true,
+      "completed": false
     },
     "subtask15": {
       "title": "Add detailed recipe sections",
-      "task9": true
+      "task9": true,
+      "completed": true
     },
     "subtask16": {
       "title": "Embed search functionality",
-      "task10": true
+      "task10": true,
+      "completed": true
     }
   }
 }

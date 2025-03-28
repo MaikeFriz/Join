@@ -1,8 +1,8 @@
 let assigneesObject = {};
-
 //-------------asignees
 
 document.addEventListener("DOMContentLoaded", initDropdown);
+
 async function initDropdown() {
   try {
     const users = await fetchUsers();
@@ -115,7 +115,6 @@ function createAssigneeTemplate(userId, userName) {
         </svg>
     </button>
 </div>
-
   `;
 }
 
@@ -172,113 +171,6 @@ function closeDropdownOnClickOutside(event) {
 function closeDropdown() {
   document.getElementById("dropdown_options_assignee").classList.remove("show");
   document.getElementById("dropdown_assigned_to").classList.remove("dropdown_open");
-}
-
-// ------------------------ Add subtasks
-document.addEventListener("DOMContentLoaded", function () {
-  initializeSubtaskListeners();
-});
-
-//Event-Listener Hinzufügen Subtasks.
-function initializeSubtaskListeners() {
-  const inputSubtask = document.getElementById("input_subtask");
-  const addIcon = document.getElementById("add_icon");
-  const inputIcons = document.getElementById("input_icons");
-  const checkIcon = document.getElementById("check_icon");
-  const clearIcon = document.getElementById("clear_icon");
-
-  setupInputSubtaskEvents(inputSubtask, addIcon, inputIcons);
-  setupClearIconEvent(clearIcon, inputSubtask, addIcon, inputIcons);
-  setupCheckIconEvent(checkIcon);
-}
-
-// Event-Listener Eingabefeld des Subtasks
-function setupInputSubtaskEvents(inputSubtask, addIcon, inputIcons) {
-  inputSubtask.addEventListener("input", () => toggleInputIcons(inputSubtask, addIcon, inputIcons));
-  inputSubtask.addEventListener("blur", () => resetInputIconsOnBlur(inputSubtask, addIcon, inputIcons));
-}
-
-// Zeigt/versteckt Icons Hinzufügen/Löschen 
-function toggleInputIcons(inputSubtask, addIcon, inputIcons) {
-  if (inputSubtask.value.trim() !== "") {
-    addIcon.style.display = "none";
-    inputIcons.style.display = "flex";
-  } else {
-    addIcon.style.display = "inline";
-    inputIcons.style.display = "none";
-  }
-}
-
-// Add-Icon wenn Eingabefeld leer
-function resetInputIconsOnBlur(inputSubtask, addIcon, inputIcons) {
-  if (inputSubtask.value.trim() === "") {
-    addIcon.style.display = "inline";
-    inputIcons.style.display = "none";
-  }
-}
-
-// Event-Listener Löschen-Icon.
-function setupClearIconEvent(clearIcon, inputSubtask, addIcon, inputIcons) {
-  clearIcon.addEventListener("click", () => clearSubtaskInput(inputSubtask, addIcon, inputIcons));
-}
-
-// Löscht Inhalt Eingabefelds und zeigt Add-Icon.
-function clearSubtaskInput(inputSubtask, addIcon, inputIcons) {
-  inputSubtask.value = "";
-  addIcon.style.display = "inline";
-  inputIcons.style.display = "none";
-  inputSubtask.focus();
-}
-
-// Event-Listener Check-Icon.
-function setupCheckIconEvent(checkIcon) {
-  checkIcon.addEventListener("click", () => addNewSubtask());
-}
-
-// Fügt neuen Subtask zur Liste hinzu, wenn Check-Icon geklickt
-function addNewSubtask() {
-  const inputSubtask = document.getElementById("input_subtask");
-  const displaySubtask = document.getElementById("display_subtasks");
-  const addIcon = document.getElementById("add_icon");
-  const inputIcons = document.getElementById("input_icons");
-
-  const subtaskText = inputSubtask.value.trim();
-
-  if (subtaskText !== "") {
-    const subtaskElement = createSubtaskElement(subtaskText, displaySubtask);
-    displaySubtask.appendChild(subtaskElement);
-    resetSubtaskInput(inputSubtask, addIcon, inputIcons);
-  }
-}
-
-// Erstellt Subtask-Element.
-function createSubtaskElement(subtaskText, displaySubtask) {
-  const subtaskElement = document.createElement("li");
-  subtaskElement.className = "subtask-item";
-
-  const nameElement = document.createElement("span");
-  nameElement.textContent = subtaskText;
-  subtaskElement.appendChild(nameElement);
-
-  const deleteButton = createDeleteButton(displaySubtask, subtaskElement);
-  subtaskElement.appendChild(deleteButton);
-
-  return subtaskElement;
-}
-
-// Erstellt Löschen-Button für Subtask-Element.
-function createDeleteButton(displaySubtask, subtaskElement) {
-  const deleteButton = document.createElement("button");
-  deleteButton.innerHTML = '<img class="delete_button_subtask" src="./assets/img/delete.svg" alt="Delete" />';
-  deleteButton.addEventListener("click", () => displaySubtask.removeChild(subtaskElement));
-  return deleteButton;
-}
-
-// Setzt Eingabefeld zurück und zeigt Add-Icon.
-function resetSubtaskInput(inputSubtask, addIcon, inputIcons) {
-  inputSubtask.value = "";
-  addIcon.style.display = "inline";
-  inputIcons.style.display = "none";
 }
 
 //-------------------------------- Select priority
