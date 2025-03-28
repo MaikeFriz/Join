@@ -36,8 +36,8 @@ function getFormData() {
   return {
     name: document.getElementById("input_name").value,
     email: document.getElementById("input_email").value,
-    password: document.getElementById("input_password").value,
-    confirmPassword: document.getElementById("input_confirm_password").value,
+    password: document.getElementById("input_password_sign_up").value,
+    confirmPassword: document.getElementById("input_confirm_password_sign_up").value,
     privacyCheckbox: document.getElementById("privacy"),
   };
 }
@@ -47,8 +47,8 @@ function validateInputs(password, confirmPassword, privacyCheckbox) {
   errorMessage.textContent = "";
 
   if (password !== confirmPassword) {
-    document.getElementById("input_confirm_password").setCustomValidity("Passwords do not match!");
-    document.getElementById("input_confirm_password").reportValidity();
+    document.getElementById("input_confirm_password_sign_up").setCustomValidity("Passwords do not match!");
+    document.getElementById("input_confirm_password_sign_up").reportValidity();
     return false;
   }
 

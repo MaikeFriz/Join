@@ -266,3 +266,15 @@ a:hover{
     font-size: 24px;
     z-index: 1000;
   }
+
+  /*Change color of border and icons etc. when writing*/
+.input_label input:focus,
+.input_label input:not(:placeholder-shown) {
+    border-color: rgb(41, 171, 226); 
+    border: 2px solid rgb(41, 171, 226) ;
+    outline: none;
+}
+
+#password_icon{
+    cursor: pointer;
+}

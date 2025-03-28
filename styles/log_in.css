@@ -299,9 +299,9 @@ a{
 
 .input_label input:focus,
 .input_label input:not(:placeholder-shown) {
-    border-color: rgb(41, 171, 226); /* Blau */
-    outline: none; /* Entfernt den Standardrahmen */
-    box-shadow: 0 0 5px rgba(41, 171, 226, 0.5); /* Optionaler Leuchteffekt */
+    border-color: rgb(41, 171, 226); 
+    border: 2px solid rgb(41, 171, 226) ;
+    outline: none;
 }
 
 #password_icon{
