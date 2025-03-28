@@ -1,5 +1,5 @@
 let localExampleDatabase = {
-
+  
   "users": {
     "user1": {
       "name": "Sofia Müller",
@@ -141,8 +141,8 @@ let localExampleDatabase = {
         "user3": true
       },
       "subtasks": {
-        "subtask1": true,
-        "subtask2": true
+        "subtask3": true,
+        "subtask4": true
       }
     },
     "task3": {
@@ -158,8 +158,8 @@ let localExampleDatabase = {
         "user2": true
       },
       "subtasks": {
-        "subtask1": true,
-        "subtask2": false
+        "subtask5": true,
+        "subtask6": false
       }
     },
     "task4": {
@@ -175,8 +175,8 @@ let localExampleDatabase = {
         "user3": true
       },
       "subtasks": {
-        "subtask1": true,
-        "subtask2": false
+        "subtask7": true,
+        "subtask8": false
       }
     },
     "task5": {
@@ -192,7 +192,7 @@ let localExampleDatabase = {
         "user2": true
       },
       "subtasks": {
-        "subtask1": true
+        "subtask9": true
       }
     },
     "task6": {
@@ -208,8 +208,8 @@ let localExampleDatabase = {
         "user1": true
       },
       "subtasks": {
-        "subtask1": true,
-        "subtask2": true
+        "subtask10": true,
+        "subtask11": true
       }
     },
     "task7": {
@@ -225,8 +225,8 @@ let localExampleDatabase = {
         "user3": true
       },
       "subtasks": {
-        "subtask1": false,
-        "subtask2": true
+        "subtask12": false,
+        "subtask13": true
       }
     },
     "task8": {
@@ -241,7 +241,7 @@ let localExampleDatabase = {
         "user5": true
       },
       "subtasks": {
-        "subtask1": true
+        "subtask14": true
       }
     },
     "task9": {
@@ -256,7 +256,7 @@ let localExampleDatabase = {
         "user5": true
       },
       "subtasks": {
-        "subtask1": true
+        "subtask15": true
       }
     },
     "task10": {
@@ -271,8 +271,74 @@ let localExampleDatabase = {
         "user8": true
       },
       "subtasks": {
-        "subtask1": true
+        "subtask16": true
       }
+    }
+  },
+  "subtasks": {
+    "subtask1": {
+      "title": "Design homepage layout",
+      "task1": true
+    },
+    "subtask2": {
+      "title": "Implement recipe card design",
+      "task1": true
+    },
+    "subtask3": {
+      "title": "Design database schema",
+      "task2": true
+    },
+    "subtask4": {
+      "title": "Implement schema validation",
+      "task2": true
+    },
+    "subtask5": {
+      "title": "Setup responsive grid",
+      "task3": true
+    },
+    "subtask6": {
+      "title": "Test layout on devices",
+      "task3": true
+    },
+    "subtask7": {
+      "title": "Debug mobile login issue",
+      "task4": true
+    },
+    "subtask8": {
+      "title": "Optimize button placement",
+      "task4": true
+    },
+    "subtask9": {
+      "title": "Build search function logic",
+      "task5": true
+    },
+    "subtask10": {
+      "title": "Style hover effects",
+      "task6": true
+    },
+    "subtask11": {
+      "title": "Ensure cross-browser compatibility",
+      "task6": true
+    },
+    "subtask12": {
+      "title": "Develop image slider logic",
+      "task7": true
+    },
+    "subtask13": {
+      "title": "Optimize slider animations",
+      "task7": true
+    },
+    "subtask14": {
+      "title": "Create image upload UI",
+      "task8": true
+    },
+    "subtask15": {
+      "title": "Add detailed recipe sections",
+      "task9": true
+    },
+    "subtask16": {
+      "title": "Embed search functionality",
+      "task10": true
     }
   }
 }
