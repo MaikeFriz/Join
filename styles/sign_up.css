@@ -267,6 +267,14 @@ a:hover{
     z-index: 1000;
   }
 
+  #toggle_icon_sign_up{
+    cursor: pointer;
+}
+
+#icon_confirm_password_sign_up{
+    cursor: pointer;
+}
+
   /*Change color of border and icons etc. when writing*/
 .input_label input:focus,
 .input_label input:not(:placeholder-shown) {
@@ -275,6 +283,3 @@ a:hover{
     outline: none;
 }
 
-#password_icon{
-    cursor: pointer;
-}

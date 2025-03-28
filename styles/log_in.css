@@ -192,24 +192,6 @@ header {
     padding-left: 16px;
 }
 
-.input_label {
-    position: relative;
-    display: flex;
-    align-items: center;
-    width: 422px;
-}
-
-.input_label input {
-    width: 100%;  
-    padding-right: 40px;
-    font-size: 16px;
-}
-
-.input_label input::placeholder{
-    font-size: 18px;
-    color: rgb(209, 209, 209);
-}
-
 .input_icon {
     position: absolute; 
     right: 10px;
@@ -290,13 +272,29 @@ a{
     width: 100% !important;
 }
 
-/*Change color of border and icons etc. when writing*/
-#input_email:focus,
-#input_email:not(:placeholder-shown){
-    border-color: rgb(41, 171, 226); 
-    outline: none;
+#toggle_icon{
+    cursor: pointer;
 }
 
+.input_label {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 422px;
+}
+
+.input_label input {
+    width: 100%;  
+    padding-right: 40px;
+    font-size: 16px;
+}
+
+.input_label input::placeholder{
+    font-size: 18px;
+    color: rgb(209, 209, 209);
+}
+
+/*Change color of border and icons etc. when writing*/
 .input_label input:focus,
 .input_label input:not(:placeholder-shown) {
     border-color: rgb(41, 171, 226); 
@@ -304,6 +302,3 @@ a{
     outline: none;
 }
 
-#password_icon{
-    cursor: pointer;
-}

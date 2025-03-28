@@ -38,11 +38,11 @@
         <div class="add_task_board">
           <div class="input_div_left">
             <p>Title<span class="red_color">*</span></p>
-            <label class="input_label">
+            <label class="input_label focus_blue_border">
               <input id="input_title" type="text" required placeholder="Enter a title" />
             </label>
             <p>Description</p>
-            <label class="input_label">
+            <label class="input_label focus_blue_border">
               <input id="input_description" type="text" required placeholder="Enter a description" />
               <div class="enlarge_inputfield_symbol_div">
                 <img src="./assets/img/enlarge_inputfield_symbol.svg" alt="open" />
@@ -85,17 +85,17 @@
             </div>
             <p>Assigned to</p>
             <div class="assigned_to_div">
-              <div class="dropdown_assigned_to" id="dropdown_assigned_to">
+              <div class="dropdown_assigned_to" id="dropdown_assigned_to" tabindex="0">
                 <span id="dropdown_selected_assignee">Select a person</span>
                 <img src="./assets/img/arrow_drop_down.svg" alt="dropdown arrow" class="dropdown_arrow" />
               </div>
               <div class="dropdown_options_assignee" id="dropdown_options_assignee"></div>
-              <input type="hidden" id="assigned_to" name="assigned_to" required />
+              <input class="focus_blue_border" type="hidden" id="assigned_to" name="assigned_to" required />
             </div>
             <div class="show_assignees" id="show_assignees"></div>
             <p>Category<span class="red_color">*</span></p>
             <div class="category_div">
-              <div class="dropdown_category" id="dropdown_category">
+              <div class="dropdown_category" id="dropdown_category" tabindex="0">
                 <span id="dropdown_selected">Select task category</span>
                 <img src="./assets/img/arrow_drop_down.svg" alt="dropdown arrow" class="dropdown_arrow" />
               </div>
@@ -106,10 +106,10 @@
                 <div class="custom-dropdown-option" data-value="Javascript">Javascript</div>
                 <div class="custom-dropdown-option" data-value="CSS">CSS</div>
               </div>
-              <input type="hidden" id="category" name="category" required />
-            </div>
+              <input class="focus_blue_border" type="hidden" id="category" name="category" required />
+            </div>            
             <p>Subtasks</p>
-            <label class="input_label">
+            <label class="input_label focus_blue_border">
               <input id="input_subtask" type="text" placeholder="Add new subtask" />
               <button type="button" id="button_add_subtask">
                 <img id="add_icon" src="./assets/img/add_icon.svg" alt="Add" />

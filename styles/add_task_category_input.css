@@ -26,17 +26,27 @@
 }
 
 .dropdown_category {
-    width: 100%;
-    height: 48px;
-    border: 1px solid #ccc;
-    padding: 5px 16px;
-    cursor: pointer;
-    background: white;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    border-radius: 10px;
-}
+    justify-content: space-between;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #fff;
+    width: 100%;
+    transition: border-color 0.3s ease;
+  }
+  
+  .dropdown_category:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .dropdown_category:focus-within {
+    border: solid 2px rgb(41, 171, 226);
+    border-color: rgb(41, 171, 226) !important;
+  }
+  
 
 .dropdown_arrow {
     width: 12px;

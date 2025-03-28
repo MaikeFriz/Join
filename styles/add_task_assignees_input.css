@@ -15,12 +15,18 @@
     border-radius: 5px;
     cursor: pointer;
     background-color: #fff;
-    width: 100%;
+    width: 100%;    
+    transition: border-color 0.3s ease;
   }
   
   .dropdown_assigned_to:hover {
     background-color: #f0f0f0;
   }
+
+  .dropdown_assigned_to:focus-within {
+    border: solid 2px rgb(41, 171, 226);
+    border-color: rgb(41, 171, 226) !important;
+}
   
   /* Dropdown-Pfeil */
   .dropdown_arrow {

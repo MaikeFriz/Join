@@ -32,10 +32,6 @@ body {
     transition: border-color 0.3s ease-in-out;
 }
 
-.input_label input:focus {
-    border-color: #29ABE2 !important;
-}
-
 .input_label select {
     width: 100%;
     padding: 12px 40px 12px 12px;
@@ -174,3 +170,14 @@ body {
     padding-left: 16px;
     width: 100%;
 }
+
+
+/*Change border color when focus on input field*/
+.focus_blue_border input:focus,
+.focus_blue_border input:not(:placeholder-shown) {
+    border-color: rgb(41, 171, 226); 
+    border: 2px solid rgb(41, 171, 226) ;
+    outline: none;
+}
+
+
