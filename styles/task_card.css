@@ -71,8 +71,21 @@
     border: 1px solid rgba(0, 0, 0, 0.2);
 }
 
-
 .dragging {
     opacity: 0;
     transition: opacity 0.2s ease-in-out;
+}
+
+.subtask_progress_container{
+    height: 16px;
+    width: 100%;
+    
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+}
+
+.subtask_progress_text{
+    display: flex;
+    gap: 4px;
 }

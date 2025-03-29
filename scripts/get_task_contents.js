@@ -1,63 +1,70 @@
-
-// Function to extract and format task data (label, title, description)
+// Function to structure task data for display
 function getTaskData(taskContent) {
-  const label = taskContent.label || "Keine Kategorie"; // Default to "No Category"
-  const fitLabelForCSS = label.toLowerCase().replace(/\s+/g, "-"); // Format label for CSS use
-  const title = taskContent.title || "Untitled Task"; // Default to "Untitled Task"
-  const description = taskContent.description || "Keine Beschreibung"; // Default to "No Description"
-  return { label, fitLabelForCSS, title, description };
+  const taskData = {  
+    label: taskContent.label || "Keine Kategorie",
+    fitLabelForCSS: (taskContent.label || "Keine Kategorie").toLowerCase().replace(/\s+/g, "-"),
+    title: taskContent.title || "Ohne Titel",
+    description: taskContent.description || "Keine Beschreibung",
+    subtasks: taskContent.subtasks || {},
+    totalSubtasks: taskContent.totalSubtasks || 0,
+    completedSubtasks: taskContent.completedSubtasks || 0,
+    progressPercentage: taskContent.subtaskProgress || 0,
+    showProgress: taskContent.showProgress || false,
+    priority: taskContent.priority || "keine-priorität",
+    taskId: taskContent.taskId
+  };
+
+  return taskData;
 }
 
 // Function to get the names of assignees from their IDs, based on the kanban data
 function getAssigneesNames(assignees, kanbanData) {
   let assigneesNames = [];
   
-  // Loop through each assignee and retrieve their name from the kanban data
   for (let assigneeId in assignees) {
     if (assignees.hasOwnProperty(assigneeId)) {
-      const assigneeName = kanbanData.users[assigneeId]?.name || "Unbekannter Benutzer"; // Default to "Unknown User"
+      const assigneeName = kanbanData.users[assigneeId]?.name || "Unbekannter Benutzer";
       assigneesNames.push(assigneeName);
       console.log(`Assignee ID: ${assigneeId}, Assignee Name: ${assigneeName}`);
     }
   }
-  return assigneesNames; // Return an array of assignee names
+  return assigneesNames;
 }
 
 // Function to extract the initials of an assignee from their full name
 function getAssigneeInitals(assignee) {
   let assigneeInitials = "";
-  let [firstName, lastName] = assignee.split(" "); // Split name into first and last name
-  let firstLetter = firstName.charAt(0).toUpperCase(); // Get first letter of the first name
-  let lastNameFirstLetter = lastName.charAt(0).toUpperCase(); // Get first letter of the last name
-  assigneeInitials = firstLetter + lastNameFirstLetter; // Combine initials
+  let [firstName, lastName] = assignee.split(" ");
+  let firstLetter = firstName.charAt(0).toUpperCase();
+  let lastNameFirstLetter = lastName.charAt(0).toUpperCase();
+  assigneeInitials = firstLetter + lastNameFirstLetter;
 
-  return assigneeInitials; // Return the initials
+  return assigneeInitials;
 }
 
 // Function to adjust assignee name for use in CSS (lowercase first letter)
 function getFitAssigneesToCSS(assignee){
-  let firstLetterLowerCase = assignee.charAt(0).toLowerCase(); // Get the first letter of the assignee in lowercase
-  return firstLetterLowerCase; // Return it for CSS styling
+  let firstLetterLowerCase = assignee.charAt(0).toLowerCase();
+  return firstLetterLowerCase;
 }
 
 // Function to generate HTML for assignees based on their names
 function getAssignees(taskContent) {
   let assigneesHTML = "";
 
-  // If there are assignees, generate HTML for each one
   if (taskContent.assigneesNames && taskContent.assigneesNames.length > 0) {
     for (let assigneeIndex = 0; assigneeIndex < taskContent.assigneesNames.length; assigneeIndex++) {
       let assignee = taskContent.assigneesNames[assigneeIndex];
-      let assigneeInitials = getAssigneeInitals(assignee); // Get assignee initials
-      let firstLetterLowerCase = getFitAssigneesToCSS(assignee); // Get the lowercase first letter for CSS
-      assigneesHTML += assigneeTemplate(assigneeInitials, firstLetterLowerCase); // Generate the HTML template for assignee
+      let assigneeInitials = getAssigneeInitals(assignee);
+      let firstLetterLowerCase = getFitAssigneesToCSS(assignee);
+      assigneesHTML += assigneeTemplate(assigneeInitials, firstLetterLowerCase);
       console.log("Assignee:", assignee, assigneeInitials);
     }
   } else {
-    assigneesHTML = "<span>!!!</span>"; // If no assignees, display a placeholder
+    assigneesHTML = "<span>!!!</span>";
   }
 
-  return assigneesHTML; // Return the generated HTML for assignees
+  return assigneesHTML;
 }
 
 // Function to create an HTML template for displaying assignee initials
