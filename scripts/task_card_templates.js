@@ -10,13 +10,15 @@ function taskCardTemplate(taskContent) {
             <p>${description}</p>
         </div>
         ${showProgress ? `
-        <div class="subtask_progress_container">
-          <div class="subtask_progress_bar" style="width: ${progressPercentage}%;"></div>
-          <div class="subtask_progress_text">
-            <span>${completedSubtasks}/${totalSubtasks}</span>
-            <span>Subtasks</span>
+          <div class="subtask-progress-container">
+            <div class="subtask-progress-bar">
+              <div class="subtask-inner-progress-bar" style="width: ${progressPercentage}%;"></div>
+            </div>
+            <div class="subtask-progress-text">
+                <span>${completedSubtasks}/${totalSubtasks}</span>
+                <span>Subtasks</span>
+            </div>
           </div>
-        </div>
         ` : ''}
         <div class="review-task-bottom">
             <div class="assignees-container">
