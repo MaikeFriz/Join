@@ -37,7 +37,10 @@
 }
 
 .h1_div h1{
+  
+  margin-block: 0;
   font-size: 61px;
+  word-wrap: break-word;
 }
 
 .h1_div img{
