@@ -42,6 +42,7 @@ a {
 }
 
 .right-side-content {
+    margin-top: 96px;
     width: 100%;
     padding: 64px 96px 64px 328px;
     box-sizing: border-box;
@@ -145,11 +146,13 @@ footer a:hover{
 }
 
 .right-side-content-contacts {
+    margin-top: 96px;
     display: flex;
     flex-direction: row;
     flex-grow: 1;
-    padding: 0px 96px 64px 251px;
+    padding: 0px 96px 0px 251px;
     box-sizing: border-box;
+    
 }
 
 .right-side-content-contacts a {

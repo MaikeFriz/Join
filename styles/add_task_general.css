@@ -2,16 +2,9 @@ body {
     overflow-x: hidden;
 }
 
-.right-side-content {
-    display: flex;
-    flex-direction: column;
-    width: calc(100% - 64px);
-    margin: 0 32px;
-    height: fit-content;
-}
-
 .h1_div h1 {
     font-size: 61px;
+    line-height: 0;
 }
 
 .input_label {
