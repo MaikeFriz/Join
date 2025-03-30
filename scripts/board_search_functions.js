@@ -1,8 +1,7 @@
-
 // Function to manage the search functionality
 function searchTasks(searchTerm) {
     hideAllTasksForSearch();
-    
+  
     const searchResultsContainer = document.getElementById('search-results');
     const found = showTasksMatchingSearch(searchTerm);
   
@@ -39,9 +38,12 @@ function searchTasks(searchTerm) {
     return found;
   }
   
-  // Function to trigger search on SVG click
+  // Function to trigger search on SVG click and clear the search field
   function searchTasksFromSVG() {
-    const searchTerm = document.getElementById('search-input').value;
+    const searchInput = document.getElementById('search-input');
+    const searchTerm = searchInput.value;
+  
     searchTasks(searchTerm);
+    searchInput.value = ''; // Clear the search field
   }
   

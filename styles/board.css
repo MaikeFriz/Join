@@ -54,7 +54,7 @@
 }
 
 input {
-    border: rgb(209, 209, 209) solid 1px;
+    border: 1px solid rgba(209, 209, 209, 1);
     border-radius: 10px;
     padding-left: 16px;
     padding-right: 64px;
@@ -63,12 +63,17 @@ input {
     font-size: 20px;
 }
 
+input:focus{
+    border: 1px solid rgba(41, 171, 226, 1);
+    border-color: rgba(41, 171, 226, 1);
+    outline: none;
+}
 
 .button-input-section{
     width: 160px;
     height: 48px;
-    background-color: rgb(42, 54, 71);
-    border: solid 2px  rgb(42, 54, 71);
+    background-color: rgba(42, 54, 71, 1);
+    border: solid 2px  rgba(42, 54, 71, 1);
     border-radius: 10px;
     color: white;
     padding: 8px 16px;
@@ -84,12 +89,6 @@ input {
 
 .button-input-section svg{
     height: 32px;
-}
-
-.button-input-section:hover{
-    background-color: rgba(41, 171, 226, 1);
-    transform: scale(1.05);
-    border: solid 2px rgb(41, 171, 226);
 }
 
 .kanban-header{
