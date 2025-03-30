@@ -238,3 +238,14 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   });
 });
+
+// Change border color date
+function focusInputCalender() {
+  document.getElementById("input_date").focus();
+}
+
+function toggleBorderColorCalender(isFocused) {
+  const inputDate = document.getElementById("input_date");
+  inputDate.style.borderColor = isFocused ? "rgb(41, 171, 226)" : "gray";
+}
+

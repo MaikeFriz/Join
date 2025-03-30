@@ -171,6 +171,9 @@ body {
     width: 100%;
 }
 
+.calender_icon{
+    cursor: pointer;
+}
 
 /*Change border color when focus on input field*/
 .focus_blue_border input:focus,

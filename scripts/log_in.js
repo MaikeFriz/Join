@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const errorMessage = document.createElement("p");
   errorMessage.style.color = "red";
 
-  if (isUserLoggedIn()) return;
+  //if (isUserLoggedIn()) return;
 
   form.appendChild(errorMessage);
 

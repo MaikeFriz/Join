@@ -50,8 +50,8 @@
               </div>
             </label>
             <p>Due Date<span class="red_color">*</span></p>
-            <label class="input_label">
-              <input id="input_date" type="date" required placeholder="dd/mm/yyyy" />
+            <label class="input_label input_label_calender">
+              <input id="input_date" type="date" required onfocus="toggleBorderColorCalender(true), focusInputCalender()" onblur="toggleBorder(false)" />
             </label>
           </div>
           <div class="separator"></div>

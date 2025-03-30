@@ -30,11 +30,6 @@
     width: 100%;
 }
 
-#input_date {
-    height: 48px;
-    width: 100%;
-}
-
 .enlarge_inputfield_symbol_div {
     position: absolute;
     right: 10px;
@@ -47,4 +42,15 @@
 .enlarge_inputfield_symbol_div img {
     width: 24px;
     height: 24px;
+}
+
+#input_date {
+    border: 2px solid gray; 
+    outline: none;
+    height: 48px;
+    width: 100%;
+}
+
+#input_date:focus {
+    border-color: rgb(41, 171, 226);
 }
