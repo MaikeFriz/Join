@@ -71,8 +71,36 @@
     border: 1px solid rgba(0, 0, 0, 0.2);
 }
 
-
 .dragging {
     opacity: 0;
     transition: opacity 0.2s ease-in-out;
 }
+
+.subtask-progress-container {
+    height: 16px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+  .subtask-progress-bar{
+    width: 100%;
+    background-color: rgba(244, 244, 244, 1);
+    border-radius: 5px;
+  }
+  
+  .subtask-inner-progress-bar {
+    height: 8px;
+    background-color: rgba(69, 137, 255, 1);
+    border-radius: 8px;
+  }
+  
+  .subtask-progress-text {
+    width: 5auto;
+    display: flex;
+    font-size: 12px;
+    gap: 4px;
+  }
+  

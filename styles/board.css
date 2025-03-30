@@ -20,7 +20,7 @@
 }
 
 .board-title h1{
-    line-height: 0;
+    margin-block: 0;
     color: rgba(0,0,0,1);
     font-size: 61px;
     font-weight: 700;  
@@ -36,17 +36,21 @@
     padding: 0;
 }
 
-.input-with-img{
+.input-with-svg{
     position: relative;
     display: flex;
-    align-items: center;
-    
+    align-items: center;  
 }
 
-.input-with-img img{
+.input-with-svg svg{
+    cursor: pointer;
     position: absolute;
     right: 8px;
     height: 32px;
+}
+
+.input-with-svg svg:hover path{
+    fill: rgba(41, 171, 226, 1);
 }
 
 input {
@@ -78,12 +82,12 @@ input {
     gap: 4px;
 }
 
-.button-input-section img{
+.button-input-section svg{
     height: 32px;
 }
 
 .button-input-section:hover{
-    background-color: rgb(41, 171, 226);
+    background-color: rgba(41, 171, 226, 1);
     transform: scale(1.05);
     border: solid 2px rgb(41, 171, 226);
 }
@@ -135,7 +139,7 @@ span p:hover{
 
 .board-table{
     width: 100%;
-    height: auto;
+    height: 100vh;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
