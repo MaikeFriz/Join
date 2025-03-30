@@ -24,7 +24,6 @@ function getUserName() {
   const loggedInUser = checkUserLogin();
   if (loggedInUser) {
     let userName = loggedInUser.name;
-    console.log("User name:", userName);
     getUserInitialForHeader(userName);
   }
 }
