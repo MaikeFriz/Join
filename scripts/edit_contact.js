@@ -3,7 +3,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const contactId = urlParams.get("contactId");
   const userId = JSON.parse(localStorage.getItem("loggedInUser")).userId;
 
-  // Fetch the contact details and populate the form
   fetch(
     `https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData/users/${userId}/contacts/${contactId}.json`
   )
@@ -24,7 +23,6 @@ document.addEventListener("DOMContentLoaded", function () {
       phone: document.querySelector("input[type='tel']").value,
     };
 
-    // Send the updated contact data to the parent window
     window.parent.postMessage({ type: "editContact", contact: contact }, "*");
   });
 

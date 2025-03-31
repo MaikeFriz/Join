@@ -216,7 +216,7 @@ function getInitialsBackgroundColor(initial) {
     Y: "#8C33FF",
     Z: "#FF3333",
   };
-  return colors[initial.toUpperCase()] || "#007bff"; // Default color if initial is not in the map
+  return colors[initial.toUpperCase()] || "#007bff";
 }
 
 function displayContactDetails(contactId) {
