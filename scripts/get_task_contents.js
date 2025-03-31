@@ -66,8 +66,3 @@ function getAssignees(taskContent) {
 
   return assigneesHTML;
 }
-
-// Function to create an HTML template for displaying assignee initials
-function assigneeTemplate(assigneeInitials, firstLetterLowerCase) {
-  return `<div class="assignee-initials ${firstLetterLowerCase}">${assigneeInitials}</div>`;
-}
