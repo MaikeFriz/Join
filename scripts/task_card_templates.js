@@ -6,8 +6,8 @@ function taskCardTemplate(taskContent) {
     <div class="board-task draggable" draggable="true" data-task-id="${taskContent.taskId}">
         <label class="${fitLabelForCSS}">${label}</label>
         <div>
-            <h3>${title}</h3>
-            <p>${description}</p>
+            <h3 id="task-title">${title}</h3>
+            <p id="task-description">${description}</p>
         </div>
         ${showProgress ? `
           <div class="subtask-progress-container">

@@ -1,49 +1,33 @@
-// Function to manage the search functionality
+// Function to search tasks based on the search term
 function searchTasks(searchTerm) {
-    hideAllTasksForSearch();
+  const searchResultsContainer = document.getElementById('search-results');
+  let found = false;
   
-    const searchResultsContainer = document.getElementById('search-results');
-    const found = showTasksMatchingSearch(searchTerm);
+  const allTasks = document.getElementsByClassName('board-task');
   
-    if (!found) {
-      searchResultsContainer.innerHTML = 'No tasks found';
-    } else {
-      searchResultsContainer.innerHTML = '';
-    }
-  }
-  
-  // Function to hide all tasks by adding 'd-done' class
-  function hideAllTasksForSearch() {
-    const allTasks = document.querySelectorAll('.board-task');
-    allTasks.forEach(task => {
-      task.classList.add('d-done');
-    });
-  }
-  
-  // Function to show tasks that match the search term
-  function showTasksMatchingSearch(searchTerm) {
-    const allTasks = document.querySelectorAll('.board-task');
-    let found = false;
-  
-    allTasks.forEach(task => {
-      const title = task.querySelector('h3').innerText.toLowerCase();
-      const description = task.querySelector('p').innerText.toLowerCase();
-  
+  for (let taskIndex = 0; taskIndex < allTasks.length; taskIndex++) {
+      const task = allTasks[taskIndex];
+      const titleElement = task.querySelector('#task-title');
+      const descriptionElement = task.querySelector('#task-description');
+      const title = titleElement ? titleElement.innerHTML.toLowerCase() : '';
+      const description = descriptionElement ? descriptionElement.innerHTML.toLowerCase() : '';
+      
       if (title.includes(searchTerm.toLowerCase()) || description.includes(searchTerm.toLowerCase())) {
-        found = true;
-        task.classList.remove('d-done');
+          found = true;
+          task.style.display = 'flex';
+      } else {
+          task.style.display = 'none';
       }
-    });
-  
-    return found;
   }
   
-  // Function to trigger search on SVG click and clear the search field
-  function searchTasksFromSVG() {
-    const searchInput = document.getElementById('search-input');
-    const searchTerm = searchInput.value;
+  searchResultsContainer.innerHTML = found ? '' : 'No tasks found';
+}
+
+// Function to trigger task search when clicking the search icon (SVG) and clear the search input
+function searchTasksFromSVG() {
+  const searchInput = document.getElementById('search-input');
+  const searchTerm = searchInput.value;
   
-    searchTasks(searchTerm);
-    searchInput.value = ''; // Clear the search field
-  }
-  
+  searchTasks(searchTerm);
+  searchInput.value = ''; // Clear the search field
+}
