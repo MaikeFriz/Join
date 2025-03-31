@@ -14,10 +14,15 @@ async function initDropdown() {
 }
 
 async function fetchUsers() {
-  const response = await fetch(
-    "https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData.json"
-  );
-  const data = await response.json();
+  const isGuest = JSON.parse(localStorage.getItem("isGuest"));
+
+  const response = await fetch("https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData.json");
+  data = await response.json();
+
+  if (isGuest) {
+    data = JSON.parse(localStorage.getItem("guestKanbanData"));
+  } 
+
   return Object.entries(data.users).map(([userId, user]) => ({
     id: userId,
     name: user.name,

@@ -1,5 +1,12 @@
 document.addEventListener("DOMContentLoaded", async function () {
+  const isGuest = JSON.parse(localStorage.getItem("isGuest"));
   let user = JSON.parse(localStorage.getItem("loggedInUser"));
+
+  if (isGuest) {
+    let data = JSON.parse(localStorage.getItem("guestKanbanData"));
+    user = data.users.user
+  }
+
   if (!user) {
     window.location.href = "./log_in.html";
     return;
@@ -12,9 +19,14 @@ document.addEventListener("DOMContentLoaded", async function () {
   async function getNewTaskId() {
     try {
       let response = await fetch(`${BASE_URL}tasks.json`);
-      let data = await response.json();
-      if (!data) return "task1";
-      let taskIds = Object.keys(data);
+      let tasks = await response.json();
+
+      if (isGuest) {
+        let data = JSON.parse(localStorage.getItem("guestKanbanData"));
+        tasks = data.tasks;
+      }
+      if (!tasks) return "task1";
+      let taskIds = Object.keys(tasks);
       if (taskIds.length === 0) return "task1";
       let maxTaskId = taskIds.reduce((max, id) => {
         let numericId = parseInt(id.replace("task", ""), 10);
@@ -135,24 +147,50 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   // Saves the task data to the database
   function saveTaskData(taskId, taskData) {
-    return fetch(`${BASE_URL}tasks/${taskId}.json`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(taskData),
-    }).then((response) => response.json());
+    const isGuest = JSON.parse(localStorage.getItem("isGuest"));
+    if (isGuest) {
+      let data = JSON.parse(localStorage.getItem("guestKanbanData"));
+      // Add the new task to the `tasks` object
+      data.tasks[taskId] = taskData;
+      // Save updated data back to localStorage
+      localStorage.setItem("guestKanbanData", JSON.stringify(data));
+      console.log("Task added successfully:", data.tasks);
+
+    // Return a resolved Promise to match the expected behavior
+    return Promise.resolve(data.tasks);  // Return resolved promise with updated tasks
+    } else {
+      return fetch(`${BASE_URL}tasks/${taskId}.json`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(taskData),
+      }).then((response) => response.json());
+    }
   }
 
   // Saves the subtasks related to the task
   function saveSubtasksData(taskId) {
-    return fetch(`${BASE_URL}subtasks.json`)
+    const isGuest = JSON.parse(localStorage.getItem("isGuest"));
+    if (isGuest) {
+      let data = JSON.parse(localStorage.getItem("guestKanbanData"));
+
+      let existingSubtasks = data.subtasks;
+      const updatedSubtasks = prepareSubtasksForDatabase(existingSubtasks, taskId);
+      data.subtasks = updatedSubtasks;
+      localStorage.setItem("guestKanbanData", JSON.stringify(data));
+      console.log("Subtask added successfully:", data.subtasks);
+      // Return a resolved promise for consistency
+      return Promise.resolve(data.subtasks);
+  } else {
+      return fetch(`${BASE_URL}subtasks.json`)
       .then((response) => response.json())
       .then((existingSubtasks) => {
         existingSubtasks = existingSubtasks || {};
         const updatedSubtasks = prepareSubtasksForDatabase(existingSubtasks, taskId);
         return overwriteSubtaskCollection(updatedSubtasks);
       });
+    }
   }
 
   // Prepares the subtasks data for saving to the database
@@ -182,7 +220,20 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   // Adds the task to the user's to-do list
   function addTaskToUserToDoList(taskId, userId) {
-    fetch(`${BASE_URL}users/${userId}/assignedTasks/toDo.json`)
+    const isGuest = JSON.parse(localStorage.getItem("isGuest"));
+    if (isGuest) {
+      let data = JSON.parse(localStorage.getItem("guestKanbanData")) || { users: { user: { assignedTasks: { toDo: {} } } } };
+      if (!data.users.user.assignedTasks.toDo) {
+          data.users.user.assignedTasks.toDo = {};
+      }
+      data.users.user.assignedTasks.toDo[taskId] = true;
+      localStorage.setItem("guestKanbanData", JSON.stringify(data));
+
+      console.log(`Task ${taskId} wurde zu Gast-Benutzer's To-Do-Liste hinzugefügt`);
+      return Promise.resolve(data.users.user.assignedTasks.toDo);
+
+  } else {
+      fetch(`${BASE_URL}users/${userId}/assignedTasks/toDo.json`)
       .then((response) => response.json())
       .then((existingTasks) => {
         existingTasks = existingTasks || {};
@@ -201,7 +252,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       .catch((error) => {
         console.error("Error adding task to user:", error);
       });
+    }
   }
-
   addTaskFormListener();
 });

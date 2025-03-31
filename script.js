@@ -6,7 +6,9 @@ function onloadFunc() {
 // Function to check if the user is logged in and redirect to login page if not
 function checkUserLogin() {
   const user = JSON.parse(localStorage.getItem("loggedInUser"));
-  if (!user) {
+  const guest = JSON.parse(localStorage.getItem("isGuest"));
+  
+  if (!user && !guest) {
     window.location.href = "./log_in.html";
   }
   return user;

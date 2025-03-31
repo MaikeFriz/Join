@@ -178,7 +178,13 @@ function addTaskToNewStatus(taskId, newStatus, userId, baseUrl) {
 // Updates the task's status in Firebase by removing it from other statuses and adding it to the new one
 function updateTaskInFirebase(taskId, newStatus) {
   const BASE_URL = `https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData/`;
-  const user = JSON.parse(localStorage.getItem("loggedInUser"));
+  let user = JSON.parse(localStorage.getItem("loggedInUser"));
+  
+  const isGuest = JSON.parse(localStorage.getItem("isGuest"));
+  if (isGuest) {
+    let data = JSON.parse(localStorage.getItem("guestKanbanData"));
+    user = data.users.user
+  }
 
   if (!user) {
     console.error("No logged-in user found.");

@@ -1,6 +1,19 @@
 function getSummaryCount() {
-  const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
-  if (loggedInUser) {
+  let loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+  const isGuest = JSON.parse(localStorage.getItem("isGuest"));
+
+  if (isGuest) {
+    // Load data from localStorage for guests
+    let data = JSON.parse(localStorage.getItem("guestKanbanData"));
+    if (data && data.users && data.users.user) {
+      loggedInUser = data.users.user;
+      console.log("Guest mode: Using local data", loggedInUser);
+      
+      updateSummaryCounts(loggedInUser);
+    } else {
+      console.log("No guest data found.");
+    }
+  } else if (loggedInUser) {
     const userId = loggedInUser.userId;
     const BASE_URL = `https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData/users/${userId}/assignedTasks.json`;
 
@@ -10,21 +23,29 @@ function getSummaryCount() {
         .then((response) => response.json())
         .then((assignedTasks) => {
           loggedInUser.assignedTasks = assignedTasks || {};
-          getToDoCount(loggedInUser);
-          getDoneCount(loggedInUser);
-          getUrgentCount(loggedInUser);
-          getAllTasksCount(loggedInUser);
-          getInprocessCount(loggedInUser);
-          getAwaitingCount(loggedInUser);
+          updateSummaryCounts(loggedInUser);
         })
         .catch((error) => console.error("Error fetching data:", error));
-    }, 1000); // Reduced interval to 1 second
-
-    getLoggedUsername(loggedInUser);
+    }, 1000);
   } else {
     console.log("Kein Benutzer eingeloggt.");
   }
+
+  if (loggedInUser) {
+    getLoggedUsername(loggedInUser);
+  }
 }
+
+// Helper function to update all summary counts
+function updateSummaryCounts(user) {
+  getToDoCount(user);
+  getDoneCount(user);
+  getUrgentCount(user);
+  getAllTasksCount(user);
+  getInprocessCount(user);
+  getAwaitingCount(user);
+}
+
 
 function getToDoCount(loggedInUser) {
   const toDoCountHTML = document.getElementById("toDo-tasks-count");
