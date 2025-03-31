@@ -127,16 +127,24 @@ document.addEventListener("DOMContentLoaded", () => {
   initializeDragAndDrop(taskContainers);
 });
 
-// Updates the task's status in the Firebase database
+// Updates the task's status in Firebase or LocalStorage (Guest Mode)
 function updateTaskStatus(taskId, newStatusColumnId) {
+  const isGuest = JSON.parse(localStorage.getItem("isGuest"));
   const newStatus = mapColumnIdToStatus(newStatusColumnId);
-  updateTaskInFirebase(taskId, newStatus)
-    .then(() => {
-      console.log(`Task ID: ${taskId} successfully moved to status ${newStatus}.`);
-    })
-    .catch((error) => {
-      console.error("Error updating task in Firebase:", error);
-    });
+
+  if (isGuest) {
+    updateTaskInLocalStorage(taskId, newStatus);
+    console.log(`Task ID: ${taskId} successfully moved to status ${newStatus} (Guest Mode).`);
+    return Promise.resolve();
+  } else {
+    return updateTaskInFirebase(taskId, newStatus)
+      .then(() => {
+        console.log(`Task ID: ${taskId} successfully moved to status ${newStatus}.`);
+      })
+      .catch((error) => {
+        console.error("Error updating task in Firebase:", error);
+      });
+  }
 }
 
 // Maps the column ID to the task's status
@@ -150,6 +158,32 @@ function mapColumnIdToStatus(columnId) {
   return columnStatusMap[columnId];
 }
 
+// Updates the task's status in LocalStorage for Guest Mode
+function updateTaskInLocalStorage(taskId, newStatus) {
+  let data = JSON.parse(localStorage.getItem("guestKanbanData"));
+  if (!data || !data.users || !data.users.user || !data.users.user.assignedTasks) {
+    console.error("Invalid guest data structure.");
+    return;
+  }
+
+  let assignedTasks = data.users.user.assignedTasks;
+
+  // Remove the task from all status lists
+  ["toDo", "inProgress", "awaitingFeedback", "done"].forEach(status => {
+    if (assignedTasks[status] && assignedTasks[status][taskId]) {
+      delete assignedTasks[status][taskId];
+    }
+  });
+
+  // Add the task to the new status list
+  if (!assignedTasks[newStatus]) {
+    assignedTasks[newStatus] = {};
+  }
+  assignedTasks[newStatus][taskId] = true;
+
+  // Save the updated data back to localStorage
+  localStorage.setItem("guestKanbanData", JSON.stringify(data));
+}
 
 // Removes the task from all other status lists in Firebase
 function removeTaskFromOtherStatuses(taskId, userId, baseUrl) {
