@@ -1,3 +1,14 @@
+
+// Function to retrieve task content based on taskId
+function getTaskContent(taskId, kanbanData) {
+  const taskContent = kanbanData.tasks?.[taskId];
+  if (!taskContent) {
+    console.error(`Task mit der ID ${taskId} existiert nicht.`);
+    return null;
+  }
+  return taskContent;
+}
+
 // Function to structure task data for display
 function getTaskData(taskContent) {
   const taskData = {
@@ -19,62 +30,33 @@ function getTaskData(taskContent) {
   return taskData;
 }
 
-// Function to get the names of assignees from their IDs, based on the kanban data
-function getAssigneesNames(assignees, kanbanData) {
-  let assigneesNames = [];
+// Function to process a task and fetch relevant data
+async function processTasks(taskId, kanbanData) {
+  const taskContent = getTaskContent(taskId, kanbanData);
+  if (!taskContent) return null;
 
-  for (let assigneeId in assignees) {
-    if (assignees.hasOwnProperty(assigneeId)) {
-      const assigneeName =
-        kanbanData.users[assigneeId]?.name || "Unbekannter Benutzer";
-      assigneesNames.push(assigneeName);
-      console.log(`Assignee ID: ${assigneeId}, Assignee Name: ${assigneeName}`);
-    }
-  }
-  return assigneesNames;
+  const processedTask = processTaskDetails(taskContent, taskId, kanbanData);
+  const subtaskData = await processSubtaskDetails(taskId, kanbanData);
+
+  processedTask.subtaskProgress = subtaskData.subtaskProgress;
+  processedTask.showProgress = subtaskData.showProgress;
+  processedTask.totalSubtasks = subtaskData.totalSubtasks;
+  processedTask.completedSubtasks = subtaskData.completedSubtasks;
+
+  console.log("Verarbeiteter Task:", processedTask);
+
+  return processedTask;
 }
 
-// Function to extract the initials of an assignee from their full name
-// Function to extract the initials of an assignee from their full name
-function getAssigneeInitals(assignee) {
-  if (!assignee || typeof assignee !== "string") {
-    console.warn("Invalid assignee:", assignee);
-    return "??"; // Fallback initials for invalid input
-  }
-
-  let [firstName = "", lastName = ""] = assignee.split(" ");
-  let firstLetter = firstName.charAt(0).toUpperCase() || "?";
-  let lastNameFirstLetter = lastName.charAt(0).toUpperCase() || "?";
-
-  return firstLetter + lastNameFirstLetter;
-}
-
-// Function to adjust assignee name for use in CSS (lowercase first letter)
-function getFitAssigneesToCSS(assignee) {
-  if (!assignee || typeof assignee !== "string") {
-    console.warn("Invalid assignee for CSS:", assignee);
-    return "x"; // Fallback value for invalid input
-  }
-
-  return assignee.charAt(0).toLowerCase();
-}
-
-// Function to generate HTML for assignees based on their names
-function getAssignees(taskContent) {
-  let assigneesHTML = "";
-
-  if (taskContent.assigneesNames && taskContent.assigneesNames.length > 0) {
-    for (let assignee of taskContent.assigneesNames) {
-      if (typeof assignee !== "string") {
-        console.warn("Invalid assignee name:", assignee);
-        continue; // Skip invalid entries
-      }
-      let assigneeInitials = getAssigneeInitals(assignee);
-      let firstLetterLowerCase = getFitAssigneesToCSS(assignee);
-      assigneesHTML += assigneeTemplate(assigneeInitials, firstLetterLowerCase);
-      console.log("Assignee:", assignee, assigneeInitials);
-    }
-  } else {
-    assigneesHTML = "<span>!!!</span>";
-  }
+// Function to process task details and prepare it for display
+function processTaskDetails(taskContent, taskId, kanbanData) {
+  taskContent.taskId = taskId;
+  taskContent.assignedUserName = kanbanData.users[taskContent.assignedTo]?.name || "Unbekannter Benutzer";
+  taskContent.label = taskContent.label || "Keine Kategorie";
+  taskContent.priority = taskContent.priority || "niedrig";
+  taskContent.title = taskContent.title || "Kein Titel";
+  taskContent.description = taskContent.description || "Keine Beschreibung";
+  taskContent.assignees = taskContent.assignees || {};
+  taskContent.assigneesNames = getAssigneesNames(taskContent.assignees, kanbanData);
+  return taskContent;
 }
