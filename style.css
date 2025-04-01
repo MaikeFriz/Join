@@ -1,175 +1,205 @@
-html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
 }
 
 body {
-    margin: 0;
-    overflow-y: scroll;
-    scroll-behavior: smooth;
-    box-sizing: border-box;
-    background-color:rgba(246, 247, 248, 1);
+  margin: 0;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+  box-sizing: border-box;
+  background-color: rgba(246, 247, 248, 1);
 }
 
 @font-face {
-    font-family: 'Inter';
-    src: url('fonts/inter/Inter-VariableFont_opsz,wght.ttf');
+  font-family: "Inter";
+  src: url("fonts/inter/Inter-VariableFont_opsz,wght.ttf");
 }
 
 * {
-    box-sizing: border-box;
-    font-family: Inter;
+  box-sizing: border-box;
+  font-family: Inter;
 }
 
 a {
-    text-decoration: none;
-    font-family: 'Inter';
-    text-decoration: none;
-    color: rgb(255, 255, 255);
-    font-weight: 300;
-    font-size: 16px;
-    padding: 4px;
+  text-decoration: none;
+  font-family: "Inter";
+  text-decoration: none;
+  color: rgb(255, 255, 255);
+  font-weight: 300;
+  font-size: 16px;
+  padding: 4px;
 }
 
 .start-content {
-    display: flex;
-    height: 100%;
+  display: flex;
+  height: 100%;
 }
 .sidebar-container {
-    flex-shrink: 0;
+  flex-shrink: 0;
 }
 
 .right-side-content {
-    margin-top: 96px;
-    width: 100%;
-    padding: 64px 96px 64px 328px;
-    box-sizing: border-box;
+  margin-top: 96px;
+  width: 100%;
+  padding: 64px 96px 64px 328px;
+  box-sizing: border-box;
 }
 
 .right-side-content h2 {
-    color: #333;
+  color: #333;
 }
 
 .right-side-content a {
-    color: rgba(42, 54, 71, 1);
-    font-weight: 600;
+  color: rgba(42, 54, 71, 1);
+  font-weight: 600;
 }
 
 .right-side-content p {
-    /* margin: 10px 0; */
+  /* margin: 10px 0; */
 }
 
-footer{
-    padding-bottom: 64px;
+footer {
+  padding-bottom: 64px;
 }
 
-footer a{
-    text-decoration: none;
-    color: rgba(168, 168, 168, 1) !important;
-    transform: scale(1);
-    cursor: pointer;
+footer a {
+  text-decoration: none;
+  color: rgba(168, 168, 168, 1) !important;
+  transform: scale(1);
+  cursor: pointer;
 }
 
-footer a:hover{
-    text-decoration: none;
-    color: rgb(41, 171, 226) !important;
+footer a:hover {
+  text-decoration: none;
+  color: rgb(41, 171, 226) !important;
 }
 
 .contacts-list {
-    max-width: 456px;
-    width: 100%;
-    flex-grow: 1;
-    background-color: #f9f9f9;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
+  max-width: 456px;
+  width: 100%;
+  flex-grow: 1;
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
 }
 
 .contacts-list ul {
-    flex-grow: 1;
-    overflow-y: auto;
+  flex-grow: 1;
+  overflow-y: auto;
 }
 
 .contacts-list li {
-    display: flex;
-    align-items: center;
-    padding: 5px 0;
-    border-bottom: 1px solid #eee;
-    padding: 18px;
+  display: flex;
+  align-items: center;
+  padding: 5px 0;
+  border-bottom: 1px solid #eee;
+  padding: 18px;
 }
 
 .contact-initials {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-color: #007bff;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-    font-weight: bold;
-    margin-right: 10px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #007bff;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: bold;
+  margin-right: 10px;
 }
 
 #add-contact-button {
-    width: 280px;
-    height: 48px;
-    background-color: rgb(42, 54, 71);
-    border: solid 2px  rgb(42, 54, 71);
-    border-radius: 10px;
-    color: white;
-    padding: 8px 16px;
-    cursor: pointer;
-    transform: scale(1);
-    font-size: 21px;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 4px;
+  width: 280px;
+  height: 48px;
+  background-color: rgb(42, 54, 71);
+  border: solid 2px rgb(42, 54, 71);
+  border-radius: 10px;
+  color: white;
+  padding: 8px 16px;
+  cursor: pointer;
+  transform: scale(1);
+  font-size: 21px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
 }
 
 .add-contact-button:hover {
-    background-color: rgb(41, 171, 226);
-    transform: scale(1.05);
-    border: solid 2px rgb(41, 171, 226);
+  background-color: rgb(41, 171, 226);
+  transform: scale(1.05);
+  border: solid 2px rgb(41, 171, 226);
 }
 
 .button-icon {
-    width: 20px;
-    height: 20px;
+  width: 20px;
+  height: 20px;
 }
 
 .right-side-content-contacts {
-    margin-top: 96px;
-    display: flex;
-    flex-direction: row;
-    flex-grow: 1;
-    padding: 0px 96px 0px 251px;
-    box-sizing: border-box;
-    
+  margin-top: 96px;
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+  padding: 0px 96px 0px 251px;
+  box-sizing: border-box;
 }
 
 .right-side-content-contacts a {
-    color: blue; /* Specific rule for links in contacts.html */
+  color: blue; /* Specific rule for links in contacts.html */
 }
 
 .contact-details {
-    width: 100%;
-    background-color: #f9f9f9;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  width: 100%;
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .d-done {
-    display: none;
-  }
+  display: none;
+}
+
+.logout-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  background-color: #f8f9fa;
+  padding: 6px 12px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  transition: background 0.3s;
+  max-width: fit-content;
+  margin-left: auto;
+}
+
+.logout-container:hover {
+  background-color: #e0e0e0;
+}
+
+.logout-button {
+  width: 24px;
+  height: 24px;
+  fill: #333;
+}
+
+.logout-text {
+  font-size: 16px;
+  color: #333;
+  font-weight: bold;
+}
