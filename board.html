@@ -18,6 +18,7 @@
     <script src="./scripts/log_out.js"></script>
     <script src="./script.js"></script>
     <script src="./scripts/fetch_board_data.js"></script>
+    <script src="./scripts/board_no_tasks_placeholder.js"></script>
     <script src="./scripts/board_drag_drop.js"></script>
     <script src="./scripts/board_search_functions.js"></script>
     <script src="./scripts/task_card_templates.js"></script>
@@ -74,24 +75,27 @@
                     </div>
                 </div>
 
-                <div class="kanban-header">
-                    <span>To do <button class="collapse-button" data-target="toDoCardsColumn">-</button></span>
-                    <span>In progress <button class="collapse-button" data-target="inProgressCardsColumn">-</button></span>
-                    <span>Await for feedback <button class="collapse-button" data-target="awaitFeedbackCardsColumn">-</button></span>
-                    <span>Done <button class="collapse-button" data-target="doneCardsColumn">-</button></span>
-                </div>
-            </div>
-            <div id="search-results"></div>
             <div class="board-table">
-              <div id="toDoCardsColumn" class="board-table-columns task-container">
+              <div class="board-table-columns">
+                <span class="kanban-header">To do <button class="collapse-button" data-target="toDoCardsColumn">-</button></span>
+                <div id="noToDoTasks" class="empty-board-info">no Tasks ToDo</div>
+                <div id="toDoCardsColumn" class="task-container"></div>
               </div>
-              <div id="inProgressCardsColumn" class="board-table-columns task-container">
+              <div class="board-table-columns">
+                <span class="kanban-header">In progress <button class="collapse-button" data-target="inProgressCardsColumn">-</button></span>
+                <div id="noInProgressTasks" class="empty-board-info">no Tasks In progress</div>
+                <div id="inProgressCardsColumn" class="task-container"></div>
               </div>
-              <div id="awaitFeedbackCardsColumn" class="board-table-columns task-container">
+              <div class="board-table-columns">
+                <span class="kanban-header">Await for feedback <button class="collapse-button" data-target="awaitFeedbackCardsColumn">-</button></span>
+                <div id="noAwaitFeedbackTasks" class="empty-board-info">no Tasks Await feedback</div>
+                <div id="awaitFeedbackCardsColumn" class="task-container"></div>
               </div>
-              <div id="doneCardsColumn" class="board-table-columns task-container">
+              <div class="board-table-columns">
+                <span class="kanban-header">Done <button class="collapse-button" data-target="doneCardsColumn">-</button></span>
+                <div id="noDoneTasks"class="empty-board-info">no Tasks Done</div>
+                <div id="doneCardsColumn" class="task-container"></div>
               </div>
-              
             </div>
         </div>
     </body>

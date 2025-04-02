@@ -34,3 +34,4 @@ function taskCardTemplate(taskContent) {
 function assigneeTemplate(assigneeInitials, firstLetterLowerCase) {
   return `<div class="assignee-initials ${firstLetterLowerCase}">${assigneeInitials}</div>`;
 }
+

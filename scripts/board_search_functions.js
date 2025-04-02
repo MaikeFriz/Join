@@ -1,8 +1,6 @@
 // Function to search tasks based on the search term
 function searchTasks(searchTerm) {
-  const searchResultsContainer = document.getElementById('search-results');
   let found = false;
-  
   const allTasks = document.getElementsByClassName('board-task');
   
   for (let taskIndex = 0; taskIndex < allTasks.length; taskIndex++) {
@@ -19,8 +17,6 @@ function searchTasks(searchTerm) {
           task.style.display = 'none';
       }
   }
-  
-  searchResultsContainer.innerHTML = found ? '' : 'No tasks found';
 }
 
 // Function to trigger task search when clicking the search icon (SVG) and clear the search input

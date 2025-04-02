@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
   {
     const user = checkUserLogin();
     const BASE_URL = `https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData/.json`;
-    fetchKanbanData(BASE_URL, user);
+      fetchKanbanData(BASE_URL, user);
   }
 });
 
@@ -39,6 +39,7 @@ async function fetchKanbanData(baseUrl, user) {
   } catch (error) {
     console.error("Error fetching Kanban data:", error);
   }
+  loadNoTasksFunctions();
 }
 
 
@@ -64,5 +65,6 @@ async function fetchGuestKanbanData(guest) {
   } catch (error) {
     console.error("Error fetching Guest Kanban data:", error);
   }
+  loadNoTasksFunctions();
 }
 

@@ -1,4 +1,3 @@
-
 // Function to retrieve task content based on taskId
 function getTaskContent(taskId, kanbanData) {
   const taskContent = kanbanData.tasks?.[taskId];
@@ -26,7 +25,6 @@ function getTaskData(taskContent) {
     priority: taskContent.priority || "keine-priorität",
     taskId: taskContent.taskId,
   };
-
   return taskData;
 }
 

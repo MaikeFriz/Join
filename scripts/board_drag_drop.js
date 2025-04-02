@@ -224,7 +224,9 @@ function updateTaskInFirebase(taskId, newStatus) {
     console.error("No logged-in user found.");
     return Promise.reject("No user found");
   }
-
+  loadNoTasksFunctions();
   return removeTaskFromOtherStatuses(taskId, user.userId, BASE_URL)
     .then(() => addTaskToNewStatus(taskId, newStatus, user.userId, BASE_URL));
 }
+
+

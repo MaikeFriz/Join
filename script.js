@@ -31,7 +31,7 @@ function getUserInitialForHeader(userName) {
   let initials = firstLetter + lastNameFirstLetter;
   let headerInitials = document.getElementById("user-initials-header");
 
-  headerInitials.innerHTML = `
+  headerInitials.innerHTML = /*html*/`
     <div>${initials}</div>
   `;
 }
