@@ -2,8 +2,6 @@
 let kanbanData = {}; 
 const BASE_URL = `https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData/`;
 
-// ========================== FETCH FUNCTIONS ==========================
-
 // Loads the Kanban data for logged-in users from Firebase
 async function fetchKanbanData(BASE_URL) {
   try {
@@ -26,8 +24,6 @@ async function fetchGuestKanbanData() {
   }
 }
 
-// ========================== INITIALIZATION ==========================
-
 document.addEventListener("DOMContentLoaded", async () => {
   const guest = JSON.parse(localStorage.getItem("isGuest"));
 
@@ -40,8 +36,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     processKanbanData(kanbanData, user);
   }
 });
-
-// ========================== PROCESSING FUNCTIONS ==========================
 
 // Checks if the data is valid and processes it
 function processKanbanData(data, user) {

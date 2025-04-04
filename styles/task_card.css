@@ -27,7 +27,7 @@
     cursor: pointer;
 }
 
-.review-task-bottom{
+.preview-task-bottom{
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -39,19 +39,23 @@
     display: flex ;
 }
 
-.assignee-initials {
+.preview-assignees-list {
+    display: flex;     
+}
+
+.assignee-initials{
+    border-radius: 50%;
     margin-left: -8px;
     background-color: black;
     color: rgba(255, 255, 255, 1);
-    border-radius: 50%;
     border: 1px solid rgba(255, 255, 255, 1);
+    font-size: 12px; 
     padding: 12px;
     width: 32px;
-    height: 32px;
+    height: 32px; 
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 12px;   
 }
 
 .board-task h3{

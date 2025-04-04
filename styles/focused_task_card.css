@@ -4,15 +4,15 @@
     align-items: center;
 }
 
-.board-focused-task{
+.focused-task{
     width: 525px;
     height: auto;
     display: flex;
     flex-direction: column;
     align-items: left;
     background-color: white;
-    padding: 16px;
-    gap: 20px;
+    padding: 48px 40px;
+    gap: 24px;
     border-radius: 24px;
     box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.1);
     border: 1px solid rgba(0, 0, 0, 0.1);
@@ -49,13 +49,19 @@
     fill: rgba(255, 255, 255, 1);
 }
 
-.board-focused-task label{
+.focused-task label{
     display: flex;
     align-self: flex-start;
     color: rgba(255, 255, 255, 1);
     padding: 4px 16px 4px 16px;
     border-radius: 8px;
     cursor: pointer;
+}
+
+.focused-task-priority{
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .focused-task-bottom{
@@ -65,40 +71,89 @@
     flex-direction: row;
 }
 
-.focused-assignees-container {
-    position: relative;
-    display: flex ;
-}
-
 .focused-assignee-initials {
-    margin-left: -8px;
-    background-color: black;
     color: rgba(255, 255, 255, 1);
     border-radius: 50%;
-    border: 1px solid rgba(255, 255, 255, 1);
     padding: 12px;
-    width: 32px;
-    height: 32px;
+    width: 42px;
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 12px;   
 }
 
-.board-focused-task h1{
+
+.focused-task h1{
     font-size: 61px;
     color: rgba(0, 0, 0, 1);;
     margin-block: 0;
+    line-height: 1;
 }
 
-.board-focused-task p{
+.focused-task p{
     font-size: 20px;
     color: rgba(0, 0, 0, 1);
     padding-top: 8px;
-    margin-block: 0;
+    margin-bottom: 0;  
 }
 
+.bullet-point{
+    font-size: 20px;
+    color: rgba(42, 54, 71, 1);
+}
 
+.focused-subtask-inner-progress-bar {
+    height: 8px;
+    background-color: rgba(69, 137, 255, 1);
+    border-radius: 8px;
+}
+
+.focused-subtask-progress-text {
+    width: 5auto;
+    display: flex;
+    font-size: 12px;
+    gap: 4px;
+}
+
+.focused-task-table{
+    font-size: 20px;
+}
+.focused-task-table td {
+    padding: 0 0 24px 0;
+}
+
+.focused-task-table td:first-child {
+    width: 25%;
+}
+
+.focused-task-table tr:last-child td {
+    padding: 0;
+}
+
+.focused-assignees-container {
+    display: flex ;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.focused-assignees-list{
+    display: flex;
+    flex-direction: column;
+    padding: 7px 24px 7px 24px;
+    gap: 15px;
+}
+
+.focused-assignee-entry{
+    display: flex;
+    gap: 16px ;
+    font-size: 19px;
+}
+
+.focused-initial-circle{
+    height: 42px;
+    width: 42px;
+}
 
 .focused-subtask-progress-container {
     height: 16px;
@@ -118,22 +173,6 @@
   .focused-task-info-line{
     display: flex;
     justify-content: start;
+    gap: 25px;
   }
 
-  .bullet-point{
-    color: rgba(42, 54, 71, 1);
-  }
-
-  .focused-subtask-inner-progress-bar {
-    height: 8px;
-    background-color: rgba(69, 137, 255, 1);
-    border-radius: 8px;
-  }
-  
-  .focused-subtask-progress-text {
-    width: 5auto;
-    display: flex;
-    font-size: 12px;
-    gap: 4px;
-  }
-  

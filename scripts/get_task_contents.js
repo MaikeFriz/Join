@@ -24,7 +24,10 @@ function getTaskData(taskContent) {
     showProgress: taskContent.showProgress || false,
     priority: taskContent.priority || "keine-priorität",
     taskId: taskContent.taskId,
+    createAt: taskContent.createdAt,
   };
+  console.log(taskData);
+  
   return taskData;
 }
 

@@ -1,29 +1,42 @@
 
-// Function to generate HTML for assignees based on their names
-function getAssignees(taskContent) {
+// Function to generate HTML for all assignees based on the provided task and display context
+function getAssignees(taskContent, displayContext) {
     let assigneesHTML = "";
-  
+    
     if (taskContent.assigneesNames && taskContent.assigneesNames.length > 0) {
-      for (let assignee of taskContent.assigneesNames) {
+      for (let assigneeIndex = 0; assigneeIndex < taskContent.assigneesNames.length; assigneeIndex++) {
+        let assignee = taskContent.assigneesNames[assigneeIndex];
+        
         if (typeof assignee !== "string") {
           console.warn("Invalid assignee name:", assignee);
-          continue; // Skip invalid entries
+          continue;
         }
-        let assigneeInitials = getAssigneeInitals(assignee);
-        let firstLetterLowerCase = getFitAssigneesToCSS(assignee);
-        assigneesHTML += assigneeTemplate(assigneeInitials, firstLetterLowerCase);
-        console.log("Assignee:", assignee, assigneeInitials);
+        assigneesHTML = getAssigneesForTemplates(assignee, displayContext, assigneesHTML);
       }
     } else {
       assigneesHTML = "<span>!!!</span>";
     }
+    return assigneesHTML;
+}
   
-    return assigneesHTML; 
-  }
+// Function to generate the HTML for a single assignee based on the display context (focused/preview)
+function getAssigneesForTemplates(assignee, displayContext, assigneesHTML) {
+    let assigneeInitials = getAssigneeInitals(assignee);
+    let cssClass = getFitAssigneesToCSS(assignee);
   
-  // Function to retrieve the names of all assignees for a task
-  function getAssigneesNames(assignees, kanbanData) {
+    if (displayContext === "focused") {
+      assigneesHTML += assigneeFocusedTemplate(assigneeInitials, cssClass, assignee);
+    } else {
+      assigneesHTML += assigneePreviewTemplate(assigneeInitials, cssClass);
+    }
+  
+    return assigneesHTML;
+}
+  
+// Function to retrieve the names of all assignees for a task from the provided assignee IDs
+function getAssigneesNames(assignees, kanbanData) {
     let assigneesNames = [];
+    
     for (let assigneeId in assignees) {
       if (assignees.hasOwnProperty(assigneeId)) {
         let userName =
@@ -33,28 +46,27 @@ function getAssignees(taskContent) {
     }
     
     return assigneesNames;
-  }
+}
   
-  // Function to extract the initials of an assignee from their full name
-  function getAssigneeInitals(assignee) {
+// Function to extract the initials of an assignee from their full name (e.g., "John Doe" -> "JD")
+function getAssigneeInitals(assignee) {
     if (!assignee || typeof assignee !== "string") {
       console.warn("Invalid assignee:", assignee);
-      return "??"; // Fallback initials for invalid input
+      return "??";
     }
-  
+
     let [firstName = "", lastName = ""] = assignee.split(" ");
     let firstLetter = firstName.charAt(0).toUpperCase() || "?";
     let lastNameFirstLetter = lastName.charAt(0).toUpperCase() || "?";
   
-    return firstLetter + lastNameFirstLetter;
-  }
+    return firstLetter + lastNameFirstLetter; // Return the initials (e.g., "JD")
+}
   
-  // Function to adjust assignee name for use in CSS (lowercase first letter)
-  function getFitAssigneesToCSS(assignee) {
+// Function to adjust assignee name for use in CSS (lowercase first letter of the name)
+function getFitAssigneesToCSS(assignee) {
     if (!assignee || typeof assignee !== "string") {
       console.warn("Invalid assignee for CSS:", assignee);
-      return "x"; 
+      return "x";
     }
-  
     return assignee.charAt(0).toLowerCase();
-  }
+}

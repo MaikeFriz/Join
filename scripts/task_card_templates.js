@@ -19,9 +19,9 @@ function taskCardTemplate(taskContent) {
             </div>
           </div>
         ` : ''}
-        <div class="review-task-bottom">
-            <div class="assignees-container">
-                ${getAssignees(taskContent)}
+        <div class="preview-task-bottom">
+            <div class="preview-assignees-list" id="preview-assignees-list">
+                ${getAssignees(taskContent, "preview")}
             </div>
             <div class="${taskContent.priority}"></div>
         </div>
@@ -30,9 +30,9 @@ function taskCardTemplate(taskContent) {
 }
 
 function focusedTaskTemplate(taskContent) {
-  let { label, fitLabelForCSS, title, description, totalSubtasks, completedSubtasks, progressPercentage, showProgress } = getTaskData(taskContent);
+  let { label, fitLabelForCSS, title, description, totalSubtasks, completedSubtasks, progressPercentage, showProgress, createAt } = getTaskData(taskContent);
   return /*html*/`
-  <div class="board-focused-task draggable" draggable="true" data-task-id="${taskContent.taskId}">
+  <div class="focused-task">
   <div class="focused-task-top">
     <label class="${fitLabelForCSS}">${label}</label>
     <svg onclick="backToBoardTable()" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -43,7 +43,33 @@ function focusedTaskTemplate(taskContent) {
       <h1>${title}</h1>
       <p>${description}</p>
   </div>
-  ${showProgress ? `
+
+  <table class="focused-task-table">
+    <tr>
+      <td class="bullet-point">Due Date:</td>
+      <td class="focused-task-due-date">${formatDate(createAt)}</td>
+    </tr>
+    <tr>
+      <td class="bullet-point">Priority:</td>
+      <td class="focused-task-priority">
+        ${taskContent.priority.charAt(0).toUpperCase() + taskContent.priority.slice(1)}
+        <span class="${taskContent.priority}"></span>
+      </td>
+    </tr>
+  </table>
+
+  <div class="focused-assignees-container">
+      <div class="bullet-point">Assigned To:</div>
+      <div id="focused-assignees-list" class="focused-assignees-list">
+        ${getAssignees(taskContent, "focused")}
+      </div>
+  </div>
+
+  <div class="focused-assignees-subtasks">
+      <div class="bullet-point">Subtasks:</div>
+  </div>
+
+      ${showProgress ? `
     <div class="focused-subtask-progress-container">
       <div class="focused-subtask-progress-bar">
         <div class="subtask-inner-progress-bar" style="width: ${progressPercentage}%;"></div>
@@ -54,19 +80,33 @@ function focusedTaskTemplate(taskContent) {
       </div>
     </div>
   ` : ''}
-      <div class="focused-assignees-container">
-          ${getAssignees(taskContent)}
-      </div>
-      <div class="focused-task-info-line">
-        <div class="bullet-point">Priority:</div>
-        <div class="${taskContent.priority}"></div>
-      </div>
 </div>
-`;
-  
+`; 
 }
 
-// Function to create an HTML template for displaying assignee initials
-function assigneeTemplate(assigneeInitials, firstLetterLowerCase) {
-  return `<div class="assignee-initials ${firstLetterLowerCase}">${assigneeInitials}</div>`;
+function formatDate(isoDate) {
+  let date = new Date(isoDate);
+  let day = String(date.getDate()).padStart(2, '0');
+  let month = String(date.getMonth() + 1).padStart(2, '0');
+  let year = date.getFullYear();
+  
+  return `${day}/${month}/${year}`;
 }
+
+function assigneeFocusedTemplate(initials, cssClass, fullName) {
+  return `
+    <div class="focused-assignee-entry">
+    <div class="focused-initial-circle">
+      <div class="focused-assignee-initials ${cssClass}">${initials}</div>
+    </div>
+      <span class="assignee-name">${fullName}</span>
+    </div>
+  `;
+}
+
+function assigneePreviewTemplate(initials, cssClass) {
+  return `
+    <div class="assignee-initials ${cssClass}">${initials}</div>
+  `;
+}
+
