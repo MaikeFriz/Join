@@ -1,3 +1,4 @@
+/* General Reset */
 html,
 body {
   height: 100%;
@@ -14,30 +15,44 @@ body {
   background-color: rgba(246, 247, 248, 1);
 }
 
-@font-face {
-  font-family: "Inter";
-  src: url("fonts/inter/Inter-VariableFont_opsz,wght.ttf");
-}
-
 * {
   box-sizing: border-box;
   font-family: Inter;
 }
 
+/* Fonts */
+@font-face {
+  font-family: "Inter";
+  src: url("fonts/inter/Inter-VariableFont_opsz,wght.ttf");
+}
+
+/* Links */
 a {
   text-decoration: none;
   font-family: "Inter";
-  text-decoration: none;
   color: rgb(255, 255, 255);
   font-weight: 300;
   font-size: 16px;
   padding: 4px;
 }
 
+footer a {
+  text-decoration: none;
+  color: rgba(168, 168, 168, 1) !important;
+  transform: scale(1);
+  cursor: pointer;
+}
+
+footer a:hover {
+  color: rgb(41, 171, 226) !important;
+}
+
+/* Layout Containers */
 .start-content {
   display: flex;
   height: 100%;
 }
+
 .sidebar-container {
   flex-shrink: 0;
 }
@@ -58,26 +73,7 @@ a {
   font-weight: 600;
 }
 
-.right-side-content p {
-  /* margin: 10px 0; */
-}
-
-footer {
-  padding-bottom: 64px;
-}
-
-footer a {
-  text-decoration: none;
-  color: rgba(168, 168, 168, 1) !important;
-  transform: scale(1);
-  cursor: pointer;
-}
-
-footer a:hover {
-  text-decoration: none;
-  color: rgb(41, 171, 226) !important;
-}
-
+/* Contacts Section */
 .contacts-list {
   max-width: 456px;
   width: 100%;
@@ -99,9 +95,8 @@ footer a:hover {
 .contacts-list li {
   display: flex;
   align-items: center;
-  padding: 5px 0;
-  border-bottom: 1px solid #eee;
   padding: 18px;
+  border-bottom: 1px solid #eee;
 }
 
 .contact-initials {
@@ -118,6 +113,7 @@ footer a:hover {
   margin-right: 10px;
 }
 
+/* Add Contact Button */
 #add-contact-button {
   width: 352px;
   height: 56px;
@@ -125,11 +121,9 @@ footer a:hover {
   left: 52px;
   gap: 16px;
   border-radius: 10px;
-  border-width: 1px;
-  padding-top: 12px;
-  padding-bottom: 12px;
-  background: #2A3647;
   border: 1px solid #2A3647;
+  padding: 12px 0;
+  background: #2A3647;
   color: #FFFFFF; /* Set text color to white */
   font-family: Inter;
   font-weight: 700;
@@ -144,11 +138,13 @@ footer a:hover {
   border: solid 2px rgb(41, 171, 226);
 }
 
+/* Buttons */
 .button-icon {
   width: 20px;
   height: 20px;
 }
 
+/* Right-Side Content */
 .right-side-content-contacts {
   margin-top: 96px;
   display: flex;
@@ -162,18 +158,21 @@ footer a:hover {
   color: blue; /* Specific rule for links in contacts.html */
 }
 
+/* Contact Details */
 .contact-details {
-  width: 100%;
+  width: 100vw;
   background-color: #f9f9f9;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+/* Utility Classes */
 .d-none {
   display: none !important;
 }
 
+/* Logout Section */
 .logout-container {
   display: flex;
   align-items: center;
@@ -204,16 +203,16 @@ footer a:hover {
   font-weight: bold;
 }
 
+/* Highlighted Contact */
 .contact-highlight {
   box-shadow: 0 0 10px 2px var(--add-contact-button-color);
   background-color: rgb(42, 54, 71);
-  color: white; 
+  color: white;
   border-radius: 8px;
-  padding: 5px; 
+  padding: 5px;
 }
 
 .contact-highlight a {
-  color: white; 
-  text-decoration: none; 
+  color: white;
+  text-decoration: none;
 }
-
