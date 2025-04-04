@@ -21,7 +21,7 @@ async function fetchUsers() {
 
   if (isGuest) {
     data = JSON.parse(localStorage.getItem("guestKanbanData"));
-  } 
+  }
 
   return Object.entries(data.users).map(([userId, user]) => ({
     id: userId,
@@ -270,15 +270,31 @@ function focusInputCalender() {
 
 function handleDateClick() {
   const inputDate = document.getElementById("input_date");
-  inputDate.style.borderColor = "rgb(41, 171, 226)"; // Blau
+  inputDate.style.border = "2px solid rgb(41, 171, 226)"
 }
 
 function handleDateBlur() {
   const inputDate = document.getElementById("input_date");
-  inputDate.style.borderColor = "#D1D1D1"; // Standardfarbe
+  inputDate.style.borderColor = "#D1D1D1"; 
 }
 
 function handleDateChange() {
   const inputDate = document.getElementById("input_date");
-  inputDate.style.borderColor = "#D1D1D1"; // Standardfarbe
+  inputDate.style.borderColor = "#D1D1D1";
+}
+
+// Clear Button
+function clearAllInputs() {
+  const form = document.getElementById("task_form");
+  form.reset();
+
+  document.getElementById("dropdown_selected").textContent = "Select task category";
+  document.getElementById("dropdown_selected_assignee").textContent = "Select a person";
+  document.getElementById("display_subtasks").innerHTML = "";
+
+  const priorityButtons = document.querySelectorAll(".priority_buttons_div > div");
+  priorityButtons.forEach((button) => button.classList.remove("active"));
+
+  const showAssignees = document.getElementById("show_assignees");
+  showAssignees.innerHTML = "";
 }
