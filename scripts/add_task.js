@@ -268,7 +268,17 @@ function focusInputCalender() {
   document.getElementById("input_date").focus();
 }
 
-function toggleBorderColorCalender(isFocused) {
+function handleDateClick() {
   const inputDate = document.getElementById("input_date");
-  inputDate.style.borderColor = isFocused ? "rgb(41, 171, 226)" : "gray";
+  inputDate.style.borderColor = "rgb(41, 171, 226)"; // Blau
+}
+
+function handleDateBlur() {
+  const inputDate = document.getElementById("input_date");
+  inputDate.style.borderColor = "#D1D1D1"; // Standardfarbe
+}
+
+function handleDateChange() {
+  const inputDate = document.getElementById("input_date");
+  inputDate.style.borderColor = "#D1D1D1"; // Standardfarbe
 }

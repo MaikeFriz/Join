@@ -23,11 +23,21 @@
 #input_title {
     height: 48px;
     width: 100%;
+    border: 1px solid #D1D1D1; 
+    outline: none; 
+    border-radius: 10px;
 }
 
 #input_description {
     height: 120px;
     width: 100%;
+    border: 1px solid #D1D1D1; 
+    outline: none; 
+    border-radius: 10px;
+}
+
+#input_title:focus, #input_description:focus {
+    border: 2px solid rgb(41, 171, 226); 
 }
 
 .enlarge_inputfield_symbol_div {
@@ -45,12 +55,12 @@
 }
 
 #input_date {
-    border: 2px solid gray; 
+    border: 1px solid #D1D1D1; 
     outline: none;
     height: 48px;
     width: 100%;
 }
 
 #input_date:focus {
-    border-color: rgb(41, 171, 226);
+    border: 2px solid rgb(41, 171, 226);
 }
