@@ -247,13 +247,12 @@ function displayContactDetails(contactId) {
       const newContactDetailsDiv = document.createElement("div");
       newContactDetailsDiv.className = "contact-details";
       newContactDetailsDiv.innerHTML = `
-        <h2>Contact Details</h2>
+        <h2>Contacts</h2>
         <div class="contact-initials" style="background-color: ${backgroundColor};">${initials}</div>
         <div>
           <p><strong>Name:</strong> ${contact.name}</p>
           <p><strong>Email:</strong> <a href="mailto:${contact.email}">${contact.email}</a></p>
           <p><strong>Phone:</strong> ${contact.phone}</p>
-          <p><strong>Address:</strong> ${contact.address}</p>
         </div>
         <div class="contact-buttons">
           <button id="edit-contact-button">Edit Contact</button>
@@ -275,6 +274,18 @@ function displayContactDetails(contactId) {
         .addEventListener("click", function () {
           openOverlay(`edit_contact.html?contactId=${contactId}`);
         });
+
+      const contactItems = document.querySelectorAll(".contacts-list ul li");
+      contactItems.forEach((item) =>
+        item.classList.remove("contact-highlight")
+      );
+
+      const selectedContact = document.querySelector(
+        `.contacts-list ul li[data-contact-id="${contactId}"]`
+      );
+      if (selectedContact) {
+        selectedContact.classList.add("contact-highlight");
+      }
     })
     .catch((error) => {
       console.error("Error fetching contact details:", error);

@@ -93,6 +93,7 @@ footer a:hover {
 .contacts-list ul {
   flex-grow: 1;
   overflow-y: auto;
+  padding-left: 0px;
 }
 
 .contacts-list li {
@@ -118,21 +119,23 @@ footer a:hover {
 }
 
 #add-contact-button {
-  width: 280px;
-  height: 48px;
-  background-color: rgb(42, 54, 71);
-  border: solid 2px rgb(42, 54, 71);
+  width: 352px;
+  height: 56px;
+  top: 22.5px;
+  left: 52px;
+  gap: 16px;
   border-radius: 10px;
-  color: white;
-  padding: 8px 16px;
-  cursor: pointer;
-  transform: scale(1);
+  border-width: 1px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  background: #2A3647;
+  border: 1px solid #2A3647;
+  color: #FFFFFF; /* Set text color to white */
+  font-family: Inter;
+  font-weight: 700;
   font-size: 21px;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
+  line-height: 120%;
+  letter-spacing: 0%;
 }
 
 .add-contact-button:hover {
@@ -165,9 +168,6 @@ footer a:hover {
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
 .d-none {
@@ -203,3 +203,17 @@ footer a:hover {
   color: #333;
   font-weight: bold;
 }
+
+.contact-highlight {
+  box-shadow: 0 0 10px 2px var(--add-contact-button-color);
+  background-color: rgb(42, 54, 71);
+  color: white; 
+  border-radius: 8px;
+  padding: 5px; 
+}
+
+.contact-highlight a {
+  color: white; 
+  text-decoration: none; 
+}
+
