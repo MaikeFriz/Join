@@ -101,6 +101,8 @@ function handleDragEnd(event, onDragEnd) {
   const task = event.target;
   task.classList.remove("dragging");
   onDragEnd();
+  loadNoTasksFunctions();
+
 }
 
 // Updates the position of the task clone as it follows the cursor during drag
@@ -211,7 +213,6 @@ function addTaskToNewStatus(taskId, newStatus, userId, baseUrl) {
 
 // Updates the task's status in Firebase by removing it from other statuses and adding it to the new one
 function updateTaskInFirebase(taskId, newStatus) {
-  const BASE_URL = `https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData/`;
   let user = JSON.parse(localStorage.getItem("loggedInUser"));
   
   const isGuest = JSON.parse(localStorage.getItem("isGuest"));
@@ -224,7 +225,6 @@ function updateTaskInFirebase(taskId, newStatus) {
     console.error("No logged-in user found.");
     return Promise.reject("No user found");
   }
-  loadNoTasksFunctions();
   return removeTaskFromOtherStatuses(taskId, user.userId, BASE_URL)
     .then(() => addTaskToNewStatus(taskId, newStatus, user.userId, BASE_URL));
 }

@@ -1,0 +1,139 @@
+.focused-task-content{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.board-focused-task{
+    width: 525px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    background-color: white;
+    padding: 16px;
+    gap: 20px;
+    border-radius: 24px;
+    box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    transition: background-color 100ms ease-in-out;
+}
+
+.focused-task-top{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.focused-task-top svg{
+    height: 32px;
+    width: 32px;
+    padding: 8px;
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 0);
+    border-radius: 56px;
+    transition: background-color 100ms ease-in-out;
+}
+
+.focused-task-top svg:hover {
+    background-color: rgba(41, 171, 226, 1);
+    padding: 8px;
+    border-radius: 56px;
+}
+
+.focused-task-top svg path{
+    transition: fill 100ms ease-in-out;
+}
+
+.focused-task-top svg:hover path{
+    fill: rgba(255, 255, 255, 1);
+}
+
+.board-focused-task label{
+    display: flex;
+    align-self: flex-start;
+    color: rgba(255, 255, 255, 1);
+    padding: 4px 16px 4px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.focused-task-bottom{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+}
+
+.focused-assignees-container {
+    position: relative;
+    display: flex ;
+}
+
+.focused-assignee-initials {
+    margin-left: -8px;
+    background-color: black;
+    color: rgba(255, 255, 255, 1);
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 1);
+    padding: 12px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;   
+}
+
+.board-focused-task h1{
+    font-size: 61px;
+    color: rgba(0, 0, 0, 1);;
+    margin-block: 0;
+}
+
+.board-focused-task p{
+    font-size: 20px;
+    color: rgba(0, 0, 0, 1);
+    padding-top: 8px;
+    margin-block: 0;
+}
+
+
+
+.focused-subtask-progress-container {
+    height: 16px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+  .focused-subtask-progress-bar{
+    width: 100%;
+    background-color: rgba(244, 244, 244, 1);
+    border-radius: 5px;
+  }
+  
+  .focused-task-info-line{
+    display: flex;
+    justify-content: start;
+  }
+
+  .bullet-point{
+    color: rgba(42, 54, 71, 1);
+  }
+
+  .focused-subtask-inner-progress-bar {
+    height: 8px;
+    background-color: rgba(69, 137, 255, 1);
+    border-radius: 8px;
+  }
+  
+  .focused-subtask-progress-text {
+    width: 5auto;
+    display: flex;
+    font-size: 12px;
+    gap: 4px;
+  }
+  

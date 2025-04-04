@@ -58,3 +58,18 @@ function processTaskDetails(taskContent, taskId, kanbanData) {
   taskContent.assigneesNames = getAssigneesNames(taskContent.assignees, kanbanData);
   return taskContent;
 }
+
+function renderFocusedTask(taskId) {
+  const taskContent = getTaskContent(taskId, kanbanData);
+  if (!taskContent) return;
+  const focusedContent = document.getElementById("focusedTaskCard");
+  document.getElementById('board-content').classList.add('d-none');
+  document.getElementById('focusedTaskCard').classList.remove('d-none');
+  focusedContent.innerHTML = focusedTaskTemplate(taskContent);
+}
+
+function backToBoardTable() {
+  document.getElementById('focusedTaskCard').classList.add('d-none');
+  document.getElementById('board-content').classList.remove('d-none');
+}
+
