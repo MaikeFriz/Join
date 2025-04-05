@@ -103,19 +103,6 @@
     color: rgba(42, 54, 71, 1);
 }
 
-.focused-subtask-inner-progress-bar {
-    height: 8px;
-    background-color: rgba(69, 137, 255, 1);
-    border-radius: 8px;
-}
-
-.focused-subtask-progress-text {
-    width: 5auto;
-    display: flex;
-    font-size: 12px;
-    gap: 4px;
-}
-
 .focused-task-table{
     font-size: 20px;
 }
@@ -154,25 +141,22 @@
     height: 42px;
     width: 42px;
 }
-
-.focused-subtask-progress-container {
-    height: 16px;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-}
-
-  .focused-subtask-progress-bar{
-    width: 100%;
-    background-color: rgba(244, 244, 244, 1);
-    border-radius: 5px;
-  }
   
-  .focused-task-info-line{
+.focused-task-info-line{
     display: flex;
     justify-content: start;
     gap: 25px;
-  }
+}
+
+.focused-subtask-line{
+    display: flex;
+    align-items: center;
+}
+
+.focused-subtask-container{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 16px;
+}
 

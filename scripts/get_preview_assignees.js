@@ -59,7 +59,7 @@ function getAssigneeInitals(assignee) {
     let firstLetter = firstName.charAt(0).toUpperCase() || "?";
     let lastNameFirstLetter = lastName.charAt(0).toUpperCase() || "?";
   
-    return firstLetter + lastNameFirstLetter; // Return the initials (e.g., "JD")
+    return firstLetter + lastNameFirstLetter;
 }
   
 // Function to adjust assignee name for use in CSS (lowercase first letter of the name)

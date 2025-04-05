@@ -1,0 +1,32 @@
+.svg-checkbox {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+  }
+  
+  .svg-checkbox input {
+    display: none;
+  }
+  
+  .svg-checkbox .checkbox-icon {
+    width: 24px;
+    height: 24px;
+    transition: all 0.3s ease;
+  }
+  
+  .svg-checkbox .unchecked {
+    display: block;
+  }
+  
+  .svg-checkbox .checked {
+    display: none;
+  }
+  
+  .svg-checkbox input:checked ~ .unchecked {
+    display: none;
+  }
+  
+  .svg-checkbox input:checked ~ .checked {
+    display: block;
+  }
+  
