@@ -2,6 +2,11 @@
     display: inline-flex;
     align-items: center;
     cursor: pointer;
+    transition: opacity 100ms ease-in-out;
+  }
+  
+  .svg-checkbox:hover {
+    opacity: 0.8;
   }
   
   .svg-checkbox input {
