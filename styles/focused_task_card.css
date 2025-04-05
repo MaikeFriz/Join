@@ -160,3 +160,38 @@
     font-size: 16px;
 }
 
+.focused-edit-trash{
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    gap: 8px;
+}
+
+.focused-edit-trash svg{
+    height: 24px;
+    width: 24px;
+    padding: 2px;
+    cursor: pointer;
+}
+
+.focused-edit-trash svg:hover path{
+   fill: rgba(42, 54, 71, 0.8);
+}
+
+.focused-edit-trash svg path{
+   transition: fill 100ms ease-in-out;
+}
+
+.focused-separator{
+    border-right: 1px solid rgba(209, 209, 209, 1) ;
+}
+
+.focused-trash, .focused-edit{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    color: rgba(42, 54, 71, 1); 
+}
+
