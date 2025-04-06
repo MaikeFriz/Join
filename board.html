@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="./styles/label_and_user_backgrounds.css">
     <link rel="stylesheet" href="./styles/focused_task_card.css">
     <link rel="stylesheet" href="./styles/checkbox.css">
+    <link rel="stylesheet" href="./styles/board_confirm_dialog.css">
     <link rel="icon" type="image/svg+xml" href="./assets/img/favicon.svg" />
 
 
@@ -23,6 +24,7 @@
     <script src="./scripts/board_no_tasks_placeholder.js"></script>
     <script src="./scripts/board_drag_drop.js"></script>
     <script src="./scripts/board_search_functions.js"></script>
+    <script src="./scripts/board_confirm_dialog.js"></script>
     <script src="./scripts/task_card_templates.js"></script>
     <script src="./scripts/get_preview_contents.js"></script>
     <script src="./scripts/get_preview_subtasks.js"></script>
@@ -52,7 +54,7 @@
           <span class="logout-text">Logout</span>
         </div>
         
-        <div id="board-content" class="board-content">
+        <div id="boardContent" class="board-content">
 
             <div class="board-head">
                 <div class="board-search-line">
@@ -103,6 +105,7 @@
             </div>
         </div>
       </div>
-      <div id="focusedTaskCard" class="focused-task-content"></div>
+      <div id="focusedTaskCard" class="focused-task-content d-none"></div>
+      <div id="confirmDialog" class="confirm-dialog-container d-none"></div>
     </body>
 </html>
