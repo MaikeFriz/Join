@@ -27,7 +27,7 @@
         </div>
         <form id="log-in-form" class="input_div">
           <label class="input_label">
-            <input id="input_email" type="email" required placeholder="Email" />
+            <input id="input_email" type="text" placeholder="Email" />
             <div class="input_icon">
               <img src="./assets/img/placeholder_mail_input.svg" alt="Email" />
             </div>
@@ -36,7 +36,6 @@
             <input
                 id="input_password"
                 type="password"
-                required
                 placeholder="Password"
             />
             <div class="input_icon" id="toggle_icon">
@@ -47,6 +46,7 @@
                 />
             </div>
         </label>
+        <div id="login-error-message" class="error-message" style="display: none; color: red;"></div>
           <div class="button_div">
             <button type="submit" class="button_log_in_input_section" id="loginButton">
               Log in

@@ -6,25 +6,21 @@ document.addEventListener("DOMContentLoaded", () => {
   errorMessage.style.color = "red";
   form.appendChild(errorMessage);
 
-  // Attach the guest login event listener to the guest button
   document.getElementById("guestButton").addEventListener("click", function(event) {
-    event.preventDefault();  // Prevent form submission
-    guestLogin();            // Call guestLogin when the button is clicked
+    event.preventDefault();  
+    guestLogin();         
   });
 
-  // Regular form submission for login
   form.addEventListener("submit", function(event) {
-    event.preventDefault();  // Prevent form submission
+    event.preventDefault(); 
     
-    // Handle form submission if it's not a guest login
     handleFormSubmit(event, emailInput, passwordInput, errorMessage);
   });
 });
 
-
-//Functions fot guest log in
-
-
+// ==========================
+// Gast-Login Funktionen
+// ==========================
 function loadGuestDataFromLocalStorage() {
   return 
 }
@@ -47,16 +43,14 @@ function saveGuestDataToLocalStorage(data) {
   localStorage.setItem("guestKanbanData", JSON.stringify(data));
 }
 
-// Function for guest login
 function guestLogin() {
   console.log("Guest Log In clicked");
 
-  // Temporarily remove "required" attributes to allow guest login
   document.getElementById("input_email").removeAttribute("required");
   document.getElementById("input_password").removeAttribute("required");
 
-  localStorage.removeItem("loggedInUser"); // Clear any logged-in user data
-  localStorage.setItem("isGuest", "true");  // Set a guest session
+  localStorage.removeItem("loggedInUser"); 
+  localStorage.setItem("isGuest", "true"); 
 
   data = initializeGuestData();
   saveGuestDataToLocalStorage(data);
@@ -64,13 +58,15 @@ function guestLogin() {
   window.location.href = "./summary.html";
 }
 
-// Function to handle form submission for normal login
+// ==========================
+// Formularverarbeitung & Validierung
+// ==========================
 function handleFormSubmit(event, emailInput, passwordInput, errorMessage) {
   const email = emailInput.value.trim();
   const password = passwordInput.value.trim();
 
   if (!isInputValid(email, password, errorMessage)) {
-    return; // Stop if input is invalid
+    return; 
   }
 
   authenticateUser(email, password, errorMessage);
@@ -81,14 +77,51 @@ function isUserLoggedIn() {
   return loggedInUser !== null;
 }
 
-function isInputValid(email, password, errorMessage) {
+// ==========================
+// Inputvalidierung (Style & Format)
+/// ==========================
+function clearInputStyles(emailInput, passwordInput, errorMessage) {
+  emailInput.style.border = "";
+  passwordInput.style.border = "";
+  errorMessage.style.display = "none";
+  errorMessage.textContent = "";
+}
+
+function showError(emailInput, passwordInput, errorMessage, message) {
+  errorMessage.textContent = message;
+  errorMessage.style.display = "block";
+  emailInput.style.border = "2px solid red";
+  passwordInput.style.border = "2px solid red";
+}
+
+function isEmailFormatValid(email) {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+}
+
+function isInputValid(email, password) {
+  const emailInput = document.getElementById("input_email");
+  const passwordInput = document.getElementById("input_password");
+  const errorMessage = document.getElementById("login-error-message");
+
+  clearInputStyles(emailInput, passwordInput, errorMessage);
+
   if (!email || !password) {
-    errorMessage.textContent = "Email and password are required.";
+    showError(emailInput, passwordInput, errorMessage, "Check your email and password. Please try again.");
     return false;
   }
+
+  if (!isEmailFormatValid(email)) {
+    showError(emailInput, passwordInput, errorMessage, "Check your email and password. Please try again.");
+    return false;
+  }
+
   return true;
 }
 
+// ==========================
+// Authentifizierung & Antwortbehandlung
+// ==========================
 function authenticateUser(email, password, errorMessage) {
   fetch("https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData/users.json")
     .then((response) => response.json())
@@ -96,15 +129,59 @@ function authenticateUser(email, password, errorMessage) {
     .catch((error) => handleError(error, errorMessage));
 }
 
-function handleAuthenticationResponse(data, email, password, errorMessage) {
+function handleAuthenticationResponse(data, email, password) {
   const userKey = findUserKey(data, email, password);
 
   if (userKey) {
-    storeUserInLocalStorage(data, userKey);
-    window.location.href = "./summary.html";
+    handleSuccessfulLogin(data, userKey);
   } else {
-    errorMessage.textContent = "Invalid email or password.";
+    handleFailedLogin();
   }
+}
+
+// ==========================
+// Erfolgreicher/Fehlgeschlagener Login
+// ==========================
+function handleSuccessfulLogin(data, userKey) {
+  hideLoginError();
+  resetInputBorders();
+  storeUserInLocalStorage(data, userKey);
+  redirectToSummary();
+}
+
+function handleFailedLogin() {
+  showLoginError("Check your email and password. Please try again.");
+  markInputsAsInvalid();
+}
+
+function showLoginError(message) {
+  const errorDiv = document.getElementById("login-error-message");
+  errorDiv.textContent = message;
+  errorDiv.style.display = "block";
+}
+
+function hideLoginError() {
+  const errorDiv = document.getElementById("login-error-message");
+  errorDiv.textContent = "";
+  errorDiv.style.display = "none";
+}
+
+function markInputsAsInvalid() {
+  const emailInput = document.getElementById("input_email");
+  const passwordInput = document.getElementById("input_password");
+  emailInput.style.border = "2px solid red";
+  passwordInput.style.border = "2px solid red";
+}
+
+function resetInputBorders() {
+  const emailInput = document.getElementById("input_email");
+  const passwordInput = document.getElementById("input_password");
+  emailInput.style.border = "";
+  passwordInput.style.border = "";
+}
+
+function redirectToSummary() {
+  window.location.href = "./summary.html";
 }
 
 function findUserKey(data, email, password) {

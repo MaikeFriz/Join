@@ -168,6 +168,10 @@ body {
     cursor: pointer;
 }
 
+.right_side_inputfield_titles{
+    margin-block-end: 2px;
+}
+
 /*Change border color when focus on input field*/
 .focus_blue_border input:focus,
 .focus_blue_border input:not(:placeholder-shown) {
