@@ -17,27 +17,34 @@
   }
   
   #confirmDialog.active {
-    backdrop-filter: blur(6px);
+    backdrop-filter: blur(3px);
     opacity: 1;
     pointer-events: all;
   }
   
   .confirm-dialog-window {
-    height: 25%;
+    height: auto;
     width: 60%;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    text-align: center;
     background-color: rgba(255, 255, 255, 1);
-    padding: 16px;
+    padding: 20px;
     gap: 20px;
     border-radius: 24px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
     box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.4);
     transform: scale(0.5);
     opacity: 0;
     filter: blur(6px);
     transition: transform 300ms ease, opacity 300ms ease, filter 300ms ease;
     color:rgba(42, 54, 71, 1);
+  }
+
+  .confirm-dialog-window h1{
+    margin: 0;
   }
   
   #confirmDialog.active .confirm-dialog-window {
@@ -48,24 +55,113 @@
 
   .confirm_buttons{
     display: flex;
-    gap: 20px;
+    gap: 32px;
   }
 
   .confirm-dialog-window button{
     height: 48px;
-    width: 99px;
+    width: 126px;
     border-radius: 8px;
-    
     cursor: pointer;
   }
 
 .confirm-delete-button{
-    border: 2px solid rgba(255, 0, 31, 0.5);
+    border: 2px solid rgba(255, 0, 31, 0.6);
+    background-color: rgba(255, 0, 31, 0.1);
+    color: rgba(42, 54, 71, 1);
+    font-size: 20px;
+    gap: 6px;
+    font-size: 20px;
+    border-radius: 10px;
+    color: rgba(42, 54, 71, 1);
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: border 100ms ease-in-out,
+                color 100ms ease-in-out,
+                box-shadow 100ms ease-in-out,
+                background-color 100ms ease-in-out;
+}
+
+.confirm-delete-button svg path{
+    transition: fill 100ms ease-in-out;
+}
+
+.confirm-delete-button:hover{
+    border: solid 2px rgba(165, 42, 42, 0.7);
+    color: rgba(165, 42, 42, 0.7);
+    background-color: rgba(255, 0, 31, 0.2) ;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.confirm-delete-button:hover svg path{
+    fill: rgba(165, 42, 42, 0.7);
+}
+
+.confirm-delete-button:active{
+    border: solid 2px rgba(165, 42, 42, 0.7);
+    background-color: rgba(255, 0, 31, 0.4);
+    box-shadow: none;
+    color: rgba(165, 42, 42, 1);
+}
+.confirm-delete-button:active svg path{
+    fill: rgba(165, 42, 42, 1);
 }
 
 .confirm-cancel-button{
-    border: 2px solid rgba(41, 171, 226, 1);
+    font-size: 20px;
+    background-color: rgba(255, 255, 255, 1);
+    border: solid 2px  rgba(42, 54, 71, 1);
+    border-radius: 10px;
+    color: rgba(42, 54, 71, 1);
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    transition: border 100ms ease-in-out, 
+                color 100ms ease-in-out,
+                box-shadow 100ms ease-in-out;
 }
+
+.confirm-cancel-button svg{
+    height: 36px;
+}
+
+.confirm-cancel-button svg path{
+    transition: stroke 100ms ease-in-out;
+}
+
+.confirm-cancel-button:hover{
+    border: solid 2px rgba(41, 171, 226, 1);
+    color: rgba(41, 171, 226, 1);
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.confirm-cancel-button:hover svg path{
+    stroke: rgba(41, 171, 226, 1);
+}
+
+.confirm-cancel-button:active{
+    border: solid 2px rgba(9, 25, 49, 1);
+    color: rgba(9, 25, 49, 1);
+    box-shadow: none;
+}
+
+.confirm-cancel-button:active svg path{
+    stroke: rgba(9, 25, 49, 1);
+}
+
+
+
+
+
 
 
 
