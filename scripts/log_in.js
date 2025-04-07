@@ -103,16 +103,20 @@ function isInputValid(email, password) {
   const emailInput = document.getElementById("input_email");
   const passwordInput = document.getElementById("input_password");
   const errorMessage = document.getElementById("login-error-message");
+  const forgotPasswordDiv = document.getElementById("forgot_password_div");
+
 
   clearInputStyles(emailInput, passwordInput, errorMessage);
 
   if (!email || !password) {
     showError(emailInput, passwordInput, errorMessage, "Check your email and password. Please try again.");
+    forgotPasswordDiv.style.display = "block";
     return false;
   }
 
   if (!isEmailFormatValid(email)) {
     showError(emailInput, passwordInput, errorMessage, "Check your email and password. Please try again.");
+    forgotPasswordDiv.style.display = "block";
     return false;
   }
 
@@ -152,6 +156,8 @@ function handleSuccessfulLogin(data, userKey) {
 function handleFailedLogin() {
   showLoginError("Check your email and password. Please try again.");
   markInputsAsInvalid();
+  const forgotPasswordDiv = document.getElementById("forgot_password_div");
+  forgotPasswordDiv.style.display = "block";
 }
 
 function showLoginError(message) {
