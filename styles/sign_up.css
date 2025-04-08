@@ -160,7 +160,7 @@ header {
     cursor: pointer;
     transform: scale(1);
     font-weight: 700;
-    font-size: 21px;
+    font-size: 21px;;
 }
 
 .button_sign_up_input_section:hover{
@@ -282,4 +282,5 @@ a:hover{
     border: 2px solid rgb(41, 171, 226) ;
     outline: none;
 }
+
 

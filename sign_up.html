@@ -54,14 +54,14 @@
                   alt="Confirm Password" />
           </div>
       </label>    
+      <div id="error_message_sign_up" class="error_message_sign_up"></div>
         <div class="checkbox_div">
-          <input type="checkbox" id="privacy" required />
+          <input type="checkbox" id="privacy"/>
           <label for="privacy">
             I accept the <a class="link_accept_privacy_policy" href="./privacy.html">Privacy policy</a>
           </label>
         </div>
-
-        <button type="submit" class="button_sign_up_input_section">Sign up</button>
+        <button type="submit" class="button_sign_up_input_section" onclick="checkIfPasswordErrorMessageNeeded(), checkIfAllFieldsFilled()">Sign up</button>
       </form>
     </div>
   </div>
