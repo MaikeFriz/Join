@@ -61,31 +61,54 @@ function checkIfUserExists(users, email) {
 //Password updaten
 /// ==========================
 async function updatePassword() {
-    const password = getInputValue("password_forgot_password");
-    const confirmPassword = getInputValue("confirm_password_forgot_password");
-    const email = getInputValue("email_forgot_password");
-    resetConfirmationMessage();
-
-    if (!doPasswordsMatch(password, confirmPassword)) {
-        showConfirmationMessage("Passwords do not match. Please try again.", "red");
-        return;
+    const passwordInput = document.getElementById("password_forgot_password").value.trim();
+    const confirmPasswordInput = document.getElementById("confirm_password_forgot_password").value.trim();
+    const emailInput = document.getElementById("email_forgot_password").value.trim();
+    const errorNewPasswordMessageDiv = document.getElementById("error_new_password_message");
+    const confirmationMessageDiv = document.getElementById("confirmation_message");
+    const form = document.querySelector("form");
+    const backToLogInDiv = document.getElementById("lead_to_log_in_div");
+  
+    errorNewPasswordMessageDiv.textContent = "";
+    errorNewPasswordMessageDiv.style.color = "red";
+  
+    if (!passwordInput || !confirmPasswordInput) {
+      errorNewPasswordMessageDiv.textContent = "Both password fields are required.";
+      return;
     }
-
+  
+    if (passwordInput !== confirmPasswordInput) {
+      errorNewPasswordMessageDiv.textContent = "Passwords do not match. Please try again.";
+      return;
+    }
     try {
-        const users = await fetchUserData();
-        const userKey = findUserKeyByEmail(users, email);
-
-        if (userKey) {
-            await updateUserPassword(userKey, users[userKey], password);
-            showConfirmationMessage("Password updated successfully!", "green");
-        } else {
-            showConfirmationMessage("User not found. Please try again.", "red");
-        }
+      const response = await fetch("https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData/users.json");
+      const users = await response.json();
+      const userKey = Object.keys(users).find(key => users[key].email === emailInput);
+  
+      if (userKey) {
+        users[userKey].password = passwordInput;
+  
+        await fetch(`https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData/users/${userKey}.json`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(users[userKey])
+        });
+  
+        form.style.display = "none";
+        backToLogInDiv.style.display = "block";
+        confirmationMessageDiv.textContent = "Password updated successfully! You can now log in with your new password.";
+        confirmationMessageDiv.style.color = "green";
+      } else {
+        errorNewPasswordMessageDiv.textContent = "User not found. Please try again.";
+      }
     } catch (error) {
-        console.error("Error updating password:", error);
-        showConfirmationMessage("An error occurred while updating the password. Please try again later.", "red");
+      console.error("Error updating password:", error);
+      errorNewPasswordMessageDiv.textContent = "An error occurred while updating the password. Please try again later.";
     }
-}
+  }
 
 function getInputValue(elementId) {
     return document.getElementById(elementId).value.trim();
@@ -127,3 +150,9 @@ async function updateUserPassword(userKey, userObject, newPassword) {
         body: JSON.stringify(updatedUser)
     });
 }
+
+//Back to Login button
+// ==========================
+function redirectToLogin() {
+    window.location.href = "./log_in.html";
+  }
