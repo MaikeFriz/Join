@@ -10,12 +10,15 @@ function fetchComponent(file) {
 
 function insertComponent(content, elementId) {
     const container = document.getElementById(elementId);
+
     if (container) {
         container.innerHTML = content;
         
         const loggedInUser = checkUserLogin(); 
-        if (loggedInUser) {
-            let userName = loggedInUser.name;
+        const guest = JSON.parse(localStorage.getItem("isGuest"));
+        if (loggedInUser || guest) {
+            let userName = loggedInUser ? loggedInUser.name : "Guest";
+        
             getUserInitialForHeader(userName);
         }
     } else {
