@@ -18,14 +18,12 @@ function insertComponent(content, elementId) {
         const guest = JSON.parse(localStorage.getItem("isGuest"));
         if (loggedInUser || guest) {
             let userName = loggedInUser ? loggedInUser.name : "Guest";
-        
             getUserInitialForHeader(userName);
         }
     } else {
         console.error(`Element with ID "${elementId}" not found.`);
     }
 }
-
 
 function loadComponent(file, elementId) {
     fetchComponent(file)
@@ -36,13 +34,20 @@ function loadComponent(file, elementId) {
 function loadHeaderAndSidebar() {
     loadComponent("header.html", "header-container");
     loadComponent("sidebar.html", "sidebar-container");
-    }
-
-document.addEventListener("DOMContentLoaded", loadHeaderAndSidebar);
+}
 
 function loadHeaderAndSidebarLoggedOut() {
     loadComponent("header.html", "header-container");
     loadComponent("sidebar_logged_out.html", "sidebar-container");
-    }
+}
 
-document.addEventListener("DOMContentLoaded", loadHeaderAndSidebarLoggedOut);
+document.addEventListener("DOMContentLoaded", () => {
+    const loggedInUser = checkUserLogin(); 
+    const guest = JSON.parse(localStorage.getItem("isGuest"));
+
+    if (loggedInUser || guest) {
+        loadHeaderAndSidebar();
+    } else {
+        loadHeaderAndSidebarLoggedOut();
+    }
+});
