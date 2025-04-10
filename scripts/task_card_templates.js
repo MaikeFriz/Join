@@ -143,7 +143,7 @@ function focusedSubtaskTemplate(subtask, isChecked, subtaskId) {
   `;
 }
 
-function confirmDialogTemplate(){
+function confirmDialogTemplate(taskId){
   return /*html*/`
     
     <div class="confirm-dialog-window">
@@ -151,7 +151,7 @@ function confirmDialogTemplate(){
         <h1>Do you really want to delete this Task ?</h1>
       </div>
       
-      <div class="confirm_buttons">
+      <div class="confirm_buttons" onclick="deleteTask('${taskId}'), closeConfirmDialog()">
         <button class="confirm-delete-button">
           Delete
           <svg width="18" height="17" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -161,7 +161,7 @@ function confirmDialogTemplate(){
           </svg>
         </button>
         
-        <button class="confirm-cancel-button"onclick="backToFocusedTask()">
+        <button class="confirm-cancel-button" onclick="closeConfirmDialog()">
           Cancel
           <svg width="27" height="25" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M7 7L18 18M18 7L7 18" stroke="rgba(42, 54, 71, 1)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -172,3 +172,4 @@ function confirmDialogTemplate(){
     </div>
   `
 }
+
