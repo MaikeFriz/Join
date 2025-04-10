@@ -1,29 +1,47 @@
 //Email validieren
 /// ==========================
 async function validateEmail() {
-    const emailInput = getEmailInputValue();
-    resetValidationUI();
+    const emailInput = document.getElementById("email_forgot_password").value.trim();
+    const validationMessageDiv = document.getElementById("email_validation_message");
+    const showWhenMailValidatedDiv = document.getElementById("show_when_mail_validaded");
+    const loadingSpinner = document.getElementById("loading_spinner");
+  
+    validationMessageDiv.textContent = "";
+    validationMessageDiv.style.color = "black";
+    showWhenMailValidatedDiv.style.display = "none";
+  
     if (!emailInput) {
-        showValidationMessage("Please enter an email address.", "red");
-        return;
+      validationMessageDiv.textContent = "Please enter an email address.";
+      validationMessageDiv.style.color = "red";
+      return;
     }
+      loadingSpinner.style.display = "flex";
+  
     try {
-        const users = await fetchUserData();
-        const userExists = checkIfUserExists(users, emailInput);
-
-        if (userExists) {
-            showValidationMessage("User with this email address found in the database.", "green");
-            toggleValidatedDiv(true);
-        } else {
-            showValidationMessage("No user with this email address found in the database.", "red");
-            toggleValidatedDiv(false);
-        }
+      const response = await fetch("https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData/users.json");
+      const users = await response.json();
+  
+      const userExists = Object.values(users).some(user => user.email === emailInput);
+  
+      if (userExists) {
+        validationMessageDiv.textContent = "User with this email address found in the database.";
+        validationMessageDiv.style.color = "green";
+  
+        showWhenMailValidatedDiv.style.display = "block";
+      } else {
+        validationMessageDiv.textContent = "No user with this email address found in the database.";
+        validationMessageDiv.style.color = "red";
+  
+        showWhenMailValidatedDiv.style.display = "none";
+      }
     } catch (error) {
-        console.error("Error validating email:", error);
-        showValidationMessage("An error occurred while validating the email. Please try again later.", "red");
-        toggleValidatedDiv(false);
+      console.error("Error validating email:", error);
+      validationMessageDiv.textContent = "An error occurred while validating the email. Please try again later.";
+      validationMessageDiv.style.color = "red";
+    } finally {
+      loadingSpinner.style.display = "none";
     }
-}
+  }
 
 function getEmailInputValue() {
     return document.getElementById("email_forgot_password").value.trim();
@@ -68,6 +86,7 @@ async function updatePassword() {
     const confirmationMessageDiv = document.getElementById("confirmation_message");
     const form = document.querySelector("form");
     const backToLogInDiv = document.getElementById("lead_to_log_in_div");
+    const loadingSpinner = document.getElementById("loading_spinner");
   
     errorNewPasswordMessageDiv.textContent = "";
     errorNewPasswordMessageDiv.style.color = "red";
@@ -81,9 +100,12 @@ async function updatePassword() {
       errorNewPasswordMessageDiv.textContent = "Passwords do not match. Please try again.";
       return;
     }
+      loadingSpinner.style.display = "flex";
+  
     try {
       const response = await fetch("https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData/users.json");
       const users = await response.json();
+  
       const userKey = Object.keys(users).find(key => users[key].email === emailInput);
   
       if (userKey) {
@@ -107,6 +129,8 @@ async function updatePassword() {
     } catch (error) {
       console.error("Error updating password:", error);
       errorNewPasswordMessageDiv.textContent = "An error occurred while updating the password. Please try again later.";
+    } finally {
+      loadingSpinner.style.display = "none";
     }
   }
 
