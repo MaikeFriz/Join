@@ -1,58 +1,129 @@
 header {
-    position: fixed;
-    top: 0;
-    height: 96px;
-    width: 100%;
-    background-color: rgba(255, 255, 255, 1);
-    border-bottom: 1px solid rgba(42, 54, 71, 0.1);
-    box-shadow: 0px 0px 4px 2px rgba(42, 54, 71, 0.1);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    /* padding: 0 40px 0 348px; */
-    font-family: Inter;
-    font-size: 24px;
-    font-weight: 400;
-    z-index: 500;
+  position: fixed;
+  top: 0;
+  height: 96px;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 1);
+  border-bottom: 1px solid rgba(42, 54, 71, 0.1);
+  box-shadow: 0px 0px 4px 2px rgba(42, 54, 71, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* padding: 0 40px 0 348px; */
+  font-family: Inter;
+  font-size: 24px;
+  font-weight: 400;
+  z-index: 500;
 }
 
 .right-header-elements {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
 }
 
-.right-header-elements a{
-    margin-top: 8px;
+.right-header-elements a {
+  margin-top: 8px;
 }
 
-.help-button{
-    cursor: pointer;
-    height: 20px;
-    transition: transform 100ms ease-in-out;
+.help-button {
+  cursor: pointer;
+  height: 20px;
+  transition: transform 100ms ease-in-out;
 }
 
 .help-button:hover {
-    transform: scale(1.1);
+  transform: scale(1.1);
 }
 
 .user-initials {
-    cursor: pointer;
-    height: 48px;
-    width: 48px;
-    border: 2px solid rgba(41, 53, 73, 1);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: Inter;
-    font-size: 16px;
-    font-weight: 400;
-    color: rgba(41, 171, 226, 1);
-    transition: background-color 100ms ease-in-out;
+  cursor: pointer;
+  height: 48px;
+  width: 48px;
+  border: 2px solid rgba(41, 53, 73, 1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Inter;
+  font-size: 16px;
+  font-weight: 400;
+  color: rgba(41, 171, 226, 1);
+  transition: background-color 100ms ease-in-out;
 }
 
-.user-initials:hover{
-    background-color: rgba(226, 230, 237, 1);
+.user-initials:hover {
+  background-color: rgba(226, 230, 237, 1);
+}
+
+/* User Dropdown Container - WICHTIG für die Funktionalität */
+.user-menu-container {
+  position: relative;
+  display: inline-block; /* Wichtig für korrekte Positionierung */
+}
+
+/* Dropdown-Menü */
+.user-dropdown {
+  position: absolute;
+  top: calc(100% + 25px);
+  right: 0;
+  width: 160px;
+  background: #2a3647;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(42, 54, 71, 0.1);
+  padding: 4px 0;
+  z-index: 1000;
+
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.2s ease;
+}
+
+/* Dropdown sichtbar machen bei Hover */
+.user-menu-container:hover .user-dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* Gemeinsamer Stil für Logout und Links */
+.logout-container,
+.dropdown-links a {
+  padding: 12px 16px;
+  font-size: 14px;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  min-height: 40px;
+  box-sizing: border-box;
+  text-decoration: none;
+  transition: background-color 100ms ease-in-out;
+}
+
+/* Hover-Effekte */
+.logout-container:hover,
+.dropdown-links a:hover {
+  background-color: rgba(226, 230, 237, 1);
+}
+
+/* KEINE extra Box oder Trennlinie für Logout */
+.logout-container {
+  border: none;
+}
+
+/* Dropdown-Inhalt als eine Liste darstellen */
+.dropdown-links {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Alles in einer gemeinsamen Liste */
+.user-dropdown {
+  display: flex;
+  flex-direction: column;
 }

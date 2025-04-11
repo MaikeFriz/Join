@@ -121,10 +121,10 @@ footer a:hover {
   left: 52px;
   gap: 16px;
   border-radius: 10px;
-  border: 1px solid #2A3647;
+  border: 1px solid #2a3647;
   padding: 12px 0;
-  background: #2A3647;
-  color: #FFFFFF; /* Set text color to white */
+  background: #2a3647;
+  color: #ffffff; /* Set text color to white */
   font-family: Inter;
   font-weight: 700;
   font-size: 21px;
@@ -170,49 +170,4 @@ footer a:hover {
 /* Utility Classes */
 .d-none {
   display: none !important;
-}
-
-/* Logout Section */
-.logout-container {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  cursor: pointer;
-  background-color: #f8f9fa;
-  padding: 6px 12px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  transition: background 0.3s;
-  max-width: fit-content;
-  margin-left: auto;
-}
-
-.logout-container:hover {
-  background-color: #e0e0e0;
-}
-
-.logout-button {
-  width: 24px;
-  height: 24px;
-  fill: #333;
-}
-
-.logout-text {
-  font-size: 16px;
-  color: #333;
-  font-weight: bold;
-}
-
-/* Highlighted Contact */
-.contact-highlight {
-  box-shadow: 0 0 10px 2px var(--add-contact-button-color);
-  background-color: rgb(42, 54, 71);
-  color: white;
-  border-radius: 8px;
-  padding: 5px;
-}
-
-.contact-highlight a {
-  color: white;
-  text-decoration: none;
 }
