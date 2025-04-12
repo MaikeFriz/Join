@@ -30,37 +30,37 @@ function getFocusedTask(taskContent) {
         <div class="triangle">
           <div class="triangle-top"></div>
         </div>
-        <div class="scrollable-container">
+          <div class="scrollable-container">
+          
+            <div class="scrollable-area">
+              <table class="focused-task-table">
+                <tr>
+                  <td class="bullet-point">Due Date:</td>
+                  <td class="focused-task-due-date">${formatDate(createAt)}</td>
+                </tr>
+                <tr>
+                  <td class="bullet-point">Priority:</td>
+                  <td class="focused-task-priority">
+                    ${taskContent.priority.charAt(0).toUpperCase() + taskContent.priority.slice(1)}
+                    <span class="${taskContent.priority}"></span>
+                  </td>
+                </tr>
+              </table>
         
-          <div class="scrollable-area">
-            <table class="focused-task-table">
-              <tr>
-                <td class="bullet-point">Due Date:</td>
-                <td class="focused-task-due-date">${formatDate(createAt)}</td>
-              </tr>
-              <tr>
-                <td class="bullet-point">Priority:</td>
-                <td class="focused-task-priority">
-                  ${taskContent.priority.charAt(0).toUpperCase() + taskContent.priority.slice(1)}
-                  <span class="${taskContent.priority}"></span>
-                </td>
-              </tr>
-            </table>
-      
-            <div class="focused-assignees-container">
-              <div class="bullet-point">Assigned To:</div>
-              <div id="focused-assignees-list" class="focused-assignees-list">
-                ${getAssignees(taskContent, "focused")}
+              <div class="focused-assignees-container">
+                <div class="bullet-point">Assigned To:</div>
+                <div id="focused-assignees-list" class="focused-assignees-list">
+                  ${getAssignees(taskContent, "focused")}
+                </div>
+              </div>
+        
+              <div class="focused-subtask-container">
+                <div class="bullet-point">Subtasks:</div>
+                <div>${renderSubtasks(taskContent.subtasks, kanbanData.subtasks)}</div>
               </div>
             </div>
-      
-            <div class="focused-subtask-container">
-              <div class="bullet-point">Subtasks:</div>
-              <div>${renderSubtasks(taskContent.subtasks, kanbanData.subtasks)}</div>
-            </div>
+            
           </div>
-          
-        </div>
         <div class="triangle">
           <div class="triangle-bottom"></div>
         </div>
@@ -78,7 +78,7 @@ function getFocusedTask(taskContent) {
   
           <div class="focused-separator"></div>
   
-          <div class="focused-edit">
+          <div class="focused-edit" onclick="renderEditTask('${taskContent.taskId}')">
           <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M2.14453 17H3.54453L12.1695 8.375L10.7695 6.975L2.14453 15.6V17ZM16.4445 6.925L12.1945 2.725L13.5945 1.325C13.9779 0.941667 14.4487 0.75 15.007 0.75C15.5654 0.75 16.0362 0.941667 16.4195 1.325L17.8195 2.725C18.2029 3.10833 18.4029 3.57083 18.4195 4.1125C18.4362 4.65417 18.2529 5.11667 17.8695 5.5L16.4445 6.925ZM14.9945 8.4L4.39453 19H0.144531V14.75L10.7445 4.15L14.9945 8.4Z" fill="#2A3647"/>
           </svg>

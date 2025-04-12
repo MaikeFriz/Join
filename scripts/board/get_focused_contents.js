@@ -2,7 +2,7 @@ function renderFocusedTask(taskId) {
     const taskContent = getTaskContent(taskId, kanbanData);
     if (!taskContent) return;
   
-    const focusedContent = document.getElementById("focusedTaskCard");
+    const focusedContent = document.getElementById("focusedTask");
     document.getElementById('boardContent').classList.add('d-none');
     document.getElementById('logoutButton').classList.add('d-none');
     focusedContent.innerHTML = getFocusedTask(taskContent);
@@ -13,7 +13,7 @@ function renderFocusedTask(taskId) {
   }
   
   function backToBoardTable() {
-    const focusedContent = document.getElementById('focusedTaskCard');
+    const focusedContent = document.getElementById('focusedTask');
     focusedContent.classList.remove('active');
     setTimeout(() => {
       focusedContent.classList.add('d-none');
@@ -32,6 +32,29 @@ function renderFocusedTask(taskId) {
     return `${day}/${month}/${year}`;
   }
 
+function renderEditTask(taskId) {
+  const focusedContent = document.getElementById('focusedTask');
+  focusedContent.classList.remove('active');
+  setTimeout(() => {
+    focusedContent.classList.add('d-none');
+      focusedContent.innerHTML = '';
+
+  }, 300);
+  let editContent = document.getElementById('editTask');
+  editContent.classList.remove('d-none');
+  editContent.innerHTML = editTaskTemplate(taskId);
   
+}
+
+function editTaskTemplate(taskId) {
+  return /*html*/`
+    <div>
+      Test
+    </div>
+`;
+}  
+
+
+
 
   

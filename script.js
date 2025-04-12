@@ -1,7 +1,3 @@
-// Function to initialize the user name when the page loads
-function onloadFunc() {
-  getUserName();
-}
 
 // Function to check if the user is logged in and redirect to login page if not
 function checkUserLogin() {
@@ -63,9 +59,7 @@ function getUserInitialForHeader(userName) {
   });
 
   // Direkter Event-Listener für den Logout-Button
-  document
-    .getElementById("logoutButton")
-    .addEventListener("click", function (e) {
+  document.getElementById("logoutButton").addEventListener("click", function (e) {
       e.stopPropagation();
       logoutUser();
     });

@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="./styles/board/task_card.css">
     <link rel="stylesheet" href="./styles/board/task_card_scrollbar.css">
     <link rel="stylesheet" href="./styles/label_and_user_backgrounds.css">
-    <link rel="stylesheet" href="./styles/focused_task_card.css">
+    <link rel="stylesheet" href="./styles/board/focused_task_card.css">
     <link rel="stylesheet" href="./styles/checkbox.css">
     <link rel="stylesheet" href="./styles/board_confirm_dialog.css">
 
@@ -41,7 +41,7 @@
     
   </head>
   
-  <body onload="onloadFunc();  loadHeaderAndSidebar()">
+  <body>
     <div id="header-container"></div> 
     <div class="start-content">
       <div id="sidebar-container"></div> 
@@ -98,7 +98,8 @@
             </div>
         </div>
       </div>
-      <div id="focusedTaskCard" class="focused-task-content d-none"></div>
+      <div id="focusedTask" class="focused-task-content d-none"></div>
       <div id="confirmDialog" class="confirm-dialog-container d-none"></div>
+      <div id="editTask" class="edit-task-content d-none"></div>
     </body>
 </html>
