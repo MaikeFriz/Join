@@ -46,7 +46,7 @@ function confirmDialogTemplate(taskId){
       </div>
       
       <div class="confirm_buttons">
-        <button class="confirm-delete-button" onclick="deleteTask('${taskId}'), closeConfirmDialog(), backToBoardTable()">
+        <button class="confirm-delete-button" onclick="deleteTask('${taskId}'), closeConfirmDialog()">
           Delete
           <svg width="18" height="17" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g transform="scale(1.25) translate(-0.5, 0)">
@@ -55,7 +55,7 @@ function confirmDialogTemplate(taskId){
           </svg>
         </button>
         
-        <button class="confirm-cancel-button" onclick="closeConfirmDialog()">
+        <button class="confirm-cancel-button" onclick="closeConfirmDialog(), backToBoardTable()">
           Cancel
           <svg width="27" height="25" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M7 7L18 18M18 7L7 18" stroke="rgba(42, 54, 71, 1)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>

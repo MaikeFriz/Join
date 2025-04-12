@@ -12,14 +12,13 @@ function renderFocusedTask(taskId) {
     }, 10);
   }
   
-  function backToBoardTable() {
+  async function backToBoardTable() {
     const focusedContent = document.getElementById('focusedTask');
     focusedContent.classList.remove('active');
     setTimeout(() => {
       focusedContent.classList.add('d-none');
         focusedContent.innerHTML = '';
-        document.getElementById('boardContent').classList.remove('d-none');
-        document.getElementById('logoutButton').classList.remove('d-none');
+        location.reload();
     }, 300);
   }
   
