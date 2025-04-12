@@ -17,5 +17,6 @@ function closeConfirmDialog() {
       confirmDialog.classList.add('d-none');
       confirmDialog.innerHTML = '';
     }, 400);
-  }
+}
+
   

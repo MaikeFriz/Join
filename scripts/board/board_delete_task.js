@@ -14,7 +14,7 @@ async function deleteTask(taskId) {
 
         await deleteTaskFromDatabase(taskId);
         await getSubtasks(subtasks);
-        await getUsersTasks(taskId);  // Call to getUsersTasks instead
+        await getUsersTasks(taskId);
         await deleteTaskFromAssignees(taskId);
 
         console.log(`Task ${taskId} and related data successfully deleted.`);
@@ -22,7 +22,6 @@ async function deleteTask(taskId) {
         console.error(`Error deleting task: ${error.message}`);
     }
 }
-
 
 // Delete the task from the database
 async function deleteTaskFromDatabase(taskId) {

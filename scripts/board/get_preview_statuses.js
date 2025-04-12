@@ -30,7 +30,7 @@ async function processAssignedStatuses(currentAssignedStatus, kanbanData) {
         continue;
       }
   
-      const taskHTML = taskCardTemplate(processedTask);
+      const taskHTML = previewTaskTemplate(processedTask);
       statusHTML += taskHTML;
     }
     return statusHTML;

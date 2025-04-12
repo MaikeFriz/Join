@@ -25,5 +25,5 @@ function searchTasksFromSVG() {
   const searchTerm = searchInput.value;
   
   searchTasks(searchTerm);
-  searchInput.value = ''; // Clear the search field
+  searchInput.value = '';
 }

@@ -25,9 +25,9 @@ function getAssigneesForTemplates(assignee, displayContext, assigneesHTML) {
     let cssClass = getFitAssigneesToCSS(assignee);
   
     if (displayContext === "focused") {
-      assigneesHTML += assigneeFocusedTemplate(assigneeInitials, cssClass, assignee);
+      assigneesHTML += focusedAssigneeTemplate(assigneeInitials, cssClass, assignee);
     } else {
-      assigneesHTML += assigneePreviewTemplate(assigneeInitials, cssClass);
+      assigneesHTML += previewAssigneeTemplate(assigneeInitials, cssClass);
     }
   
     return assigneesHTML;
