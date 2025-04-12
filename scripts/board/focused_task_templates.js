@@ -1,5 +1,5 @@
-function focusedTaskTemplate(taskContent) {
-    let { label, fitLabelForCSS, title, description, totalSubtasks, completedSubtasks, progressPercentage, showProgress, createAt } = getTaskData(taskContent);
+function getFocusedTask(taskContent) {
+    let { label, fitLabelForCSS, title, description, createAt } = getTaskData(taskContent);
   
     let subtaskListHTML = "";
     if (taskContent.subtasks && taskContent.subtasks.length > 0) {
@@ -26,32 +26,46 @@ function focusedTaskTemplate(taskContent) {
           <h1>${title}</h1>
           <p>${description}</p>
         </div>
-  
-        <table class="focused-task-table">
-          <tr>
-            <td class="bullet-point">Due Date:</td>
-            <td class="focused-task-due-date">${formatDate(createAt)}</td>
-          </tr>
-          <tr>
-            <td class="bullet-point">Priority:</td>
-            <td class="focused-task-priority">
-              ${taskContent.priority.charAt(0).toUpperCase() + taskContent.priority.slice(1)}
-              <span class="${taskContent.priority}"></span>
-            </td>
-          </tr>
-        </table>
-  
-        <div class="focused-assignees-container">
-          <div class="bullet-point">Assigned To:</div>
-          <div id="focused-assignees-list" class="focused-assignees-list">
-            ${getAssignees(taskContent, "focused")}
+      
+        <div class="triangle">
+          <div class="triangle-top"></div>
+        </div>
+        <div class="scrollable-container">
+        
+          <div class="scrollable-area">
+            <table class="focused-task-table">
+              <tr>
+                <td class="bullet-point">Due Date:</td>
+                <td class="focused-task-due-date">${formatDate(createAt)}</td>
+              </tr>
+              <tr>
+                <td class="bullet-point">Priority:</td>
+                <td class="focused-task-priority">
+                  ${taskContent.priority.charAt(0).toUpperCase() + taskContent.priority.slice(1)}
+                  <span class="${taskContent.priority}"></span>
+                </td>
+              </tr>
+            </table>
+      
+            <div class="focused-assignees-container">
+              <div class="bullet-point">Assigned To:</div>
+              <div id="focused-assignees-list" class="focused-assignees-list">
+                ${getAssignees(taskContent, "focused")}
+              </div>
+            </div>
+      
+            <div class="focused-subtask-container">
+              <div class="bullet-point">Subtasks:</div>
+              <div>${renderSubtasks(taskContent.subtasks, kanbanData.subtasks)}</div>
+            </div>
           </div>
+          
         </div>
-  
-        <div class="focused-subtask-container">
-          <div class="bullet-point">Subtasks:</div>
-          <div>${renderSubtasks(taskContent.subtasks, kanbanData.subtasks)}</div>
+        <div class="triangle">
+          <div class="triangle-bottom"></div>
         </div>
+        
+          
       
         <div class="focused-edit-trash">
   
@@ -75,13 +89,7 @@ function focusedTaskTemplate(taskContent) {
       </div>
     `;
   }
-  
-  function previewAssigneeTemplate(initials, cssClass) {
-    return /*html*/`
-  
-      <div class="assignee-initials ${cssClass}">${initials}</div>
-    `;
-  }
+
   
   function focusedAssigneeTemplate(initials, cssClass, fullName) {
     return /*html*/`

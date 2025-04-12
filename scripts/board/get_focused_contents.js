@@ -5,7 +5,7 @@ function renderFocusedTask(taskId) {
     const focusedContent = document.getElementById("focusedTaskCard");
     document.getElementById('boardContent').classList.add('d-none');
     document.getElementById('logoutButton').classList.add('d-none');
-    focusedContent.innerHTML = focusedTaskTemplate(taskContent);
+    focusedContent.innerHTML = getFocusedTask(taskContent);
     focusedContent.classList.remove('d-none');
     setTimeout(() => {
       focusedContent.classList.add('active');

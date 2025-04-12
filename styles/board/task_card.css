@@ -107,9 +107,8 @@
   }
   
   .subtask-progress-text {
-    width: 5auto;
+    width: auto;
     display: flex;
     font-size: 12px;
     gap: 4px;
   }
-  

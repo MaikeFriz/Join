@@ -1,0 +1,56 @@
+.scrollable-container {
+    width: 104%;
+    height: auto;
+    overflow-y: auto;
+    position: relative;
+    margin-left: 0;
+}
+
+.scrollable-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.scrollable-container::-webkit-scrollbar-thumb {
+    background: rgba(168, 168, 168, 1);
+    border-radius: 5px;
+}
+
+.scrollable-container::-webkit-scrollbar-thumb:hover {
+    background: rgba(120, 120, 120, 1);
+}
+
+.scrollable-area {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.triangle{
+    position: relative;
+    display: flex;
+    justify-content: end;
+    width: 105%;
+    margin: -15px;
+}
+
+.triangle-top {
+    margin-top: 10px;
+    margin-bottom: -5px;
+    margin-right: -12px;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 5px 4px 5px;
+    border-color: transparent transparent rgba(168, 168, 168, 1) transparent;
+}
+
+.triangle-bottom {
+    margin-top: -5px;
+    margin-right: -12px;
+    margin-bottom: 20px;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 4px 5px 0 5px;
+    border-color: rgba(168, 168, 168, 1) transparent transparent transparent;
+}

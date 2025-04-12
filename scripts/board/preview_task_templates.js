@@ -30,6 +30,13 @@ function previewTaskTemplate(taskContent) {
   `;
 }
 
+function previewAssigneeTemplate(initials, cssClass) {
+  return /*html*/`
+
+    <div class="assignee-initials ${cssClass}">${initials}</div>
+  `;
+}
+
 function confirmDialogTemplate(taskId){
   return /*html*/`
     
