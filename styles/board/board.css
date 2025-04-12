@@ -2,13 +2,13 @@
 .board-content{
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    height: 100vh;  
 }
 
 .board-head{
     display: flex;
     flex-direction: column;
-    gap: 48px;
+    gap: 28px;
 }
 
 .board-search-line{
@@ -110,14 +110,19 @@ input:focus{
 }
 
 .kanban-header{
+    position: sticky;
+    top: 96px;
+    background-color: rgba(246, 247, 248, 1);
     font-weight: 700;
     color: rgba(66, 82, 110, 1);
-    width: 100%;
+    width: 110%;
     height: 24px;
     display: flex;
     justify-content: space-between;
     gap: 26px;
     margin-bottom: 8px;
+    padding: 30px 8px 25px 8px;
+
 }
 
 span{

@@ -4,6 +4,7 @@
     overflow-y: auto;
     position: relative;
     margin-left: 0;
+    scroll-behavior: smooth;
 }
 
 .scrollable-container::-webkit-scrollbar {
