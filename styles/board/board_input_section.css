@@ -1,0 +1,48 @@
+
+.board-input-section{
+    height: 48px;
+    display: flex;
+    gap: 32px;
+}
+
+.board-input-section a{
+    padding: 0;
+}
+
+.input-with-svg{
+    position: relative;
+    display: flex;
+    align-items: center;  
+}
+
+.input-with-svg svg{
+    cursor: pointer;
+    position: absolute;
+    right: 8px;
+    height: 32px;              
+}
+
+.input-with-svg svg path{
+    transition: fill 100ms ease-in-out; 
+}
+
+.input-with-svg svg:hover path{
+    fill: rgba(41, 171, 226, 1);
+}
+
+input {
+    border: 1px solid rgba(209, 209, 209, 1);
+    border-radius: 10px;
+    padding-left: 16px;
+    padding-right: 64px;
+    width: 280px;
+    height: 100%;
+    font-size: 20px;
+}
+
+input:focus{
+    border: 1px solid rgba(41, 171, 226, 1);
+    border-color: rgba(41, 171, 226, 1);
+    outline: none;
+}
+

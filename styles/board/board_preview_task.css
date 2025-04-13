@@ -1,4 +1,5 @@
-.board-task{
+
+.board-preview-task{
     width: 100%;
     height: auto;
     cursor: pointer;
@@ -15,11 +16,11 @@
     transition: background-color 100ms ease-in-out;
 }
 
-.board-task:hover{
+.board-preview-task:hover{
     background-color:rgba(168, 168, 168, 0.2) ;
 }
 
-.board-task label{
+.board-preview-task label{
     display: flex;
     align-self: flex-start;
     color: rgba(255, 255, 255, 1);
@@ -59,12 +60,12 @@
     align-items: center;
 }
 
-.board-task h3{
+.board-preview-task h3{
     color: rgba(42, 54, 71, 1);
     margin-block: 0;
 }
 
-.board-task p{
+.board-preview-task p{
     color: rgba(168, 168, 168, 1);
     padding-top: 8px;
     margin-block: 0;

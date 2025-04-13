@@ -1,7 +1,7 @@
 // Function to search tasks based on the search term
 function searchTasks(searchTerm) {
   let found = false;
-  const allTasks = document.getElementsByClassName('board-task');
+  const allTasks = document.getElementsByClassName('board-preview-task');
   
   for (let taskIndex = 0; taskIndex < allTasks.length; taskIndex++) {
       const task = allTasks[taskIndex];

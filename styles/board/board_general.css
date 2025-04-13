@@ -1,0 +1,28 @@
+
+.board-content{
+    display: flex;
+    flex-direction: column;
+    height: 100vh;  
+}
+
+.board-head{
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+}
+
+.board-search-line{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 32px;
+}
+
+.board-title h1{
+    margin-block: 0;
+    color: rgba(0,0,0,1);
+    font-size: 61px;
+    font-weight: 700;  
+}
+

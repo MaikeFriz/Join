@@ -1,3 +1,4 @@
+
 .focused-task-content {
     position: fixed;
     width: calc(100% - 250px);
@@ -96,7 +97,6 @@
     align-items: center;
     font-size: 12px;   
 }
-
 
 .focused-task h1{
     font-size: 61px;

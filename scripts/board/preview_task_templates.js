@@ -3,7 +3,7 @@ function previewTaskTemplate(taskContent) {
   let { label, fitLabelForCSS, title, description, totalSubtasks, completedSubtasks, progressPercentage, showProgress } = getTaskData(taskContent);
 
   return /*html*/ `
-    <div class="board-task draggable" draggable="true" data-task-id="${taskContent.taskId}" onclick="renderFocusedTask('${taskContent.taskId}')">
+    <div class="board-preview-task draggable" draggable="true" data-task-id="${taskContent.taskId}" onclick="renderFocusedTask('${taskContent.taskId}')">
         <label class="${fitLabelForCSS}">${label}</label>
         <div>
             <h3 id="task-title">${title}</h3>
@@ -55,7 +55,7 @@ function confirmDialogTemplate(taskId){
           </svg>
         </button>
         
-        <button class="confirm-cancel-button" onclick="closeConfirmDialog(), backToBoardTable()">
+        <button class="confirm-cancel-button" onclick="closeConfirmDialog()">
           Cancel
           <svg width="27" height="25" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M7 7L18 18M18 7L7 18" stroke="rgba(42, 54, 71, 1)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
