@@ -1,158 +1,68 @@
+// Displays a focused task view, transitioning from the board content.
 function renderFocusedTask(taskId) {
-    const taskContent = getTaskContent(taskId, kanbanData);
-    if (!taskContent) return;
-  
-    const focusedContent = document.getElementById("focusedTask");
-    document.getElementById('boardContent').classList.add('d-none');
-    document.getElementById('logoutButton').classList.add('d-none');
-    focusedContent.innerHTML = getFocusedTask(taskContent);
-    focusedContent.classList.remove('d-none');
+  let taskContent = getTaskContent(taskId, kanbanData);
+  if (!taskContent) return;
+  let boardContent = document.getElementById('boardContent');
+  let focusedContent = document.getElementById('focusedTask');
+  boardContent.classList.remove('active');
+  logoutButton.classList.add('d-none');
     setTimeout(() => {
-      focusedContent.classList.add('active');
-    }, 10);
-  }
-  
-  async function backToBoardTable() {
-    const focusedContent = document.getElementById('focusedTask');
-    focusedContent.classList.remove('active');
-    setTimeout(() => {
-      focusedContent.classList.add('d-none');
-        focusedContent.innerHTML = '';
-        location.reload();
+      boardContent.classList.add('d-none');
+      focusedContent.innerHTML = getFocusedTask(taskContent);
+      focusedContent.classList.remove('d-none');
+      setTimeout(() => {
+        focusedContent.classList.add('active');
+      }, 10);
     }, 300);
-  }
-  
-  function formatDate(isoDate) {
-    let date = new Date(isoDate);
-    let day = String(date.getDate()).padStart(2, '0');
-    let month = String(date.getMonth() + 1).padStart(2, '0');
-    let year = date.getFullYear();
-    
-    return `${day}/${month}/${year}`;
-  }
-
-function renderEditTask(taskId) {
-  const focusedContent = document.getElementById('focusedTask');
-  focusedContent.classList.remove('active');
-  setTimeout(() => {
-    focusedContent.classList.add('d-none');
-      focusedContent.innerHTML = '';
-
-  }, 300);
-  let editContent = document.getElementById('editTask');
-  editContent.classList.remove('d-none');
-  editContent.innerHTML = editTaskTemplate(taskId);
-  
 }
 
-function editTaskTemplate(taskId) {
-  return /*html*/`
-    <form id="task_form">
-        <div class="add_task_board">
-          <div class="input_div_left">
-            <p>Title<span class="red_color">*</span></p>
-            <label class="input_label focus_blue_border">
-              <input id="input_title" type="text" required placeholder="Enter a title" />
-            </label>
-            <p>Description</p>
-            <label class="input_label focus_blue_border">
-              <input id="input_description" type="text" required placeholder="Enter a description" />
-              <div class="enlarge_inputfield_symbol_div">
-                <img src="./assets/img/enlarge_inputfield_symbol.svg" alt="open" />
-              </div>
-            </label>
-            <p>Due Date<span class="red_color">*</span></p>
-            <label class="input_label input_label_calender">
-              <input id="input_date" type="date" required onclick="handleDateClick()" onblur="handleDateBlur()"
-                onchange="handleDateChange()" />
-            </label>
-          </div>
-          <div class="separator"></div>
-          <div class="input_div_right">
-            <p class="right_side_inputfield_titles">Priority</p>
-            <div class="priority_buttons_div">
-              <div id="urgent_button" class="urgent_button">
-                <p>Urgent</p>
-                <svg class="urgent_symbol" width="21" height="16" viewBox="0 0 21 16">
-                  <path
-                    d="M19.65 15.25c-.23 0-.46-.07-.65-.21L10.75 8.96 2.5 15.04c-.23.17-.52.23-.81.2s-.52-.15-.73-.32c-.21-.18-.37-.41-.46-.66-.1-.26-.12-.53-.08-.79.04-.29.2-.55.44-.73L10.1 6.71c.19-.14.42-.22.65-.22s.46.08.65.22l8.9 6.57c.19.14.33.34.4.57.08.22.07.46 0 .68-.07.23-.2.42-.39.57-.19.15-.42.22-.66.22z" />
-                  <path
-                    d="M19.65 9.5c-.23 0-.46-.07-.65-.21L10.75 3.21 2.5 9.29c-.23.17-.52.23-.81.2s-.52-.15-.73-.32c-.21-.18-.37-.41-.46-.66-.1-.26-.12-.53-.08-.79.04-.29.2-.55.44-.73L10.1.96c.19-.14.42-.22.65-.22s.46.08.65.22l8.9 6.57c.19.14.33.34.4.57.08.22.07.46 0 .68-.07.23-.2.42-.39.57-.19.15-.42.22-.66.22z" />
-                </svg>
-              </div>
-              <div id="medium_button" class="medium_button">
-                <p>Medium</p>
-                <svg class="medium_symbol" width="21" height="8" viewBox="0 0 21 8">
-                  <path d="M19.76 7.92H1.95a1.1 1.1 0 1 1 0-2.21h17.81a1.1 1.1 0 1 1 0 2.21Z" />
-                  <path d="M19.76 2.67H1.95A1.1 1.1 0 1 1 1.95.47h17.81a1.1 1.1 0 1 1 0 2.21Z" />
-                </svg>
-              </div>
-              <div id="low_button" class="low_button">
-                <p>Low</p>
-                <svg class="low_symbol" width="21" height="16" viewBox="0 0 21 16">
-                  <path
-                    d="M10.25 9.51a1 1 0 0 1-.65-.22L0.69 2.72a1 1 0 0 1 .49-1.76 1 1 0 0 1 1.06.22l8 6 8-6a1 1 0 0 1 1.56 1.21l-8.9 6.57a1 1 0 0 1-.65.22Z" />
-                  <path
-                    d="M10.25 15.25a1 1 0 0 1-.65-.21L0.69 8.47a1 1 0 0 1 1.31-1.53l8.25 6.08 8.25-6.08a1 1 0 1 1 1.31 1.53l-8.9 6.57a1 1 0 0 1-.65.21Z" />
-                </svg>
-              </div>
-            </div>
-            <p class="right_side_inputfield_titles">Assigned to</p>
-            <div class="assigned_to_div">
-              <div class="dropdown_assigned_to" id="dropdown_assigned_to" tabindex="0">
-                <span id="dropdown_selected_assignee">Select a person</span>
-                <img src="./assets/img/arrow_drop_down.svg" alt="dropdown arrow" class="dropdown_arrow" />
-              </div>
-              <div class="dropdown_options_assignee" id="dropdown_options_assignee"></div>
-              <input class="focus_blue_border" type="hidden" id="assigned_to" name="assigned_to" required />
-            </div>
-            <div class="show_assignees" id="show_assignees"></div>
-            <p class="right_side_inputfield_titles">Category<span class="red_color">*</span></p>
-            <div class="category_div">
-              <div class="dropdown_category" id="dropdown_category" tabindex="0">
-                <span id="dropdown_selected">Select task category</span>
-                <img src="./assets/img/arrow_drop_down.svg" alt="dropdown arrow" class="dropdown_arrow" />
-              </div>
-              <div class="dropdown_options">
-                <div class="custom-dropdown-option" data-value="User Story">User Story</div>
-                <div class="custom-dropdown-option" data-value="Technical task">Technical task</div>
-                <div class="custom-dropdown-option" data-value="HTML">HTML</div>
-                <div class="custom-dropdown-option" data-value="Javascript">Javascript</div>
-                <div class="custom-dropdown-option" data-value="CSS">CSS</div>
-              </div>
-              <input class="focus_blue_border" type="hidden" id="category" name="category" required />
-            </div>
-            <p class="right_side_inputfield_titles">Subtasks</p>
-            <label class="input_label focus_blue_border">
-              <input id="input_subtask" type="text" placeholder="Add new subtask" />
-              <button type="button" id="button_add_subtask">
-                <img id="add_icon" src="./assets/img/add_icon.svg" alt="Add" />
-                <div id="input_icons" class="input-icons">
-                  <img id="clear_icon" src="./assets/img/clear_symbol.svg" alt="Clear" />
-                  <div class="separator_subtasks">|</div>
-                  <img id="check_icon" src="./assets/img/check_dark.svg" alt="Check" />
-                </div>
-              </button>
-            </label>
-            <ul id="display_subtasks" class="display_subtasks"></ul>
-          </div>
-        </div>
-        <div class="info_and_button_div">
-          <p><span class="red_color">*</span>This field is required</p>
-          <div class="clear_create_buttons">
-            <button type="button" class="clear_button_div" onclick="clearAllInputs()">
-              <p>Clear</p>
-            </button>
-            <button type="submit" class="create_button_div">
-              <p>Create</p>
-            </button>
-          </div>
-        </div>
-      </form>
-`;
-}  
+// Returns to the board view by hiding the focused task view and reloading the page.
+async function backToBoardTable() {
+  let focusedContent = document.getElementById('focusedTask');
+  focusedContent.classList.remove('active');
+    setTimeout(() => {
+      focusedContent.classList.add('d-none');
+      focusedContent.innerHTML = '';
+      location.reload();
+    }, 300);
+}
+
+// Formats a given ISO date string into the format "DD/MM/YYYY".
+function formatDate(isoDate) {
+  let date = new Date(isoDate);
+  let day = String(date.getDate()).padStart(2, '0');
+  let month = String(date.getMonth() + 1).padStart(2, '0');
+  let year = date.getFullYear();
+
+  return `${day}/${month}/${year}`;
+}
+
+// Switches from the focused task view to the task editing view.
+function renderEditTask(taskId) {
+  let editContent = document.getElementById('editTask');
+  let focusedContent = document.getElementById('focusedTask');
+  focusedContent.classList.remove('active');
+    setTimeout(() => {
+      focusedContent.classList.add('d-none');
+      editContent.classList.remove('d-none');
+      setTimeout(() => {
+        editContent.classList.add('active');
+        editContent.innerHTML = editTaskTemplate(taskId);
+      }, 10);
+    }, 300);
+}
 
 
-
-
-  
+// Returns from the task editing view to the focused task view.
+async function backToFocusedTask() {
+  let focusedContent = document.getElementById('focusedTask');
+  let editContent = document.getElementById('editTask');
+  editContent.classList.remove('active');
+    setTimeout(() => {
+      editContent.classList.add('d-none');
+      focusedContent.classList.remove('d-none');
+        setTimeout(() => {
+          focusedContent.classList.add('active');
+        }, 10);
+    }, 300);
+}
