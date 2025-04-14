@@ -13,10 +13,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
   form.addEventListener("submit", function(event) {
     event.preventDefault(); 
-    
+    showLoadingSpinner();
     handleFormSubmit(event, emailInput, passwordInput, errorMessage);
   });
 });
+
+// ==========================
+// Loading Spinner
+// ==========================
+
+function showLoadingSpinner() {
+  document.getElementById("loading_spinner").style.display = "flex";
+}
+
+function hideLoadingSpinner() {
+  document.getElementById("loading_spinner").style.display = "none";
+}
 
 // ==========================
 // Gast-Login Funktionen
@@ -66,6 +78,7 @@ function handleFormSubmit(event, emailInput, passwordInput, errorMessage) {
   const password = passwordInput.value.trim();
 
   if (!isInputValid(email, password, errorMessage)) {
+    hideLoadingSpinner();
     return; 
   }
 
@@ -150,6 +163,7 @@ function handleSuccessfulLogin(data, userKey) {
   hideLoginError();
   resetInputBorders();
   storeUserInLocalStorage(data, userKey);
+  hideLoadingSpinner();
   redirectToSummary();
 }
 
@@ -158,6 +172,7 @@ function handleFailedLogin() {
   markInputsAsInvalid();
   const forgotPasswordDiv = document.getElementById("forgot_password_div");
   forgotPasswordDiv.style.display = "block";
+  hideLoadingSpinner();
 }
 
 function showLoginError(message) {
@@ -209,5 +224,6 @@ function storeUserInLocalStorage(data, userKey) {
 }
 
 function handleError(error, errorMessage) {
+  hideLoadingSpinner();
   errorMessage.textContent = "Error logging in: " + error.message;
 }
