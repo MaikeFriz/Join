@@ -84,6 +84,8 @@ function privacyAccepted(checkbox) {
 // Führt die Validierung der Passwörter und der Datenschutz-Checkbox durch
 function validateInputs(password, confirmPassword, privacyCheckbox) {
   if (!passwordsMatch(password, confirmPassword)) {
+    document.getElementById("input_password_sign_up").value = "";
+    document.getElementById("input_confirm_password_sign_up").value = "";
     showErrorMessage("Your passwords don't match. Please try again.");
     return false;
   }

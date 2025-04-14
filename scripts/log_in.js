@@ -172,6 +172,8 @@ function handleFailedLogin() {
   markInputsAsInvalid();
   const forgotPasswordDiv = document.getElementById("forgot_password_div");
   forgotPasswordDiv.style.display = "block";
+  document.getElementById("input_email").value = "";
+  document.getElementById("input_password").value = "";
   hideLoadingSpinner();
 }
 
