@@ -2,6 +2,15 @@ document.addEventListener("DOMContentLoaded", () => {
   initForm();
 });
 
+//Loading Spinner
+function showLoadingSpinner() {
+  document.getElementById("loading-spinner").style.display = "flex";
+}
+
+function hideLoadingSpinner() {
+  document.getElementById("loading-spinner").style.display = "none";
+}
+
 // Initialisiert das Formular: fügt Fehlermeldung und Overlay hinzu, registriert Submit-Handler
 function initForm() {
   const form = document.getElementById("sign-up-form");
@@ -29,11 +38,16 @@ function createOverlay() {
 // Behandelt das Formular-Submit-Event: validiert und registriert den User
 async function handleFormSubmit(event) {
   event.preventDefault();
-  const { name, email, password, confirmPassword, privacyCheckbox } = getFormData();
+  showLoadingSpinner();
 
-  if (!validateInputs(password, confirmPassword, privacyCheckbox)) return;
+  const { name, email, password, confirmPassword, privacyCheckbox } = getFormData();
+  if (!checkIfAllFieldsFilled() || !validateInputs(password, confirmPassword, privacyCheckbox)) {
+    hideLoadingSpinner(); 
+    return;
+  }
   await registerUser(name, email, password);
 }
+
 
 function getFormData() {
   return {
@@ -146,8 +160,10 @@ async function registerUser(name, email, password) {
     showSuccessMessage();
   } catch (error) {
     document.getElementById("error-message").textContent = `Error: ${error.message}`;
+    hideLoadingSpinner(); 
   }
 }
+
 
 // Generiert eine neue eindeutige Nutzer-ID anhand der vorhandenen Datenbankeinträge
 async function generateUserId() {

@@ -11,6 +11,9 @@
 </head>
 
 <body>
+  <div id="loading-spinner" class="loading-spinner" style="display: none;">
+    <img src="./assets/img/loadingspinner.png" alt="Loading..." />
+</div>
   <header>
     <a href="./index.html"><img class="logo_header" src="./assets/img/join_logo_dark.svg" /></a>
   </header>
@@ -61,7 +64,7 @@
             I accept the <a class="link_accept_privacy_policy" href="./privacy.html">Privacy policy</a>
           </label>
         </div>
-        <button type="submit" class="button_sign_up_input_section" onclick="checkIfPasswordErrorMessageNeeded(), checkIfAllFieldsFilled()">Sign up</button>
+        <button id="button_sign_up_input_section" type="submit" class="button_sign_up_input_section" onclick="checkIfPasswordErrorMessageNeeded(), checkIfAllFieldsFilled()">Sign up</button>
       </form>
     </div>
   </div>
