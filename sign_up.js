@@ -11,6 +11,25 @@ function hideLoadingSpinner() {
   document.getElementById("loading-spinner").style.display = "none";
 }
 
+//Check if password is strong enough
+function isStrongPassword(password) {
+  const minLength = 8;
+  const specialChars = password.match(/[!@#$%^&*()_\-+=\[\]{};':"\\|,.<>/?]/g);
+  return password.length >= minLength && specialChars && specialChars.length >= 3;
+}
+
+//Check if email already exists in data base
+async function emailAlreadyExists(email) {
+  const response = await fetch(
+    "https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData/users.json"
+  );
+  const users = await response.json();
+
+  if (!users) return false;
+
+  return Object.values(users).some(user => user.email === email);
+}
+
 // Initialisiert das Formular: fügt Fehlermeldung und Overlay hinzu, registriert Submit-Handler
 function initForm() {
   const form = document.getElementById("sign-up-form");
@@ -84,9 +103,15 @@ function privacyAccepted(checkbox) {
 // Führt die Validierung der Passwörter und der Datenschutz-Checkbox durch
 function validateInputs(password, confirmPassword, privacyCheckbox) {
   if (!passwordsMatch(password, confirmPassword)) {
+    showErrorMessage("Your passwords don't match. Please try again.");
     document.getElementById("input_password_sign_up").value = "";
     document.getElementById("input_confirm_password_sign_up").value = "";
-    showErrorMessage("Your passwords don't match. Please try again.");
+    return false;
+  }
+  if (!isStrongPassword(password)) {
+    showErrorMessage("Password must be at least 8 characters long and contain at least 3 special characters.");
+    document.getElementById("input_password_sign_up").value = "";
+    document.getElementById("input_confirm_password_sign_up").value = "";
     return false;
   }
   if (!privacyAccepted(privacyCheckbox)) {
@@ -96,6 +121,7 @@ function validateInputs(password, confirmPassword, privacyCheckbox) {
   hideErrorMessage();
   return true;
 }
+
 
 function checkIfPasswordErrorMessageNeeded() {
   const passwordInput = document.getElementById("input_password_sign_up");
@@ -156,6 +182,14 @@ function checkIfAllFieldsFilled() {
 // Registriert einen neuen Nutzer: erstellt ID, Objekt, speichert in DB
 async function registerUser(name, email, password) {
   try {
+    if (await emailAlreadyExists(email)) {
+      showErrorMessage("This email address is already registered.");
+      const emailInput = document.getElementById("input_email");
+      emailInput.value = "";
+      emailInput.style.border = "2px solid red";
+      hideLoadingSpinner();
+      return;
+    }
     const userId = await generateUserId();
     const newUser = createUserObject(name, email, password);
     await saveUserToDatabase(userId, newUser);
@@ -165,6 +199,7 @@ async function registerUser(name, email, password) {
     hideLoadingSpinner(); 
   }
 }
+
 
 
 // Generiert eine neue eindeutige Nutzer-ID anhand der vorhandenen Datenbankeinträge
