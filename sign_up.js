@@ -24,9 +24,7 @@ async function emailAlreadyExists(email) {
     "https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData/users.json"
   );
   const users = await response.json();
-
   if (!users) return false;
-
   return Object.values(users).some(user => user.email === email);
 }
 
@@ -199,8 +197,6 @@ async function registerUser(name, email, password) {
     hideLoadingSpinner(); 
   }
 }
-
-
 
 // Generiert eine neue eindeutige Nutzer-ID anhand der vorhandenen Datenbankeinträge
 async function generateUserId() {

@@ -5,7 +5,13 @@ function checkUserLogin() {
   const guest = JSON.parse(localStorage.getItem("isGuest"));
 
   if (!user && !guest) {
-    window.location.href = "./log_in.html";
+    const excludedPages = ["log_in.html", "sign_up.html", "forgot_password.html", "privacy.html", "legal.html"];
+    const currentPage = window.location.pathname.split("/").pop().split("?")[0].split("#")[0];
+    if (excludedPages) {
+      return;
+    } else {
+      window.location.href = "./log_in.html";
+    }
   }
   return user;
 }
@@ -60,9 +66,9 @@ function getUserInitialForHeader(userName) {
 
   // Direkter Event-Listener für den Logout-Button
   document.getElementById("logoutButton").addEventListener("click", function (e) {
-      e.stopPropagation();
-      logoutUser();
-    });
+    e.stopPropagation();
+    logoutUser();
+  });
 }
 
 // Diese Funktion muss global verfügbar sein
