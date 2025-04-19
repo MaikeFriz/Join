@@ -24,6 +24,7 @@
   <script src="./scripts/add_task_subtasks.js"></script>
   <script src="./scripts/add_task_data_save.js"></script>
   <script src="./scripts/load_header_sidebar.js"></script>
+  <script src="./scripts/date_utils.js"></script>
 </head>
 
 <body>
@@ -37,7 +38,7 @@
       </div>
       <form id="task_form">
         <div class="add_task_board">
-          <div class="input_div_left">
+          <div class="input_div_left input_div_left_content">
             <p>Title<span class="red_color">*</span></p>
             <label class="input_label focus_blue_border">
               <input id="input_title" type="text" required placeholder="Enter a title" />
@@ -51,8 +52,7 @@
             </label>
             <p>Due Date<span class="red_color">*</span></p>
             <label class="input_label input_label_calender">
-              <input id="input_date" type="date" required onclick="handleDateClick()" onblur="handleDateBlur()"
-                onchange="handleDateChange()" />
+              <input  type="date" required />
             </label>
           </div>
           <div class="separator"></div>
@@ -139,3 +139,4 @@
       </form>
     </div>
 </body>
+</html>

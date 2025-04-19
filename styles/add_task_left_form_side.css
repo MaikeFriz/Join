@@ -1,4 +1,4 @@
-.input_div_left {
+.input_div_left_content {
     display: flex;
     justify-content: space-between;
     align-items: stretch;
@@ -9,10 +9,13 @@
 }
 
 .input_div_left input {
-    border: rgb(209, 209, 209) solid 1px;
+    border: 1px solid #D1D1D1;
     border-radius: 10px;
     padding-left: 16px;
     width: 100%;
+    height: 48px;
+    outline: none;
+    transition: border-color 0.3s ease;
 }
 
 .input_div_left p {
@@ -54,13 +57,76 @@
     height: 24px;
 }
 
-#input_date {
-    border: 1px solid #D1D1D1; 
-    outline: none;
+.input_div_left input:focus {
+    border: 2px solid rgb(41, 171, 226);
+}
+
+.input_div_left input:active {
+    border: 2px solid rgb(41, 171, 226);
+}
+
+.input_div_left input:focus-within {
+    border: 2px solid rgb(41, 171, 226);
+}
+
+.input_div_left textarea {
+    border: 1px solid #D1D1D1;
+    border-radius: 10px;
+    padding-left: 16px;
+    width: 100%;
     height: 48px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.input_div_left textarea:focus {
+    border: 2px solid rgb(41, 171, 226);
+}
+
+.input_div_left textarea:active {
+    border: 2px solid rgb(41, 171, 226);
+}
+
+.input_div_left textarea:focus-within {
+    border: 2px solid rgb(41, 171, 226);
+}
+
+.textarea-container {
+    position: relative;
+    display: inline-block;
     width: 100%;
 }
 
-#input_date:focus {
-    border: 2px solid rgb(41, 171, 226);
+.textarea-with-icon {
+    width: 100%;
+    height: 100px;
+    resize: vertical;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    box-sizing: border-box;
+    background-color: transparent;
+    position: relative;
+    z-index: 1;
+    transition: outline 0.3s ease;
+    font-size: 16px;
+}
+
+.textarea-with-icon:focus {
+   
+    border-color: #ccc;
+    transition: outline 0.3s ease;
+}
+
+.resize-icon {
+    position: absolute;
+    bottom: 6px;
+    right: 2px;
+    width: 27px;
+    height: 27px;
+    border-bottom-right-radius: 6px;
+    pointer-events: none;
+    z-index: 2;
+    background-color: white;
 }

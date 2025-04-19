@@ -1,9 +1,19 @@
-
 function editTaskTemplate(taskId) {
+    // Task-Daten abrufen
+    const taskContent = getTaskContent(taskId, kanbanData);
+    if (!taskContent) {
+        console.error(`Task mit ID ${taskId} nicht gefunden.`);
+        return `<div>Error: Task not found</div>`;
+    }
+
+    // Verwende getTaskData, um die Daten zu extrahieren
+    const { label, fitLabelForCSS, title, description, createAt } = getTaskData(taskContent);
+
+    // Datum formatieren für das Eingabefeld vom Typ "date"
+    const displayedDueDate = createAt ? formatDateForInput(createAt) : ''; // Format: YYYY-MM-DD
+
     return /*html*/`
-      
       <div class="edit-task">
-  
         <div class="focused-task-top">
           <div></div>
           <svg onclick="backToFocusedTask()" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -14,99 +24,94 @@ function editTaskTemplate(taskId) {
         <div class="triangle">
           <div class="triangle-top"></div>
         </div>
-          <div class="scrollable-container">
-            <div class="scrollable-area">
-  
-                  <div class="bullet-point">Title</div>
-                    <label class="input_label focus_blue_border">
-                      <input id="input_title" type="text" required placeholder="Enter a title" />
-                    </label>
-                    
-                  <div class="bullet-point">Description</div>
-                    <label class="input_label focus_blue_border">
-                      <input id="input_description" type="text" required placeholder="Enter a description" />
-                      <div class="enlarge_inputfield_symbol_div">
-                        <img src="./assets/img/enlarge_inputfield_symbol.svg" alt="open" />
-                      </div>
-                    </label>
-                    
-                  <div class="bullet-point">Due Date</div>
-                    <label class="input_label input_label_calender">
-                      <input id="input_date" type="date" required onclick="handleDateClick()" onblur="handleDateBlur()" onchange="handleDateChange()" />
-                    </label>
-                
-                  <div class="bullet-point">Priority</div>
-                    <div class="priority_buttons_div">
-  
-                      <div id="urgent_button" class="urgent_button">
-                        <p>Urgent</p>
-                        <svg class="urgent_symbol" width="21" height="16" viewBox="0 0 21 16">
-                          <path d="M19.65 15.25c-.23 0-.46-.07-.65-.21L10.75 8.96 2.5 15.04c-.23.17-.52.23-.81.2s-.52-.15-.73-.32c-.21-.18-.37-.41-.46-.66-.1-.26-.12-.53-.08-.79.04-.29.2-.55.44-.73L10.1 6.71c.19-.14.42-.22.65-.22s.46.08.65.22l8.9 6.57c.19.14.33.34.4.57.08.22.07.46 0 .68-.07.23-.2.42-.39.57-.19.15-.42.22-.66.22z" />
-                          <path d="M19.65 9.5c-.23 0-.46-.07-.65-.21L10.75 3.21 2.5 9.29c-.23.17-.52.23-.81.2s-.52-.15-.73-.32c-.21-.18-.37-.41-.46-.66-.1-.26-.12-.53-.08-.79.04-.29.2-.55.44-.73L10.1.96c.19-.14.42-.22.65-.22s.46.08.65.22l8.9 6.57c.19.14.33.34.4.57.08.22.07.46 0 .68-.07.23-.2.42-.39.57-.19.15-.42.22-.66.22z" />
-                        </svg>
-                      </div>
-  
-                      <div id="medium_button" class="medium_button">
-                        <p>Medium</p>
-                        <svg class="medium_symbol" width="21" height="8" viewBox="0 0 21 8">
-                          <path d="M19.76 7.92H1.95a1.1 1.1 0 1 1 0-2.21h17.81a1.1 1.1 0 1 1 0 2.21Z" />
-                          <path d="M19.76 2.67H1.95A1.1 1.1 0 1 1 1.95.47h17.81a1.1 1.1 0 1 1 0 2.21Z" />
-                        </svg>
-                      </div>
-  
-                      <div id="low_button" class="low_button">
-                        <p>Low</p>
-                        <svg class="low_symbol" width="21" height="16" viewBox="0 0 21 16">
-                          <path d="M10.25 9.51a1 1 0 0 1-.65-.22L0.69 2.72a1 1 0 0 1 .49-1.76 1 1 0 0 1 1.06.22l8 6 8-6a1 1 0 0 1 1.56 1.21l-8.9 6.57a1 1 0 0 1-.65.22Z" />
-                          <path d="M10.25 15.25a1 1 0 0 1-.65-.21L0.69 8.47a1 1 0 0 1 1.31-1.53l8.25 6.08 8.25-6.08a1 1 0 1 1 1.31 1.53l-8.9 6.57a1 1 0 0 1-.65.21Z" />
-                        </svg>
-                      </div>
-  
-                    </div>
-              
-                  <div class="bullet-point">Assigned to</div>
-                    <div class="assigned_to_div">
-                      <div class="dropdown_assigned_to" id="dropdown_assigned_to" tabindex="0">
-                        <span id="dropdown_selected_assignee">Select a person</span>
-                        <img src="./assets/img/arrow_drop_down.svg" alt="dropdown arrow" class="dropdown_arrow" />
-                      </div>
-                      <div class="dropdown_options_assignee" id="dropdown_options_assignee"></div>
-                      <input class="focus_blue_border" type="hidden" id="assigned_to" name="assigned_to" required />
-                    </div>
-                    <div class="show_assignees" id="show_assignees"></div>
-  
-                  <div class="bullet-point">Category</div>
-                    <div class="category_div">
-                      <div class="dropdown_category" id="dropdown_category" tabindex="0">
-                        <span id="dropdown_selected">Select task category</span>
-                        <img src="./assets/img/arrow_drop_down.svg" alt="dropdown arrow" class="dropdown_arrow" />
-                      </div>
-  
-                      <div class="dropdown_options">
-                        <div class="custom-dropdown-option" data-value="User Story">User Story</div>
-                        <div class="custom-dropdown-option" data-value="Technical task">Technical task</div>
-                        <div class="custom-dropdown-option" data-value="HTML">HTML</div>
-                        <div class="custom-dropdown-option" data-value="Javascript">Javascript</div>
-                        <div class="custom-dropdown-option" data-value="CSS">CSS</div>
-                      </div>
-                      <input class="focus_blue_border" type="hidden" id="category" name="category" required />
-                    </div>
-  
-                  <div class="bullet-point">Subtasks</div>
-                    <label class="input_label focus_blue_border">
-                      <input id="input_subtask" type="text" placeholder="Add new subtask" />
-                      <button type="button" id="button_add_subtask">
-                        <img id="add_icon" src="./assets/img/add_icon.svg" alt="Add" />
-                        <div id="input_icons" class="input-icons">
-                          <img id="clear_icon" src="./assets/img/clear_symbol.svg" alt="Clear" />
-                          <div class="separator_subtasks">|</div>
-                          <img id="check_icon" src="./assets/img/check_dark.svg" alt="Check" />
-                        </div>
-                      </button>
-                    </label>
-                    <ul id="display_subtasks" class="display_subtasks"></ul>
+        <div class="scrollable-container">
+          <div class="scrollable-area">
+            <div class="bullet-point">Title</div>
+            <label class="input_label focus_blue_border input_div_left">
+              <input id="edit_input_title" type="text" value="${title}" />
+            </label>
+            
+            <div class="bullet-point">Description</div>
+            <label class="input_label focus_blue_border input_div_left textarea-container">
+              <textarea id="edit_input_description" class="textarea-with-icon" type="text">${description}</textarea>
+              <img src="./assets/img/enlarge_inputfield_symbol.svg" alt="" class="resize-icon">
+            </label>
+            
+            <div class="bullet-point">Due Date</div>
+            <label class="input_label input_label_calender input_div_left">
+              <input  type="date" required value="${displayedDueDate}" />
+            </label>
+        
+            <div class="bullet-point">Priority</div>
+            <div class="priority_buttons_div">
+              <div id="edit_urgent_button" class="urgent_button">
+                <p>Urgent</p>
+                <svg class="urgent_symbol" width="21" height="16" viewBox="0 0 21 16">
+                  <path d="M19.65 15.25c-.23 0-.46-.07-.65-.21L10.75 8.96 2.5 15.04c-.23.17-.52.23-.81.2s-.52-.15-.73-.32c-.21-.18-.37-.41-.46-.66-.1-.26-.12-.53-.08-.79.04-.29.2-.55.44-.73L10.1 6.71c.19-.14.42-.22.65-.22s.46.08.65.22l8.9 6.57c.19.14.33.34.4.57.08.22.07.46 0 .68-.07.23-.2.42-.39.57-.19.15-.42.22-.66.22z" />
+                  <path d="M19.65 9.5c-.23 0-.46-.07-.65-.21L10.75 3.21 2.5 9.29c-.23.17-.52.23-.81.2s-.52-.15-.73-.32c-.21-.18-.37-.41-.46-.66-.1-.26-.12-.53-.08-.79.04-.29.2-.55.44-.73L10.1 6.71c.19-.14.42-.22.65-.22s.46.08.65.22l8.9 6.57c.19.14.33.34.4.57.08.22.07.46 0 .68-.07.23-.2.42-.39.57-.19.15-.42.22-.66.22z" />
+                </svg>
+              </div>
+
+              <div id="medium_button" class="medium_button">
+                <p>Medium</p>
+                <svg class="medium_symbol" width="21" height="8" viewBox="0 0 21 8">
+                  <path d="M19.76 7.92H1.95a1.1 1.1 0 1 1 0-2.21h17.81a1.1 1.1 0 1 1 0 2.21Z" />
+                  <path d="M19.76 2.67H1.95A1.1 1.1 0 1 1 1.95.47h17.81a1.1 1.1 0 1 1 0 2.21Z" />
+                </svg>
+              </div>
+
+              <div id="low_button" class="low_button">
+                <p>Low</p>
+                <svg class="low_symbol" width="21" height="16" viewBox="0 0 21 16">
+                  <path d="M10.25 9.51a1 1 0 0 1-.65-.22L0.69 2.72a1 1 0 0 1 .49-1.76 1 1 0 0 1 1.06.22l8 6 8-6a1 1 0 0 1 1.56 1.21l-8.9 6.57a1 1 0 0 1-.65.22Z" />
+                  <path d="M10.25 15.25a1 1 0 0 1-.65-.21L0.69 8.47a1 1 0 0 1 1.31-1.53l8.25 6.08 8.25-6.08a1 1 0 1 1 1.31 1.53l-8.9 6.57a1 1 0 0 1-.65.21Z" />
+                </svg>
+              </div>
             </div>
+        
+            <div class="bullet-point">Assigned to</div>
+            <div class="assigned_to_div">
+              <div class="dropdown_assigned_to" id="dropdown_assigned_to" tabindex="0">
+                <span id="dropdown_selected_assignee">Select a person</span>
+                <img src="./assets/img/arrow_drop_down.svg" alt="dropdown arrow" class="dropdown_arrow" />
+              </div>
+              <div class="dropdown_options_assignee" id="dropdown_options_assignee"></div>
+              <input class="focus_blue_border" type="hidden" id="assigned_to" name="assigned_to" required />
+            </div>
+            <div class="show_assignees" id="show_assignees"></div>
+        
+            <div class="bullet-point">Category</div>
+            <div class="category_div">
+              <div class="dropdown_category" id="dropdown_category" tabindex="0">
+                <span id="dropdown_selected">Select task category</span>
+                <img src="./assets/img/arrow_drop_down.svg" alt="dropdown arrow" class="dropdown_arrow" />
+              </div>
+
+              <div class="dropdown_options">
+                <div class="custom-dropdown-option" data-value="User Story">User Story</div>
+                <div class="custom-dropdown-option" data-value="Technical task">Technical task</div>
+                <div class="custom-dropdown-option" data-value="HTML">HTML</div>
+                <div class="custom-dropdown-option" data-value="Javascript">Javascript</div>
+                <div class="custom-dropdown-option" data-value="CSS">CSS</div>
+              </div>
+              <input class="focus_blue_border" type="hidden" id="category" name="category" required />
+            </div>
+        
+            <div class="bullet-point">Subtasks</div>
+            <label class="input_label focus_blue_border">
+              <input id="input_subtask" type="text" placeholder="Add new subtask" />
+              <button type="button" id="button_add_subtask">
+                <img id="add_icon" src="./assets/img/add_icon.svg" alt="Add" />
+                <div id="input_icons" class="input-icons">
+                  <img id="clear_icon" src="./assets/img/clear_symbol.svg" alt="Clear" />
+                  <div class="separator_subtasks">|</div>
+                  <img id="check_icon" src="./assets/img/check_dark.svg" alt="Check" />
+                </div>
+              </button>
+            </label>
+            <ul id="display_subtasks" class="display_subtasks"></ul>
           </div>
+        </div>
         <div class="triangle">
           <div class="triangle-bottom"></div>
         </div>
@@ -115,18 +120,14 @@ function editTaskTemplate(taskId) {
           <button type="button" class="clear_button_div" onclick="clearAllInputs()">
             <p>Ok</p>
             <svg width="24" height="25" viewBox="0 0 24 25" xmlns="http://www.w3.org/2000/svg">
-  <path d="M9.55 15.65L18.03 7.175a.875.875 0 0 1 1.238 1.238l-9.2 9.2a.875.875 0 0 1-1.238 0l-4.3-4.3a.875.875 0 0 1 1.238-1.238l3.55 3.575z" fill="white"/>
-</svg>
-
-
+              <path d="M9.55 15.65L18.03 7.175a.875.875 0 0 1 1.238 1.238l-9.2 9.2a.875.875 0 0 1-1.238 0l-4.3-4.3a.875.875 0 0 1 1.238-1.238l3.55 3.575z" fill="white"/>
+            </svg>
           </button>
         </div>
-        
       </div>    
-  `;
-  }  
-  
-  
-  
-  
-    
+    `;
+}
+
+
+
+

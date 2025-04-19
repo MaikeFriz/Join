@@ -27,16 +27,6 @@ async function backToBoardTable() {
     }, 300);
 }
 
-// Formats a given ISO date string into the format "DD/MM/YYYY".
-function formatDate(isoDate) {
-  let date = new Date(isoDate);
-  let day = String(date.getDate()).padStart(2, '0');
-  let month = String(date.getMonth() + 1).padStart(2, '0');
-  let year = date.getFullYear();
-
-  return `${day}/${month}/${year}`;
-}
-
 // Switches from the focused task view to the task editing view.
 function renderEditTask(taskId) {
   let editContent = document.getElementById('editTask');
@@ -51,7 +41,6 @@ function renderEditTask(taskId) {
       }, 10);
     }, 300);
 }
-
 
 // Returns from the task editing view to the focused task view.
 async function backToFocusedTask() {

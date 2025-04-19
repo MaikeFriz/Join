@@ -263,26 +263,6 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-// Change border color date
-function focusInputCalender() {
-  document.getElementById("input_date").focus();
-}
-
-function handleDateClick() {
-  const inputDate = document.getElementById("input_date");
-  inputDate.style.border = "2px solid rgb(41, 171, 226)"
-}
-
-function handleDateBlur() {
-  const inputDate = document.getElementById("input_date");
-  inputDate.style.borderColor = "#D1D1D1"; 
-}
-
-function handleDateChange() {
-  const inputDate = document.getElementById("input_date");
-  inputDate.style.borderColor = "#D1D1D1";
-}
-
 // Clear Button
 function clearAllInputs() {
   const form = document.getElementById("task_form");
