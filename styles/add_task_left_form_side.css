@@ -23,15 +23,14 @@
     margin-block-end: 0;
 }
 
-#input_title {
+.input-title {
     height: 48px;
     width: 100%;
-    border: 1px solid #D1D1D1; 
     outline: none; 
     border-radius: 10px;
 }
 
-#input_description {
+.input-description {
     height: 120px;
     width: 100%;
     border: 1px solid #D1D1D1; 
@@ -39,8 +38,8 @@
     border-radius: 10px;
 }
 
-#input_title:focus, #input_description:focus {
-    border: 2px solid rgb(41, 171, 226); 
+.input-title:focus, #input_description:focus {
+    border: 1px solid rgb(41, 171, 226); 
 }
 
 .enlarge_inputfield_symbol_div {
@@ -58,19 +57,20 @@
 }
 
 .input_div_left input:focus {
-    border: 2px solid rgb(41, 171, 226);
+    border: 1px solid rgb(41, 171, 226);
 }
 
 .input_div_left input:active {
-    border: 2px solid rgb(41, 171, 226);
+    border: 1px solid rgb(41, 171, 226);
 }
 
 .input_div_left input:focus-within {
-    border: 2px solid rgb(41, 171, 226);
+    border: 1px solid rgb(41, 171, 226);
 }
 
 .input_div_left textarea {
     border: 1px solid #D1D1D1;
+    background-color: rgba(255, 255, 255, 1);
     border-radius: 10px;
     padding-left: 16px;
     width: 100%;
@@ -80,15 +80,15 @@
 }
 
 .input_div_left textarea:focus {
-    border: 2px solid rgb(41, 171, 226);
+    border: 1px solid rgb(41, 171, 226);
 }
 
 .input_div_left textarea:active {
-    border: 2px solid rgb(41, 171, 226);
+    border: 1px solid rgb(41, 171, 226);
 }
 
 .input_div_left textarea:focus-within {
-    border: 2px solid rgb(41, 171, 226);
+    border: 1px solid rgb(41, 171, 226);
 }
 
 .textarea-container {
@@ -99,7 +99,7 @@
 
 .textarea-with-icon {
     width: 100%;
-    height: 100px;
+    min-height: 100px;
     resize: vertical;
     padding: 10px;
     border: 1px solid #ccc;
@@ -113,20 +113,25 @@
     font-size: 16px;
 }
 
-.textarea-with-icon:focus {
-   
-    border-color: #ccc;
-    transition: outline 0.3s ease;
+.textarea-with-icon::placeholder {
+    font-size: 20px;
+    color: rgba(209, 209, 209, 1);  
 }
 
 .resize-icon {
     position: absolute;
-    bottom: 6px;
-    right: 2px;
-    width: 27px;
-    height: 27px;
-    border-bottom-right-radius: 6px;
+    bottom: 5px;
+    right: 1px;
+    width: 26px;
+    padding: 1px;
+    height: 26px;
+    border: 1px solid rgba(255, 255, 255, 1);
+    border-bottom-right-radius: 10px;
     pointer-events: none;
     z-index: 2;
     background-color: white;
+}
+
+.resize-icon-position{
+    bottom: 1px;
 }
