@@ -2,7 +2,6 @@
 function getTaskContent(taskId, kanbanData) {
   const taskContent = kanbanData.tasks?.[taskId];
   if (!taskContent) {
-    console.error(`Task mit der ID ${taskId} existiert nicht.`);
     return null;
   }
   return taskContent;
@@ -27,7 +26,6 @@ function getTaskData(taskContent) {
     createAt: taskContent.createdAt,
   };
   console.log(taskData);
-  
   return taskData;
 }
 

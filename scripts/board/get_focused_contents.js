@@ -37,7 +37,7 @@ function renderEditTask(taskId) {
       editContent.classList.remove('d-none');
       setTimeout(() => {
         editContent.classList.add('active');
-        editContent.innerHTML = editTaskTemplate(taskId);
+        editContent.innerHTML = getEditTaskData(taskId);
       }, 10);
     }, 300);
 }

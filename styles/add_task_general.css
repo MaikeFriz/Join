@@ -176,7 +176,7 @@ body {
 .focus_blue_border input:focus,
 .focus_blue_border input:not(:placeholder-shown) {
     border-color: rgb(41, 171, 226); 
-    border: 2px solid rgb(41, 171, 226) ;
+    border: 1px solid rgb(41, 171, 226) ;
     outline: none;
 }
 

@@ -1,18 +1,16 @@
-function editTaskTemplate(taskId) {
-    // Task-Daten abrufen
+function getEditTaskData(taskId) {
+
     const taskContent = getTaskContent(taskId, kanbanData);
     if (!taskContent) {
         console.error(`Task mit ID ${taskId} nicht gefunden.`);
         return `<div>Error: Task not found</div>`;
     }
 
-    // Verwende getTaskData, um die Daten zu extrahieren
-    const { label, fitLabelForCSS, title, description, createAt } = getTaskData(taskContent);
+    const { label, fitLabelForCSS, title, description, createAt, priority } = getTaskData(taskContent);
 
-    // Datum formatieren für das Eingabefeld vom Typ "date"
     const displayedDueDate = createAt ? formatDateForInput(createAt) : '';
 
-    return /*html*/`
+    const html = /*html*/`
       <div class="edit-task">
         <div class="focused-task-top">
           <div></div>
@@ -34,7 +32,7 @@ function editTaskTemplate(taskId) {
             <div class="bullet-point">Description</div>
             <label class="input_label input_div_left textarea-container">
               <textarea id="edit_input_description" class="textarea-with-icon" type="text">${description}</textarea>
-              <svg class="resize-icon" width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <svg class="resize-icon" width="19" height="19" viewBox="0  0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M18.9 0V1.69C18.9017 2.31796 18.7788 2.94002 18.5385 3.52019C18.2982 4.10036 17.9452 4.62712 17.5 5.07L5.07 17.5C4.62712 17.9452 4.10036 18.2982 3.52019 18.5385C2.94002 18.7788 2.31796 18.9017 1.69 18.9H0L18.9 0Z" fill="#D1D1D1"/>
                 <path d="M18.9001 6.31006V8.00006C18.9006 8.62786 18.7772 9.2496 18.537 9.82961C18.2967 10.4096 17.9444 10.9365 17.5001 11.3801L11.3801 17.5001C10.9365 17.9444 10.4096 18.2967 9.82961 18.537C9.2496 18.7772 8.62786 18.9006 8.00006 18.9001H6.31006L18.9001 6.31006Z" fill="#D1D1D1"/>
                 <path d="M18.8999 12.4302V14.1202C18.9005 14.748 18.7771 15.3697 18.5369 15.9497C18.2966 16.5297 17.9442 17.0566 17.4999 17.5002C17.0564 17.9445 16.5295 18.2969 15.9495 18.5371C15.3695 18.7773 14.7477 18.9007 14.1199 18.9002H12.4299L18.8999 12.4302Z" fill="#D1D1D1"/>
@@ -43,12 +41,12 @@ function editTaskTemplate(taskId) {
             
             <div class="bullet-point">Due Date</div>
             <label class="input_label input_label_calender input_div_left">
-              <input  type="date" required value="${displayedDueDate}" />
+              <input type="date" required value="${displayedDueDate}" />
             </label>
         
             <div class="bullet-point">Priority</div>
             <div class="priority_buttons_div">
-              <div id="edit_urgent_button" class="urgent_button">
+              <div id="edit_urgent_button" class="urgent_button" onclick="handleButtonClick(this)">
                 <p>Urgent</p>
                 <svg class="urgent_symbol" width="21" height="16" viewBox="0 0 21 16">
                   <path d="M19.65 15.25c-.23 0-.46-.07-.65-.21L10.75 8.96 2.5 15.04c-.23.17-.52.23-.81.2s-.52-.15-.73-.32c-.21-.18-.37-.41-.46-.66-.1-.26-.12-.53-.08-.79.04-.29.2-.55.44-.73L10.1 6.71c.19-.14.42-.22.65-.22s.46.08.65.22l8.9 6.57c.19.14.33.34.4.57.08.22.07.46 0 .68-.07.23-.2.42-.39.57-.19.15-.42.22-.66.22z" />
@@ -56,7 +54,7 @@ function editTaskTemplate(taskId) {
                 </svg>
               </div>
 
-              <div id="medium_button" class="medium_button">
+              <div id="edit_medium_button" class="medium_button" onclick="handleButtonClick(this)">
                 <p>Medium</p>
                 <svg class="medium_symbol" width="21" height="8" viewBox="0 0 21 8">
                   <path d="M19.76 7.92H1.95a1.1 1.1 0 1 1 0-2.21h17.81a1.1 1.1 0 1 1 0 2.21Z" />
@@ -64,7 +62,7 @@ function editTaskTemplate(taskId) {
                 </svg>
               </div>
 
-              <div id="low_button" class="low_button">
+              <div id="edit_low_button" class="low_button" onclick="handleButtonClick(this)">
                 <p>Low</p>
                 <svg class="low_symbol" width="21" height="16" viewBox="0 0 21 16">
                   <path d="M10.25 9.51a1 1 0 0 1-.65-.22L0.69 2.72a1 1 0 0 1 .49-1.76 1 1 0 0 1 1.06.22l8 6 8-6a1 1 0 0 1 1.56 1.21l-8.9 6.57a1 1 0 0 1-.65.22Z" />
@@ -130,6 +128,71 @@ function editTaskTemplate(taskId) {
         </div>
       </div>    
     `;
+
+    setTimeout(() => setPriorityActive(priority), 0);
+
+    return html;
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  setTimeout(() => {
+    const taskId = "exampleTaskId";
+    const taskContent = getTaskContent(taskId, kanbanData);
+
+    if (taskContent) {
+      const { priority } = getTaskData(taskContent);
+      setPriorityActive(priority);
+    }
+    initializePriorityButtons();
+  }, 0);
+});
+
+function setPriorityActive(priority) {
+  const priorityMap = {
+    urgent: 'edit_urgent_button',
+    medium: 'edit_medium_button',
+    low: 'edit_low_button'
+  };
+
+  const buttonId = priorityMap[priority];
+  if (buttonId) {
+    const button = document.getElementById(buttonId);
+    if (button) {
+      button.classList.add('active');
+      console.log(`Klasse 'active' wurde zu ${buttonId} hinzugefügt.`);
+      console.log(`Aktuelle Klassen des Buttons: ${button.className}`);
+    } else {
+      console.error(`Button mit ID "${buttonId}" nicht gefunden.`);
+    }
+  } else {
+    console.error(`Keine passende ID für die Priorität "${priority}" gefunden.`);
+  }
+}
+
+function initializePriorityButtons() {
+  const buttons = document.querySelectorAll(".priority_buttons_div > div");
+  if (buttons.length > 0) {
+    console.log(`Gefundene Buttons: ${buttons.length}`);
+    buttons.forEach((button) => {
+      console.log(`Füge Event-Listener zu Button mit ID ${button.id} hinzu.`);
+      button.addEventListener("click", () => handleButtonClick(button));
+    });
+    console.log("Event-Listener für Prioritätsbuttons hinzugefügt.");
+  }
+}
+
+function handleButtonClick(clickedButton) {
+  const buttons = document.querySelectorAll(".priority_buttons_div > div"); // Alle Buttons in der Priority-Gruppe
+
+  buttons.forEach((button) => {
+    if (button.classList.contains("active")) {
+      console.log(`Entferne 'active' von Button mit ID ${button.id}.`);
+    }
+    button.classList.remove("active");
+  });
+
+  clickedButton.classList.add("active");
+  console.log(`Klasse 'active' wurde zu ${clickedButton.id} hinzugefügt.`);
 }
 
 
