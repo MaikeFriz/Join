@@ -112,6 +112,7 @@ header {
     transform: translate(-50%, -50%) scale(0.7);
     opacity: 0;
     animation: logoMove 1.5s ease forwards;
+    z-index: 10000;
 }
 
 .right_header_section {

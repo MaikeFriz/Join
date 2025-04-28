@@ -1,10 +1,13 @@
-
 .single_step{
     display: flex;
     justify-content: flex-start;
     align-items: start;
     flex-direction: row;
     gap: 24px;
+}
+
+.right-side-content{
+    min-height: fit-content;
 }
 
 .explanation_div p{

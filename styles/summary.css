@@ -7,6 +7,10 @@
     padding-top: 40px;
 }
 
+.right-side-content{
+    min-height: fit-content;
+}
+
 .summary-left{
     display: flex;
     flex-direction: column;

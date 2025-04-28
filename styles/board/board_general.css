@@ -2,7 +2,13 @@
 .board-content{
     display: flex;
     flex-direction: column;
-    height: 100vh;  
+    min-height: fit-content;  
+    padding-bottom: 32px;
+}
+
+.right-side-content{
+    min-height: fit-content;
+    margin-bottom: 32px;
 }
 
 .board-head{
