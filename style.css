@@ -35,6 +35,12 @@ a {
   padding: 4px;
 }
 
+footer{
+  height: 16px;
+  width: auto;
+  margin: 32px 0;
+}
+
 footer a {
   text-decoration: none;
   color: rgba(168, 168, 168, 1) !important;

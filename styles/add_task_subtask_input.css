@@ -54,7 +54,8 @@ button {
     cursor: pointer;
 }
 
-.delete_button_subtask{
+.delete_button_subtask, 
+.edit_button_subtask{
     margin-left: 32px;
 }
 
