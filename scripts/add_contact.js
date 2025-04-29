@@ -121,7 +121,6 @@ function updateContact(contact) {
       console.error("Error updating contact:", error);
     });
 }
-
 function renderContacts() {
   const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
   if (!loggedInUser || !loggedInUser.userId) {
@@ -138,22 +137,19 @@ function renderContacts() {
       const contactsList = document.querySelector(".contacts-list ul");
       contactsList.innerHTML = "";
 
-      // Convert contacts object to an array and sort alphabetically by name
       const sortedContacts = Object.keys(contacts)
         .map((key) => ({ id: key, ...contacts[key] }))
         .sort((a, b) => a.name.localeCompare(b.name));
 
-      // Group contacts by their first initial
       const groupedContacts = sortedContacts.reduce((acc, contact) => {
         const initial = contact.name[0].toUpperCase();
-        if (!acc[initial]) {
-          acc[initial] = [];
-        }
+        if (!acc[initial]) acc[initial] = [];
         acc[initial].push(contact);
         return acc;
       }, {});
 
-      // Render contacts grouped by their first initial
+      let firstContactId = null;
+
       Object.keys(groupedContacts).forEach((initial) => {
         const section = document.createElement("li");
         section.innerHTML = `<h3>${initial}</h3>`;
@@ -174,17 +170,19 @@ function renderContacts() {
               <a href="mailto:${contact.email}">${contact.email}</a>
             </div>
           `;
-          listItem.dataset.contactId = contact.id; // Store the contact ID in a data attribute
-          listItem.addEventListener("click", function () {
-            displayContactDetails(contact.id);
-          });
+          listItem.dataset.contactId = contact.id;
+          listItem.addEventListener("click", () =>
+            displayContactDetails(contact.id)
+          );
           contactsList.appendChild(listItem);
+
+          if (!firstContactId) firstContactId = contact.id;
         });
       });
+
+      if (firstContactId) displayContactDetails(firstContactId);
     })
-    .catch((error) => {
-      console.error("Error fetching contacts:", error);
-    });
+    .catch((error) => console.error("Error fetching contacts:", error));
 }
 
 function getInitialsBackgroundColor(initial) {
@@ -247,16 +245,41 @@ function displayContactDetails(contactId) {
       const newContactDetailsDiv = document.createElement("div");
       newContactDetailsDiv.className = "contact-details";
       newContactDetailsDiv.innerHTML = `
-        <h2>Contacts</h2>
-        <div class="contact-initials" style="background-color: ${backgroundColor};">${initials}</div>
-        <div>
-          <p><strong>Name:</strong> ${contact.name}</p>
-          <p><strong>Email:</strong> <a href="mailto:${contact.email}">${contact.email}</a></p>
-          <p><strong>Phone:</strong> ${contact.phone}</p>
+        
+        <h1 class="contact-headline">
+          Contacts
+          <span class="vertical-line"></span> <!-- Added blue vertical line -->
+          <span class="team-tagline">Better with a Team</span> <!-- Added tagline -->
+        </h1>
+        
+        <div class="contact-header">
+          <div class="contact-initials" style="background-color: ${backgroundColor};">${initials}</div>
+          <div class="contact-name">
+            <p><strong>${contact.name}</strong></p>
+            <div class="contact-buttons">
+<button id="edit-contact-button">
+  <img src="./assets/img/edit.svg" alt="Edit" style="width: 16px; height: 16px; margin-right: 8px;">
+  Edit
+</button>
+<button id="delete-contact-button">
+  <img src="./assets/img/delete.svg" alt="Delete" style="width: 16px; height: 16px; margin-right: 8px;">
+  Delete
+</button>
+            </div>
+          </div>
         </div>
-        <div class="contact-buttons">
-          <button id="edit-contact-button">Edit Contact</button>
-          <button id="delete-contact-button">Delete Contact</button>
+      
+        <div class="contact-details-info">
+          <h3>Contact Information</h3>
+          <p>
+            <strong>Email:</strong><br><br>
+            <a href="mailto:${contact.email}">${contact.email}</a>
+          </p>
+          <br>
+          <p>
+            <strong>Phone:</strong><br><br>
+            <span>${contact.phone}</span>
+          </p>
         </div>
       `;
       document

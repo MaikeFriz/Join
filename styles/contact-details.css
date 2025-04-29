@@ -1,0 +1,100 @@
+.contact-details {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 20px;
+    width: calc(100% - 40px); /* Fill the right side, accounting for margins */
+    max-width: none; /* Remove the fixed width limit */
+    font-family: Arial, sans-serif;
+    height: calc(100% - 40px); /* Fill the vertical space, accounting for margins */
+}
+  
+  .contact-details h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333333;
+  }
+  
+  .contact-details .contact-initials {
+    width: 120px; /* Increased size */
+    height: 120px; /* Increased size */
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 64px; /* Increased font size */
+    font-weight: 500;
+    color: #ffffff;
+    margin-bottom: 20px;
+    border: 3px solid #ffffff; /* Border color */
+}
+  
+  .contact-details p {
+    margin: 10px 0;
+    font-size: 16px;
+    color: #555555;
+  }
+  
+  .contact-details a {
+    color: #007CEE; /* Updated link color */
+    text-decoration: none;
+}
+  
+  .contact-details a:hover {
+    text-decoration: underline;
+  }
+  
+  .contact-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  
+  .contact-buttons button {
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  
+  
+  .contact-highlight {
+    background-color: #2A3647;
+   border-radius: 10px;
+   color: white;
+  }
+
+  .contact-header {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Space between initials and name */
+  }
+  
+  .contact-name p {
+    margin: 0;
+    font-size: 18px;
+    color: #333333;
+  }
+
+  .contact-headline {
+    display: flex;
+    align-items: center;
+    gap: 30px; /* Space between text and vertical line */
+    font-size: 61px;
+    margin-top: 0px;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  .contact-headline .vertical-line {
+    display: inline-block;
+    width: 2px;
+    height: 59px; /* Adjust height as needed */
+    background-color: #29ABE2;
+  }
+  .team-tagline {
+    font-family: Inter;
+font-weight: 400;
+font-size: 27px;
+line-height: 120%;
+}

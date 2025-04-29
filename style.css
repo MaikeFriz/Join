@@ -100,9 +100,14 @@ footer a:hover {
 
 .contacts-list li {
   display: flex;
-  align-items: center;
+  align-items: stretch;
   padding: 18px;
-  border-bottom: 1px solid #eee;
+}
+.contacts-list h3 {
+  border-bottom: 1px solid #D1D1D1; /* Black horizontal line under h3 */
+  width: 100%;
+  padding-bottom: 8px; /* Optional: Add spacing below the text */
+  margin-bottom: 8px; /* Optional: Add spacing between the line and the next element */
 }
 
 .contact-initials {
