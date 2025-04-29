@@ -71,14 +71,14 @@
   }
   
   .custom-dropdown-option:hover {
-    background-color: #2a3647; 
+    background-color: #2a364791; 
     color: white;
     margin-bottom: 4px;
     border-radius: 10px;
   }
 
   .custom-dropdown-option.selected {
-    background-color: #091931; 
+    background-color: #2a364791; 
     color: white; 
     margin-bottom: 4px;
     border-radius: 10px;

@@ -157,6 +157,7 @@ function setupDropdownEvents() {
 // Schaltet die Sichtbarkeit des Dropdown-Menüs um.
 function toggleDropdown(event) {
   event.stopPropagation();
+
   const dropdown = document.getElementById("dropdown_assigned_to");
   const dropdownOptions = document.getElementById("dropdown_options_assignee");
 
