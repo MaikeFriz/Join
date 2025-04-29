@@ -1,0 +1,69 @@
+.dropdown-edit-assigned-to {
+    width: 100%;
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-in-out, opacity 0.2s ease-in-out;
+    border: 1px solid rgba(168, 168, 168, 0.5);
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px -2px rgba(0, 0, 0, 0.1);
+    padding: 7px 16px;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 10;
+    background-color: white;
+}
+
+.dropdown-edit-assigned-to.show {
+    max-height: 250px;
+    opacity: 1;
+    overflow-y: auto;
+}
+
+.dropdown-edit-assignee {
+    width: 100%;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    cursor: default;
+    justify-content: flex-start;
+}
+
+.dropdown-edit-assignee:hover {
+    width: calc(100% + 32px);
+    margin-left: -16px;
+    padding-left: 16px;
+    padding-right: 16px;
+    background-color: rgba(42, 54, 71, 1);
+    color: rgba(255, 255, 255, 1);
+}
+
+.dropdown-edit-assignee:active {
+    background-color: rgba(9, 25, 49, 1);
+    color: rgba(255, 255, 255, 1);
+}
+
+.dropdown-edit-assignee-initials,
+.dropdown-edit-assignee-name {
+    display: flex;
+    align-items: center;
+    width: 80%;
+}
+
+.dropdown-edit-assignee-names {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+}
+
+.dropdown-edit-assignee-checkbox {
+    
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    margin-left: auto;
+}
+

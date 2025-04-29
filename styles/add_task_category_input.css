@@ -43,7 +43,7 @@
   }
   
   .dropdown_category:focus-within {
-    border: solid 2px rgb(41, 171, 226);
+    border: solid 1px rgb(41, 171, 226);
     border-color: rgb(41, 171, 226) !important;
   }
   

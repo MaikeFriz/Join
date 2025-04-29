@@ -43,107 +43,107 @@
 }
 
 .a {
-    background-color: #FF5733;
+    background-color: rgba(255, 122, 0, 1); /* Orange */
 }
 
 .b {
-    background-color: #33FF57;
+    background-color: rgba(0, 190, 232, 1); /* Hellblau */
 }
 
 .c {
-    background-color: #3357FF;
+    background-color: rgba(110, 82, 255, 1); /* Violett-Blau */
 }
 
 .d {
-    background-color: #FF33A1;
+    background-color: rgba(255, 70, 70, 1); /* Rot */
 }
 
 .e {
-    background-color: #FF8C33;
+    background-color: rgba(31, 215, 193, 1); /* Türkis */
 }
 
 .f {
-    background-color: #33FFF5;
+    background-color: rgba(255, 199, 1, 1); /* Gelb */
 }
 
 .g {
-    background-color: #8C33FF;
+    background-color: rgba(255, 116, 94, 1); /* Koralle */
 }
 
 .h {
-    background-color: #FF3333;
+    background-color: rgba(147, 39, 255, 1); /* Dunkelviolett */
 }
 
 .i {
-    background-color: #33FF8C;
+    background-color: rgba(252, 113, 255, 1); /* Magenta */
 }
 
 .j {
-    background-color: #FF5733;
+    background-color: rgba(255, 163, 94, 1); /* Hellorange */
 }
 
 .k {
-    background-color: #33FF57;
+    background-color: rgba(0, 56, 255, 1); /* Blau */
 }
 
 .l {
-    background-color: #3357FF;
+    background-color: rgba(195, 255, 43, 1); /* Hellgrün */
 }
 
 .m {
-    background-color: #FF33A1;
+    background-color: rgba(255, 230, 43, 1); /* Sonnengelb */
 }
 
 .n {
-    background-color: #FF8C33;
+    background-color: rgba(255, 94, 179, 1); /* Pink */
 }
 
 .o {
-    background-color: #33FFF5;
+    background-color: rgba(255, 187, 43, 1); /* Goldgelb */
 }
 
 .p {
-    background-color: #8C33FF;
+    background-color: rgba(0, 190, 232, 1); /* Hellblau */
 }
 
 .q {
-    background-color: #FF3333;
+    background-color: rgba(31, 215, 193, 1); /* Türkis */
 }
 
 .r {
-    background-color: #33FF8C;
+    background-color: rgba(255, 122, 0, 1); /* Orange */
 }
 
 .s {
-    background-color: #FF5733;
+    background-color: rgba(255, 70, 70, 1); /* Rot */
 }
 
 .t {
-    background-color: #33FF57;
+    background-color: rgba(110, 82, 255, 1); /* Violett-Blau */
 }
 
 .u {
-    background-color: #3357FF;
+    background-color: rgba(147, 39, 255, 1); /* Dunkelviolett */
 }
 
 .v {
-    background-color: #FF33A1;
+    background-color: rgba(255, 199, 1, 1); /* Gelb */
 }
 
 .w {
-    background-color: #FF8C33;
+    background-color: rgba(252, 113, 255, 1); /* Magenta */
 }
 
 .x {
-    background-color: #33FFF5;
+    background-color: rgba(255, 116, 94, 1); /* Koralle */
 }
 
 .y {
-    background-color: #8C33FF;
+    background-color: rgba(255, 163, 94, 1); /* Hellorange */
 }
 
 .z {
-    background-color: #FF3333;
+    background-color: rgba(0, 56, 255, 1); /* Blau */
 }
 
 .urgent {

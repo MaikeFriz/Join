@@ -1,17 +1,21 @@
 function getEditTaskData(taskId) {
 
-    const taskContent = getTaskContent(taskId, kanbanData);
-    if (!taskContent) {
-        console.error(`Task mit ID ${taskId} nicht gefunden.`);
-        return `<div>Error: Task not found</div>`;
-    }
+  const taskContent = getTaskContent(taskId, kanbanData);
+  if (!taskContent) {
+    return `<div>Error: Task not found</div>`;
+  }
+  const { label, fitLabelForCSS, title, description, createAt, priority } = getTaskData(taskContent);
+  const displayedDueDate = createAt ? formatDateForInput(createAt) : '';
+  const html = editTaskTemplate(displayedDueDate, label, fitLabelForCSS, title, description, createAt, priority);
+  setTimeout(() => setPriorityActive(priority), 0);
 
-    const { label, fitLabelForCSS, title, description, createAt, priority } = getTaskData(taskContent);
-
-    const displayedDueDate = createAt ? formatDateForInput(createAt) : '';
-
-    const html = /*html*/`
-      <div class="edit-task">
+  return html;
+}
+  
+  
+function editTaskTemplate(displayedDueDate, label, fitLabelForCSS, title, description, createAt, priority) {
+  return /*html*/`
+      <div class="edit-task" onclick="closeDropdownOnOutsideClick(event)">
         <div class="focused-task-top">
           <div></div>
           <svg onclick="backToFocusedTask()" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -45,42 +49,15 @@ function getEditTaskData(taskId) {
             </label>
         
             <div class="bullet-point">Priority</div>
-            <div class="priority_buttons_div">
-              <div id="edit_urgent_button" class="urgent_button" onclick="handleButtonClick(this)">
-                <p>Urgent</p>
-                <svg class="urgent_symbol" width="21" height="16" viewBox="0 0 21 16">
-                  <path d="M19.65 15.25c-.23 0-.46-.07-.65-.21L10.75 8.96 2.5 15.04c-.23.17-.52.23-.81.2s-.52-.15-.73-.32c-.21-.18-.37-.41-.46-.66-.1-.26-.12-.53-.08-.79.04-.29.2-.55.44-.73L10.1 6.71c.19-.14.42-.22.65-.22s.46.08.65.22l8.9 6.57c.19.14.33.34.4.57.08.22.07.46 0 .68-.07.23-.2.42-.39.57-.19.15-.42.22-.66.22z" />
-                  <path d="M19.65 9.5c-.23 0-.46-.07-.65-.21L10.75 3.21 2.5 9.29c-.23.17-.52.23-.81.2s-.52-.15-.73-.32c-.21-.18-.37-.41-.46-.66-.1-.26-.12-.53-.08-.79.04-.29.2-.55.44-.73L10.1.96c.19-.14.42-.22.65-.22s.46.08.65.22l8.9 6.57c.19.14.33.34.4.57.08.22.07.46 0 .68-.07.23-.2.42-.39.57-.19.15-.42.22-.66.22z" />
-                </svg>
-              </div>
-
-              <div id="edit_medium_button" class="medium_button" onclick="handleButtonClick(this)">
-                <p>Medium</p>
-                <svg class="medium_symbol" width="21" height="8" viewBox="0 0 21 8">
-                  <path d="M19.76 7.92H1.95a1.1 1.1 0 1 1 0-2.21h17.81a1.1 1.1 0 1 1 0 2.21Z" />
-                  <path d="M19.76 2.67H1.95A1.1 1.1 0 1 1 1.95.47h17.81a1.1 1.1 0 1 1 0 2.21Z" />
-                </svg>
-              </div>
-
-              <div id="edit_low_button" class="low_button" onclick="handleButtonClick(this)">
-                <p>Low</p>
-                <svg class="low_symbol" width="21" height="16" viewBox="0 0 21 16">
-                  <path d="M10.25 9.51a1 1 0 0 1-.65-.22L0.69 2.72a1 1 0 0 1 .49-1.76 1 1 0 0 1 1.06.22l8 6 8-6a1 1 0 0 1 1.56 1.21l-8.9 6.57a1 1 0 0 1-.65.22Z" />
-                  <path d="M10.25 15.25a1 1 0 0 1-.65-.21L0.69 8.47a1 1 0 0 1 1.31-1.53l8.25 6.08 8.25-6.08a1 1 0 1 1 1.31 1.53l-8.9 6.57a1 1 0 0 1-.65.21Z" />
-                </svg>
-              </div>
+            <div id="edit_priority_buttons" class="priority_buttons_div">
+              ${editPriorityTemplate()}
             </div>
         
             <div class="bullet-point">Assigned to</div>
             <div class="assigned_to_div">
-              <div class="dropdown_assigned_to" id="dropdown_assigned_to" tabindex="0">
-                <span id="dropdown_selected_assignee">Select a person</span>
-                <img src="./assets/img/arrow_drop_down.svg" alt="dropdown arrow" class="dropdown_arrow" />
-              </div>
-              <div class="dropdown_options_assignee" id="dropdown_options_assignee"></div>
-              <input class="focus_blue_border" type="hidden" id="assigned_to" name="assigned_to" required />
+              ${editAssignedToTemplate(kanbanData)} 
             </div>
-            <div class="show_assignees" id="show_assignees"></div>
+            <div class="show_assignees" id="show_edit_assignees"></div>
         
             <div class="bullet-point">Category</div>
             <div class="category_div">
@@ -128,10 +105,78 @@ function getEditTaskData(taskId) {
         </div>
       </div>    
     `;
+}
 
-    setTimeout(() => setPriorityActive(priority), 0);
+function editPriorityTemplate() {
+  return /*html*/`
+    <div id="edit_urgent_button" class="urgent_button" onclick="handleButtonClick(this)">
+      <p>Urgent</p>
+      <svg class="urgent_symbol" width="21" height="16" viewBox="0 0 21 16">
+        <path d="M19.65 15.25c-.23 0-.46-.07-.65-.21L10.75 8.96 2.5 15.04c-.23.17-.52.23-.81.2s-.52-.15-.73-.32c-.21-.18-.37-.41-.46-.66-.1-.26-.12-.53-.08-.79.04-.29.2-.55.44-.73L10.1 6.71c.19-.14.42-.22.65-.22s.46.08.65.22l8.9 6.57c.19.14.33.34.4.57.08.22.07.46 0 .68-.07.23-.2.42-.39.57-.19.15-.42.22-.66.22z" />
+        <path d="M19.65 9.5c-.23 0-.46-.07-.65-.21L10.75 3.21 2.5 9.29c-.23.17-.52.23-.81.2s-.52-.15-.73-.32c-.21-.18-.37-.41-.46-.66-.1-.26-.12-.53-.08-.79.04-.29.2-.55.44-.73L10.1.96c.19-.14.42-.22.65-.22s.46.08.65.22l8.9 6.57c.19.14.33.34.4.57.08.22.07.46 0 .68-.07.23-.2.42-.39.57-.19.15-.42.22-.66.22z" />
+      </svg>
+    </div>
+    <div id="edit_medium_button" class="medium_button" onclick="handleButtonClick(this)">
+      <p>Medium</p>
+      <svg class="medium_symbol" width="21" height="8" viewBox="0 0 21 8">
+        <path d="M19.76 7.92H1.95a1.1 1.1 0 1 1 0-2.21h17.81a1.1 1.1 0 1 1 0 2.21Z" />
+        <path d="M19.76 2.67H1.95A1.1 1.1 0 1 1 1.95.47h17.81a1.1 1.1 0 1 1 0 2.21Z" />
+      </svg>
+    </div>
+    <div id="edit_low_button" class="low_button" onclick="handleButtonClick(this)">
+      <p>Low</p>
+      <svg class="low_symbol" width="21" height="16" viewBox="0 0 21 16">
+        <path d="M10.25 9.51a1 1 0 0 1-.65-.22L0.69 2.72a1 1 0 0 1 .49-1.76 1 1 0 0 1 1.06.22l8 6 8-6a1 1 0 0 1 1.56 1.21l-8.9 6.57a1 1 0 0 1-.65.22Z" />
+        <path d="M10.25 15.25a1 1 0 0 1-.65-.21L0.69 8.47a1 1 0 0 1 1.31-1.53l8.25 6.08 8.25-6.08a1 1 0 1 1 1.31 1.53l-8.9 6.57a1 1 0 0 1-.65.21Z" />
+      </svg>
+    </div>
+  `;
+}
 
-    return html;
+function editAssignedToTemplate(kanbanData) {
+  return /*html*/`
+    <div class="dropdown_assigned_to" id="dropdown_assigned_to" tabindex="0" onclick="toggleDisplayNone()">
+      <span id="dropdown_selected_assignee">Select a person</span>
+      <img src="./assets/img/arrow_drop_down.svg" alt="dropdown arrow" class="dropdown_arrow" />
+    </div>
+    <div class="dropdown_options_assignee" id="dropdown_options_assignee"></div>
+    <div class="dropdown-edit-assigned-to" id="dropdown_edit_assigned_to">
+      ${getEditAssignees(kanbanData)}
+    </div>
+  `;
+}
+
+function editAssignedToDropdownTemplate(name, initials, cssClass, userIndex) {
+  return /*html*/`    
+    <div class="dropdown-edit-assignee">
+      <div class="dropdown-edit-assignee-initials ${cssClass} initials-circle">${initials}</div>
+      <div class="dropdown-edit-assignee-name">${name}</div>
+      <label class="svg-edit-checkbox">
+        <input type="checkbox" class="checkbox-toggle" id="assignee_${userIndex}"
+          onchange="handleAssigneeSelection('${userIndex}', this.checked)" />
+        <svg class="checkbox-svg unchecked" width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
+          <rect x="1" y="1" width="16" height="16" rx="3" class="checkbox-rect" />
+        </svg>
+        <svg class="checkbox-svg checked" width="24" height="25" viewBox="0 0 24 25" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20 12V18C20 19.66 18.66 21 17 21H7C5.34 21 4 19.66 4 18V8C4 6.34 5.34 5 7 5H15" stroke="#2A3647" stroke-width="2" stroke-linecap="round" fill="none"/>
+          <path d="M8 13L12 17L20 5" stroke="#2A3647" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        </svg>
+      </label>
+    </div>
+  `;
+}
+
+function toggleDisplayNone() {
+  const dropdown = document.getElementById("dropdown_edit_assigned_to");
+  const trigger = document.getElementById("dropdown_assigned_to");
+
+  if (dropdown.classList.contains("show")) {
+    dropdown.classList.remove("show");
+    trigger.classList.remove("dropdown_open"); // Entfernt die Klasse, wenn geschlossen
+  } else {
+    dropdown.classList.add("show");
+    trigger.classList.add("dropdown_open"); // Fügt die Klasse hinzu, wenn geöffnet
+  }
 }
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -159,8 +204,6 @@ function setPriorityActive(priority) {
     const button = document.getElementById(buttonId);
     if (button) {
       button.classList.add('active');
-      console.log(`Klasse 'active' wurde zu ${buttonId} hinzugefügt.`);
-      console.log(`Aktuelle Klassen des Buttons: ${button.className}`);
     } else {
       console.error(`Button mit ID "${buttonId}" nicht gefunden.`);
     }
@@ -186,14 +229,70 @@ function handleButtonClick(clickedButton) {
 
   buttons.forEach((button) => {
     if (button.classList.contains("active")) {
-      console.log(`Entferne 'active' von Button mit ID ${button.id}.`);
+      button.classList.remove("active");
     }
-    button.classList.remove("active");
   });
-
   clickedButton.classList.add("active");
-  console.log(`Klasse 'active' wurde zu ${clickedButton.id} hinzugefügt.`);
 }
+
+async function getKanbanData() {
+    try {
+    
+    if (localStorage.getItem("isGuest") === "true") {
+      kanbanData = await fetchGuestKanbanData();
+    } else {
+      kanbanData = await fetchKanbanData(BASE_URL);
+    }
+    if (!kanbanData || Object.keys(kanbanData).length === 0) {
+      console.log("Das kanbanData-Objekt konnte nicht geladen werden oder ist leer.");
+    } else {
+      getUserNames(kanbanData);
+    }
+  } catch (error) {
+    console.error("Fehler beim Laden der Kanban-Daten:", error);
+  }
+}
+
+function getAssigneeInitals(name) {
+  if (!name || typeof name !== "string") {
+    console.warn("Ungültiger Name:", name);
+    return "??";
+  }
+  const nameParts = name.split(" ");
+  const initials = nameParts.map(part => part[0].toUpperCase()).join('');
+  return initials;
+}
+
+function getEditAssignees(kanbanData) {
+  if (!kanbanData || !kanbanData.users) {
+    console.error("Keine Benutzer im Kanban-Datenobjekt gefunden.");
+    return '';
+  }
+  let assigneesHTML = '';
+  const users = Object.values(kanbanData.users);
+  for (let userIndex = 0; userIndex < users.length; userIndex++) {
+    const name = users[userIndex].name;
+    const initials = getAssigneeInitals(name);
+    const cssClass = getFitAssigneesToCSS(name);
+
+    assigneesHTML += editAssignedToDropdownTemplate(name, initials, cssClass, userIndex);
+  }
+  return assigneesHTML;
+}
+
+function closeDropdownOnOutsideClick(event) {
+  const dropdown = document.getElementById("dropdown_edit_assigned_to");
+  const trigger = document.getElementById("dropdown_assigned_to");
+
+  if (!dropdown.contains(event.target) && !trigger.contains(event.target)) {
+    dropdown.classList.remove("show");
+    trigger.classList.remove("dropdown_open"); // Entfernt die Klasse, um den Pfeil zurückzudrehen
+  }
+}
+
+
+
+
 
 
 

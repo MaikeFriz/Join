@@ -3,35 +3,88 @@
     align-items: center;
     cursor: pointer;
     transition: opacity 100ms ease-in-out;
-  }
-  
-  .svg-checkbox:hover {
+}
+
+.svg-checkbox:hover {
     opacity: 0.8;
-  }
-  
-  .svg-checkbox input {
+}
+
+.svg-checkbox input {
     display: none;
-  }
-  
-  .svg-checkbox .checkbox-icon {
+}
+
+.svg-checkbox .checkbox-icon {
     width: 24px;
     height: 24px;
     transition: all 0.3s ease;
-  }
-  
-  .svg-checkbox .unchecked {
+}
+
+.svg-checkbox .unchecked {
     display: block;
-  }
-  
-  .svg-checkbox .checked {
+}
+
+.svg-checkbox .checked {
     display: none;
-  }
-  
-  .svg-checkbox input:checked ~ .unchecked {
+}
+
+.svg-checkbox input:checked ~ .unchecked {
     display: none;
-  }
-  
-  .svg-checkbox input:checked ~ .checked {
+}
+
+.svg-checkbox input:checked ~ .checked {
     display: block;
-  }
-  
+}
+
+.svg-edit-checkbox {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.svg-edit-checkbox input[type="checkbox"] {
+    display: none;
+}
+
+.svg-edit-checkbox .checkbox-svg {
+    width: 24px;
+    height: 24px;
+    transition: stroke 0.2s ease, fill 0.2s ease;
+}
+
+.svg-edit-checkbox .unchecked {
+    padding: 3px;
+    display: inline-block;
+}
+
+.svg-edit-checkbox .checked {
+    display: none;
+}
+
+.svg-edit-checkbox input[type="checkbox"]:checked ~ .unchecked {
+    display: none;
+}
+
+.svg-edit-checkbox input[type="checkbox"]:checked ~ .checked {
+    display: inline-block;
+}
+
+.dropdown-edit-assignee:hover .checkbox-svg.unchecked {
+    stroke: white;
+    fill: none;
+}
+
+.dropdown-edit-assignee:hover .checkbox-svg.checked path {
+    stroke: white;
+}
+
+.checkbox-svg .checkbox-rect {
+    fill: none;
+    stroke: #2A3647;
+    stroke-width: 2;
+}
+
+.dropdown-edit-assignee:hover .checkbox-svg .checkbox-rect {
+    stroke: white;
+    fill: none;
+}
+

@@ -8,6 +8,7 @@
     top: 96px;
     left: 250px;
     opacity: 0;
+    background-color: transparent;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -38,7 +39,7 @@
 }
 
 .edit-task-top{
-        display: flex;
-        align-items: center;
-        justify-content: end;
+    display: flex;
+    align-items: center;
+    justify-content: end;
 }

@@ -39,7 +39,7 @@
 }
 
 .input-title:focus, #input_description:focus {
-    border: 2px solid rgb(41, 171, 226); 
+    border: 1px solid rgb(41, 171, 226); 
 }
 
 .enlarge_inputfield_symbol_div {
@@ -61,11 +61,11 @@
 }
 
 .input_div_left input:active {
-    border: 2px solid rgb(41, 171, 226);
+    border: 1px solid rgb(41, 171, 226);
 }
 
 .input_div_left input:focus-within {
-    border: 2px solid rgb(41, 171, 226);
+    border: 1px solid rgb(41, 171, 226);
 }
 
 .input_div_left textarea {
