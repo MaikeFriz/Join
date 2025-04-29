@@ -43,132 +43,132 @@
 }
 
 .a {
-    background-color: rgba(255, 122, 0, 1);
+    background-color: #FF5733;
 }
 
 .b {
-    background-color: rgba(255, 94, 179, 1);
+    background-color: #33FF57;
 }
 
 .c {
-    background-color: rgba(110, 82, 255, 1);
+    background-color: #3357FF;
 }
 
 .d {
-    background-color: rgba(147, 39, 255, 1);
+    background-color: #FF33A1;
 }
 
 .e {
-    background-color: rgba(0, 190, 232, 1);
+    background-color: #FF8C33;
 }
 
 .f {
-    background-color: rgba(31, 215, 193, 1);
+    background-color: #33FFF5;
 }
 
 .g {
-    background-color: rgba(255, 116, 94, 1);
+    background-color: #8C33FF;
 }
 
 .h {
-    background-color: rgba(255, 163, 94, 1);
+    background-color: #FF3333;
 }
 
 .i {
-    background-color: rgba(252, 113, 255, 1);
+    background-color: #33FF8C;
 }
 
 .j {
-    background-color: rgba(255, 199, 1, 1);
+    background-color: #FF5733;
 }
 
 .k {
-    background-color: rgba(0, 56, 255, 1);
+    background-color: #33FF57;
 }
 
 .l {
-    background-color: rgba(195, 255, 43, 1);
+    background-color: #3357FF;
 }
 
 .m {
-    background-color: rgba(255, 230, 43, 1);
+    background-color: #FF33A1;
 }
 
 .n {
-    background-color: rgba(255, 54, 118, 1);
+    background-color: #FF8C33;
 }
 
 .o {
-    background-color: rgba(255, 87, 34, 1);
+    background-color: #33FFF5;
 }
 
 .p {
-    background-color: rgba(200, 0, 255, 1);
+    background-color: #8C33FF;
 }
 
 .q {
-    background-color: rgba(0, 204, 255, 1);
+    background-color: #FF3333;
 }
 
 .r {
-    background-color: rgba(255, 70, 70, 1);
+    background-color: #33FF8C;
 }
 
 .s {
-    background-color: rgba(255, 159, 28, 1);
+    background-color: #FF5733;
 }
 
 .t {
-    background-color: rgba(60, 179, 113, 1);
+    background-color: #33FF57;
 }
 
 .u {
-    background-color: rgba(218, 112, 214, 1);
+    background-color: #3357FF;
 }
 
 .v {
-    background-color: rgba(34, 193, 195, 1);
+    background-color: #FF33A1;
 }
 
 .w {
-    background-color: rgba(255, 165, 0, 1);
+    background-color: #FF8C33;
 }
 
 .x {
-    background-color: rgba(102, 204, 255, 1);
+    background-color: #33FFF5;
 }
 
 .y {
-    background-color: rgba(255, 0, 255, 1);
+    background-color: #8C33FF;
 }
 
 .z {
-    background-color: rgba(255, 99, 71, 1);
+    background-color: #FF3333;
 }
 
-.urgent{
+.urgent {
     width: 17px;
     height: 12px;
     background-image: url("../assets/img/urgent_symbol.svg");
     background-size: contain;
     background-repeat: no-repeat;
-    background-position: center;    
+    background-position: center;
 }
 
-.medium{
+.medium {
     width: 17px;
     height: 12px;
     background-image: url("../assets/img/medium_symbol.svg");
     background-size: contain;
     background-repeat: no-repeat;
-    background-position: center;    
+    background-position: center;
 }
 
-.low{
+.low {
     width: 17px;
     height: 12px;
     background-image: url("../assets/img/low_symbol.svg");
     background-size: contain;
     background-repeat: no-repeat;
-    background-position: center;    
+    background-position: center;
 }

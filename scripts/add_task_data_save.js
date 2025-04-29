@@ -104,6 +104,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         resetFormFields();
         resetAssigneesAndSubtasks();
         console.log("Task successfully saved and form reset.");
+        window.location.href = "./board.html";
       })
       .catch((error) => {
         console.error("Error saving task or subtasks:", error);
