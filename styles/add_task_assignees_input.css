@@ -31,8 +31,8 @@
   
   /* Dropdown-Pfeil */
   .dropdown_arrow {
-    width: 16px;
-    height: 16px;
+    width: 12px;
+    height: 5px;
     transition: transform 0.3s ease;
   }
   
@@ -86,7 +86,7 @@
   }
   
     /* Assignee-Anzeige */
-    .show_assignees {
+    .show-assignees {
         margin-top: 10px;
         display: flex;
         width: 100%;

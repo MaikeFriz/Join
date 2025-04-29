@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     let createdAt = new Date().toISOString();
     let createdBy = user.userId;
     let updatedAt = createdAt;
-    let priority = document.querySelector(".priority_buttons_div .active p").textContent.toLowerCase();
+    let priority = document.querySelector(".priority-buttons-div .active p").textContent.toLowerCase();
     let assignees = getAssignedUsers();
     let label = document.getElementById("category").value;
     let subtasks = getSubtaskDetails();
@@ -115,7 +115,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   function resetFormFields() {
     document.getElementById("input_title").value = "";
     document.getElementById("input_description").value = "";
-    const activePriority = document.querySelector(".priority_buttons_div .active");
+    const activePriority = document.querySelector(".priority-buttons-div .active");
     if (activePriority) activePriority.classList.remove("active");
     document.getElementById("category").value = "";
     document.getElementById("dropdown_selected").textContent = "Select Category";
@@ -133,7 +133,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     for (const userId in assigneesObject) {
       removeAssignee(userId);
     }
-    const showAssigneesDiv = document.getElementById("show_assignees");
+    const showAssigneesDiv = document.getElementById("show-assignees");
     showAssigneesDiv.innerHTML = "";
   }
 

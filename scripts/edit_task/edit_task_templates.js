@@ -11,8 +11,7 @@ function getEditTaskData(taskId) {
 
   return html;
 }
-  
-  
+   
 function editTaskTemplate(displayedDueDate, label, fitLabelForCSS, title, description, createAt, priority) {
   return /*html*/`
       <div class="edit-task" onclick="closeDropdownOnOutsideClick(event)">
@@ -49,7 +48,7 @@ function editTaskTemplate(displayedDueDate, label, fitLabelForCSS, title, descri
             </label>
         
             <div class="bullet-point">Priority</div>
-            <div id="edit_priority_buttons" class="priority_buttons_div">
+            <div id="edit_priority_buttons" class="priority-buttons-div">
               ${editPriorityTemplate()}
             </div>
         
@@ -57,24 +56,11 @@ function editTaskTemplate(displayedDueDate, label, fitLabelForCSS, title, descri
             <div class="assigned_to_div">
               ${editAssignedToTemplate(kanbanData)} 
             </div>
-            <div class="show_assignees" id="show_edit_assignees"></div>
         
             <div class="bullet-point">Category</div>
             <div class="category_div">
-              <div class="dropdown_category" id="dropdown_category" tabindex="0">
-                <span id="dropdown_selected">Select task category</span>
-                <img src="./assets/img/arrow_drop_down.svg" alt="dropdown arrow" class="dropdown_arrow" />
-              </div>
-
-              <div class="dropdown_options">
-                <div class="custom-dropdown-option" data-value="User Story">User Story</div>
-                <div class="custom-dropdown-option" data-value="Technical task">Technical task</div>
-                <div class="custom-dropdown-option" data-value="HTML">HTML</div>
-                <div class="custom-dropdown-option" data-value="Javascript">Javascript</div>
-                <div class="custom-dropdown-option" data-value="CSS">CSS</div>
-              </div>
-              <input class="focus_blue_border" type="hidden" id="category" name="category" required />
-            </div>
+              ${editCategoryTemplate(kanbanData)}
+            </div>        
         
             <div class="bullet-point">Subtasks</div>
             <label class="input_label focus_blue_border">
@@ -135,7 +121,7 @@ function editPriorityTemplate() {
 
 function editAssignedToTemplate(kanbanData) {
   return /*html*/`
-    <div class="dropdown_assigned_to" id="dropdown_assigned_to" tabindex="0" onclick="toggleDisplayNone()">
+    <div class="dropdown_assigned_to" id="dropdown_assigned_to" tabindex="0" onclick="toggleDropdown()">
       <span id="dropdown_selected_assignee">Select a person</span>
       <img src="./assets/img/arrow_drop_down.svg" alt="dropdown arrow" class="dropdown_arrow" />
     </div>
@@ -166,7 +152,27 @@ function editAssignedToDropdownTemplate(name, initials, cssClass, userIndex) {
   `;
 }
 
-function toggleDisplayNone() {
+function editCategoryTemplate() {
+  return /*html*/`
+    <div class="dropdown_category" id="dropdown_category" tabindex="0">
+                <span id="dropdown_selected">Select task category</span>
+                <img src="./assets/img/arrow_drop_down.svg" alt="dropdown arrow" class="dropdown_arrow" />
+              </div>
+
+              <div class="dropdown_options">
+                <div class="custom-dropdown-option" data-value="User Story">User Story</div>
+                <div class="custom-dropdown-option" data-value="Technical task">Technical task</div>
+                <div class="custom-dropdown-option" data-value="HTML">HTML</div>
+                <div class="custom-dropdown-option" data-value="Javascript">Javascript</div>
+                <div class="custom-dropdown-option" data-value="CSS">CSS</div>
+              </div>
+              <input class="focus_blue_border" type="hidden" id="category" name="category" required />
+              `;
+}
+
+
+
+function toggleDropdown() {
   const dropdown = document.getElementById("dropdown_edit_assigned_to");
   const trigger = document.getElementById("dropdown_assigned_to");
 
@@ -213,7 +219,7 @@ function setPriorityActive(priority) {
 }
 
 function initializePriorityButtons() {
-  const buttons = document.querySelectorAll(".priority_buttons_div > div");
+  const buttons = document.querySelectorAll(".priority-buttons-div > div");
   if (buttons.length > 0) {
     console.log(`Gefundene Buttons: ${buttons.length}`);
     buttons.forEach((button) => {
@@ -225,7 +231,7 @@ function initializePriorityButtons() {
 }
 
 function handleButtonClick(clickedButton) {
-  const buttons = document.querySelectorAll(".priority_buttons_div > div"); // Alle Buttons in der Priority-Gruppe
+  const buttons = document.querySelectorAll(".priority-buttons-div > div"); // Alle Buttons in der Priority-Gruppe
 
   buttons.forEach((button) => {
     if (button.classList.contains("active")) {
@@ -236,8 +242,7 @@ function handleButtonClick(clickedButton) {
 }
 
 async function getKanbanData() {
-    try {
-    
+  try {
     if (localStorage.getItem("isGuest") === "true") {
       kanbanData = await fetchGuestKanbanData();
     } else {
@@ -246,7 +251,7 @@ async function getKanbanData() {
     if (!kanbanData || Object.keys(kanbanData).length === 0) {
       console.log("Das kanbanData-Objekt konnte nicht geladen werden oder ist leer.");
     } else {
-      getUserNames(kanbanData);
+      console.log("Kanban-Daten erfolgreich geladen.");
     }
   } catch (error) {
     console.error("Fehler beim Laden der Kanban-Daten:", error);
@@ -280,14 +285,85 @@ function getEditAssignees(kanbanData) {
   return assigneesHTML;
 }
 
-function closeDropdownOnOutsideClick(event) {
-  const dropdown = document.getElementById("dropdown_edit_assigned_to");
-  const trigger = document.getElementById("dropdown_assigned_to");
 
-  if (!dropdown.contains(event.target) && !trigger.contains(event.target)) {
-    dropdown.classList.remove("show");
-    trigger.classList.remove("dropdown_open"); // Entfernt die Klasse, um den Pfeil zurückzudrehen
+function closeDropdownOnOutsideClick(event) {
+  closeAssignedToDropdown(event);
+  closeCategoryDropdown(event);
+}
+
+function closeAssignedToDropdown(event) {
+  const assignedDropdown = document.getElementById("dropdown_edit_assigned_to");
+  const assignedTrigger = document.getElementById("dropdown_assigned_to");
+
+  if (
+    assignedDropdown &&
+    assignedTrigger &&
+    !assignedDropdown.contains(event.target) &&
+    !assignedTrigger.contains(event.target)
+  ) {
+    assignedDropdown.classList.remove("show");
+    assignedTrigger.classList.remove("dropdown_open");
   }
+}
+
+function closeCategoryDropdown(event) {
+  const categoryDropdown = document.getElementById("dropdown_options_category");
+  const categoryTrigger = document.getElementById("dropdown_category");
+
+  if (
+    categoryDropdown &&
+    categoryTrigger &&
+    !categoryDropdown.contains(event.target) &&
+    !categoryTrigger.contains(event.target)
+  ) {
+    categoryDropdown.classList.remove("show");
+    categoryTrigger.classList.remove("dropdown_open");
+  }
+}
+
+function editCategoryTemplate() {
+  return /*html*/`
+    <div class="dropdown_category" id="dropdown_category" tabindex="0" onclick="toggleCategoryDropdown()">
+      <span id="dropdown_selected_category">Select task category</span>
+      <img src="./assets/img/arrow_drop_down.svg" alt="dropdown arrow" class="dropdown_arrow" />
+    </div>
+    <div class="dropdown-options-category" id="dropdown_options_category">
+      ${getCategoryOptions()}
+    </div>
+  `;
+}
+
+function getCategoryOptions() {
+  const categories = ["User Story", "Technical task", "HTML", "Javascript", "CSS"];
+  return categories
+    .map(
+      (category) =>
+        `<div class="custom-dropdown-option" data-value="${category}" onclick="selectCategory('${category}')">${category}</div>`
+    )
+    .join("");
+}
+
+function toggleCategoryDropdown() {
+  const dropdown = document.getElementById("dropdown_options_category");
+  const trigger = document.getElementById("dropdown_category");
+
+  if (dropdown.classList.contains("show")) {
+    dropdown.classList.remove("show");
+    trigger.classList.remove("dropdown_open");
+  } else {
+    dropdown.classList.add("show");
+    trigger.classList.add("dropdown_open");
+  }
+}
+
+function selectCategory(category) {
+  const selectedCategory = document.getElementById("dropdown_selected_category");
+  const dropdown = document.getElementById("dropdown_options_category");
+  const trigger = document.getElementById("dropdown_category");
+
+  selectedCategory.textContent = category;
+  dropdown.classList.remove("show");
+  trigger.classList.remove("dropdown_open");
 }
 
 

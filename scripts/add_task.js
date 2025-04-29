@@ -102,9 +102,9 @@ function toggleAssignee(userId, userName, optionElement) {
   }
 }
 
-// Fügt ein Nutzer-Element zum "show_assignees"-Div hinzu.
+// Fügt ein Nutzer-Element zum "show-assignees"-Div hinzu.
 function addAssigneeElement(userId, userName) {
-  const showAssigneesDiv = document.getElementById("show_assignees");
+  const showAssigneesDiv = document.getElementById("show-assignees");
 
   if (document.getElementById(`assignee-${userId}`)) return; // Doppelte Einträge verhindern
 
@@ -273,9 +273,9 @@ function clearAllInputs() {
   document.getElementById("dropdown_selected_assignee").textContent = "Select a person";
   document.getElementById("display_subtasks").innerHTML = "";
 
-  const priorityButtons = document.querySelectorAll(".priority_buttons_div > div");
+  const priorityButtons = document.querySelectorAll(".priority-buttons-div > div");
   priorityButtons.forEach((button) => button.classList.remove("active"));
 
-  const showAssignees = document.getElementById("show_assignees");
+  const showAssignees = document.getElementById("show-assignees");
   showAssignees.innerHTML = "";
 }

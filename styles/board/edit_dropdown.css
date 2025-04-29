@@ -1,4 +1,5 @@
-.dropdown-edit-assigned-to {
+.dropdown-edit-assigned-to, 
+.dropdown-options-category {
     width: 100%;
     max-height: 0;
     opacity: 0;
@@ -15,7 +16,8 @@
     background-color: white;
 }
 
-.dropdown-edit-assigned-to.show {
+.dropdown-edit-assigned-to.show, 
+.dropdown-options-category.show {
     max-height: 250px;
     opacity: 1;
     overflow-y: auto;
@@ -60,10 +62,24 @@
 }
 
 .dropdown-edit-assignee-checkbox {
-    
     display: flex;
     align-items: center;
     justify-content: end;
     margin-left: auto;
 }
 
+#dropdown_selected_category {
+    width: auto;
+    line-height: 1.6;
+  }
+
+.custom-dropdown-option:hover {
+    width: calc(100% + 32px);
+    margin-left: -16px;
+    margin-right: -16px;
+    padding-left: 26px;
+    padding-right: 16px;
+    background-color: rgba(42, 54, 71, 1) !important;
+    color: rgba(255, 255, 255, 1);
+    border-radius: 0 !important;
+}
