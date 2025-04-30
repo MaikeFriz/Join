@@ -43,3 +43,12 @@
     align-items: center;
     justify-content: end;
 }
+  
+.category-label {
+    display: flex;
+    align-self: flex-start;
+    justify-content: center;
+    color: rgba(255, 255, 255, 1);
+    padding: 4px 16px 4px 16px;
+    border-radius: 8px;
+}

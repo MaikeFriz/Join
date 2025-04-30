@@ -11,6 +11,7 @@ function getEditTaskData(taskId) {
   setTimeout(() => {
     setPriorityActive(priority);
     displayAssignedUsers(taskId); // Call the function here
+    displaySelectedCategories(taskId); // Call the function here
   }, 0);
 
   return html;
@@ -66,7 +67,8 @@ function editTaskTemplate(displayedDueDate, label, fitLabelForCSS, title, descri
             <div class="bullet-point">Category</div>
             <div class="category_div">
               ${editCategoryTemplate(kanbanData)}
-            </div>        
+            </div>  
+            <div class="edit-selected-categories"></div>      
         
             <div class="bullet-point">Subtasks</div>
             <label class="input_label focus_blue_border">
@@ -374,4 +376,32 @@ function displayAssignedUsers(taskId) {
     .join("");
 
   assignedUsersDiv.innerHTML = assigneeHTML;
+}
+
+// Updates the "edit-selected-categories" div with the selected categories.
+function displaySelectedCategories(taskId) {
+  const selectedCategoriesDiv = document.querySelector(".edit-selected-categories");
+  const taskContent = getTaskContent(taskId, kanbanData);
+
+  if (!taskContent) {
+    selectedCategoriesDiv.innerHTML = "No categories selected.";
+    return;
+  }
+
+  // Extract label and fitLabelForCSS from task data
+  const { label, fitLabelForCSS } = getTaskData(taskContent);
+
+  if (!label) {
+    selectedCategoriesDiv.innerHTML = "No categories selected.";
+    return;
+  }
+
+  // Use the label property and its corresponding CSS class
+  const categoryHTML = `
+    <div class="category-label-container">
+      <span class="category-label ${fitLabelForCSS}">${label}</span>
+    </div>
+  `;
+
+  selectedCategoriesDiv.innerHTML = categoryHTML;
 }
