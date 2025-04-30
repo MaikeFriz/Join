@@ -1,12 +1,21 @@
-
 // Function to check if the user is logged in and redirect to login page if not
 function checkUserLogin() {
   const user = JSON.parse(localStorage.getItem("loggedInUser"));
   const guest = JSON.parse(localStorage.getItem("isGuest"));
 
   if (!user && !guest) {
-    const excludedPages = ["log_in.html", "sign_up.html", "forgot_password.html", "privacy.html", "legal.html"];
-    const currentPage = window.location.pathname.split("/").pop().split("?")[0].split("#")[0];
+    const excludedPages = [
+      "log_in.html",
+      "sign_up.html",
+      "forgot_password.html",
+      "privacy.html",
+      "legal.html",
+    ];
+    const currentPage = window.location.pathname
+      .split("/")
+      .pop()
+      .split("?")[0]
+      .split("#")[0];
     if (excludedPages) {
       return;
     } else {
@@ -54,21 +63,13 @@ function getUserInitialForHeader(userName) {
         : "translateY(0px)";
   });
 
-  // Schließen beim Klick außerhalb
-  document.addEventListener("click", function (event) {
-    if (!event.target.closest(".user-menu-container")) {
-      const dropdown = document.querySelector(".user-dropdown");
-      dropdown.style.opacity = "0";
-      dropdown.style.visibility = "hidden";
-      dropdown.style.transform = "translateY(-10px)";
-    }
-  });
-
   // Direkter Event-Listener für den Logout-Button
-  document.getElementById("logoutButton").addEventListener("click", function (e) {
-    e.stopPropagation();
-    logoutUser();
-  });
+  document
+    .getElementById("logoutButton")
+    .addEventListener("click", function (e) {
+      e.stopPropagation();
+      logoutUser();
+    });
 }
 
 // Diese Funktion muss global verfügbar sein
