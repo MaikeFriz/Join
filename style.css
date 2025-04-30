@@ -103,6 +103,13 @@ footer a:hover {
   align-items: stretch;
   padding: 18px;
 }
+
+.contacts-list ul li:not(.contact-highlight):hover:has(.contact-initials) {
+  background-color: #007bff; /* Blue background on hover */
+  transform: scale(1.02); /* Slightly enlarge the item */
+  cursor: pointer; /* Change cursor to pointer */
+  border-radius: 10px;
+}
 .contacts-list h3 {
   border-bottom: 1px solid #D1D1D1; /* Black horizontal line under h3 */
   width: 100%;
@@ -167,15 +174,6 @@ footer a:hover {
 
 .right-side-content-contacts a {
   color: blue; /* Specific rule for links in contacts.html */
-}
-
-/* Contact Details */
-.contact-details {
-  width: 100vw;
-  background-color: #f9f9f9;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* Utility Classes */
