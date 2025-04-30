@@ -143,14 +143,14 @@ function editAssignedToTemplate(kanbanData) {
 }
 
 // Generates the HTML for individual assignee options in the dropdown.
-function editAssignedToDropdownTemplate(name, initials, cssClass, userIndex) {
+function editAssignedToDropdownTemplate(name, initials, cssClass, userId) {
   return /*html*/`    
     <div class="dropdown-edit-assignee">
       <div class="dropdown-edit-assignee-initials ${cssClass} initials-circle">${initials}</div>
       <div class="dropdown-edit-assignee-name">${name}</div>
       <label class="svg-edit-checkbox">
-        <input type="checkbox" class="checkbox-toggle" id="assignee_${userIndex}"
-          onchange="handleAssigneeSelection('${userIndex}', this.checked)" />
+        <input type="checkbox" class="checkbox-toggle" id="assignee_${userId}"
+          onchange="handleAssigneeSelection('${userId}', this.checked)" />
         <svg class="checkbox-svg unchecked" width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
           <rect x="1" y="1" width="16" height="16" rx="3" class="checkbox-rect" />
         </svg>
@@ -265,13 +265,17 @@ function getEditAssignees(kanbanData) {
     return '';
   }
   let assigneesHTML = '';
-  const users = Object.values(kanbanData.users);
-  for (let userIndex = 0; userIndex < users.length; userIndex++) {
-    const name = users[userIndex].name;
+  const users = Object.entries(kanbanData.users); // Verwende Object.entries, um sowohl die ID als auch die Benutzerdaten zu erhalten
+
+  for (const [userId, userData] of users) {
+    const name = userData.name;
     const initials = getAssigneeInitals(name);
     const cssClass = getFitAssigneesToCSS(name);
 
-    assigneesHTML += editAssignedToDropdownTemplate(name, initials, cssClass, userIndex);
+    // Logge den Namen und die ID des Benutzers
+    console.log(`User Name: ${name}, User ID: ${userId}`);
+
+    assigneesHTML += editAssignedToDropdownTemplate(name, initials, cssClass, userId);
   }
   return assigneesHTML;
 }
@@ -369,13 +373,43 @@ function displayAssignedUsers(taskId) {
       if (user) {
         const initials = getAssigneeInitals(user.name);
         const cssClass = getFitAssigneesToCSS(user.name); // CSS-Klasse basierend auf dem Namen
-        return `<div class="dropdown-edit-assignee-initials ${cssClass} initials-circle">${initials}</div>`;
+
+        return `<div id="assigned_user_${assigneeId}" class="dropdown-edit-assignee-initials ${cssClass} initials-circle">${initials}</div>`;
       }
       return `<div class="dropdown-edit-assignee-initials unknown initials-circle">??</div>`;
     })
     .join("");
 
   assignedUsersDiv.innerHTML = assigneeHTML;
+
+  // Vergleiche die Benutzer-IDs und aktualisiere die Checkboxen im Dropdown
+  updateDropdownCheckboxes(assignees);
+}
+
+function updateDropdownCheckboxes(assignedUserIds) {
+  // Hole alle Checkboxen im Dropdown
+  const checkboxes = document.querySelectorAll(".dropdown-edit-assigned-to input[type='checkbox']");
+
+  checkboxes.forEach((checkbox) => {
+    const userId = checkbox.id.replace("assignee_", ""); // Extrahiere die Benutzer-ID aus der Checkbox-ID
+
+    // Überprüfe, ob die Benutzer-ID in den zugewiesenen Benutzer-IDs enthalten ist
+    if (assignedUserIds.includes(userId)) {
+      checkbox.checked = true; // Setze die Checkbox auf "checked"
+      const parentLabel = checkbox.parentElement;
+
+      // Füge die "checked"-SVG-Klasse hinzu
+      parentLabel.querySelector(".checkbox-svg.unchecked").classList.add("hidden");
+      parentLabel.querySelector(".checkbox-svg.checked").classList.remove("hidden");
+    } else {
+      checkbox.checked = false; // Setze die Checkbox auf "unchecked"
+      const parentLabel = checkbox.parentElement;
+
+      // Entferne die "checked"-SVG-Klasse
+      parentLabel.querySelector(".checkbox-svg.unchecked").classList.remove("hidden");
+      parentLabel.querySelector(".checkbox-svg.checked").classList.add("hidden");
+    }
+  });
 }
 
 // Updates the "edit-selected-categories" div with the selected categories.
@@ -404,4 +438,28 @@ function displaySelectedCategories(taskId) {
   `;
 
   selectedCategoriesDiv.innerHTML = categoryHTML;
+}
+
+function handleAssigneeSelection(userId, isChecked) {
+  const assignedUsersDiv = document.querySelector(".edit-assigned-users");
+  const user = kanbanData.users[userId];
+
+  if (!user) {
+    return;
+  }
+
+  const initials = getAssigneeInitals(user.name);
+  const cssClass = getFitAssigneesToCSS(user.name); // CSS-Klasse basierend auf dem Namen
+
+  if (isChecked) {
+    // Benutzer hinzufügen
+    const userHTML = `<div id="assigned_user_${userId}" class="dropdown-edit-assignee-initials ${cssClass} initials-circle">${initials}</div>`;
+    assignedUsersDiv.innerHTML += userHTML;
+  } else {
+    // Benutzer entfernen
+    const userElement = document.getElementById(`assigned_user_${userId}`);
+    if (userElement) {
+      userElement.remove();
+    }
+  }
 }
