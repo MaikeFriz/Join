@@ -6,7 +6,7 @@
   }
   
   /* Dropdown-Kopf */
-  .dropdown_assigned_to {
+  .dropdown-assigned-to {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -20,11 +20,11 @@
     transition: border-color 0.3s ease;
   }
   
-  .dropdown_assigned_to:hover {
+  .dropdown-assigned-to:hover {
     background-color: #f0f0f0;
   }
 
-  .dropdown_assigned_to:focus-within {
+  .dropdown-assigned-to:focus-within {
     border: solid 1px rgb(41, 171, 226);
     border-color: rgb(41, 171, 226) !important;
 }
@@ -42,7 +42,7 @@
   }
   
   /* Dropdown-Liste */
-  .dropdown_options_assignee {
+  .dropdown-options-assignee {
     position: absolute;
     top: 100%;
     left: 0;
@@ -59,7 +59,7 @@
   }
   
   /* Dropdown anzeigen, wenn aktiv */
-  .dropdown_options_assignee.show {
+  .dropdown-options-assignee.show {
     display: block;
   }
   

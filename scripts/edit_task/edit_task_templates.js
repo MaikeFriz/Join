@@ -1,5 +1,5 @@
+// Retrieves and formats the task data for editing.
 function getEditTaskData(taskId) {
-
   const taskContent = getTaskContent(taskId, kanbanData);
   if (!taskContent) {
     return `<div>Error: Task not found</div>`;
@@ -7,11 +7,16 @@ function getEditTaskData(taskId) {
   const { label, fitLabelForCSS, title, description, createAt, priority } = getTaskData(taskContent);
   const displayedDueDate = createAt ? formatDateForInput(createAt) : '';
   const html = editTaskTemplate(displayedDueDate, label, fitLabelForCSS, title, description, createAt, priority);
-  setTimeout(() => setPriorityActive(priority), 0);
+
+  setTimeout(() => {
+    setPriorityActive(priority);
+    displayAssignedUsers(taskId); // Call the function here
+  }, 0);
 
   return html;
 }
-   
+
+// Generates the HTML template for the edit task modal.
 function editTaskTemplate(displayedDueDate, label, fitLabelForCSS, title, description, createAt, priority) {
   return /*html*/`
       <div class="edit-task" onclick="closeDropdownOnOutsideClick(event)">
@@ -56,6 +61,7 @@ function editTaskTemplate(displayedDueDate, label, fitLabelForCSS, title, descri
             <div class="assigned_to_div">
               ${editAssignedToTemplate(kanbanData)} 
             </div>
+            <div class="edit-assigned-users"></div>
         
             <div class="bullet-point">Category</div>
             <div class="category_div">
@@ -93,6 +99,7 @@ function editTaskTemplate(displayedDueDate, label, fitLabelForCSS, title, descri
     `;
 }
 
+// Generates the HTML template for priority buttons.
 function editPriorityTemplate() {
   return /*html*/`
     <div id="edit_urgent_button" class="urgent_button" onclick="handleButtonClick(this)">
@@ -119,19 +126,21 @@ function editPriorityTemplate() {
   `;
 }
 
+// Generates the HTML template for the "Assigned to" dropdown.
 function editAssignedToTemplate(kanbanData) {
   return /*html*/`
-    <div class="dropdown_assigned_to" id="dropdown_assigned_to" tabindex="0" onclick="toggleDropdown()">
+    <div class="dropdown-assigned-to" id="dropdown_assigned_to" tabindex="0" onclick="toggleDropdown()">
       <span id="dropdown_selected_assignee">Select a person</span>
       <img src="./assets/img/arrow_drop_down.svg" alt="dropdown arrow" class="dropdown_arrow" />
     </div>
-    <div class="dropdown_options_assignee" id="dropdown_options_assignee"></div>
+    <div class="dropdown-options-assignee" id="dropdown_options_assignee"></div>
     <div class="dropdown-edit-assigned-to" id="dropdown_edit_assigned_to">
       ${getEditAssignees(kanbanData)}
     </div>
   `;
 }
 
+// Generates the HTML for individual assignee options in the dropdown.
 function editAssignedToDropdownTemplate(name, initials, cssClass, userIndex) {
   return /*html*/`    
     <div class="dropdown-edit-assignee">
@@ -152,52 +161,34 @@ function editAssignedToDropdownTemplate(name, initials, cssClass, userIndex) {
   `;
 }
 
+// Generates the HTML template for the category dropdown.
 function editCategoryTemplate() {
   return /*html*/`
-    <div class="dropdown_category" id="dropdown_category" tabindex="0">
-                <span id="dropdown_selected">Select task category</span>
-                <img src="./assets/img/arrow_drop_down.svg" alt="dropdown arrow" class="dropdown_arrow" />
-              </div>
-
-              <div class="dropdown_options">
-                <div class="custom-dropdown-option" data-value="User Story">User Story</div>
-                <div class="custom-dropdown-option" data-value="Technical task">Technical task</div>
-                <div class="custom-dropdown-option" data-value="HTML">HTML</div>
-                <div class="custom-dropdown-option" data-value="Javascript">Javascript</div>
-                <div class="custom-dropdown-option" data-value="CSS">CSS</div>
-              </div>
-              <input class="focus_blue_border" type="hidden" id="category" name="category" required />
-              `;
+    <div class="dropdown-category" id="dropdown_category" tabindex="0" onclick="toggleCategoryDropdown()">
+      <span id="dropdown_selected_category">Select task category</span>
+      <img src="./assets/img/arrow_drop_down.svg" alt="dropdown arrow" class="dropdown_arrow" />
+    </div>
+    <div class="dropdown-options-category" id="dropdown_options_category">
+      ${getCategoryOptions()}
+    </div>
+  `;
 }
 
-
-
+// Toggles the visibility of the "Assigned to" dropdown.
 function toggleDropdown() {
   const dropdown = document.getElementById("dropdown_edit_assigned_to");
   const trigger = document.getElementById("dropdown_assigned_to");
 
   if (dropdown.classList.contains("show")) {
     dropdown.classList.remove("show");
-    trigger.classList.remove("dropdown_open"); // Entfernt die Klasse, wenn geschlossen
+    trigger.classList.remove("dropdown_open");
   } else {
     dropdown.classList.add("show");
-    trigger.classList.add("dropdown_open"); // Fügt die Klasse hinzu, wenn geöffnet
+    trigger.classList.add("dropdown_open");
   }
 }
 
-document.addEventListener("DOMContentLoaded", function () {
-  setTimeout(() => {
-    const taskId = "exampleTaskId";
-    const taskContent = getTaskContent(taskId, kanbanData);
-
-    if (taskContent) {
-      const { priority } = getTaskData(taskContent);
-      setPriorityActive(priority);
-    }
-    initializePriorityButtons();
-  }, 0);
-});
-
+// Sets the active priority button based on the given priority.
 function setPriorityActive(priority) {
   const priorityMap = {
     urgent: 'edit_urgent_button',
@@ -211,27 +202,24 @@ function setPriorityActive(priority) {
     if (button) {
       button.classList.add('active');
     } else {
-      console.error(`Button mit ID "${buttonId}" nicht gefunden.`);
+      console.error(`Button with ID "${buttonId}" not found.`);
     }
   } else {
-    console.error(`Keine passende ID für die Priorität "${priority}" gefunden.`);
+    console.error(`No matching ID for priority "${priority}" found.`);
   }
 }
 
+// Initializes click event listeners for priority buttons.
 function initializePriorityButtons() {
   const buttons = document.querySelectorAll(".priority-buttons-div > div");
-  if (buttons.length > 0) {
-    console.log(`Gefundene Buttons: ${buttons.length}`);
-    buttons.forEach((button) => {
-      console.log(`Füge Event-Listener zu Button mit ID ${button.id} hinzu.`);
-      button.addEventListener("click", () => handleButtonClick(button));
-    });
-    console.log("Event-Listener für Prioritätsbuttons hinzugefügt.");
-  }
+  buttons.forEach((button) => {
+    button.addEventListener("click", () => handleButtonClick(button));
+  });
 }
 
+// Handles the click event for priority buttons and updates the active state.
 function handleButtonClick(clickedButton) {
-  const buttons = document.querySelectorAll(".priority-buttons-div > div"); // Alle Buttons in der Priority-Gruppe
+  const buttons = document.querySelectorAll(".priority-buttons-div > div");
 
   buttons.forEach((button) => {
     if (button.classList.contains("active")) {
@@ -241,6 +229,7 @@ function handleButtonClick(clickedButton) {
   clickedButton.classList.add("active");
 }
 
+// Fetches Kanban data from the server or local storage based on user type.
 async function getKanbanData() {
   try {
     if (localStorage.getItem("isGuest") === "true") {
@@ -249,18 +238,17 @@ async function getKanbanData() {
       kanbanData = await fetchKanbanData(BASE_URL);
     }
     if (!kanbanData || Object.keys(kanbanData).length === 0) {
-      console.log("Das kanbanData-Objekt konnte nicht geladen werden oder ist leer.");
-    } else {
-      console.log("Kanban-Daten erfolgreich geladen.");
+      console.error("Kanban data could not be loaded or is empty.");
     }
   } catch (error) {
-    console.error("Fehler beim Laden der Kanban-Daten:", error);
+    console.error("Error loading Kanban data:", error);
   }
 }
 
+// Extracts and returns the initials from a given name.
 function getAssigneeInitals(name) {
   if (!name || typeof name !== "string") {
-    console.warn("Ungültiger Name:", name);
+    console.warn("Invalid name:", name);
     return "??";
   }
   const nameParts = name.split(" ");
@@ -268,9 +256,10 @@ function getAssigneeInitals(name) {
   return initials;
 }
 
+// Generates the HTML for the list of assignees in the dropdown.
 function getEditAssignees(kanbanData) {
   if (!kanbanData || !kanbanData.users) {
-    console.error("Keine Benutzer im Kanban-Datenobjekt gefunden.");
+    console.error("No users found in the Kanban data object.");
     return '';
   }
   let assigneesHTML = '';
@@ -285,12 +274,13 @@ function getEditAssignees(kanbanData) {
   return assigneesHTML;
 }
 
-
+// Closes dropdowns when clicking outside of them.
 function closeDropdownOnOutsideClick(event) {
   closeAssignedToDropdown(event);
   closeCategoryDropdown(event);
 }
 
+// Closes the "Assigned to" dropdown if clicked outside.
 function closeAssignedToDropdown(event) {
   const assignedDropdown = document.getElementById("dropdown_edit_assigned_to");
   const assignedTrigger = document.getElementById("dropdown_assigned_to");
@@ -306,6 +296,7 @@ function closeAssignedToDropdown(event) {
   }
 }
 
+// Closes the category dropdown if clicked outside.
 function closeCategoryDropdown(event) {
   const categoryDropdown = document.getElementById("dropdown_options_category");
   const categoryTrigger = document.getElementById("dropdown_category");
@@ -321,18 +312,7 @@ function closeCategoryDropdown(event) {
   }
 }
 
-function editCategoryTemplate() {
-  return /*html*/`
-    <div class="dropdown_category" id="dropdown_category" tabindex="0" onclick="toggleCategoryDropdown()">
-      <span id="dropdown_selected_category">Select task category</span>
-      <img src="./assets/img/arrow_drop_down.svg" alt="dropdown arrow" class="dropdown_arrow" />
-    </div>
-    <div class="dropdown-options-category" id="dropdown_options_category">
-      ${getCategoryOptions()}
-    </div>
-  `;
-}
-
+// Generates the HTML for the category options in the dropdown.
 function getCategoryOptions() {
   const categories = ["User Story", "Technical task", "HTML", "Javascript", "CSS"];
   return categories
@@ -343,6 +323,7 @@ function getCategoryOptions() {
     .join("");
 }
 
+// Toggles the visibility of the category dropdown.
 function toggleCategoryDropdown() {
   const dropdown = document.getElementById("dropdown_options_category");
   const trigger = document.getElementById("dropdown_category");
@@ -356,6 +337,7 @@ function toggleCategoryDropdown() {
   }
 }
 
+// Updates the selected category and closes the dropdown.
 function selectCategory(category) {
   const selectedCategory = document.getElementById("dropdown_selected_category");
   const dropdown = document.getElementById("dropdown_options_category");
@@ -366,10 +348,30 @@ function selectCategory(category) {
   trigger.classList.remove("dropdown_open");
 }
 
+// Updates the "edit-assigned-users" div with the initials of the assigned users.
+function displayAssignedUsers(taskId) {
+  const assignedUsersDiv = document.querySelector(".edit-assigned-users");
+  const taskContent = getTaskContent(taskId, kanbanData);
 
+  if (!taskContent || !taskContent.assignees) {
+    assignedUsersDiv.innerHTML = "No assignees.";
+    return;
+  }
 
+  // Konvertiere die Assignees-Objekteigenschaft in ein Array von Benutzer-IDs
+  const assignees = Object.keys(taskContent.assignees);
 
+  const assigneeHTML = assignees
+    .map((assigneeId) => {
+      const user = kanbanData.users[assigneeId];
+      if (user) {
+        const initials = getAssigneeInitals(user.name);
+        const cssClass = getFitAssigneesToCSS(user.name); // CSS-Klasse basierend auf dem Namen
+        return `<div class="dropdown-edit-assignee-initials ${cssClass} initials-circle">${initials}</div>`;
+      }
+      return `<div class="dropdown-edit-assignee-initials unknown initials-circle">??</div>`;
+    })
+    .join("");
 
-
-
-
+  assignedUsersDiv.innerHTML = assigneeHTML;
+}

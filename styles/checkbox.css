@@ -88,3 +88,16 @@
     fill: none;
 }
 
+/* Sichtbarkeit der Checkboxen */
+.checkbox-svg.checked {
+  display: none;
+}
+
+.checkbox-toggle:checked + .checkbox-svg.unchecked {
+  display: none;
+}
+
+.checkbox-toggle:checked + .checkbox-svg.unchecked + .checkbox-svg.checked {
+  display: inline-block;
+}
+

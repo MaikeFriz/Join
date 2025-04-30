@@ -25,7 +25,7 @@
     position: relative;
 }
 
-.dropdown_category {
+.dropdown-category {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -38,11 +38,11 @@
     transition: border-color 0.3s ease;
   }
   
-  .dropdown_category:hover {
+  .dropdown-category:hover {
     background-color: #f0f0f0;
   }
   
-  .dropdown_category:focus-within {
+  .dropdown-category:focus-within {
     border: solid 1px rgb(41, 171, 226);
     border-color: rgb(41, 171, 226) !important;
   }
