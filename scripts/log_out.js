@@ -3,9 +3,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const logoutButton = document.getElementById("logoutButton");
     if (logoutButton) {
       logoutButton.addEventListener("click", logoutUser);
-      clearInterval(checkLogoutButton); // Stop checking once the button is found
+      clearInterval(checkLogoutButton);
     }
-  }, 100); // Check every 100ms
+  }, 100);
 });
 
 function logoutUser() {
