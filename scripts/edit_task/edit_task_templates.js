@@ -540,24 +540,25 @@ function saveEditedTask(taskId) {
     });
 
     if (!isExisting) {
-      // Generiere eine neue Subtask-ID
       const nextSubtaskId = generateNextSubtaskId();
       newSubtasks[nextSubtaskId] = {
         title: subtaskTitle,
-        [`task${taskId}`]: true,
+        [taskId]: true, // Korrigiert: Verwende taskId direkt
         completed: false,
       };
 
-      // Füge den neuen Subtask zum Task hinzu
       existingSubtasks[nextSubtaskId] = true;
-
-      // Füge den neuen Subtask in den globalen Subtasks-Bereich ein
       kanbanData.subtasks[nextSubtaskId] = {
         title: subtaskTitle,
-        [`task${taskId}`]: true,
+        [taskId]: true, // Korrigiert: Verwende taskId direkt
         completed: false,
       };
     }
+  });
+
+  // Lade neue Subtasks in die Datenbank hoch
+  Object.keys(newSubtasks).forEach((subtaskId) => {
+    uploadSubtaskToDatabase(subtaskId, newSubtasks[subtaskId]);
   });
 
   const updatedTaskData = {

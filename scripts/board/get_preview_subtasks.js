@@ -1,4 +1,3 @@
-
 // Function to process subtask details and return relevant data
 async function processSubtaskDetails(taskId, kanbanData) {
     const subtaskData = await processSubtasks(taskId, kanbanData);
@@ -72,4 +71,3 @@ async function processSubtaskDetails(taskId, kanbanData) {
       showProgress: true
     };
   }
-  

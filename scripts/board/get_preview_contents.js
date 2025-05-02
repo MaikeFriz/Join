@@ -42,8 +42,6 @@ async function processTasks(taskId, kanbanData) {
   processedTask.totalSubtasks = subtaskData.totalSubtasks;
   processedTask.completedSubtasks = subtaskData.completedSubtasks;
 
-  console.log("Verarbeiteter Task:", processedTask);
-
   return processedTask;
 }
 
