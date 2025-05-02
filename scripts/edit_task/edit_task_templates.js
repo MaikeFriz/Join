@@ -73,13 +73,9 @@ function editTaskTemplate(displayedDueDate, label, fitLabelForCSS, title, descri
             <div class="bullet-point">Subtasks</div>
             <label class="input_label focus_blue_border">
               <input id="input_subtask" type="text" placeholder="Add new subtask" />
-              <button type="button" id="button_add_subtask">
+              <button type="button" id="button_add_subtask" onclick="addSubtask()">
                 <img id="add_icon" src="./assets/img/add_icon.svg" alt="Add" />
-                <div id="input_icons" class="input-icons">
-                  <img id="clear_icon" src="./assets/img/clear_symbol.svg" alt="Clear" />
-                  <div class="separator_subtasks">|</div>
-                  <img id="check_icon" src="./assets/img/check_dark.svg" alt="Check" />
-                </div>
+                
               </button>
             </label>
             <ul id="display_subtasks" class="display_subtasks"></ul>
@@ -345,13 +341,33 @@ function toggleCategoryDropdown() {
 
 // Updates the selected category and closes the dropdown.
 function selectCategory(category) {
+  console.log(`Selected category: ${category}`); // Log the clicked category
+
+  // Update the selected category in the dropdown
   const selectedCategory = document.getElementById("dropdown_selected_category");
   const dropdown = document.getElementById("dropdown_options_category");
   const trigger = document.getElementById("dropdown_category");
 
-  selectedCategory.textContent = category;
+  selectedCategory.textContent = "Select task category"; // Reset the dropdown text
   dropdown.classList.remove("show");
   trigger.classList.remove("dropdown_open");
+
+  // Dynamically add the selected category to the "edit-selected-categories" div
+  const selectedCategoriesDiv = document.querySelector(".edit-selected-categories");
+
+  // Mock taskContent to reuse displaySelectedCategories logic
+  const taskContent = {
+    label: category,
+    fitLabelForCSS: getTaskData({ label: category }).fitLabelForCSS, // Reuse existing logic
+  };
+
+  const categoryHTML = `
+    <div class="category-label-container">
+      <span class="category-label ${taskContent.fitLabelForCSS}">${taskContent.label}</span>
+    </div>
+  `;
+
+  selectedCategoriesDiv.innerHTML = categoryHTML;
 }
 
 // Updates the "edit-assigned-users" div with the initials of the assigned users.
@@ -461,5 +477,23 @@ function handleAssigneeSelection(userId, isChecked) {
     if (userElement) {
       userElement.remove();
     }
+  }
+}
+
+function addSubtask() {
+  const inputField = document.getElementById("input_subtask");
+  const subtaskValue = inputField.value.trim();
+
+  if (subtaskValue) {
+    const subtaskList = document.getElementById("display_subtasks");
+    const newSubtask = document.createElement("li");
+    newSubtask.textContent = subtaskValue;
+    newSubtask.classList.add("subtask-item"); // Optional: Add a class for styling
+    subtaskList.appendChild(newSubtask);
+
+    // Clear the input field after adding the subtask
+    inputField.value = "";
+  } else {
+    alert("Please enter a subtask before adding.");
   }
 }
