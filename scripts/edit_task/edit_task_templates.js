@@ -597,7 +597,7 @@ function saveEditedTask(taskId) {
       const nextSubtaskId = generateNextSubtaskId();
       kanbanData.subtasks[nextSubtaskId] = {
         title: subtaskTitle,
-        task: taskId, // Füge den zugehörigen Task hinzu
+        [taskId]: true, // Speichere den Task als Schlüssel mit true
         completed: false,
       };
       currentSubtasks[nextSubtaskId] = true; // Speichere nur die Subtask-ID mit true
