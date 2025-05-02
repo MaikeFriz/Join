@@ -1,27 +1,46 @@
 // Retrieves and formats the task data for editing.
 function getEditTaskData(taskId) {
+  console.log(`Loading edit task template for taskId: ${taskId}`);
+
   const taskContent = getTaskContent(taskId, kanbanData);
   if (!taskContent) {
     return `<div>Error: Task not found</div>`;
   }
+
+  const { createdBy, subtasks } = taskContent;
+  const creatorName = kanbanData.users[createdBy]?.name || "Unknown User";
+
+  console.log(`Task created by: ${creatorName} (ID: ${createdBy})`);
+
+  if (subtasks && Object.keys(subtasks).length > 0) {
+    console.log("Original Subtasks:");
+    Object.keys(subtasks).forEach((subtaskId) => {
+      console.log(`- Subtask ID: ${subtaskId}`);
+    });
+  } else {
+    console.log("No subtasks found for this task.");
+  }
+
   const { label, fitLabelForCSS, title, description, createAt, priority } = getTaskData(taskContent);
+
   const displayedDueDate = createAt ? formatDateForInput(createAt) : '';
-  const html = editTaskTemplate(displayedDueDate, label, fitLabelForCSS, title, description, createAt, priority);
+  const html = editTaskTemplate(displayedDueDate, label, fitLabelForCSS, title, description, createAt, priority, taskId);
 
   setTimeout(() => {
     setPriorityActive(priority);
-    displayAssignedUsers(taskId); // Call the function here
-    displaySelectedCategories(taskId); // Call the function here
+    displayAssignedUsers(taskId);
+    displaySelectedCategories(taskId);
   }, 0);
 
   return html;
 }
 
 // Generates the HTML template for the edit task modal.
-function editTaskTemplate(displayedDueDate, label, fitLabelForCSS, title, description, createAt, priority) {
+function editTaskTemplate(displayedDueDate, label, fitLabelForCSS, title, description, createAt, priority, taskId) {
   return /*html*/`
       <div class="edit-task" onclick="closeDropdownOnOutsideClick(event)">
         <div class="focused-task-top">
+          <div></div>
           <div></div>
           <svg onclick="backToFocusedTask()" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M6.9998 8.36587L2.0998 13.2659C1.91647 13.4492 1.68314 13.5409 1.3998 13.5409C1.11647 13.5409 0.883138 13.4492 0.699805 13.2659C0.516471 13.0825 0.424805 12.8492 0.424805 12.5659C0.424805 12.2825 0.516471 12.0492 0.699805 11.8659L5.5998 6.96587L0.699805 2.06587C0.516471 1.88254 0.424805 1.6492 0.424805 1.36587C0.424805 1.08254 0.516471 0.849202 0.699805 0.665869C0.883138 0.482536 1.11647 0.390869 1.3998 0.390869C1.68314 0.390869 1.91647 0.482536 2.0998 0.665869L6.9998 5.56587L11.8998 0.665869C12.0831 0.482536 12.3165 0.390869 12.5998 0.390869C12.8831 0.390869 13.1165 0.482536 13.2998 0.665869C13.4831 0.849202 13.5748 1.08254 13.5748 1.36587C13.5748 1.6492 13.4831 1.88254 13.2998 2.06587L8.3998 6.96587L13.2998 11.8659C13.4831 12.0492 13.5748 12.2825 13.5748 12.5659C13.5748 12.8492 13.4831 13.0825 13.2998 13.2659C13.1165 13.4492 12.8831 13.5409 12.5998 13.5409C12.3165 13.5409 12.0831 13.4492 11.8998 13.2659L6.9998 8.36587Z" fill="#2A3647"/>
@@ -86,7 +105,7 @@ function editTaskTemplate(displayedDueDate, label, fitLabelForCSS, title, descri
         </div>
           
         <div class="ok-button">
-          <button type="button" class="clear_button_div" onclick="clearAllInputs()">
+          <button type="button" class="clear_button_div" onclick="saveEditedTask('${taskId}')">
             <p>Ok</p>
             <svg width="24" height="25" viewBox="0 0 24 25" xmlns="http://www.w3.org/2000/svg">
               <path d="M9.55 15.65L18.03 7.175a.875.875 0 0 1 1.238 1.238l-9.2 9.2a.875.875 0 0 1-1.238 0l-4.3-4.3a.875.875 0 0 1 1.238-1.238l3.55 3.575z" fill="white"/>
@@ -496,4 +515,160 @@ function addSubtask() {
   } else {
     alert("Please enter a subtask before adding.");
   }
+}
+
+function saveEditedTask(taskId) {
+  const taskContent = getTaskContent(taskId, kanbanData); // Abrufen des aktuellen Task-Inhalts
+  const createdBy = taskContent?.createdBy || "unknown"; // Verwende die vorhandene createdBy-ID aus dem Task
+  const existingSubtasks = taskContent?.subtasks || {}; // Ursprüngliche Subtasks abrufen
+
+  const title = document.getElementById("edit_input_title").value.trim();
+  const description = document.getElementById("edit_input_description").value.trim();
+  const dueDate = document.querySelector("input[type='date']").value;
+  const priority = document.querySelector(".priority-buttons-div .active p").textContent.toLowerCase();
+  const assignees = getAssignedUsersFromEdit();
+  const category = document.querySelector(".edit-selected-categories .category-label")?.textContent || "";
+  const createdAt = new Date(dueDate).toISOString();
+
+  // Neue Subtasks identifizieren
+  const subtaskListItems = document.querySelectorAll("#display_subtasks li");
+  const newSubtasks = {};
+  subtaskListItems.forEach((item) => {
+    const subtaskTitle = item.textContent.trim();
+    const isExisting = Object.keys(existingSubtasks).some((subtaskId) => {
+      return kanbanData.subtasks[subtaskId]?.title === subtaskTitle;
+    });
+
+    if (!isExisting) {
+      // Generiere eine neue Subtask-ID
+      const nextSubtaskId = generateNextSubtaskId();
+      newSubtasks[nextSubtaskId] = {
+        title: subtaskTitle,
+        [`task${taskId}`]: true,
+        completed: false,
+      };
+
+      // Füge den neuen Subtask zum Task hinzu
+      existingSubtasks[nextSubtaskId] = true;
+
+      // Füge den neuen Subtask in den globalen Subtasks-Bereich ein
+      kanbanData.subtasks[nextSubtaskId] = {
+        title: subtaskTitle,
+        [`task${taskId}`]: true,
+        completed: false,
+      };
+    }
+  });
+
+  const updatedTaskData = {
+    title,
+    description,
+    createdAt,
+    priority,
+    assignees,
+    label: category,
+    createdBy, // Verwende die ursprüngliche createdBy-ID
+    subtasks: existingSubtasks, // Aktualisierte Subtasks
+    updatedAt: new Date().toISOString(),
+  };
+
+  // Aktualisiere den Task in der Datenbank
+  updateTaskInDatabase(taskId, updatedTaskData);
+
+  // Lade neue Subtasks in die Datenbank hoch
+  Object.keys(newSubtasks).forEach((subtaskId) => {
+    uploadSubtaskToDatabase(subtaskId, newSubtasks[subtaskId]);
+  });
+}
+
+// Hilfsfunktion: Generiert die nächste Subtask-ID
+function generateNextSubtaskId() {
+  const allSubtaskIds = Object.keys(kanbanData.subtasks);
+  const maxId = allSubtaskIds.reduce((max, id) => {
+    const num = parseInt(id.replace("subtask", ""), 10);
+    return num > max ? num : max;
+  }, 0);
+  return `subtask${maxId + 1}`;
+}
+
+// Helper function to collect assigned users from the edit modal
+function getAssignedUsersFromEdit() {
+  const assignedUsersDiv = document.querySelectorAll(".edit-assigned-users .dropdown-edit-assignee-initials");
+  const assignees = {};
+  assignedUsersDiv.forEach((userDiv) => {
+    const userId = userDiv.id.replace("assigned_user_", "");
+    assignees[userId] = true;
+  });
+  return assignees;
+}
+
+// Function to update the task in the database
+function updateTaskInDatabase(taskId, updatedTaskData) {
+  const isGuest = JSON.parse(localStorage.getItem("isGuest"));
+  if (isGuest) {
+    let data = JSON.parse(localStorage.getItem("guestKanbanData"));
+    if (data.tasks[taskId]) {
+      // Aktualisiere den Task
+      data.tasks[taskId] = updatedTaskData;
+
+      // Aktualisiere die Subtasks
+      Object.keys(updatedTaskData.subtasks).forEach((subtaskId) => {
+        if (!data.subtasks[subtaskId]) {
+          data.subtasks[subtaskId] = kanbanData.subtasks[subtaskId];
+        }
+      });
+
+      localStorage.setItem("guestKanbanData", JSON.stringify(data));
+      console.log(`Task ${taskId} and its subtasks updated successfully for guest user.`);
+    } else {
+      console.error(`Task ${taskId} not found for guest user.`);
+    }
+  } else {
+    // Aktualisiere den Task
+    fetch(`${BASE_URL}tasks/${taskId}.json`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedTaskData),
+    })
+      .then((response) => response.json())
+      .then(() => {
+        console.log(`Task ${taskId} updated successfully.`);
+
+        // Aktualisiere die Subtasks
+        const subtaskPromises = Object.keys(updatedTaskData.subtasks).map((subtaskId) => {
+          if (!kanbanData.subtasks[subtaskId]) {
+            return uploadSubtaskToDatabase(subtaskId, kanbanData.subtasks[subtaskId]);
+          }
+        });
+
+        return Promise.all(subtaskPromises);
+      })
+      .then(() => {
+        console.log("All new subtasks updated successfully.");
+      })
+      .catch((error) => {
+        console.error("Error updating task or subtasks:", error);
+      });
+  }
+}
+
+function uploadSubtaskToDatabase(subtaskId, subtaskData) {
+  return fetch(`${BASE_URL}subtasks/${subtaskId}.json`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(subtaskData),
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`Failed to upload subtask ${subtaskId}`);
+      }
+      console.log(`Subtask ${subtaskId} uploaded successfully.`);
+    })
+    .catch((error) => {
+      console.error(`Error uploading subtask ${subtaskId}:`, error);
+    });
 }
