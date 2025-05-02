@@ -53,3 +53,38 @@
     padding: 4px 16px 4px 16px;
     border-radius: 8px;
 }
+
+.display-edit-subtasks{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    padding: 0;
+    margin-top: -24px;
+}
+
+.input-edit-subtask{
+    height: 48px;
+    font-size: 16px !important;
+}
+
+.edit-subtask-item{
+    border: 1px solid rgba(42, 54, 71, 0.2);
+    width: 100%;
+    padding: 5px 16px;
+    border-radius: 10px;
+    font-size: 16px;
+}
+
+input::placeholder {
+    font-size: 18px !important;
+}
+
+.delete-subtask-icon{
+    height: 16px;
+}
+
+.delete-subtask-icon:hover{
+    cursor: pointer;
+    background-color: rgba(42, 54, 71, 0.2);
+}
