@@ -6,13 +6,13 @@ document.addEventListener("DOMContentLoaded", () => {
   errorMessage.style.color = "red";
   form.appendChild(errorMessage);
 
-  document.getElementById("guestButton").addEventListener("click", function(event) {
-    event.preventDefault();  
-    guestLogin();         
+  document.getElementById("guestButton").addEventListener("click", function (event) {
+    event.preventDefault();
+    guestLogin();
   });
 
-  form.addEventListener("submit", function(event) {
-    event.preventDefault(); 
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
     showLoadingSpinner();
     handleFormSubmit(event, emailInput, passwordInput, errorMessage);
   });
@@ -34,7 +34,7 @@ function hideLoadingSpinner() {
 // Gast-Login Funktionen
 // ==========================
 function loadGuestDataFromLocalStorage() {
-  return 
+  return
 }
 
 function initializeGuestData() {
@@ -61,8 +61,8 @@ function guestLogin() {
   document.getElementById("input_email").removeAttribute("required");
   document.getElementById("input_password").removeAttribute("required");
 
-  localStorage.removeItem("loggedInUser"); 
-  localStorage.setItem("isGuest", "true"); 
+  localStorage.removeItem("loggedInUser");
+  localStorage.setItem("isGuest", "true");
 
   data = initializeGuestData();
   saveGuestDataToLocalStorage(data);
@@ -79,7 +79,7 @@ function handleFormSubmit(event, emailInput, passwordInput, errorMessage) {
 
   if (!isInputValid(email, password, errorMessage)) {
     hideLoadingSpinner();
-    return; 
+    return;
   }
 
   authenticateUser(email, password, errorMessage);
@@ -221,11 +221,25 @@ function storeUserInLocalStorage(data, userKey) {
   };
 
   localStorage.setItem("loggedInUser", JSON.stringify(loggedInUser));
-  localStorage.removeItem("isGuest"); 
-  localStorage.removeItem("guestKanbanData"); 
+  localStorage.removeItem("isGuest");
+  localStorage.removeItem("guestKanbanData");
 }
 
 function handleError(error, errorMessage) {
   hideLoadingSpinner();
   errorMessage.textContent = "Error logging in: " + error.message;
 }
+
+
+// Ändere die Position des Logos nach Abschluss der Animation
+document.addEventListener("DOMContentLoaded", () => {
+  const logoHeader = document.querySelector(".logo_header");
+  logoHeader.addEventListener("animationend", () => {
+    logoHeader.style.position = "relative";
+    logoHeader.style.transform = "none";
+    logoHeader.style.top = "auto";
+    logoHeader.style.left = "auto";
+    logoHeader.style.marginTop = "0";
+    logoHeader.style.marginLeft = "0";
+  });
+});

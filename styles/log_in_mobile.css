@@ -1,0 +1,31 @@
+@media(max-width:720px) {
+    .button_div {
+        flex-direction: column;
+        gap: 16px
+    }
+
+    .log_in_box {
+        height: auto;
+        width: 400px;
+        max-height: auto;
+        padding: 16px 0;
+    }
+    .input_label {
+        width: 350px;
+    }
+}
+
+@media(max-width:450px) {
+    .log_in_box {
+        height: auto;
+        width: 300px;
+        max-height: auto;
+        padding: 16px 0;
+    }
+    .input_label {
+        width: 280px;
+    }
+    .logo_header {
+        display: none;
+    }
+}
