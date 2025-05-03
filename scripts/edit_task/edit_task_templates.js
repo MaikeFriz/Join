@@ -68,7 +68,7 @@ function editTaskTemplate(displayedDueDate, label, fitLabelForCSS, title, descri
         </div>
           
         <div class="ok-button">
-          <button type="button" class="clear_button_div" onclick="saveEditedTask('${taskId}')">
+          <button type="button" class="clear_button_div" onclick="saveEditedTask('${taskId}'), handleOkButtonClick('taskId')">
             <p>Ok</p>
             <svg width="24" height="25" viewBox="0 0 24 25" xmlns="http://www.w3.org/2000/svg">
               <path d="M9.55 15.65L18.03 7.175a.875.875 0 0 1 1.238 1.238l-9.2 9.2a.875.875 0 0 1-1.238 0l-4.3-4.3a.875.875 0 0 1 1.238-1.238l3.55 3.575z" fill="white"/>

@@ -1,22 +1,21 @@
+// Saves the edited task by collecting data, updating the database, and transitioning back to the board view
+async function saveEditedTask(taskId) {
+    try {
+        const taskContent = getTaskContent(taskId, kanbanData);
+        const existingSubtasks = taskContent?.subtasks || {};
+        const updatedTaskData = collectTaskData(taskId, existingSubtasks);
+        const removedSubtasks = identifyRemovedSubtasks(existingSubtasks, updatedTaskData.subtasks);
 
-// Saves the edited task by collecting data and updating the database.
-function saveEditedTask(taskId) {
-    const taskContent = getTaskContent(taskId, kanbanData);
-    const existingSubtasks = taskContent?.subtasks || {};
-    const updatedTaskData = collectTaskData(taskId, existingSubtasks);
-    const removedSubtasks = identifyRemovedSubtasks(existingSubtasks, updatedTaskData.subtasks);
-
-    updateTaskInDatabase(taskId, updatedTaskData)
-        .then(() => deleteRemovedSubtasks(removedSubtasks))
-        .then(() => {
-            console.log("Task and all subtasks updated successfully.");
-        })
-        .catch((error) => {
-            console.error("Error updating task or subtasks:", error);
-        });
+        await updateTaskInDatabase(taskId, updatedTaskData);
+        await deleteRemovedSubtasks(removedSubtasks);
+        await waitForDatabaseSaveOperations(taskId);
+        await backToBoardTable();
+    } catch (error) {
+        console.error("Error updating task or subtasks:", error);
+    }
 }
 
-// Collects all task data from the edit modal.
+// Collects all task data from the edit modal and prepares it for saving
 function collectTaskData(taskId, existingSubtasks) {
     const title = document.getElementById("edit_input_title").value.trim();
     const description = document.getElementById("edit_input_description").value.trim();
@@ -40,7 +39,7 @@ function collectTaskData(taskId, existingSubtasks) {
     };
 }
 
-// Collects subtasks from the edit modal and identifies new or existing ones.
+// Collects subtasks from the edit modal and identifies new or existing ones
 function collectSubtasks(taskId, existingSubtasks) {
     const subtaskElements = document.querySelectorAll("#display_subtasks .edit-subtask-item");
     const currentSubtasks = {};
@@ -69,7 +68,7 @@ function collectSubtasks(taskId, existingSubtasks) {
     return currentSubtasks;
 }
 
-// Identifies subtasks that were removed in the edit modal.
+// Identifies subtasks that were removed in the edit modal
 function identifyRemovedSubtasks(existingSubtasks, currentSubtasks) {
     return Object.keys(existingSubtasks).filter((subtaskId) => {
         const subtaskTitle = kanbanData.subtasks[subtaskId]?.title;
@@ -77,7 +76,7 @@ function identifyRemovedSubtasks(existingSubtasks, currentSubtasks) {
     });
 }
 
-// Deletes subtasks that were removed from the task.
+// Deletes subtasks that were removed from the task
 function deleteRemovedSubtasks(removedSubtasks) {
     const subtaskDeletePromises = removedSubtasks.map((subtaskId) => {
         return deleteSubtaskFromDatabase(subtaskId);
@@ -85,7 +84,7 @@ function deleteRemovedSubtasks(removedSubtasks) {
     return Promise.all(subtaskDeletePromises);
 }
 
-// Generates the next subtask ID.
+// Generates the next subtask ID based on the highest existing ID
 function generateNextSubtaskId() {
     const allSubtaskIds = Object.keys(kanbanData.subtasks);
     let maxId = allSubtaskIds.reduce((max, id) => {
@@ -95,3 +94,20 @@ function generateNextSubtaskId() {
     return `subtask${maxId + 1}`;
 }
 
+// Waits for all pending save operations in the database to complete
+async function waitForDatabaseSaveOperations(taskId) {
+    try {
+        const response = await fetch(`${BASE_URL}tasks/${taskId}/status.json`);
+        if (!response.ok) {
+            throw new Error(`Error checking database save status. Status: ${response.status}`);
+        }
+
+        const status = await response.json();
+        if (status && status.pendingSaveOperations > 0) {
+            return new Promise(resolve => setTimeout(() => resolve(waitForDatabaseSaveOperations(taskId)), 1000));
+        }
+    } catch (error) {
+        console.error(`Error while waiting for database save operations: ${error.message}`);
+        throw error;
+    }
+}

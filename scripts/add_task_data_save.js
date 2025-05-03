@@ -100,6 +100,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     saveTaskData(taskId, taskData)
       .then(() => saveSubtasksData(taskId))
       .then(() => addTaskToUserToDoList(taskId, userId))
+      .then(() => waitForTaskSaveOperations(taskId)) // Warten, bis alle Speicheroperationen abgeschlossen sind
       .then(() => {
         resetFormFields();
         resetAssigneesAndSubtasks();
@@ -255,5 +256,27 @@ document.addEventListener("DOMContentLoaded", async function () {
       });
     }
   }
+
+  // Waits for all pending task save operations in the database to complete
+  async function waitForTaskSaveOperations(taskId) {
+    try {
+        const response = await fetch(`${BASE_URL}tasks/${taskId}/status.json`);
+        if (!response.ok) {
+            throw new Error(`Error checking task save status. Status: ${response.status}`);
+        }
+
+        const status = await response.json();
+        if (status && status.pendingSaveOperations > 0) {
+            console.log(`Waiting for ${status.pendingSaveOperations} pending task save operations to complete...`);
+            return new Promise(resolve => setTimeout(() => resolve(waitForTaskSaveOperations(taskId)), 1000));
+        }
+
+        console.log("All task save operations completed.");
+    } catch (error) {
+        console.error(`Error while waiting for task save operations: ${error.message}`);
+        throw error;
+    }
+  }
+
   addTaskFormListener();
 });

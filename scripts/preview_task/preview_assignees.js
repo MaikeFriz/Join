@@ -1,22 +1,19 @@
-
 // Function to generate HTML for all assignees based on the provided task and display context
 function getAssignees(taskContent, displayContext) {
     let assigneesHTML = "";
-    
+
     if (taskContent.assigneesNames && taskContent.assigneesNames.length > 0) {
-      for (let assigneeIndex = 0; assigneeIndex < taskContent.assigneesNames.length; assigneeIndex++) {
-        let assignee = taskContent.assigneesNames[assigneeIndex];
-        
-        if (typeof assignee !== "string") {
-          console.warn("Invalid assignee name:", assignee);
-          continue;
+        for (let assigneeIndex = 0; assigneeIndex < taskContent.assigneesNames.length; assigneeIndex++) {
+            let assignee = taskContent.assigneesNames[assigneeIndex];
+
+            if (typeof assignee !== "string") {
+                console.warn("Invalid assignee name:", assignee);
+                continue;
+            }
+            assigneesHTML = getAssigneesForTemplates(assignee, displayContext, assigneesHTML);
         }
-        assigneesHTML = getAssigneesForTemplates(assignee, displayContext, assigneesHTML);
-      }
-    } else {
-      assigneesHTML = "<span>!!!</span>";
     }
-    return assigneesHTML;
+    return assigneesHTML; // Return empty string if no assignees are present
 }
   
 // Function to generate the HTML for a single assignee based on the display context (focused/preview)
