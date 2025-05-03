@@ -1,4 +1,3 @@
-
 let kanbanData = {}; 
 const BASE_URL = `https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData/`;
 
@@ -49,15 +48,12 @@ function processKanbanData(data, user) {
   }
 
   const currentAssignedStatus = data.users[userId].assignedTasks;
-  console.log("Current assigned status:", currentAssignedStatus);
 
   if (isValidAssignedTasks(currentAssignedStatus)) {
-      processAssignedStatuses(currentAssignedStatus, data).then(statusHTMLMap => {
+    processAssignedStatuses(currentAssignedStatus, data).then(statusHTMLMap => {
       assignStatusHTMLToContainers(statusHTMLMap);
       loadNoTasksFunctions();
     });
-  } else {
-    console.log("User has no assigned tasks or assignedTasks is not correctly formatted.");
   }
 }
 

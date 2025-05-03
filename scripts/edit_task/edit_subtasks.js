@@ -43,13 +43,12 @@ function addEditSubtask() {
     }
 }
 
-// Removes a subtask from the UI and logs the removal action.
+// Removes a subtask from the UI.
 function removeEditSubtask(subtaskId, subtaskTitle) {
     const subtaskElement = document.querySelector(`.edit-subtask-item img[onclick*="${subtaskId}"]`).parentElement;
 
     if (subtaskElement) {
         subtaskElement.remove();
-        console.log(`Subtask "${subtaskTitle}" removed.`);
     }
 }
 
@@ -60,7 +59,6 @@ function uploadSubtaskToDatabase(subtaskId, subtaskData) {
         return Promise.reject(new Error(`Invalid subtask data for subtaskId: ${subtaskId}`));
     }
   
-    console.log("Uploading subtask:", subtaskId, subtaskData);
     return fetchFromDatabase(`${BASE_URL}subtasks/${subtaskId}.json`, "PUT", subtaskData);
 }
 

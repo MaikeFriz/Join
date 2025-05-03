@@ -1,29 +1,26 @@
-// Retrieves and formats the task data for editing.
+// Retrieves the task data for editing and generates the corresponding HTML
 function getEditTaskData(taskId) {
-    console.log(`Loading edit task template for taskId: ${taskId}`);
-  
-    let taskContent = getTaskContent(taskId, kanbanData); // Wird später verändert
+    let taskContent = getTaskContent(taskId, kanbanData);
     if (!taskContent) {
-      return `<div>Error: Task not found</div>`;
+        return `<div>Error: Task not found</div>`;
     }
-  
+
     const editTaskHTML = renderEditTask(taskContent, taskId);
-  
     return editTaskHTML;
-  }
-  
-// Fetches Kanban data from the server or local storage based on user type.
-  async function getKanbanData() {
+}
+
+// Loads the Kanban data from either localStorage (for guests) or Firebase (for logged-in users)
+async function getKanbanData() {
     try {
-      if (localStorage.getItem("isGuest") === "true") {
-        kanbanData = await fetchGuestKanbanData();
-      } else {
-        kanbanData = await fetchKanbanData(BASE_URL);
-      }
-      if (!kanbanData || Object.keys(kanbanData).length === 0) {
-        console.error("Kanban data could not be loaded or is empty.");
-      }
+        if (localStorage.getItem("isGuest") === "true") {
+            kanbanData = await fetchGuestKanbanData();
+        } else {
+            kanbanData = await fetchKanbanData(BASE_URL);
+        }
+        if (!kanbanData || Object.keys(kanbanData).length === 0) {
+            console.error("Kanban data could not be loaded or is empty.");
+        }
     } catch (error) {
-      console.error("Error loading Kanban data:", error);
+        console.error("Error loading Kanban data:", error);
     }
-  }
+}

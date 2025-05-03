@@ -25,7 +25,6 @@ function getTaskData(taskContent) {
     taskId: taskContent.taskId,
     createAt: taskContent.createdAt,
   };
-  console.log(taskData);
   return taskData;
 }
 

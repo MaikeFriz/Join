@@ -1,4 +1,3 @@
-
 // Updates the task in the database based on user type (guest or registered).
 function updateTaskInDatabase(taskId, updatedTaskData) {
     const isGuest = JSON.parse(localStorage.getItem("isGuest"));
@@ -7,10 +6,10 @@ function updateTaskInDatabase(taskId, updatedTaskData) {
     } else {
         return updateTaskForRegisteredUser(taskId, updatedTaskData);
     }
-  }
-  
-  // Updates the task for a guest user in localStorage.
-  function updateTaskForGuest(taskId, updatedTaskData) {
+}
+
+// Updates the task for a guest user in localStorage.
+function updateTaskForGuest(taskId, updatedTaskData) {
     return new Promise((resolve, reject) => {
         try {
             let data = JSON.parse(localStorage.getItem("guestKanbanData"));
@@ -20,16 +19,15 @@ function updateTaskInDatabase(taskId, updatedTaskData) {
             data.tasks[taskId] = updatedTaskData;
             updateGuestSubtasks(data, updatedTaskData);
             localStorage.setItem("guestKanbanData", JSON.stringify(data));
-            console.log(`Task ${taskId} and its subtasks updated successfully for guest user.`);
             resolve();
         } catch (error) {
             reject(error);
         }
     });
-  }
-  
-  // Updates subtasks for a guest user in localStorage.
-  function updateGuestSubtasks(data, updatedTaskData) {
+}
+
+// Updates subtasks for a guest user in localStorage.
+function updateGuestSubtasks(data, updatedTaskData) {
     Object.keys(updatedTaskData.subtasks).forEach((subtaskId) => {
         if (!data.subtasks[subtaskId]) {
             const subtaskTitle = kanbanData.subtasks[subtaskId]?.title || "Untitled Subtask";
@@ -39,10 +37,10 @@ function updateTaskInDatabase(taskId, updatedTaskData) {
             };
         }
     });
-  }
-  
-  // Updates the task for a registered user in the database.
-  function updateTaskForRegisteredUser(taskId, updatedTaskData) {
+}
+
+// Updates the task for a registered user in the database.
+function updateTaskForRegisteredUser(taskId, updatedTaskData) {
     return fetch(`${BASE_URL}tasks/${taskId}.json`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -52,13 +50,12 @@ function updateTaskInDatabase(taskId, updatedTaskData) {
             if (!response.ok) {
                 throw new Error(`Failed to update task ${taskId}`);
             }
-            console.log(`Task ${taskId} updated successfully.`);
             return updateRegisteredSubtasks(updatedTaskData);
         });
-  }
-  
-  // Updates subtasks for a registered user in the database.
-  function updateRegisteredSubtasks(updatedTaskData) {
+}
+
+// Updates subtasks for a registered user in the database.
+function updateRegisteredSubtasks(updatedTaskData) {
     const subtaskPromises = Object.keys(updatedTaskData.subtasks).map((subtaskId) => {
         if (!kanbanData.subtasks[subtaskId]) {
             const subtaskTitle = updatedTaskData.subtasks[subtaskId]?.title || "Untitled Subtask";
@@ -70,4 +67,4 @@ function updateTaskInDatabase(taskId, updatedTaskData) {
         return uploadSubtaskToDatabase(subtaskId, kanbanData.subtasks[subtaskId]);
     });
     return Promise.all(subtaskPromises);
-  }
+}

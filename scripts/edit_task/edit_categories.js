@@ -49,8 +49,6 @@ function getCategoryOptions() {
 
 // Handles the selection of a category and updates the dropdown and UI.
 function selectCategory(category) {
-    console.log(`Selected category: ${category}`);
-  
     const selectedCategory = document.getElementById("dropdown_selected_category");
     const dropdown = document.getElementById("dropdown_options_category");
     const trigger = document.getElementById("dropdown_category");

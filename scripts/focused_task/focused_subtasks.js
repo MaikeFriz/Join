@@ -1,3 +1,4 @@
+// Renders the subtasks for a given task by generating HTML based on their data
 function renderSubtasks(subtaskRefs, allSubtasks) {
   if (!subtaskRefs || !allSubtasks) return "<div>Keine Subtasks</div>";
   const titles = Object.keys(subtaskRefs).map(subtaskId => {
@@ -10,12 +11,12 @@ function renderSubtasks(subtaskRefs, allSubtasks) {
   return titles.join("");
 }
 
+// Toggles the completion status of a subtask and updates it in the database
 function toggleSubtaskCompletion(subtaskId, isChecked) {
   const url = `${BASE_URL}subtasks/${subtaskId}/completed.json`;
   fetch(url, {
     method: 'PUT',
-    headers: {'Content-Type': 'application/json'
-    },
+    headers: {'Content-Type': 'application/json'},
     body: JSON.stringify(isChecked)
   })
   .then(response => {
@@ -23,9 +24,6 @@ function toggleSubtaskCompletion(subtaskId, isChecked) {
       throw new Error('Fehler beim Aktualisieren des Subtasks');
     }
     return response.json();
-  })
-  .then(data => {
-    console.log(`Subtask ${subtaskId} erfolgreich aktualisiert:`, data);
   })
   .catch(error => {
     console.error('Update-Fehler:', error);

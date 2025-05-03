@@ -30,7 +30,6 @@ async function deleteTaskFromDatabase(taskId) {
     if (!deleteTaskResponse.ok) {
         throw new Error('Error deleting task.');
     }
-    console.log(`Task ${taskId} deleted from the database.`);
 }
 
 // Deletes all subtasks related to the task
@@ -43,7 +42,6 @@ async function deleteSubtasks(subtasks) {
             if (!deleteSubtaskResponse.ok) {
                 throw new Error(`Error deleting subtask ${subtaskId}.`);
             }
-            console.log(`Subtask ${subtaskId} deleted.`);
         } catch (error) {
             console.error(`Error deleting subtask ${subtaskId}: ${error.message}`);
         }
@@ -57,7 +55,6 @@ async function deleteTaskFromCategory(userId, taskId, category) {
         console.error(`Error deleting task from ${category} for user ${userId}.`);
         return;
     }
-    console.log(`Task ${taskId} removed from ${category} for user ${userId}.`);
 }
 
 // Deletes a task from all assignees for a specific user
@@ -67,7 +64,6 @@ async function deleteTaskFromAssignees(userId, taskId) {
         console.error(`Error deleting task from assignees for user ${userId}.`);
         return;
     }
-    console.log(`Task ${taskId} removed from assignees of user ${userId}.`);
 }
 
 // Waits for all pending database operations to complete
@@ -80,11 +76,8 @@ async function waitForDatabaseOperations(taskId) {
 
         const status = await response.json();
         if (status && status.pendingOperations > 0) {
-            console.log(`Waiting for ${status.pendingOperations} pending operations to complete...`);
             return new Promise(resolve => setTimeout(() => resolve(waitForDatabaseOperations(taskId)), 1000));
         }
-
-        console.log("All database operations completed.");
     } catch (error) {
         console.error(`Error while waiting for database operations: ${error.message}`);
         throw error;

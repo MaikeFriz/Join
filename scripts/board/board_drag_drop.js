@@ -136,16 +136,11 @@ function updateTaskStatus(taskId, newStatusColumnId) {
 
   if (isGuest) {
     updateTaskInLocalStorage(taskId, newStatus);
-    console.log(`Task ID: ${taskId} successfully moved to status ${newStatus} (Guest Mode).`);
     return Promise.resolve();
   } else {
-    return updateTaskInFirebase(taskId, newStatus)
-      .then(() => {
-        console.log(`Task ID: ${taskId} successfully moved to status ${newStatus}.`);
-      })
-      .catch((error) => {
-        console.error("Error updating task in Firebase:", error);
-      });
+    return updateTaskInFirebase(taskId, newStatus).catch((error) => {
+      console.error("Error updating task in Firebase:", error);
+    });
   }
 }
 
@@ -164,26 +159,22 @@ function mapColumnIdToStatus(columnId) {
 function updateTaskInLocalStorage(taskId, newStatus) {
   let data = JSON.parse(localStorage.getItem("guestKanbanData"));
   if (!data || !data.users || !data.users.user || !data.users.user.assignedTasks) {
-    console.error("Invalid guest data structure.");
     return;
   }
 
   let assignedTasks = data.users.user.assignedTasks;
 
-  // Remove the task from all status lists
   ["toDo", "inProgress", "awaitingFeedback", "done"].forEach(status => {
     if (assignedTasks[status] && assignedTasks[status][taskId]) {
       delete assignedTasks[status][taskId];
     }
   });
 
-  // Add the task to the new status list
   if (!assignedTasks[newStatus]) {
     assignedTasks[newStatus] = {};
   }
   assignedTasks[newStatus][taskId] = true;
 
-  // Save the updated data back to localStorage
   localStorage.setItem("guestKanbanData", JSON.stringify(data));
 }
 
@@ -218,11 +209,10 @@ function updateTaskInFirebase(taskId, newStatus) {
   const isGuest = JSON.parse(localStorage.getItem("isGuest"));
   if (isGuest) {
     let data = JSON.parse(localStorage.getItem("guestKanbanData"));
-    user = data.users.user
+    user = data.users.user;
   }
 
   if (!user) {
-    console.error("No logged-in user found.");
     return Promise.reject("No user found");
   }
   return removeTaskFromOtherStatuses(taskId, user.userId, BASE_URL)

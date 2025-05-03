@@ -24,7 +24,6 @@ function handleAssigneeSelection(userId, isChecked) {
 // Generates the HTML for the list of assignees in the dropdown.
 function getEditAssignees(kanbanData) {
     if (!kanbanData || !kanbanData.users) {
-        console.error("No users found in the Kanban data object.");
         return '';
     }
     let assigneesHTML = '';
@@ -36,8 +35,6 @@ function getEditAssignees(kanbanData) {
         const name = userData.name;
         const initials = getAssigneeInitals(name);
         const cssClass = getFitAssigneesToCSS(name);
-
-        console.log(`User Name: ${name}, User ID: ${userId}`);
 
         assigneesHTML += editAssignedToDropdownTemplate(name, initials, cssClass, userId);
     }
@@ -116,7 +113,6 @@ function getAssignedUsersFromEdit() {
 // Extracts and returns the initials from a given name.
 function getAssigneeInitals(name) {
     if (!name || typeof name !== "string") {
-        console.warn("Invalid name:", name);
         return "??";
     }
     const nameParts = name.split(" ");
