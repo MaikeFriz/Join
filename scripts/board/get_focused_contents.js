@@ -28,7 +28,7 @@ async function backToBoardTable() {
 }
 
 // Switches from the focused task view to the task editing view.
-function renderEditTask(taskId) {
+function transitionToEditTask(taskId) { // Umbenannt von renderEditTask
   let editContent = document.getElementById('editTask');
   let focusedContent = document.getElementById('focusedTask');
   focusedContent.classList.remove('active');

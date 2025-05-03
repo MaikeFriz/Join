@@ -71,9 +71,16 @@
 .edit-subtask-item{
     border: 1px solid rgba(42, 54, 71, 0.2);
     width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     padding: 5px 16px;
     border-radius: 10px;
     font-size: 16px;
+}
+
+.edit-subtask-item span{
+    width: 100%;
 }
 
 input::placeholder {
