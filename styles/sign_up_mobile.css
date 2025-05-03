@@ -1,0 +1,34 @@
+@media(max-width:640px) {
+    .input_label {
+        width: 280px;
+    }
+
+    .sign_up_box {
+        height: fit-content;
+        min-height: 500px;
+        width: 310px;
+        overflow-x: none !important;
+    }
+
+    .input_div input {
+        height: 32px;
+    }
+
+    .h1_box {
+        font-size: 40px;
+        font-weight: 500;
+    }
+
+    .back_arrow_sign_in {
+        transform: translateX(-16px);
+    }
+
+    .logo_header {
+        height: 56px;
+        width: auto;
+    }
+
+    header {
+        height: auto;
+    }
+}

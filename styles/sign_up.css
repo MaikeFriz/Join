@@ -63,7 +63,7 @@ footer a:hover{
 
 /* Ab hier Sign Up und Log In individueller Style. Bis hier hin gleich*/
 header {
-    height: 130px;
+    height: 130px; 
     max-width: 100%;
     background-color:rgba(246, 247, 248, 1);
     display: flex;
@@ -91,6 +91,7 @@ header {
     overflow-y: scroll;
     scrollbar-width: none; 
     -ms-overflow-style: none;
+    overflow-x: none !important;
     display: flex;
     justify-content: space-around;
     align-items: center;
