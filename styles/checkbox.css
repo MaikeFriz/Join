@@ -1,29 +1,34 @@
 .svg-checkbox {
     display: inline-flex;
     align-items: center;
-    cursor: pointer;
+    
     transition: opacity 100ms ease-in-out;
-}
-
-.svg-checkbox:hover {
-    opacity: 0.8;
 }
 
 .svg-checkbox input {
     display: none;
 }
 
-.svg-checkbox .checkbox-icon {
-    width: 24px;
-    height: 24px;
+.svg-checkbox 
+.checkbox-icon {
+    padding: 2px;
+    width: 28px;
+    height: 28px;
     transition: all 0.3s ease;
+    cursor: pointer;
+}
+.checkbox-icon:hover {
+    border-radius: 50px;
+    background-color:rgba(209, 209, 209, 1) ;
 }
 
-.svg-checkbox .unchecked {
+.svg-checkbox 
+.unchecked {
     display: block;
 }
 
-.svg-checkbox .checked {
+.svg-checkbox 
+.checked {
     display: none;
 }
 

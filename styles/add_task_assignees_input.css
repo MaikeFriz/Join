@@ -67,14 +67,12 @@
   .custom-dropdown-option {
     padding: 10px;
     cursor: pointer;
-    margin-bottom: 4px;
     border-radius: 10px;
   }
   
   .custom-dropdown-option:hover {
     background-color: #2a364791; 
     color: white;
-    margin-bottom: 4px;
     border-radius: 10px;
   }
 

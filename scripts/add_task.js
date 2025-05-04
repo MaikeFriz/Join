@@ -147,6 +147,14 @@ function removeAssignee(userId) {
   });
 }
 
+// Entfernt das Assignee-Element aus dem "show-assignees"-Div.
+function removeAssigneeElement(userId) {
+    const assigneeElement = document.getElementById(`assignee-${userId}`);
+    if (assigneeElement) {
+        assigneeElement.remove(); // Entfernt das Element aus dem DOM
+    }
+}
+
 // Oeffnen/Schliesen Dropdown-Menü.
 function setupDropdownEvents() {
   const dropdown = document.getElementById("dropdown_assigned_to");
