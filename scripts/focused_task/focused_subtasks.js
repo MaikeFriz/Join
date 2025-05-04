@@ -1,6 +1,6 @@
 // Renders the subtasks for a given task by generating HTML based on their data
 function renderSubtasks(subtaskRefs, allSubtasks) {
-  if (!subtaskRefs || !allSubtasks) return "<div>Keine Subtasks</div>";
+  if (!subtaskRefs || !allSubtasks) return "<div>No Subtasks</div>";
   const titles = Object.keys(subtaskRefs).map(subtaskId => {
     const subtask = allSubtasks[subtaskId];
     if (!subtask) return "";

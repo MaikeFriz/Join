@@ -1,16 +1,13 @@
 // Updates the UI to display the subtasks in the edit task modal.
 function displayEditSubtasks(subtasks) {
     const subtaskContainer = document.getElementById("display_subtasks");
-        
-    if (!subtasks || Object.keys(subtasks).length === 0) {
-        subtaskContainer.innerHTML = "<p>No subtasks available.</p>";
-        return;
-    }
 
-    subtaskContainer.innerHTML = "";
-    
-    const subtaskHTML = renderEditSubtasks(subtasks);
-    subtaskContainer.innerHTML = subtaskHTML;
+    subtaskContainer.innerHTML = ""; // Clear the container
+
+    if (subtasks && Object.keys(subtasks).length > 0) {
+        const subtaskHTML = renderEditSubtasks(subtasks);
+        subtaskContainer.innerHTML = subtaskHTML;
+    }
 }
 
 // Generates the HTML for all subtasks to be displayed in the edit task modal.
@@ -43,12 +40,17 @@ function addEditSubtask() {
     }
 }
 
-// Removes a subtask from the UI.
+// Removes a specific subtask from the edit task modal based on its ID.
 function removeEditSubtask(subtaskId, subtaskTitle) {
-    const subtaskElement = document.querySelector(`.edit-subtask-item img[onclick*="${subtaskId}"]`).parentElement;
+    const subtaskContainer = document.getElementById("display_subtasks");
+    const subtaskElements = subtaskContainer.getElementsByClassName("edit-subtask-item");
 
-    if (subtaskElement) {
-        subtaskElement.remove();
+    for (let subtaskIndex = 0; subtaskIndex < subtaskElements.length; subtaskIndex++) {
+        const subtaskElement = subtaskElements[subtaskIndex];
+        if (subtaskElement.innerHTML.includes(subtaskId)) {
+            subtaskContainer.removeChild(subtaskElement);
+            return;
+        }
     }
 }
 

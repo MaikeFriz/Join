@@ -77,12 +77,23 @@
     padding: 5px 16px;
     border-radius: 8px;
     font-size: 16px;
-    background-color: rgba(240, 240, 240, 1);
 }
 
 .edit-subtask-item span{
     width: 100%;
 }
+
+.edit-subtask-item svg{
+    cursor: pointer;
+ }
+
+.edit-subtask-item svg path{
+    transition: fill 100ms ease-in-out;
+ }
+
+.edit-subtask-item svg:hover path{
+    fill: rgba(41, 171, 226, 1); 
+ }
 
 input::placeholder {
     font-size: 18px !important;
