@@ -1,0 +1,69 @@
+@media (max-width: 768px) {
+    .contacts-list {
+      width: 100%;
+      box-sizing: border-box; /* Ensures padding doesn't affect width */
+    }
+  }
+@media (max-width: 768px) {
+  .sidebar-container {
+    display: flex;
+    justify-content: center; /* Center content horizontally */
+    align-items: center; /* Center content vertically */
+    position: fixed; /* Fix it at the bottom */
+    bottom: 0; /* Position at the bottom of the viewport */
+    left: 0; /* Align to the left edge */
+    width: 100%; /* Full width of the screen */
+    max-height: 80px; /* Set maximum height */
+    height: 80px; /* Explicitly set the height */
+    background-color: #fff; /* Optional: Set a background color */
+    z-index: 1000; /* Ensure it appears above other content */
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Optional: Add a shadow for better visibility */
+    overflow-y: hidden; /* Prevent vertical scrolling */
+    top: auto; /* Remove any top positioning */
+    flex-wrap: nowrap; /* Prevent wrapping of tabs */
+    padding: 0; /* Remove unnecessary padding */
+  }
+
+  .sidebar-container img {
+    width: 24px; /* Set width to 24px */
+    height: 24px; /* Set height to 24px */
+  }
+
+  .sidebar-tabs {
+    display: flex; /* Use flexbox for tabs */
+    flex-direction: row; /* Arrange tabs horizontally */
+    gap: 10px; /* Add spacing between tabs */
+    justify-content: center; /* Center tabs horizontally */
+    margin: 0 auto; /* Ensure tabs are centered */
+  }
+
+  .sidebar-logo,
+  .terms-privacy {
+    display: none; /* Hide these elements on mobile */
+  }
+
+  .tab-content-inner {
+    display: flex;
+    flex-direction: column; 
+    align-items: center; /* Center items vertically */
+    gap: 0px; /* Remove gap between items */
+    padding: 0; /* Remove padding */
+  }
+
+  .tab-content-inner:hover {
+    cursor: pointer; /* Change cursor to pointer */
+  }
+
+  .tab-content p {
+    margin: 0; /* Remove margin from paragraphs */
+  }
+
+  .main-content {
+    margin-bottom: 80px; /* Add space above the fixed bottom bar */
+  }
+}
+  @media (max-width: 768px) {
+    .sidebar-container {
+      background-color:#2A3647;
+    }
+  }

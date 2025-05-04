@@ -148,8 +148,6 @@ function renderContacts() {
         return acc;
       }, {});
 
-      let firstContactId = null;
-
       Object.keys(groupedContacts).forEach((initial) => {
         const section = document.createElement("li");
         section.innerHTML = `<h3>${initial}</h3>`;
@@ -175,12 +173,8 @@ function renderContacts() {
             displayContactDetails(contact.id)
           );
           contactsList.appendChild(listItem);
-
-          if (!firstContactId) firstContactId = contact.id;
         });
       });
-
-      if (firstContactId) displayContactDetails(firstContactId);
     })
     .catch((error) => console.error("Error fetching contacts:", error));
 }
@@ -335,4 +329,20 @@ function deleteContact(contactId) {
     .catch((error) => {
       console.error("Error deleting contact:", error);
     });
+}
+function renderHeadline() {
+  const headlineContainer = document.querySelector(
+    ".right-side-content-contacts"
+  );
+  if (!headlineContainer) return;
+
+  const headlineHTML = `
+    <h1 class="contact-headline">
+      Contacts
+      <span class="vertical-line"></span> <!-- Added blue vertical line -->
+      <span class="team-tagline">Better with a Team</span> <!-- Added tagline -->
+    </h1>
+  `;
+
+  headlineContainer.innerHTML = headlineHTML;
 }

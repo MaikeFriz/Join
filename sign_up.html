@@ -1,80 +1,129 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Join</title>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Join</title>
+    <link rel="icon" href="./assets/img/join_favicon.svg" type="image/x-icon" />
+    <link rel="stylesheet" href="./styles/sign_up.css" />
+    <link rel="stylesheet" href="./styles/sign_up_mobile.css" />
+    <link rel="stylesheet" href="./styles/responsive.css" />
+  </head>
 
-  <link rel="icon" href="./assets/img/join_favicon.svg" type="image/x-icon" />
-  <link rel="stylesheet" href="./styles/sign_up.css" />
-  <link rel="stylesheet" href="./styles/sign_up_mobile.css" />
-</head>
-
-<body>
-  <div id="loading-spinner" class="loading-spinner" style="display: none;">
-    <img src="./assets/img/loadingspinner.png" alt="Loading..." />
-</div>
-  <header>
-    <a href="./index.html"><img class="logo_header" src="./assets/img/join_logo_dark.svg" /></a>
-  </header>
-
-  <div class="main_content">
-    <div class="sign_up_box">
-      <div class="h1_div_sign_up_field">
-        <a href="./log_in.html">
-          <img class="back_arrow_sign_in" src="./assets/img/arrow-left-line.svg" alt="" />
-        </a>
-        <div class="div_sign_in_h1_separator">
-          <p class="h1_box">Sign up</p>
-          <div class="separation_line_h1"></div>
-        </div>
-      </div>
-      <form id="sign-up-form" class="input_div">
-        <label class="input_label">
-          <input id="input_name" type="text" required placeholder="Name" />
-          <div class="input_icon">
-            <img id="icon_name" src="./assets/img/placeholder_person_input_field.svg" alt="Name" />
-          </div>
-        </label>
-
-        <label class="input_label">
-          <input id="input_email" type="email" required placeholder="Email" />
-          <div class="input_icon">
-            <img id="icon_email" src="./assets/img/placeholder_mail_input.svg" alt="Email" />
-          </div>
-        </label>
-        <label class="input_label">
-          <input id="input_password_sign_up" type="password" required placeholder="Password"
-            oninput="handlePasswordInput()" />
-          <div class="input_icon" id="toggle_icon_sign_up" onclick="togglePasswordSignUp()">
-            <img id="icon_password_sign_up" src="./assets/img/placeholder_lock_input_field.svg" alt="Password" />
-          </div>
-        </label>
-        <label class="input_label">
-          <input id="input_confirm_password_sign_up" type="password" required placeholder="Confirm Password" oninput="handleConfirmPasswordInput()" />
-          <div class="input_icon" id="toggle_icon_confirm_password_sign_up" onclick="toggleConfirmPasswordVisibility()">
-              <img id="icon_confirm_password_sign_up" src="./assets/img/placeholder_lock_input_field.svg"
-                  alt="Confirm Password" />
-          </div>
-      </label>    
-      <div id="error_message_sign_up" class="error_message_sign_up"></div>
-        <div class="checkbox_div">
-          <input type="checkbox" id="privacy"/>
-          <label for="privacy">
-            I accept the <a class="link_accept_privacy_policy" href="./privacy.html">Privacy policy</a>
-          </label>
-        </div>
-        <button id="button_sign_up_input_section" type="submit" class="button_sign_up_input_section" onclick="checkIfPasswordErrorMessageNeeded(), checkIfAllFieldsFilled()">Sign up</button>
-      </form>
+  <body>
+    <div id="loading-spinner" class="loading-spinner" style="display: none">
+      <img src="./assets/img/loadingspinner.png" alt="Loading..." />
     </div>
-  </div>
-  <footer>
-    <a href="./privacy_policy_logged_out.html">Privacy Policy</a>
-    <a href="./privacy_policy_logged_out.html">Legal Notice</a>
-  </footer>
-  <script src="sign_up.js" defer></script>
-  <script src="./scripts/inputfields_style_sign_in.js"></script>
-</body>
+    <header>
+      <a href="./index.html"
+        ><img class="logo_header" src="./assets/img/join_logo_dark.svg"
+      /></a>
+    </header>
 
+    <div class="main_content">
+      <div class="sign_up_box">
+        <div class="h1_div_sign_up_field">
+          <a href="./log_in.html">
+            <img
+              class="back_arrow_sign_in"
+              src="./assets/img/arrow-left-line.svg"
+              alt=""
+            />
+          </a>
+          <div class="div_sign_in_h1_separator">
+            <p class="h1_box">Sign up</p>
+            <div class="separation_line_h1"></div>
+          </div>
+        </div>
+        <form id="sign-up-form" class="input_div">
+          <label class="input_label">
+            <input id="input_name" type="text" required placeholder="Name" />
+            <div class="input_icon">
+              <img
+                id="icon_name"
+                src="./assets/img/placeholder_person_input_field.svg"
+                alt="Name"
+              />
+            </div>
+          </label>
+
+          <label class="input_label">
+            <input id="input_email" type="email" required placeholder="Email" />
+            <div class="input_icon">
+              <img
+                id="icon_email"
+                src="./assets/img/placeholder_mail_input.svg"
+                alt="Email"
+              />
+            </div>
+          </label>
+          <label class="input_label">
+            <input
+              id="input_password_sign_up"
+              type="password"
+              required
+              placeholder="Password"
+              oninput="handlePasswordInput()"
+            />
+            <div
+              class="input_icon"
+              id="toggle_icon_sign_up"
+              onclick="togglePasswordSignUp()"
+            >
+              <img
+                id="icon_password_sign_up"
+                src="./assets/img/placeholder_lock_input_field.svg"
+                alt="Password"
+              />
+            </div>
+          </label>
+          <label class="input_label">
+            <input
+              id="input_confirm_password_sign_up"
+              type="password"
+              required
+              placeholder="Confirm Password"
+              oninput="handleConfirmPasswordInput()"
+            />
+            <div
+              class="input_icon"
+              id="toggle_icon_confirm_password_sign_up"
+              onclick="toggleConfirmPasswordVisibility()"
+            >
+              <img
+                id="icon_confirm_password_sign_up"
+                src="./assets/img/placeholder_lock_input_field.svg"
+                alt="Confirm Password"
+              />
+            </div>
+          </label>
+          <div id="error_message_sign_up" class="error_message_sign_up"></div>
+          <div class="checkbox_div">
+            <input type="checkbox" id="privacy" />
+            <label for="privacy">
+              I accept the
+              <a class="link_accept_privacy_policy" href="./privacy.html"
+                >Privacy policy</a
+              >
+            </label>
+          </div>
+          <button
+            id="button_sign_up_input_section"
+            type="submit"
+            class="button_sign_up_input_section"
+            onclick="checkIfPasswordErrorMessageNeeded(), checkIfAllFieldsFilled()"
+          >
+            Sign up
+          </button>
+        </form>
+      </div>
+    </div>
+    <footer>
+      <a href="./privacy_policy_logged_out.html">Privacy Policy</a>
+      <a href="./privacy_policy_logged_out.html">Legal Notice</a>
+    </footer>
+    <script src="sign_up.js" defer></script>
+    <script src="./scripts/inputfields_style_sign_in.js"></script>
+  </body>
 </html>
