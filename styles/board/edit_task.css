@@ -75,8 +75,9 @@
     justify-content: space-between;
     align-items: center;
     padding: 5px 16px;
-    border-radius: 10px;
+    border-radius: 8px;
     font-size: 16px;
+    background-color: rgba(240, 240, 240, 1);
 }
 
 .edit-subtask-item span{

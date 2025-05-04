@@ -1,4 +1,3 @@
-
 .focused-task-content {
     position: fixed;
     width: calc(100% - 250px);
@@ -185,19 +184,7 @@
     height: 24px;
     width: 24px;
     padding: 2px;
-    cursor: pointer;
-}
-
-.focused-edit-trash svg:hover path{
-   fill: rgba(42, 54, 71, 0.8);
-}
-
-.focused-edit-trash svg path{
-   transition: fill 100ms ease-in-out;
-}
-
-.focused-separator{
-    border-right: 1px solid rgba(209, 209, 209, 1) ;
+    
 }
 
 .focused-trash, .focused-edit{
@@ -207,5 +194,26 @@
     gap: 8px;
     font-size: 16px;
     color: rgba(42, 54, 71, 1); 
+    cursor: pointer;
+    transition: color 100ms ease-in-out;
 }
+
+.focused-trash:hover,
+.focused-edit:hover {
+    color: rgba(41, 171, 226, 1); 
+}
+
+.focused-edit-trash svg path{
+    transition: fill 100ms ease-in-out;
+ }
+
+.focused-trash:hover svg path, 
+.focused-edit:hover svg path {
+    fill: rgba(41, 171, 226, 1); 
+}
+
+.focused-separator{
+    border-right: 1px solid rgba(209, 209, 209, 1) ;
+}
+
 
