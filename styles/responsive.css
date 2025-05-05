@@ -145,11 +145,17 @@
 @media (max-width: 768px) {
   .contact-details {
     overflow: hidden; /* Prevent scrolling within contact details */
-    height: 100vh; /* Ensure it takes the full viewport height */
+    height: calc(100vh - 80px); /* Adjust height to be above the sidebar */
     display: flex; /* Enable flexbox for centering */
     flex-direction: column; /* Arrange content vertically */
     justify-content: center; /* Center content vertically */
     align-items: center; /* Center content horizontally */
+    position: relative; /* Ensure proper positioning */
+    margin-bottom: 80px; /* Add space for the sidebar */
+  }
+
+  body {
+    overflow: hidden; /* Disable scrolling for the entire page */
   }
 }
 
