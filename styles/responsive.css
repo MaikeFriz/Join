@@ -142,3 +142,63 @@
 }
 }
 
+@media (max-width: 768px) {
+  .contact-details {
+    overflow: hidden; /* Prevent scrolling within contact details */
+    height: 100vh; /* Ensure it takes the full viewport height */
+    display: flex; /* Enable flexbox for centering */
+    flex-direction: column; /* Arrange content vertically */
+    justify-content: center; /* Center content vertically */
+    align-items: center; /* Center content horizontally */
+  }
+}
+
+@media (max-width: 768px) {
+  .contact-headline {
+    display: flex; /* Arrange elements in a row */
+    flex-direction: column; /* Ensure horizontal layout */
+    align-items: center; /* Align items vertically */
+    justify-content: center; /* Center items horizontally */
+    gap: 10px; /* Add spacing between elements */
+  }
+
+  .contact-headline .vertical-line {
+    width: 100%; /* Make the line span horizontally */
+    height: 2px; /* Set a small height for the line */
+    background-color: #007bff; /* Set the blue color */
+  }
+}
+
+@media (max-width: 425px) {
+  body {
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+    margin: 0; /* Remove default body margin */
+    padding: 0; /* Remove default body padding */
+  }
+
+  .contacts-list {
+    width: 100%; /* Ensure it spans the full width */
+    height: 100vh; /* Make it cover the full height of the viewport */
+    box-sizing: border-box; /* Ensure padding doesn't affect dimensions */
+    padding: 0; /* Remove padding */
+    overflow: hidden; /* Prevent scrolling within the contacts list */
+  }
+
+  .sidebar-container {
+    width: 100%; /* Ensure it fits within the viewport */
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+  }
+
+  .right-side-content-contacts {
+    width: 100%; /* Ensure it spans the full width */
+    height: 100vh; /* Make it cover the full height of the viewport */
+    overflow: hidden; /* Prevent scrolling within the content */
+  }
+}
+@media (max-width: 425px) {
+  .tab-content a {
+    padding: 0; /* Remove all padding */
+  }
+}
+
+
