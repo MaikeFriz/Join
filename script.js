@@ -48,6 +48,11 @@ function getUserInitialForHeader(userName) {
   let initials = firstLetter + lastNameFirstLetter;
   let headerInitials = document.getElementById("user-initials-header");
 
+  if (!headerInitials) {
+    console.error("Element with ID 'user-initials-header' not found.");
+    return;
+  }
+
   headerInitials.textContent = initials;
 
   // Event-Listener für das Dropdown

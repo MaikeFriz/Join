@@ -8,11 +8,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
   renderContacts();
 
+  // Add event listener for the original Add Contact button
   document
     .getElementById("add-contact-button")
     .addEventListener("click", function () {
       openOverlay("add_contact.html");
     });
+
+  // Add event listener for the floating Add Contact button
+  const floatingButton = document.querySelector(".add-contact-floating-button");
+  if (floatingButton) {
+    floatingButton.addEventListener("click", function () {
+      openOverlay("add_contact.html");
+    });
+  }
 });
 
 window.addEventListener("message", function (event) {

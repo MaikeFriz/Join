@@ -67,3 +67,78 @@
       background-color:#2A3647;
     }
   }
+  .desktop-only {
+    display: block;
+  }
+
+  .mobile-only {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    .desktop-only {
+      display: none;
+    }
+
+    .mobile-only {
+      display: block;
+      width: 32px; /* Set width to 32px */
+      height: 39px; /* Set height to 39px */
+    }
+  }
+  @media (max-width: 768px) {
+    header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 20px; /* Add padding for spacing inside the header */
+        gap: 10px; /* Add space between flex items */
+    }
+    .user-initials {
+      width: 40px; /* Set width to 40px */
+      height: 40px; /* Set height to 40px */
+  }
+}
+@media (max-width: 768px) {
+  .right-side-content-contacts {
+      display: flex; /* Enable flexbox */
+      justify-content: center; /* Center horizontally */
+      align-items: center; /* Center vertically */
+      height: 100vh; /* Make the container take the full viewport height */
+      padding: 0; /* Remove all padding */
+  }
+
+  .contacts-list {
+      width: 100%; /* Ensure it spans the full width */
+      height: 100vh; /* Make it cover the full height of the viewport */
+      box-sizing: border-box; /* Ensures padding doesn't affect dimensions */
+      padding: 0; /* Remove all padding */
+  }
+  .contacts-list #add-contact-button {
+    display: none; /* Hide the Add Contact button inside the list */
+}
+
+.add-contact-floating-button {
+    display: flex; /* Make the button visible */
+    position: fixed; /* Fix it to the viewport */
+    bottom: 90px; /* Position above the sidebar */
+    right: 20px; /* Position on the bottom-right corner */
+    width: 50px; /* Set width for the round button */
+    height: 50px; /* Set height for the round button */
+    background-color: #2A3647; /* Set background color */
+    color: #fff; /* Set text/icon color */
+    border: none; /* Remove border */
+    border-radius: 50%; /* Make it round */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Add shadow for better visibility */
+    justify-content: center; /* Center the content horizontally */
+    align-items: center; /* Center the content vertically */
+    cursor: pointer; /* Change cursor to pointer */
+    z-index: 1100; /* Ensure it appears above other elements */
+}
+
+.add-contact-floating-button img {
+    width: 24px; /* Set icon width */
+    height: 24px; /* Set icon height */
+}
+}
+
