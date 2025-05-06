@@ -65,7 +65,7 @@ footer a:hover {
 
 .right-side-content {
   margin-top: 96px;
-  width: 100%;
+  /* width: 100%; */
   padding: 64px 96px 64px 328px;
   box-sizing: border-box;
 }

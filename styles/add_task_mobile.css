@@ -1,0 +1,22 @@
+@media(max-width:1200px) {
+    .add_task_board {
+        display: flex;
+        flex-direction: column;
+        gap: 0px;
+    }
+
+    .separator {
+        display: none;
+    }
+
+    .h1_div {
+        display: flex;
+        justify-content: center;
+    }
+}
+
+@media(max-width:770px) {
+    .right-side-content {
+        padding: 64px 96px 64px 96px;
+    }
+}

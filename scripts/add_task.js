@@ -51,24 +51,65 @@ function createDropdownOptionTemplate(user) {
     ? "checked_checkbox.svg"
     : "checkbox_unchecked.svg";
 
-  // Initialen berechnen
   const initials = getAssigneeInitials(user.name);
   const firstLetter = user.name[0].toLowerCase();
+
   option.innerHTML = `
     <div class="option_row">
-      <div class="name_initials_div ">
+      <div class="name_initials_div">
         <span class="initials-circle ${firstLetter}">${initials}</span> 
         <span class="dropdown-item">${user.name}</span>
       </div>      
-      <img src="./assets/img/${isChecked}" alt="Checkbox" class="checkbox-img">
+      <div class="checkbox-container">
+        <img src="./assets/img/${isChecked}" alt="Checkbox" class="checkbox-img">
+      </div>
     </div>
   `;
 
-  option.addEventListener("click", () =>
-    toggleAssignee(user.id, user.name, option)
-  );
+  const checkboxImg = option.querySelector(".checkbox-img");
+
+  // Setze die Anfangsklasse (selected), wenn der User bereits ausgewählt ist
+  if (assigneesObject[user.id]) {
+    option.classList.add("selected");
+  }
+
+  // Hover-Verhalten
+  option.addEventListener("mouseenter", () => {
+    if (option.classList.contains("selected")) {
+      checkboxImg.src = "./assets/img/checked_checkbox_white.svg";
+    } else {
+      checkboxImg.src = "./assets/img/checkbox_unchecked_white.svg";
+    }
+  });
+
+  option.addEventListener("mouseleave", () => {
+    if (option.classList.contains("selected")) {
+      checkboxImg.src = "./assets/img/checked_checkbox_white.svg";
+    } else {
+      checkboxImg.src = "./assets/img/checkbox_unchecked.svg";
+    }
+  });
+
+  // Klick-Verhalten
+  option.addEventListener("click", () => {
+    const isSelected = option.classList.contains("selected");
+
+    // toggleAssignee soll wahrscheinlich den Status im Objekt ändern
+    toggleAssignee(user.id, user.name, option);
+
+    // toggle class nach toggleAssignee aufrufen, falls dort Änderungen passieren
+    option.classList.toggle("selected");
+
+    const nowSelected = option.classList.contains("selected");
+    checkboxImg.src = nowSelected
+      ? "./assets/img/checked_checkbox_white.svg"
+      : "./assets/img/checkbox_unchecked_white.svg";
+  });
+
   return option;
 }
+
+
 
 // Berechnet die Initialen eines Nutzernamens.
 function getAssigneeInitials(assignee) {

@@ -62,22 +62,36 @@
   .dropdown-options-assignee.show {
     display: block;
   }
+
+  .checkbox-container {
+    position: relative;
+    width: 16px; 
+    height: 16px; 
+  }
+
+  .checkbox-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;  /* Bild skaliert auf Container */
+    height: 100%;
+    object-fit: contain; /* oder cover, je nach Design */
+  }
   
   /* Einzelne Dropdown-Option */
   .custom-dropdown-option {
-    padding: 10px;
+    padding: 3px 10px;
     cursor: pointer;
-    border-radius: 10px;
   }
   
   .custom-dropdown-option:hover {
-    background-color: #2a364791; 
+    background-color: #2a3647; 
     color: white;
     border-radius: 10px;
   }
 
   .custom-dropdown-option.selected {
-    background-color: #2a364791; 
+    background-color: #091931; 
     color: white; 
     margin-bottom: 4px;
     border-radius: 10px;
@@ -104,6 +118,7 @@
         justify-content: space-between;
         align-items: center;
         flex-direction: row;
+        /* gap: 40px; */
       }
       
       .initials-circle {
