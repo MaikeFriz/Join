@@ -54,6 +54,23 @@
   font-size: 14px;
   cursor: pointer;
   background-color: white;
+  display: flex;
+  align-items: center;
+  gap: 5px; /* Add spacing between icon and text */
+}
+
+.contact-buttons button#edit-contact-button::before {
+  content: url('./assets/img/edit.svg'); /* Add edit icon */
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+}
+
+.contact-buttons button#delete-contact-button::before {
+  content: url('./assets/img/delete.svg'); /* Add delete icon */
+  display: inline-block;
+  width: 16px;
+  height: 16px;
 }
 
 .contact-highlight {
@@ -61,7 +78,6 @@
   border-radius: 10px;
   color: white;
 }
-
 
 .contact-header {
   display: flex;
