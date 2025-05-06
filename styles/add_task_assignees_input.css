@@ -1,140 +1,147 @@
-
 /* Container für das "Assigned to" Dropdown */
 .assigned_to_div {
-    position: relative;
-    width: 100%;
-  }
-  
-  /* Dropdown-Kopf */
-  .dropdown-assigned-to {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    cursor: pointer;
-    background-color: #fff;
-    width: 100%;   
-    height: 48px; 
-    transition: border-color 0.3s ease;
-  }
-  
-  .dropdown-assigned-to:hover {
-    background-color: #f0f0f0;
-  }
-
-  .dropdown-assigned-to:focus-within {
-    border: solid 1px rgb(41, 171, 226);
-    border-color: rgb(41, 171, 226) !important;
+  position: relative;
+  width: 100%;
 }
-  
-  /* Dropdown-Pfeil */
-  .dropdown_arrow {
-    width: 12px;
-    height: 5px;
-    transition: transform 0.3s ease;
-  }
-  
-  /* Dropdown-Pfeil dreht sich, wenn das Dropdown geöffnet ist */
-  .dropdown_open .dropdown_arrow {
-    transform: rotate(180deg) !important;
-  }
-  
-  /* Dropdown-Liste */
-  .dropdown-options-assignee {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    max-height: 200px; /* 5 Namen mit je ca. 40px Höhe */
-    overflow-y: auto;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    background-color: #fff;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    display: none;
-    z-index: 10;
-    width: 100%;
-  }
-  
-  /* Dropdown anzeigen, wenn aktiv */
-  .dropdown-options-assignee.show {
-    display: block;
-  }
 
-  .checkbox-container {
-    position: relative;
-    width: 16px; 
-    height: 16px; 
-  }
+/* Dropdown-Kopf */
+.dropdown-assigned-to {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  cursor: pointer;
+  background-color: #fff;
+  width: 100%;
+  height: 48px;
+  transition: border-color 0.3s ease;
+}
 
-  .checkbox-img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;  /* Bild skaliert auf Container */
-    height: 100%;
-    object-fit: contain; /* oder cover, je nach Design */
-  }
-  
-  /* Einzelne Dropdown-Option */
-  .custom-dropdown-option {
-    padding: 3px 10px;
-    cursor: pointer;
-  }
-  
-  .custom-dropdown-option:hover {
-    background-color: #2a3647; 
-    color: white;
-    border-radius: 10px;
-  }
+.dropdown-assigned-to:hover {
+  background-color: #f0f0f0;
+}
 
-  .custom-dropdown-option.selected {
-    background-color: #091931; 
-    color: white; 
-    margin-bottom: 4px;
-    border-radius: 10px;
-  }
-  
-    /* Assignee-Anzeige */
-    .show-assignees {
-        margin-top: 10px;
-        display: flex;
-        width: 100%;
-        max-width: 100%;
-      }
-      
-      .assignee-item {
-        display: flex;
-        align-items: baseline !important;
-        flex-direction: row;
-        margin-top: 5px;
-        padding: 0 4px;
-      }
-    
-      .option_row{
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-direction: row;
-        /* gap: 40px; */
-      }
-      
-      .initials-circle {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 42px; 
-        height: 42px; 
-        border-radius: 50%; 
-        border: 2px white solid;
-        color: white; 
-        font-size: 12px;
-        margin-right: 3px; 
-        line-height: 120%;
-      }
+.dropdown-assigned-to:focus-within {
+  border: solid 1px rgb(41, 171, 226);
+  border-color: rgb(41, 171, 226) !important;
+}
 
-      .delete-assignee-button svg {
-        transform: translateY(9px) !important;
-    }
+/* Dropdown-Pfeil */
+.dropdown_arrow {
+  width: 12px;
+  height: 5px;
+  transition: transform 0.3s ease;
+}
+
+/* Dropdown-Pfeil dreht sich, wenn das Dropdown geöffnet ist */
+.dropdown_open .dropdown_arrow {
+  transform: rotate(180deg) !important;
+}
+
+/* Dropdown-Liste */
+.dropdown-options-assignee {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  max-height: 200px;
+  /* 5 Namen mit je ca. 40px Höhe */
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  display: none;
+  z-index: 10;
+  width: 100%;
+}
+
+/* Dropdown anzeigen, wenn aktiv */
+.dropdown-options-assignee.show {
+  display: block;
+}
+
+.checkbox-container {
+  position: relative;
+  width: 16px;
+  height: 16px;
+}
+
+.checkbox-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  /* Bild skaliert auf Container */
+  height: 100%;
+  object-fit: contain;
+  /* oder cover, je nach Design */
+}
+
+/* Einzelne Dropdown-Option */
+.custom-dropdown-option {
+  padding: 3px 10px;
+  cursor: pointer;
+}
+
+.custom-dropdown-option:hover {
+  background-color: #2a3647;
+  color: white;
+  border-radius: 10px;
+}
+
+.custom-dropdown-option.selected {
+  background-color: #091931;
+  color: white;
+  margin-bottom: 4px;
+  border-radius: 10px;
+}
+
+.checkbox-scale {
+  transform: scale(1.3);
+  transition: transform 0.2s ease;
+}
+
+/* Assignee-Anzeige */
+.show-assignees {
+  margin-top: 10px;
+  display: flex;
+  width: 100%;
+  max-width: 100%;
+}
+
+.assignee-item {
+  display: flex;
+  align-items: baseline !important;
+  flex-direction: row;
+  margin-top: 5px;
+  padding: 0 4px;
+}
+
+.option_row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  /* gap: 40px; */
+}
+
+.initials-circle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 2px white solid;
+  color: white;
+  font-size: 12px;
+  margin-right: 3px;
+  line-height: 120%;
+}
+
+.delete-assignee-button svg {
+  transform: translateY(9px) !important;
+}
