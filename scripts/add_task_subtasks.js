@@ -1,4 +1,3 @@
-
 let subtasksObject = {}; // Initialize the subtasks object
 let highestSubtaskId = 0;
 
@@ -67,10 +66,34 @@ function displaySubtask(subtaskId, subtaskText) {
   subtaskElement.className = "subtask-item";
   subtaskElement.id = subtaskId;
   subtaskElement.innerHTML = `
-    <span>${subtaskText}</span>
+    <span class="subtask-text">${subtaskText}</span>
     <button><img class="delete_button_subtask" src="./assets/img/delete.svg" alt="Delete" /></button>
   `;
   subtaskElement.querySelector("button").addEventListener("click", () => removeSubtask(subtaskId, subtaskElement));
+  const span = subtaskElement.querySelector(".subtask-text");
+
+  span.addEventListener("dblclick", () => {
+    const input = document.createElement("input");
+    input.type = "text";
+    input.value = span.textContent;
+    input.className = "edit-subtask-input";
+    span.replaceWith(input);
+    input.focus();
+
+    const save = () => {
+      const newText = input.value.trim();
+      if (newText !== "") {
+        span.textContent = newText;
+        subtasksObject[subtaskId].title = newText;
+      }
+      input.replaceWith(span);
+    };
+
+    input.addEventListener("blur", save);
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") save();
+    });
+  });
   document.getElementById("display_subtasks").appendChild(subtaskElement);
 }
 

@@ -47,7 +47,6 @@
   left: 0;
   width: 100%;
   max-height: 200px;
-  /* 5 Namen mit je ca. 40px Höhe */
   overflow-y: auto;
   border: 1px solid #ccc;
   border-radius: 10px;
@@ -74,10 +73,8 @@
   top: 0;
   left: 0;
   width: 100%;
-  /* Bild skaliert auf Container */
   height: 100%;
   object-fit: contain;
-  /* oder cover, je nach Design */
 }
 
 /* Einzelne Dropdown-Option */
