@@ -1,10 +1,12 @@
-
 @media (max-width: 768px) {
+    html, body {
+      overflow: hidden; 
+      height: 100%; 
+    }
+  
     .right-side-content-contacts {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+      overflow: hidden; 
+      height: 100vh; 
       padding: 0;
     }
   
@@ -13,6 +15,7 @@
       height: 100vh;
       box-sizing: border-box;
       padding: 0;
+      overflow: hidden;
     }
   
     .contacts-list #add-contact-button {
@@ -45,22 +48,18 @@
   
   @media (max-width: 768px) {
     .contact-details {
-      overflow: hidden;
-      height: calc(100vh - 80px);
+      overflow: hidden; 
+      height: calc(100vh - 80px); 
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
       align-items: flex-start;
       padding: 20px;
-      margin-top: 0;
+      margin: 0; 
       width: 100%;
       box-sizing: border-box;
-      position: relative;
-      margin-bottom: 80px;
-    }
-  
-    body {
-      overflow: hidden;
+      position: fixed; 
+      left: 0;
     }
   }
   
@@ -224,14 +223,14 @@
   
   @media (max-width: 768px) {
     .right-side-content-contacts {
-      padding: 0 !important; /* Forcefully remove all padding */
-      flex-grow: 0 !important; /* Ensure flex-grow is not 1 */
+      padding: 0 !important; 
+      flex-grow: 0 !important; 
     }
   
     .contact-details,
     .contacts-list {
-      width: 100vw !important; /* Ensure full width */
-      padding: 0 !important; /* Remove any padding */
-      box-sizing: border-box; /* Include padding and border in width */
+      width: 100vw !important; 
+      padding: 0 !important; 
+      box-sizing: border-box; 
     }
   }
