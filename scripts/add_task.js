@@ -67,49 +67,47 @@ function createDropdownOptionTemplate(user) {
   `;
 
   const checkboxImg = option.querySelector(".checkbox-img");
-
-  // Setze die Anfangsklasse (selected), wenn der User bereits ausgewählt ist
   if (assigneesObject[user.id]) {
     option.classList.add("selected");
   }
 
-  // Hover-Verhalten
   option.addEventListener("mouseenter", () => {
     if (option.classList.contains("selected")) {
       checkboxImg.src = "./assets/img/checked_checkbox_white.svg";
+      checkboxImg.classList.add("checkbox-scale");
     } else {
       checkboxImg.src = "./assets/img/checkbox_unchecked_white.svg";
+      checkboxImg.classList.remove("checkbox-scale");
     }
   });
-
+  
   option.addEventListener("mouseleave", () => {
     if (option.classList.contains("selected")) {
       checkboxImg.src = "./assets/img/checked_checkbox_white.svg";
+      checkboxImg.classList.add("checkbox-scale");
     } else {
       checkboxImg.src = "./assets/img/checkbox_unchecked.svg";
+      checkboxImg.classList.remove("checkbox-scale");
     }
   });
-
-  // Klick-Verhalten
+  
   option.addEventListener("click", () => {
-    const isSelected = option.classList.contains("selected");
-
-    // toggleAssignee soll wahrscheinlich den Status im Objekt ändern
-    toggleAssignee(user.id, user.name, option);
-
-    // toggle class nach toggleAssignee aufrufen, falls dort Änderungen passieren
     option.classList.toggle("selected");
-
     const nowSelected = option.classList.contains("selected");
-    checkboxImg.src = nowSelected
-      ? "./assets/img/checked_checkbox_white.svg"
-      : "./assets/img/checkbox_unchecked_white.svg";
+  
+    if (nowSelected) {
+      checkboxImg.src = "./assets/img/checked_checkbox_white.svg";
+      checkboxImg.classList.add("checkbox-scale");
+    } else {
+      checkboxImg.src = "./assets/img/checkbox_unchecked_white.svg";
+      checkboxImg.classList.remove("checkbox-scale");
+    }
+  
+    toggleAssignee(user.id, user.name, option);
   });
 
   return option;
 }
-
-
 
 // Berechnet die Initialen eines Nutzernamens.
 function getAssigneeInitials(assignee) {
@@ -184,6 +182,7 @@ function removeAssignee(userId) {
     if (option.dataset.userId === userId) {
       option.querySelector(".checkbox-img").src =
         "./assets/img/checkbox_unchecked.svg";
+        option.classList.remove("selected");
     }
   });
 }

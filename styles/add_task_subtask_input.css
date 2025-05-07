@@ -1,4 +1,3 @@
-
 .separator_subtasks {
     margin: 0 5px;
 }
@@ -54,12 +53,12 @@ button {
     cursor: pointer;
 }
 
-.delete_button_subtask, 
-.edit_button_subtask{
+.delete_button_subtask,
+.edit_button_subtask {
     margin-left: 32px;
 }
 
-ul{
+ul {
     margin-block-start: 0;
     margin-block-end: 0;
     margin-top: 10px;
@@ -139,8 +138,26 @@ ul{
     align-items: center;
 }
 
+.subtask-text {
+    cursor: pointer;
+}
 
+.edit-subtask-input {
+    width: 100%;
+    font-size: 16px;
+    border: none;
+    border-bottom: 1px solid rgb(41, 171, 226);
+    border-radius: 0 !important;
+    padding: 6px;
+    outline: none;
+    background-color: white;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease;
+  }
+  
+  .edit-subtask-input:focus {
+    border-bottom: 1px solid rgb(41, 171, 226);
+  }
 
-
-
+  
   
