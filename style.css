@@ -180,3 +180,11 @@ footer a:hover {
 .d-none {
   display: none !important;
 }
+
+
+@media(max-width:770px) {
+  .right-side-content {
+    width: 100vw;
+    padding: 64px 96px 64px 64px;
+  }
+}
