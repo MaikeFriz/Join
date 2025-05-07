@@ -222,3 +222,16 @@
     }
   }
   
+  @media (max-width: 768px) {
+    .right-side-content-contacts {
+      padding: 0 !important; /* Forcefully remove all padding */
+      flex-grow: 0 !important; /* Ensure flex-grow is not 1 */
+    }
+  
+    .contact-details,
+    .contacts-list {
+      width: 100vw !important; /* Ensure full width */
+      padding: 0 !important; /* Remove any padding */
+      box-sizing: border-box; /* Include padding and border in width */
+    }
+  }
