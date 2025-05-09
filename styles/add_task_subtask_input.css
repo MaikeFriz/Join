@@ -5,7 +5,7 @@
 #input_subtask {
     height: 48px;
     width: 100%;
-    padding: 8px;
+    padding: 8px 80px 8px 8px;
     font-size: 14px;
 }
 
@@ -153,11 +153,42 @@ ul {
     background-color: white;
     box-sizing: border-box;
     transition: border-color 0.2s ease;
+    flex-grow: 1;
+    flex: 1;
+    padding-right: 80px;
   }
   
   .edit-subtask-input:focus {
     border-bottom: 1px solid rgb(41, 171, 226);
   }
+
+  .input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+
+  .icons-container {
+    position: absolute;
+    right: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .check-icon, .clear_icon{
+    cursor: pointer;
+    transform: scale(1);
+  }
+
+  .check-icon:hover, .clear_icon:hover{
+    transform: scale(1.1);
+  }
+
+  
+
+
 
   
   
