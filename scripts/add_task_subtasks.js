@@ -1,11 +1,10 @@
-let subtasksObject = {}; // Initialize the subtasks object
+let subtasksObject = {};
 let highestSubtaskId = 0;
 
 document.addEventListener("DOMContentLoaded", function () {
   initializeSubtaskListeners();
 });
 
-// Initializes all event listeners for subtask interactions
 function initializeSubtaskListeners() {
   const inputSubtask = document.getElementById("input_subtask");
   const addIcon = document.getElementById("add_icon");
@@ -19,39 +18,34 @@ function initializeSubtaskListeners() {
   checkIcon.addEventListener("click", () => addSubtask(inputSubtask));
 }
 
-// Toggles the visibility of icons based on input content
 function toggleIcons(inputSubtask, addIcon, inputIcons) {
   const isNotEmpty = inputSubtask.value.trim() !== "";
   addIcon.style.display = isNotEmpty ? "none" : "inline";
   inputIcons.style.display = isNotEmpty ? "flex" : "none";
 }
 
-// Resets the icons when the input loses focus
 function resetIcons(inputSubtask, addIcon, inputIcons) {
   if (inputSubtask.value.trim() === "") toggleIcons(inputSubtask, addIcon, inputIcons);
 }
 
-// Clears the input field and resets icons
 function clearInput(inputSubtask, addIcon, inputIcons) {
   inputSubtask.value = "";
   toggleIcons(inputSubtask, addIcon, inputIcons);
   inputSubtask.focus();
 }
 
-// Adds a new subtask
 async function addSubtask(inputSubtask) {
     const subtaskText = inputSubtask.value.trim();
     if (subtaskText !== "") {
       await loadHighestSubtaskId();
       const newSubtaskId = `subtask${highestSubtaskId + 1}`;
-      subtasksObject[newSubtaskId] = { title: subtaskText, completed: false }; // 'title' instead of 'text'
+      subtasksObject[newSubtaskId] = { title: subtaskText, completed: false };
       displaySubtask(newSubtaskId, subtaskText);
       highestSubtaskId++;
       clearInput(inputSubtask, document.getElementById("add_icon"), document.getElementById("input_icons"));
     }
   }
 
-// Loads the highest subtask ID from the database
 async function loadHighestSubtaskId() {
   if (Object.keys(subtasksObject).length === 0) {
     const response = await fetch("https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData.json");
@@ -60,7 +54,6 @@ async function loadHighestSubtaskId() {
   }
 }
 
-// Displays a new subtask in the UI
 function displaySubtask(subtaskId, subtaskText) {
   const subtaskElement = createSubtaskElement(subtaskId, subtaskText);
   document.getElementById("display_subtasks").appendChild(subtaskElement);
@@ -158,10 +151,6 @@ function cancelEdit(inputContainer, span, deleteButton) {
   deleteButton.style.display = "inline";
 }
 
-
-
-
-// Removes a subtask from the UI and object
 function removeSubtask(subtaskId, subtaskElement) {
   delete subtasksObject[subtaskId];
   subtaskElement.remove();

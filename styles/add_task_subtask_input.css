@@ -80,6 +80,7 @@ ul {
 
 .subtask-text {
     padding-left: 8px;
+    overflow-wrap: anywhere;
 }
 
 .subtask-item {
