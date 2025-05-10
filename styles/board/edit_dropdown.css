@@ -21,7 +21,7 @@
 
 .dropdown-edit-assigned-to.show, 
 .dropdown-options-category.show {
-    max-height: 250px;
+    max-height: 230px;
     opacity: 1;
     overflow-y: auto;
     pointer-events: auto;
@@ -79,17 +79,21 @@
     line-height: 1.6;
   }
 
-.custom-dropdown-option:hover {
+.edit-custom-dropdown-option{
     width: calc(100% + 32px);
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;   
+}
+
+.edit-custom-dropdown-option:hover {
     margin-left: -16px;
     margin-right: -16px;
-    padding-left: 26px;
+    padding: 0px 16px  !important;
     padding-right: 16px;
     background-color: rgba(42, 54, 71, 1) !important;
     color: rgba(255, 255, 255, 1);
     border-radius: 0 !important;
 }
 
-.edit-dropdown-padding{
-    z-index: 0;
-}

@@ -41,7 +41,7 @@ function getCategoryOptions() {
 
     for (let categoryIndex = 0; categoryIndex < categories.length; categoryIndex++) {
         const category = categories[categoryIndex];
-        categoryOptionsHTML += `<div class="custom-dropdown-option edit-dropdown-padding" data-value="${category}" onclick="selectCategory('${category}')">${category}</div>`;
+        categoryOptionsHTML += `<div class="edit-custom-dropdown-option edit-dropdown-padding" data-value="${category}" onclick="selectCategory('${category}')">${category}</div>`;
     }
 
     return categoryOptionsHTML;
