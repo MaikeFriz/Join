@@ -1,6 +1,7 @@
 
 .board-preview-task{
     width: 100%;
+    min-width: 180px;
     height: auto;
     cursor: pointer;
     display: flex;
@@ -27,6 +28,8 @@
     padding: 4px 16px 4px 16px;
     border-radius: 8px;
     cursor: pointer;
+    word-wrap: none;
+    white-space: nowrap;
 }
 
 .preview-task-bottom{

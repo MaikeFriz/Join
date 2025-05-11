@@ -36,7 +36,7 @@ function displaySelectedCategories(taskId) {
 
 // Generates the HTML for the category options in the dropdown menu.
 function getCategoryOptions() {
-    const categories = ["User Story", "Technical task", "HTML", "Javascript", "CSS"];
+    const categories = ["User Story", "Technical Task", "HTML", "Javascript", "CSS"];
     let categoryOptionsHTML = "";
 
     for (let categoryIndex = 0; categoryIndex < categories.length; categoryIndex++) {

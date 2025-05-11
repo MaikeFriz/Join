@@ -67,6 +67,7 @@ span p:hover{
     font-size: 16px;
     color: rgba(168, 168, 168, 1);
     width: 98%;
+    min-width: 180px;
     height: 48px;
     background-color: rgba(231, 231, 231, 1);
     border-radius: 10px;
