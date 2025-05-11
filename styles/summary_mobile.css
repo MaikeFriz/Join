@@ -1,0 +1,209 @@
+@media(max-width:1300px) {
+    
+    .summary-content{
+        flex-direction: column-reverse;
+        align-items: start;
+    }
+
+    .summary-right{
+        display: none;
+    }
+}
+
+@media(max-width:1100px) {
+
+
+    .right-side-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    }
+
+    .summary-content{
+        align-items: center;
+    }  
+
+    .summary-overview {
+        width: 500px;
+    } 
+
+    .summary-to-do, 
+    .summary-done{
+        width: 240px;
+    }
+
+    .summary-task-amount,
+    .summary-task-progress,
+    .summary-awaiting-feedback{
+        width: 154px;
+    }
+
+    .summary-right{
+        display: none;
+    }
+
+    .summary-head{
+        padding:0;
+        margin: 0;
+        text-align: start;
+        overflow: visible;
+        white-space: nowrap
+    }
+    
+    .summary-headline h1{
+        font-size: 47px;
+        line-height: 0;
+        text-align: start;
+        
+    }
+    
+    .summary-headline p{
+        font-size: 20px;
+
+    }
+}
+
+@media(max-width:768px) {
+
+    .summary-content{
+        align-items: center;
+        gap: 16px;
+    }
+    
+    .right-side-content{
+        padding: 32px 5% 64px 5% !important;
+        align-items: center;  
+    }
+
+    .summary-headline{
+        width: 90vw;
+        justify-content: center;
+    }
+
+    .summary-headline p{
+        font-size: 23px;
+    } 
+}
+
+@media(max-width:640px){
+    
+    .right-side-content{
+        padding: 64px 5% 64px 5% !important;  
+    }
+    
+    .summary-content{
+        align-items: center;
+    }
+
+    .summary-headline{
+        width: 396px;
+        display: flex;
+        flex-direction: column;
+        align-items:start;
+        gap: 16px;
+    }
+
+    .headline-separator{
+        display: none;
+    }
+
+    .headline-underline{
+        display: block;
+        width: 90px;
+        border-bottom: 3px solid rgba(41, 171, 226, 1);
+        padding-top: 0;
+    }
+
+     .summary-headline h1{
+        font-size: 47px;
+        line-height: 0;
+    }
+    
+    .summary-headline p{
+        font-size: 20px;
+        margin-top: 16px;
+    }
+
+    .summary-overview {
+        width: 396px;
+        height: 384px;
+        gap: 10px;
+    } 
+
+    .summary-overview p{
+       font-size: 14px;
+    } 
+    
+    .overview-amount-contents h1{
+        font-size: 47px;
+    }
+
+    .summary-to-do, 
+    .summary-done{
+        width: 186px;
+        height: 110px;
+        gap: 10px;
+        border-radius: 20px;
+    }
+
+    .overview-line-two{
+        border-radius: 20px;
+        gap: 20px;
+        height: 116px;
+    }
+
+    .svg-icon, 
+    .summary-urgent img{
+        height: 40px;
+        width: 40px;
+    }
+
+    .summary-task-amount,
+    .summary-task-progress,
+    .summary-awaiting-feedback{
+        width: 116px;
+        height: 116px;  
+        border-radius: 20px;
+    }
+
+    .line-two-separator{
+        height: 68px;
+    }
+}
+
+@media(max-width:430px){
+    
+
+    .summary-headline{
+        width: 300px;
+        display: flex;
+        flex-direction: column;
+        align-items:start;
+        gap: 16px;
+    }
+
+    .summary-overview {
+        width: 300px;
+        height: 384px;
+        gap: 8px;
+    } 
+
+    .summary-deadline h3{
+        font-size: 14px;
+    }
+
+    .summary-deadline p{
+        font-size: 12px;
+    }
+
+    .summary-to-do, 
+    .summary-done{
+        width: 142px;
+    }
+
+    .summary-task-amount,
+    .summary-task-progress,
+    .summary-awaiting-feedback{
+        width: 90px;
+    }
+}

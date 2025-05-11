@@ -182,7 +182,7 @@ footer a:hover {
 }
 
 
-@media(max-width:770px) {
+@media(max-width:768px) {
   .right-side-content {
     width: 100vw;
     padding: 64px 96px 64px 64px;
