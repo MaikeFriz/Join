@@ -186,6 +186,7 @@
         width: 300px;
         height: 384px;
         gap: 8px;
+        margin-bottom: 32px;
     } 
 
     .summary-deadline h3{
