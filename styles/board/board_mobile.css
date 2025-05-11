@@ -1,11 +1,4 @@
-
 @media(max-width:1300px) {
-
-    
-    .kanban-header{
-        width: 107%;
-        padding-right: 50px;
-    }
 
     .board-table{
         width: 100%;
@@ -21,6 +14,7 @@
     .task-container{
         height: auto;
         width: 100%;
+        left: 0;
         display: flex;
         flex-direction: column;
         padding-right: 0px;
@@ -52,12 +46,40 @@
     }
 
     .board-table{
-        padding-top:100px
-
+        padding-top:88px
     }
 
     .input-with-svg{
         width: 100%;
     }
+}
 
+@media(max-width:768px){
+    
+    .kanban-header{
+        padding: 24px 0px 16px 4px;
+    }
+
+    .board-title h1{
+        font-size: 47px;
+    }
+
+    .board-input-section{
+        top: 60px; 
+        gap: 16px;
+    }
+
+    .board-input-section a button{
+        text-indent: -9999px;
+        height: 40px;
+        width: 40px;
+        padding-left: 12px;       
+    }
+}
+
+@media(max-width:550px){
+    
+    .right-side-content{
+        padding: 64px 5% 64px 5% !important;
+    }
 }

@@ -20,8 +20,6 @@
 
 .focused-task{
     width: 525px;
-    margin-left: 5%;
-    margin-right: 5%;
     max-height: 85vh;
     top: 0;
     display: flex;
