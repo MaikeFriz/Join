@@ -27,7 +27,6 @@
 .tab-content {
     width: 100%;
     font-size: 16px;
-    color: rgba(255, 255, 255, 1);
     display: flex;
     gap: 8px;
     cursor: pointer;
@@ -36,9 +35,10 @@
 .tab-content a{
     width: 100%;
     padding: 0 48px;
+    color: rgba(205, 205, 205, 1)
 }
 
-.tab-content img {
+.tab-content svg {
     cursor: pointer;
 }
 
@@ -46,11 +46,20 @@
     background-color: rgba(9, 25, 49, 1);
 }
 
+.tab-content:hover a{   
+    color: rgba(255, 255, 255, 1);
+}
+
+.tab-content:hover svg path{
+    fill: rgba(255, 255, 255, 1);
+}
+
 .tab-content-inner {
     width: 100%;
     font-size: 16px;
     color: rgba(255, 255, 255, 1);
     display: flex;
+    align-items: center;
     gap: 8px;
     text-decoration: none;
 }
