@@ -84,3 +84,12 @@ function logoutUser() {
   localStorage.removeItem("guestKanbanData");
   window.location.href = "./index.html";
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+  const userInitialsHeader = document.getElementById("user-initials-header");
+  if (!userInitialsHeader) {
+    return;
+  }
+
+  // Add logic to populate or manipulate the element here
+});

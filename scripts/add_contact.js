@@ -34,6 +34,7 @@ window.addEventListener("message", function (event) {
   } else if (event.data.type === "editContact") {
     const updatedContact = event.data.contact;
     updateContact(updatedContact);
+    displayContactDetails(updatedContact.id); // Refresh the contact details view
     closeOverlay();
   }
 });
@@ -121,9 +122,14 @@ function updateContact(contact) {
     },
     body: JSON.stringify(contact),
   })
-    .then((response) => response.json())
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Failed to update contact.");
+      }
+      return response.json();
+    })
     .then((data) => {
-      console.log("Contact updated:", data);
+      console.log("Contact updated successfully:", data);
       renderContacts();
     })
     .catch((error) => {
@@ -145,6 +151,11 @@ function renderContacts() {
     .then((contacts) => {
       const contactsList = document.querySelector(".contacts-list ul");
       contactsList.innerHTML = "";
+
+      if (!contacts) {
+        console.log("No contacts found.");
+        return;
+      }
 
       const sortedContacts = Object.keys(contacts)
         .map((key) => ({ id: key, ...contacts[key] }))
