@@ -37,25 +37,7 @@ function loadGuestDataFromLocalStorage() {
   return
 }
 
-function initializeGuestData() {
-  return {
-    "subtasks": {},
-    "tasks": {},
-    "users": {
-      "user": {
-        "userId": "guest",
-        "assignedTasks": {},
-        "name": "Guest"
-      }
-    }
-  };
-}
-
-function saveGuestDataToLocalStorage(data) {
-  localStorage.setItem("guestKanbanData", JSON.stringify(data));
-}
-
-function guestLogin() {
+async function guestLogin() {
   console.log("Guest Log In clicked");
 
   document.getElementById("input_email").removeAttribute("required");
@@ -64,8 +46,13 @@ function guestLogin() {
   localStorage.removeItem("loggedInUser");
   localStorage.setItem("isGuest", "true");
 
-  data = initializeGuestData();
-  saveGuestDataToLocalStorage(data);
+  // Abrufen der Gastdaten von der Datenbank und Speichern in LocalStorage
+  const guestData = await fetchGuestKanbanData();
+  if (guestData) {
+    console.log("Guest data successfully fetched and stored.");
+  } else {
+    console.error("Failed to fetch guest data.");
+  }
 
   window.location.href = "./summary.html";
 }
