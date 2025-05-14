@@ -108,7 +108,7 @@ header {
 /* Hover-Effekte */
 .logout-container:hover,
 .dropdown-links a:hover {
-  background-color: rgba(226, 230, 237, 1);
+  background-color: #4c535c;
 }
 
 /* KEINE extra Box oder Trennlinie für Logout */

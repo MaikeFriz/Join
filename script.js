@@ -16,7 +16,8 @@ function checkUserLogin() {
       .pop()
       .split("?")[0]
       .split("#")[0];
-    if (excludedPages) {
+
+    if (excludedPages.includes(currentPage)) {
       return;
     } else {
       window.location.href = "./log_in.html";
@@ -55,7 +56,7 @@ function getUserInitialForHeader(userName) {
 
   headerInitials.textContent = initials;
 
-  // Event-Listener für das Dropdown
+  // Event-Listener für das Dropdown-Menü
   headerInitials.addEventListener("click", function (event) {
     event.stopPropagation();
     const dropdown = document.querySelector(".user-dropdown");
@@ -68,21 +69,14 @@ function getUserInitialForHeader(userName) {
         : "translateY(0px)";
   });
 
-  // Direkter Event-Listener für den Logout-Button
-  document
-    .getElementById("logoutButton")
-    .addEventListener("click", function (e) {
+  // WICHTIG: Event-Listener für Logout-Button (nutzt logoutUser aus log_out.js)
+  const logoutBtn = document.getElementById("logoutButton");
+  if (logoutBtn) {
+    logoutBtn.addEventListener("click", function (e) {
       e.stopPropagation();
-      logoutUser();
+      logoutUser(); // wird aus log_out.js geholt
     });
-}
-
-// Diese Funktion muss global verfügbar sein
-function logoutUser() {
-  localStorage.removeItem("loggedInUser");
-  localStorage.removeItem("isGuest");
-  localStorage.removeItem("guestKanbanData");
-  window.location.href = "./index.html";
+  }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
