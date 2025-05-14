@@ -1,4 +1,4 @@
-// Initializes the drag-and-drop functionality for task containers
+// Initializes the drag-and-drop functionality for each task container
 function initializeDragAndDrop(taskContainers) {
   taskContainers.forEach((container) => {
     setupDragStartListener(container);
@@ -8,7 +8,7 @@ function initializeDragAndDrop(taskContainers) {
   });
 }
 
-// Sets up the 'dragstart' event listener for a task container
+// Sets up the 'dragstart' event listener for the task container
 function setupDragStartListener(container) {
   container.addEventListener("dragstart", (event) =>
     handleDragStart(event, (task, clone) => {
@@ -18,7 +18,7 @@ function setupDragStartListener(container) {
   );
 }
 
-// Sets up the 'dragend' event listener for a task container
+// Sets up the 'dragend' event listener for the task container
 function setupDragEndListener(container) {
   container.addEventListener("dragend", (event) =>
     handleDragEnd(event, () => {
@@ -31,12 +31,12 @@ function setupDragEndListener(container) {
   );
 }
 
-// Sets up the 'dragover' event listener for a task container
+// Sets up the 'dragover' event listener for the task container
 function setupDragOverListener(container) {
   container.addEventListener("dragover", (event) => handleDragOver(event, taskClone));
 }
 
-// Sets up the 'drop' event listener for a task container
+// Sets up the 'drop' event listener for the task container
 function setupDropListener(container) {
   container.addEventListener("drop", (event) =>
     handleDrop(event, container, draggedTask, (task) => updateTaskStatus(task.dataset.taskId, container.id))
@@ -75,7 +75,7 @@ function createTaskClone(task, event) {
   return taskClone;
 }
 
-// Creates an invisible drag image to prevent the default drag icon from showing
+// Creates an invisible drag image to prevent the default globe icon from showing
 function createInvisibleDragImage(event) {
   const invisibleElement = document.createElement("div");
   invisibleElement.style.width = "1px";
@@ -95,12 +95,14 @@ function cleanUpInvisibleDragImage(invisibleElement) {
   }, 0);
 }
 
+
 // Handles the dragend event, cleaning up after the drag operation
 function handleDragEnd(event, onDragEnd) {
   const task = event.target;
   task.classList.remove("dragging");
   onDragEnd();
   loadNoTasksFunctions();
+
 }
 
 // Updates the position of the task clone as it follows the cursor during drag
@@ -134,8 +136,7 @@ function updateTaskStatus(taskId, newStatusColumnId) {
 
   if (isGuest) {
     updateTaskInLocalStorage(taskId, newStatus);
-    kanbanData = JSON.parse(localStorage.getItem("guestKanbanData"));
-    return new Promise(resolve => setTimeout(resolve, 50));
+    return Promise.resolve(); // Keine Datenbankoperation erforderlich
   } else {
     return updateTaskInFirebase(taskId, newStatus).catch((error) => {
       console.error("Error updating task in Firebase:", error);
@@ -163,19 +164,24 @@ function updateTaskInLocalStorage(taskId, newStatus) {
 
   let assignedTasks = data.users.guest.assignedTasks;
 
+  // Entferne die Aufgabe aus allen anderen Statuslisten
   ["toDo", "inProgress", "awaitingFeedback", "done"].forEach(status => {
     if (assignedTasks[status] && assignedTasks[status][taskId]) {
       delete assignedTasks[status][taskId];
     }
   });
 
+  // Füge die Aufgabe in die neue Statusliste ein
   if (!assignedTasks[newStatus]) {
     assignedTasks[newStatus] = {};
   }
   assignedTasks[newStatus][taskId] = true;
 
+  // Aktualisiere das globale kanbanData-Objekt
+  kanbanData = data;
+
+  // Speichere die aktualisierten Daten im localStorage
   localStorage.setItem("guestKanbanData", JSON.stringify(data));
-  kanbanData = JSON.parse(JSON.stringify(data));
 }
 
 // Removes the task from all other status lists in Firebase
@@ -205,7 +211,7 @@ function addTaskToNewStatus(taskId, newStatus, userId, baseUrl) {
 // Updates the task's status in Firebase by removing it from other statuses and adding it to the new one
 function updateTaskInFirebase(taskId, newStatus) {
   let user = JSON.parse(localStorage.getItem("loggedInUser"));
-
+  
   const isGuest = JSON.parse(localStorage.getItem("isGuest"));
   if (isGuest) {
     let data = JSON.parse(localStorage.getItem("guestKanbanData"));

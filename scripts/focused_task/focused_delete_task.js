@@ -4,28 +4,46 @@ async function deleteTask(taskId) {
         const isGuest = JSON.parse(localStorage.getItem("isGuest"));
 
         if (isGuest) {
+            // Synchronisiere die Daten nach Drag-and-Drop
+            kanbanData = JSON.parse(localStorage.getItem("guestKanbanData"));
+            console.log("Guest kanbanData before deletion:", kanbanData);
+
+            // Lösche Subtasks und Task aus localStorage und kanbanData
             deleteSubtasksForGuest(taskId);
             deleteTaskFromLocalStorage(taskId);
             deleteTaskFromCategoriesForGuest(taskId);
             deleteTaskFromAssigneesForGuest(taskId);
+
+            // Synchronisiere erneut nach dem Löschen
+            kanbanData = JSON.parse(localStorage.getItem("guestKanbanData"));
+            console.log("Guest kanbanData after deletion:", kanbanData);
         } else {
-            // Eingeloggter Benutzer: Löschen aus der Datenbank
             await waitForDatabaseOperations(taskId);
+
+            const category = await getTaskCategoryForUser(taskId);
+            if (category) {
+                await deleteTaskFromUserAssignedTasks(taskId, category);
+            }
+
             const taskResponse = await fetch(`${BASE_URL}tasks/${taskId}.json`);
             if (!taskResponse.ok) {
                 throw new Error('Task could not be fetched.');
             }
 
             const taskData = await taskResponse.json();
-            if (!taskData) throw new Error('Task not found.');
+            if (!taskData) return;
 
-            const { assignees, subtasks } = taskData;
+            const { subtasks } = taskData;
 
-            await deleteTaskFromDatabase(taskId);
-            await deleteSubtasks(subtasks);
+            if (subtasks) {
+                await deleteSubtasks(subtasks);
+            }
+
             await deleteTaskFromCategories(taskId);
-            await deleteTaskFromAssignees(taskId, assignees);
+            await deleteTaskFromDatabase(taskId);
         }
+
+        await waitForDatabaseOperations(taskId);
 
         closeConfirmDialog();
         await backToBoardTable();
@@ -38,14 +56,12 @@ async function deleteTask(taskId) {
 function deleteTaskFromLocalStorage(taskId) {
     const guestData = JSON.parse(localStorage.getItem("guestKanbanData"));
     if (guestData && guestData.tasks) {
-        console.log("Vor dem Löschen im LocalStorage:", JSON.stringify(guestData.tasks, null, 2)); // Debugging-Ausgabe
-        delete guestData.tasks[taskId]; // Löscht nur den spezifischen Task
-        console.log("Nach dem Löschen im LocalStorage:", JSON.stringify(guestData.tasks, null, 2)); // Debugging-Ausgabe
+        delete guestData.tasks[taskId];
         localStorage.setItem("guestKanbanData", JSON.stringify(guestData));
     }
 
     if (kanbanData.tasks) {
-        delete kanbanData.tasks[taskId]; // Löscht nur den spezifischen Task
+        delete kanbanData.tasks[taskId];
     }
 }
 
@@ -53,8 +69,6 @@ function deleteTaskFromLocalStorage(taskId) {
 function deleteSubtasksForGuest(taskId) {
     const guestData = JSON.parse(localStorage.getItem("guestKanbanData"));
     if (guestData && guestData.tasks && guestData.tasks[taskId] && guestData.tasks[taskId].subtasks) {
-        console.log("Vor dem Löschen der Subtasks:", JSON.stringify(guestData.tasks[taskId].subtasks, null, 2)); // Debugging-Ausgabe
-
         const subtaskRefs = guestData.tasks[taskId].subtasks;
         for (const subtaskId in subtaskRefs) {
             if (subtaskRefs[subtaskId]) {
@@ -63,26 +77,20 @@ function deleteSubtasksForGuest(taskId) {
         }
 
         delete guestData.tasks[taskId].subtasks;
-
-        console.log("Nach dem Löschen der Subtasks:", JSON.stringify(guestData.tasks, null, 2)); // Debugging-Ausgabe
-
         localStorage.setItem("guestKanbanData", JSON.stringify(guestData));
     }
 
     if (kanbanData.tasks && kanbanData.tasks[taskId] && kanbanData.tasks[taskId].subtasks) {
-        // Extrahiere die Subtask-IDs aus der Verknüpfung im Task
         const subtaskRefs = kanbanData.tasks[taskId].subtasks;
 
         for (const subtaskId in subtaskRefs) {
             if (subtaskRefs[subtaskId]) {
-                // Lösche den Subtask aus kanbanData.subtasks
                 if (kanbanData.subtasks && kanbanData.subtasks[subtaskId]) {
                     delete kanbanData.subtasks[subtaskId];
                 }
             }
         }
 
-        // Entferne die Subtask-Verknüpfung aus dem Task
         delete kanbanData.tasks[taskId].subtasks;
     }
 }
@@ -105,28 +113,18 @@ async function deleteSubtasks(subtasks) {
 
 // Deletes the task from categories in localStorage and kanbanData for guest users
 function deleteTaskFromCategoriesForGuest(taskId) {
-    // Lade die aktuellste Version von guestKanbanData
     const guestData = JSON.parse(localStorage.getItem("guestKanbanData"));
 
     if (guestData && guestData.users && guestData.users.guest && guestData.users.guest.assignedTasks) {
         const assignedTasks = guestData.users.guest.assignedTasks;
 
-        console.log("Vor dem Löschen:", JSON.stringify(assignedTasks, null, 2)); // Debugging-Ausgabe
-
-        // Lösche nur den spezifischen Task
         for (const categoryId in assignedTasks) {
             if (assignedTasks[categoryId] && assignedTasks[categoryId][taskId]) {
-                console.log(`Lösche Task ${taskId} aus Kategorie ${categoryId}`); // Debugging-Ausgabe
                 delete assignedTasks[categoryId][taskId];
             }
         }
 
-        console.log("Nach dem Löschen:", JSON.stringify(assignedTasks, null, 2)); // Debugging-Ausgabe
-
-        // Aktualisiere das localStorage mit den geänderten Daten
         localStorage.setItem("guestKanbanData", JSON.stringify(guestData));
-    } else {
-        console.error("guestKanbanData oder assignedTasks nicht gefunden.");
     }
 }
 
@@ -146,27 +144,38 @@ async function deleteTaskFromCategories(taskId) {
 // Deletes a task from all assignees in localStorage and kanbanData for guest users
 function deleteTaskFromAssigneesForGuest(taskId) {
     const guestData = JSON.parse(localStorage.getItem("guestKanbanData"));
-    if (guestData && guestData.users && guestData.users.guest && guestData.users.guest.assignedTasks) {
-        console.log("Vor dem Löschen aus Assignees:", JSON.stringify(guestData.users.guest.assignedTasks, null, 2)); // Debugging-Ausgabe
-
-        for (const userId in guestData.users.guest.assignedTasks) {
-            const tasks = guestData.users.guest.assignedTasks[userId];
-            if (tasks && tasks[taskId]) {
-                delete tasks[taskId];
-            }
-        }
-
-        console.log("Nach dem Löschen aus Assignees:", JSON.stringify(guestData.users.guest.assignedTasks, null, 2)); // Debugging-Ausgabe
-
-        localStorage.setItem("guestKanbanData", JSON.stringify(guestData));
+    if (!guestData || !guestData.tasks || !guestData.tasks[taskId] || !guestData.tasks[taskId].assignees) {
+        return;
     }
+
+    const assignees = guestData.tasks[taskId].assignees;
+
+    for (const userId in assignees) {
+        if (assignees[userId] && guestData.users && guestData.users[userId] && guestData.users[userId].assignedTasks) {
+            delete guestData.users[userId].assignedTasks[taskId];
+        }
+    }
+
+    localStorage.setItem("guestKanbanData", JSON.stringify(guestData));
 }
 
 // Deletes a task from all assignees in the database
-async function deleteTaskFromAssignees(taskId, assignees) {
-    for (const userId of assignees) {
-        const url = `${BASE_URL}users/${userId}/assignedTasks/${taskId}.json`;
-        await fetch(url, { method: 'DELETE' });
+async function deleteTaskFromAssignees(taskId) {
+    const taskResponse = await fetch(`${BASE_URL}tasks/${taskId}.json`);
+    if (!taskResponse.ok) {
+        throw new Error('Task could not be fetched.');
+    }
+
+    const taskData = await taskResponse.json();
+    if (!taskData || !taskData.assignees) {
+        return;
+    }
+
+    for (const userId in taskData.assignees) {
+        if (taskData.assignees[userId]) {
+            const url = `${BASE_URL}users/${userId}/assignedTasks/${taskId}.json`;
+            await fetch(url, { method: 'DELETE' });
+        }
     }
 }
 
@@ -183,16 +192,63 @@ async function waitForDatabaseOperations(taskId) {
     try {
         const response = await fetch(`${BASE_URL}tasks/${taskId}/status.json`);
         if (!response.ok) {
-            throw new Error(`Error checking database status.`);
+            throw new Error(`Error checking database status for task ${taskId}.`);
         }
 
         const status = await response.json();
+
         if (status && status.pendingOperations > 0) {
             return new Promise(resolve => setTimeout(() => resolve(waitForDatabaseOperations(taskId)), 1000));
         }
     } catch (error) {
-        console.error(`Error while waiting for database operations: ${error.message}`);
         throw error;
+    }
+}
+
+// Deletes a task from the logged-in user's assigned tasks in a specific category
+async function deleteTaskFromUserAssignedTasks(taskId, category) {
+    const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+    if (!loggedInUser || !loggedInUser.userId) {
+        throw new Error("No logged-in user found.");
+    }
+
+    const url = `${BASE_URL}users/${loggedInUser.userId}/assignedTasks/${category}/${taskId}.json`;
+
+    try {
+        const response = await fetch(url, { method: 'DELETE' });
+        if (!response.ok) {
+            throw new Error(`Failed to delete task ${taskId} from user ${loggedInUser.userId} in category ${category}.`);
+        }
+    } catch (error) {
+        console.error(`Error deleting task ${taskId} from user ${loggedInUser.userId}: ${error.message}`);
+    }
+}
+
+// Retrieves the category of a task for the logged-in user
+async function getTaskCategoryForUser(taskId) {
+    const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+    if (!loggedInUser || !loggedInUser.userId) {
+        throw new Error("No logged-in user found.");
+    }
+
+    const url = `${BASE_URL}users/${loggedInUser.userId}/assignedTasks.json`;
+
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`Failed to fetch assigned tasks for user ${loggedInUser.userId}.`);
+        }
+
+        const assignedTasks = await response.json();
+        for (const category in assignedTasks) {
+            if (assignedTasks[category] && assignedTasks[category][taskId]) {
+                return category;
+            }
+        }
+
+        return null;
+    } catch (error) {
+        return null;
     }
 }
 

@@ -11,32 +11,21 @@ function renderSubtasks(subtaskRefs, allSubtasks) {
   return titles.join("");
 }
 
-// Toggles the completion status of a subtask and delegates to the appropriate function
-function toggleSubtaskCompletion(subtaskId, isChecked) {
-  const isGuest = JSON.parse(localStorage.getItem("isGuest"));
-
-  if (isGuest) {
-    updateSubtaskForGuest(subtaskId, isChecked);
-  } else {
-    updateSubtaskForLoggedInUser(subtaskId, isChecked);
-  }
-}
-
-// Updates the subtask in localStorage and kanbanData for guest users
+// Updates the completion status of a subtask for guest users
 function updateSubtaskForGuest(subtaskId, isChecked) {
   const guestData = JSON.parse(localStorage.getItem("guestKanbanData"));
   if (guestData && guestData.subtasks && guestData.subtasks[subtaskId]) {
     guestData.subtasks[subtaskId].completed = isChecked;
     localStorage.setItem("guestKanbanData", JSON.stringify(guestData));
+  }
 
-    if (kanbanData.subtasks && kanbanData.subtasks[subtaskId]) {
-      kanbanData.subtasks[subtaskId].completed = isChecked;
-    }
+  if (kanbanData.subtasks && kanbanData.subtasks[subtaskId]) {
+    kanbanData.subtasks[subtaskId].completed = isChecked;
   }
 }
 
-// Updates the subtask in the database for logged-in users
-function updateSubtaskForLoggedInUser(subtaskId, isChecked) {
+// Updates the completion status of a subtask in the database
+function updateSubtaskInDatabase(subtaskId, isChecked) {
   const url = `${BASE_URL}subtasks/${subtaskId}/completed.json`;
   fetch(url, {
     method: 'PUT',
@@ -45,13 +34,24 @@ function updateSubtaskForLoggedInUser(subtaskId, isChecked) {
   })
   .then(response => {
     if (!response.ok) {
-      throw new Error('Error updating the subtask');
+      throw new Error('Error updating subtask');
     }
     return response.json();
   })
   .catch(error => {
     console.error('Update error:', error);
   });
+}
+
+// Toggles the completion status of a subtask and delegates to the appropriate function
+function toggleSubtaskCompletion(subtaskId, isChecked) {
+  const isGuest = JSON.parse(localStorage.getItem("isGuest"));
+
+  if (isGuest) {
+    updateSubtaskForGuest(subtaskId, isChecked);
+  } else {
+    updateSubtaskInDatabase(subtaskId, isChecked);
+  }
 }
 
 
