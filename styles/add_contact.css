@@ -254,16 +254,19 @@ a{
     padding: 0;
   }
   .card {
+    position: relative;
     display: flex;
     flex-direction: column;
     width: 100vw;
     height: 100vh;
   }
   .profile-container {
-    position: static;
-    margin: 24px auto 0 auto;
-    left: unset;
-    top: unset;
+    position: absolute;
+    left: 50%;
+    top: 530px;
+    transform: translateX(-50%);
+    margin: 0;
+    z-index: 2;
     padding-left: 0;
   }
   .right-column, .left-column {
@@ -273,6 +276,9 @@ a{
     align-items: center;
     justify-content: center;
     height: 40%;
+  }
+  .left-column {
+    height: 352px;
   }
   .input_div {
     width: 90vw;
@@ -289,6 +295,18 @@ a{
   }
   img.logo {
     display: none;
+  }
+  #overlay {
+    width: 396px;
+    height: 760px;
+    left: 0;
+    top: 0;
+    margin: 0 auto;
+    border-radius: 30px;
+    background-color: rgba(255,255,255,0.9);
+    box-sizing: border-box;
+    overflow-y: auto;
+    padding: 20px;
   }
 }
 

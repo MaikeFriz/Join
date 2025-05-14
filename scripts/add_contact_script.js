@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const contact = {
       name: document.getElementById("input_name").value,
       email: document.querySelector("input[type='email']").value,
-      phone: document.querySelector("input[type='phone']").value,
+      phone: document.querySelector("input[type='tel']").value,
     };
 
     // Send the contact data to the parent window
