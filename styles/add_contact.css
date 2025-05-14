@@ -82,11 +82,11 @@ html, body {
   }
 
   .profile-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 15%;
-  }
+    width: 120px;
+    height: 120px;
+    margin: auto; /* Center horizontally and vertically */
+    padding-left: 40px;
+}
   
   .profile-icon {
     width: 90px;
@@ -111,7 +111,7 @@ html, body {
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
+    flex-direction: row;
     height: 100%;
     width: 42%;
   }
@@ -231,6 +231,17 @@ a{
     width: 90px;
     background-color:  rgb(41, 171, 226);
     border-radius: 50px;
+}
+
+#profileInitials {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 58px;
+    font-weight: 500;
 }
 
 
