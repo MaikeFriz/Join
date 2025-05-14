@@ -106,7 +106,6 @@ footer a:hover {
 
 .contacts-list ul li:not(.contact-highlight):hover:has(.contact-initials) {
   background-color: #007bff; /* Blue background on hover */
-  transform: scale(1.02); /* Slightly enlarge the item */
   cursor: pointer; /* Change cursor to pointer */
   border-radius: 10px;
 }

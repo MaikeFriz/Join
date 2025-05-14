@@ -78,3 +78,12 @@ function getUserInitialForHeader(userName) {
     });
   }
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+  const userInitialsHeader = document.getElementById("user-initials-header");
+  if (!userInitialsHeader) {
+    return;
+  }
+
+  // Add logic to populate or manipulate the element here
+});

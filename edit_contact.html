@@ -30,7 +30,7 @@
           <div class="separator"></div>
         </div>
         <div class="right-column">
-          <form class="input_div">
+          <form class="input_div" id="editContactForm">
             <label class="input_label">
               <input id="input_name" type="text" required placeholder="Name" />
               <div class="input_icon">
@@ -60,7 +60,7 @@
           </div>
           <div class="button_div">
             <button type="button" class="button_cancel">Cancel</button>
-            <button type="submit" class="button_save">
+            <button type="submit" form="editContactForm" class="button_save">
               Save <img src="./assets/img/check.svg" />
             </button>
           </div>

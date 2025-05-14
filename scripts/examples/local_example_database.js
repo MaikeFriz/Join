@@ -1,5 +1,27 @@
 let localExampleDatabase = {
   "users": {
+
+    "guest": {
+      "name": "Guest User",
+      "email": "",
+      "password": "",
+      "assignedTasks": {
+        "toDo": {
+          "task11": true,
+          "task14": true
+        },
+        "inProgress": {
+          "task12": true,
+          "task15": true
+        },
+        "awaitingFeedback": {},
+        "done": {
+          "task13": true,
+          "task16": true
+        }
+      }
+    },
+
     "user1": {
       "name": "Sofia Müller",
       "email": "sofia.mueller@keine.de",
@@ -272,6 +294,98 @@ let localExampleDatabase = {
       "subtasks": {
         "subtask16": true
       }
+    },
+    "task11": {
+      "label": "HTML",
+      "title": "Create Welcome Page",
+      "description": "Design and implement a welcome page for guest users",
+      "createdAt": "2025-05-13T10:00:00Z",
+      "updatedAt": "2025-05-13T12:00:00Z",
+      "priority": "medium",
+      "createdBy": "guest",
+      "assignees": {
+        "guest": true
+      },
+      "subtasks": {
+        "subtask17": true,
+        "subtask18": true
+      }
+    },
+    "task12": {
+      "label": "JavaScript",
+      "title": "Guest User Authentication",
+      "description": "Implement authentication logic for guest users",
+      "createdAt": "2025-05-13T10:30:00Z",
+      "updatedAt": "2025-05-13T13:00:00Z",
+      "priority": "high",
+      "createdBy": "guest",
+      "assignees": {
+        "guest": true
+      },
+      "subtasks": {
+        "subtask19": true,
+        "subtask20": true
+      }
+    },
+    "task13": {
+      "label": "CSS",
+      "title": "Style Guest Dashboard",
+      "description": "Create styles for the guest user dashboard",
+      "createdAt": "2025-05-13T11:00:00Z",
+      "updatedAt": "2025-05-13T14:00:00Z",
+      "priority": "low",
+      "createdBy": "guest",
+      "assignees": {
+        "guest": true
+      },
+      "subtasks": {
+        "subtask21": true
+      }
+    },
+    "task14": {
+      "label": "HTML",
+      "title": "Improve Welcome Page",
+      "description": "Add animations and improve the layout of the welcome page",
+      "createdAt": "2025-05-14T09:00:00Z",
+      "updatedAt": "2025-05-14T11:00:00Z",
+      "priority": "medium",
+      "createdBy": "guest",
+      "assignees": {
+        "guest": true
+      },
+      "subtasks": {
+        "subtask22": true
+      }
+    },
+    "task15": {
+      "label": "JavaScript",
+      "title": "Add Guest Session Timeout",
+      "description": "Implement a session timeout feature for guest users",
+      "createdAt": "2025-05-14T10:00:00Z",
+      "updatedAt": "2025-05-14T12:00:00Z",
+      "priority": "high",
+      "createdBy": "guest",
+      "assignees": {
+        "guest": true
+      },
+      "subtasks": {
+        "subtask23": true
+      }
+    },
+    "task16": {
+      "label": "CSS",
+      "title": "Style Guest Login Page",
+      "description": "Create styles for the guest login page",
+      "createdAt": "2025-05-14T11:00:00Z",
+      "updatedAt": "2025-05-14T13:00:00Z",
+      "priority": "low",
+      "createdBy": "guest",
+      "assignees": {
+        "guest": true
+      },
+      "subtasks": {
+        "subtask24": true
+      }
     }
   },
   "subtasks": {
@@ -354,6 +468,46 @@ let localExampleDatabase = {
       "title": "Embed search functionality",
       "task10": true,
       "completed": true
+    },
+    "subtask17": {
+      "title": "Design layout for welcome page",
+      "task11": true,
+      "completed": false
+    },
+    "subtask18": {
+      "title": "Add content to welcome page",
+      "task11": true,
+      "completed": true
+    },
+    "subtask19": {
+      "title": "Setup guest login API",
+      "task12": true,
+      "completed": false
+    },
+    "subtask20": {
+      "title": "Test guest authentication flow",
+      "task12": true,
+      "completed": true
+    },
+    "subtask21": {
+      "title": "Apply responsive styles to dashboard",
+      "task13": true,
+      "completed": true
+    },
+    "subtask22": {
+      "title": "Add animations to welcome page",
+      "task14": true,
+      "completed": false
+    },
+    "subtask23": {
+      "title": "Implement session timeout logic",
+      "task15": true,
+      "completed": false
+    },
+    "subtask24": {
+      "title": "Style login form",
+      "task16": true,
+      "completed": true
     }
   }
-}
+};

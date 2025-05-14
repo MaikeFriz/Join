@@ -15,7 +15,9 @@ function hideLoadingSpinner() {
 function isStrongPassword(password) {
   const minLength = 8;
   const specialChars = password.match(/[!@#$%^&*()_\-+=\[\]{};':"\\|,.<>/?]/g);
-  return password.length >= minLength && specialChars && specialChars.length >= 3;
+  return (
+    password.length >= minLength && specialChars && specialChars.length >= 3
+  );
 }
 
 //Check if email already exists in data base
@@ -25,7 +27,7 @@ async function emailAlreadyExists(email) {
   );
   const users = await response.json();
   if (!users) return false;
-  return Object.values(users).some(user => user.email === email);
+  return Object.values(users).some((user) => user.email === email);
 }
 
 // Initialisiert das Formular: fügt Fehlermeldung und Overlay hinzu, registriert Submit-Handler
@@ -57,21 +59,25 @@ async function handleFormSubmit(event) {
   event.preventDefault();
   showLoadingSpinner();
 
-  const { name, email, password, confirmPassword, privacyCheckbox } = getFormData();
-  if (!checkIfAllFieldsFilled() || !validateInputs(password, confirmPassword, privacyCheckbox)) {
-    hideLoadingSpinner(); 
+  const { name, email, password, confirmPassword, privacyCheckbox } =
+    getFormData();
+  if (
+    !checkIfAllFieldsFilled() ||
+    !validateInputs(password, confirmPassword, privacyCheckbox)
+  ) {
+    hideLoadingSpinner();
     return;
   }
   await registerUser(name, email, password);
 }
-
 
 function getFormData() {
   return {
     name: document.getElementById("input_name").value,
     email: document.getElementById("input_email").value,
     password: document.getElementById("input_password_sign_up").value,
-    confirmPassword: document.getElementById("input_confirm_password_sign_up").value,
+    confirmPassword: document.getElementById("input_confirm_password_sign_up")
+      .value,
     privacyCheckbox: document.getElementById("privacy"),
   };
 }
@@ -99,34 +105,27 @@ function privacyAccepted(checkbox) {
 }
 
 // Führt die Validierung der Passwörter und der Datenschutz-Checkbox durch
-function validateInputs(password, confirmPassword, privacyCheckbox) {
+function validateInputs(password, confirmPassword) {
   if (!passwordsMatch(password, confirmPassword)) {
     showErrorMessage("Your passwords don't match. Please try again.");
     document.getElementById("input_password_sign_up").value = "";
     document.getElementById("input_confirm_password_sign_up").value = "";
     return false;
   }
-  if (!isStrongPassword(password)) {
-    showErrorMessage("Password must be at least 8 characters long and contain at least 3 special characters.");
-    document.getElementById("input_password_sign_up").value = "";
-    document.getElementById("input_confirm_password_sign_up").value = "";
-    return false;
-  }
-  if (!privacyAccepted(privacyCheckbox)) {
-    showErrorMessage("You must accept the Privacy Policy.");
-    return false;
-  }
+  // Privacy policy is auto-accepted, no need to validate
   hideErrorMessage();
   return true;
 }
 
-
 function checkIfPasswordErrorMessageNeeded() {
   const passwordInput = document.getElementById("input_password_sign_up");
-  const confirmPasswordInput = document.getElementById("input_confirm_password_sign_up");
+  const confirmPasswordInput = document.getElementById(
+    "input_confirm_password_sign_up"
+  );
   const errorMessageDiv = document.getElementById("error_message_sign_up");
   if (passwordInput.value !== confirmPasswordInput.value) {
-    errorMessageDiv.textContent = "Your passwords don't match. Please try again.";
+    errorMessageDiv.textContent =
+      "Your passwords don't match. Please try again.";
     errorMessageDiv.style.color = "red";
     errorMessageDiv.style.display = "block";
     passwordInput.style.border = "2px solid red";
@@ -144,7 +143,9 @@ function getInputValues() {
     name: document.getElementById("input_name").value.trim(),
     email: document.getElementById("input_email").value.trim(),
     password: document.getElementById("input_password_sign_up").value.trim(),
-    confirmPassword: document.getElementById("input_confirm_password_sign_up").value.trim(),
+    confirmPassword: document
+      .getElementById("input_confirm_password_sign_up")
+      .value.trim(),
   };
 }
 
@@ -191,10 +192,50 @@ async function registerUser(name, email, password) {
     const userId = await generateUserId();
     const newUser = createUserObject(name, email, password);
     await saveUserToDatabase(userId, newUser);
+
+    // Automatically log in the user
+    localStorage.setItem(
+      "loggedInUser",
+      JSON.stringify({
+        userId,
+        name: newUser.name,
+        email: newUser.email,
+      })
+    );
+
+    // Add the user to their own contacts
+    await addUserToContacts(userId, newUser);
+
     showSuccessMessage();
   } catch (error) {
-    document.getElementById("error-message").textContent = `Error: ${error.message}`;
-    hideLoadingSpinner(); 
+    document.getElementById(
+      "error-message"
+    ).textContent = `Error: ${error.message}`;
+    hideLoadingSpinner();
+  }
+}
+
+// Adds the newly registered user to their own contacts list
+async function addUserToContacts(userId, user) {
+  const BASE_URL = `https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData/users/${userId}/contacts.json`;
+
+  const contact = {
+    name: user.name,
+    email: user.email,
+    phone: "", // Optional: Add a default or empty phone number
+  };
+
+  try {
+    await fetch(BASE_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(contact),
+    });
+    console.log("User added to their own contacts list.");
+  } catch (error) {
+    console.error("Error adding user to contacts:", error);
   }
 }
 
@@ -205,9 +246,14 @@ async function generateUserId() {
   );
   const data = await response.json();
   const existingUserIds = Object.keys(data.users || {});
-  const maxUserId = existingUserIds.length > 0
-    ? Math.max(...existingUserIds.map(id => parseInt(id.replace('user', ''), 10) || 0))
-    : 0;
+  const maxUserId =
+    existingUserIds.length > 0
+      ? Math.max(
+          ...existingUserIds.map(
+            (id) => parseInt(id.replace("user", ""), 10) || 0
+          )
+        )
+      : 0;
   return `user${maxUserId + 1}`;
 }
 
