@@ -126,12 +126,25 @@ async function fetchGuestKanbanDataFromLocalStorage() {
 // Executes the main logic when the page is loaded
 document.addEventListener("DOMContentLoaded", async () => {
   const guest = JSON.parse(localStorage.getItem("isGuest"));
+
   if (guest) {
     kanbanData = await fetchGuestKanbanDataFromLocalStorage();
+    console.log("Kanban Data for Guest:", kanbanData); // Log Kanban data for guests
+    if (kanbanData?.users) {
+      console.log("Users in Kanban Data (Guest):", Object.keys(kanbanData.users));
+    } else {
+      console.error("No users found in Kanban Data for Guest.");
+    }
     processKanbanData(kanbanData, "guest");
   } else {
     const user = checkUserLogin();
     kanbanData = await fetchKanbanData(BASE_URL);
+    console.log("Kanban Data for Logged-in User:", kanbanData); // Log Kanban data for logged-in users
+    if (kanbanData?.users) {
+      console.log("Users in Kanban Data (Logged-in):", Object.keys(kanbanData.users));
+    } else {
+      console.error("No users found in Kanban Data for Logged-in User.");
+    }
     processKanbanData(kanbanData, user);
   }
 });
