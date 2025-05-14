@@ -17,6 +17,12 @@ async function getKanbanData() {
         } else {
             kanbanData = await fetchKanbanData(BASE_URL);
         }
+
+        // Initialisiere subtasks, falls nicht vorhanden
+        if (!kanbanData.subtasks) {
+            kanbanData.subtasks = {};
+        }
+
         if (!kanbanData || Object.keys(kanbanData).length === 0) {
             console.error("Kanban data could not be loaded or is empty.");
         }

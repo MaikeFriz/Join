@@ -14,9 +14,10 @@ let localExampleDatabase = {
           "task12": true,
           "task15": true
         },
-        "awaitingFeedback": {},
+        "awaitingFeedback": {
+          "task13": true
+        },
         "done": {
-          "task13": true,
           "task16": true
         }
       }
@@ -296,28 +297,28 @@ let localExampleDatabase = {
       }
     },
     "task11": {
-      "label": "HTML",
-      "title": "Create Welcome Page",
-      "description": "Design and implement a welcome page for guest users",
-      "createdAt": "2025-05-13T10:00:00Z",
-      "updatedAt": "2025-05-13T12:00:00Z",
-      "priority": "medium",
-      "createdBy": "guest",
-      "assignees": {
-        "guest": true
-      },
-      "subtasks": {
-        "subtask17": true,
-        "subtask18": true
-      }
+    "label": "HTML",
+    "title": "Create Welcome Page",
+    "description": "Design and implement a welcome page for guest users",
+    "createdAt": "2025-05-13T10:00:00Z",
+    "updatedAt": "2025-05-13T12:00:00Z",
+    "priority": "medium",
+    "createdBy": "guest",
+    "assignees": {
+      "guest": true
     },
+    "subtasks": {
+      "subtask17": true,
+      "subtask18": true
+    }
+  },
     "task12": {
       "label": "JavaScript",
       "title": "Guest User Authentication",
       "description": "Implement authentication logic for guest users",
       "createdAt": "2025-05-13T10:30:00Z",
       "updatedAt": "2025-05-13T13:00:00Z",
-      "priority": "high",
+      "priority": "urgent",
       "createdBy": "guest",
       "assignees": {
         "guest": true
@@ -328,24 +329,24 @@ let localExampleDatabase = {
       }
     },
     "task13": {
-      "label": "CSS",
-      "title": "Style Guest Dashboard",
-      "description": "Create styles for the guest user dashboard",
-      "createdAt": "2025-05-13T11:00:00Z",
-      "updatedAt": "2025-05-13T14:00:00Z",
-      "priority": "low",
-      "createdBy": "guest",
-      "assignees": {
-        "guest": true
-      },
-      "subtasks": {
-        "subtask21": true
-      }
+    "label": "CSS",
+    "title": "Style Guest Dashboard",
+    "description": "Create styles for the guest user dashboard",
+    "createdAt": "2025-05-13T11:00:00Z",
+    "updatedAt": "2025-05-13T14:00:00Z",
+    "priority": "low",
+    "createdBy": "guest",
+    "assignees": {
+      "guest": true
+    },
+    "subtasks": {
+      "subtask21": true
+    }
     },
     "task14": {
-      "label": "HTML",
-      "title": "Improve Welcome Page",
-      "description": "Add animations and improve the layout of the welcome page",
+      "label": "User Story",
+      "title": "Improve Guest Experience",
+      "description": "Identify and implement improvements for the guest user experience",
       "createdAt": "2025-05-14T09:00:00Z",
       "updatedAt": "2025-05-14T11:00:00Z",
       "priority": "medium",
@@ -358,36 +359,37 @@ let localExampleDatabase = {
       }
     },
     "task15": {
-      "label": "JavaScript",
-      "title": "Add Guest Session Timeout",
-      "description": "Implement a session timeout feature for guest users",
-      "createdAt": "2025-05-14T10:00:00Z",
-      "updatedAt": "2025-05-14T12:00:00Z",
-      "priority": "high",
-      "createdBy": "guest",
-      "assignees": {
-        "guest": true
-      },
-      "subtasks": {
-        "subtask23": true
-      }
+    "label": "Technical Task",
+    "title": "Add Guest Session Timeout",
+    "description": "Implement a session timeout feature for guest users",
+    "createdAt": "2025-05-14T10:00:00Z",
+    "updatedAt": "2025-05-14T12:00:00Z",
+    "priority": "urgent",
+    "createdBy": "guest",
+    "assignees": {
+      "guest": true
     },
-    "task16": {
-      "label": "CSS",
-      "title": "Style Guest Login Page",
-      "description": "Create styles for the guest login page",
-      "createdAt": "2025-05-14T11:00:00Z",
-      "updatedAt": "2025-05-14T13:00:00Z",
-      "priority": "low",
-      "createdBy": "guest",
-      "assignees": {
-        "guest": true
-      },
-      "subtasks": {
-        "subtask24": true
-      }
+    "subtasks": {
+      "subtask23": true
     }
   },
+  "task16": {
+    "label": "CSS",
+    "title": "Style Guest Login Page",
+    "description": "Create styles for the guest login page",
+    "createdAt": "2025-05-14T11:00:00Z",
+    "updatedAt": "2025-05-14T13:00:00Z",
+    "priority": "low",
+    "createdBy": "guest",
+    "assignees": {
+      "guest": true
+    },
+    "subtasks": {
+      "subtask24": true
+    }
+  }
+},
+
   "subtasks": {
     "subtask1": {
       "title": "Design homepage layout",
