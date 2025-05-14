@@ -136,7 +136,7 @@ function updateTaskStatus(taskId, newStatusColumnId) {
 
   if (isGuest) {
     updateTaskInLocalStorage(taskId, newStatus);
-    return Promise.resolve();
+    return Promise.resolve(); // Keine Datenbankoperation erforderlich
   } else {
     return updateTaskInFirebase(taskId, newStatus).catch((error) => {
       console.error("Error updating task in Firebase:", error);
@@ -158,23 +158,29 @@ function mapColumnIdToStatus(columnId) {
 // Updates the task's status in LocalStorage for Guest Mode
 function updateTaskInLocalStorage(taskId, newStatus) {
   let data = JSON.parse(localStorage.getItem("guestKanbanData"));
-  if (!data || !data.users || !data.users.user || !data.users.user.assignedTasks) {
+  if (!data || !data.users || !data.users.guest || !data.users.guest.assignedTasks) {
     return;
   }
 
-  let assignedTasks = data.users.user.assignedTasks;
+  let assignedTasks = data.users.guest.assignedTasks;
 
+  // Entferne die Aufgabe aus allen anderen Statuslisten
   ["toDo", "inProgress", "awaitingFeedback", "done"].forEach(status => {
     if (assignedTasks[status] && assignedTasks[status][taskId]) {
       delete assignedTasks[status][taskId];
     }
   });
 
+  // Füge die Aufgabe in die neue Statusliste ein
   if (!assignedTasks[newStatus]) {
     assignedTasks[newStatus] = {};
   }
   assignedTasks[newStatus][taskId] = true;
 
+  // Aktualisiere das globale kanbanData-Objekt
+  kanbanData = data;
+
+  // Speichere die aktualisierten Daten im localStorage
   localStorage.setItem("guestKanbanData", JSON.stringify(data));
 }
 

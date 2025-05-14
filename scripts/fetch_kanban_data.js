@@ -51,7 +51,7 @@ async function fetchTasks(taskIds) {
     tasksArray.push(taskData);
   }
   const tasksObject = {};
-  for (let taskIndex = 0; taskIndex < taskIds.length; taskIndex++) {
+  for (let taskIndex = 0; taskIds.length > taskIndex; taskIndex++) {
     tasksObject[taskIds[taskIndex]] = tasksArray[taskIndex];
   }
   return tasksObject;
@@ -129,23 +129,19 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   if (guest) {
     kanbanData = await fetchGuestKanbanDataFromLocalStorage();
-    console.log("Kanban Data for Guest:", kanbanData); // Log Kanban data for guests
     if (kanbanData?.users) {
-      console.log("Users in Kanban Data (Guest):", Object.keys(kanbanData.users));
+      processKanbanData(kanbanData, "guest");
     } else {
       console.error("No users found in Kanban Data for Guest.");
     }
-    processKanbanData(kanbanData, "guest");
   } else {
     const user = checkUserLogin();
     kanbanData = await fetchKanbanData(BASE_URL);
-    console.log("Kanban Data for Logged-in User:", kanbanData); // Log Kanban data for logged-in users
     if (kanbanData?.users) {
-      console.log("Users in Kanban Data (Logged-in):", Object.keys(kanbanData.users));
+      processKanbanData(kanbanData, user);
     } else {
       console.error("No users found in Kanban Data for Logged-in User.");
     }
-    processKanbanData(kanbanData, user);
   }
 });
 
