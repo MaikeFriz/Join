@@ -85,7 +85,6 @@ html, body {
     width: 120px;
     height: 120px;
     margin: auto; /* Center horizontally and vertically */
-    padding-left: 40px;
 }
   
   .profile-icon {
@@ -263,6 +262,9 @@ a{
   .profile-container {
     z-index: 2;
     padding-left: 0;
+    position: fixed;
+        top: 529px;
+        left: 250px;
   }
   .right-column, .left-column {
     width: 100vw;
@@ -270,10 +272,7 @@ a{
     min-height: unset;
     align-items: center;
     justify-content: center;
-    height: 40%;
-  }
-  .left-column {
-    height: 352px;
+    height: 50%;
   }
   .input_div {
     width: 90vw;
@@ -304,7 +303,34 @@ a{
     padding: 20px;
   }
 }
-
+@media (max-width: 769px) {
+  .profile-container {
+    position: absolute;
+    left: 50%;
+    top: 50%; /* or whatever vertical position you want */
+    transform: translate(-50%, -50%);
+    z-index: 3;
+    margin: 0;
+    padding-left: 0;
+  }
+  .right-flex-row {
+    position: relative;
+  }
+}
+@media (max-width: 1100px) and (min-width: 769px) {
+  .input_div {
+    width: 90vw !important;
+    max-width: 90vw !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+  .input_label,
+  .input_div input {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
+}
 
 
 
