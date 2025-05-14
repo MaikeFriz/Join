@@ -13,12 +13,13 @@ function insertComponent(content, elementId) {
 
     if (container) {
         container.innerHTML = content;
-        
+
         const loggedInUser = checkUserLogin(); 
         const guest = JSON.parse(localStorage.getItem("isGuest"));
+
         if (loggedInUser || guest) {
-            let userName = loggedInUser ? loggedInUser.name : "Guest";
-            getUserInitialForHeader(userName);
+            const userName = loggedInUser ? loggedInUser.name : "Guest User"; 
+            getUserInitialForHeader(userName); 
         }
     } else {
         console.error(`Element with ID "${elementId}" not found.`);

@@ -1,40 +1,58 @@
-// Function to initialize summary counts based on the logged-in user or guest data
+// Determines whether the user is a guest or logged-in and updates the UI accordingly
 function getSummaryCount() {
-  let loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+  const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
   const isGuest = JSON.parse(localStorage.getItem("isGuest"));
 
   if (isGuest) {
-    // Load data from localStorage for guests
-    let data = JSON.parse(localStorage.getItem("guestKanbanData"));
-    if (data && data.users && data.users.user) {
-      loggedInUser = data.users.user;
-      console.log("Guest mode: Using local data", loggedInUser);
-      
-      updateSummaryCounts(loggedInUser);
-    } else {
-      console.log("No guest data found.");
-    }
+    updateGuestUser();
   } else if (loggedInUser) {
-    const userId = loggedInUser.userId;
-    const BASE_URL = `https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData/users/${userId}/assignedTasks.json`;
-
-    // Poll the Firebase database every 1 second to update assigned tasks for the user
-    setInterval(() => {
-      fetch(BASE_URL)
-        .then((response) => response.json())
-        .then((assignedTasks) => {
-          loggedInUser.assignedTasks = assignedTasks || {};
-          updateSummaryCounts(loggedInUser);
-        })
-        .catch((error) => console.error("Error fetching data:", error));
-    }, 1000);
+    updateLoggedInUser(loggedInUser);
   } else {
     console.log("No user logged in.");
   }
+}
 
-  if (loggedInUser) {
-    getLoggedUsername(loggedInUser);
+// Updates the UI and data for the guest user
+function updateGuestUser() {
+  const data = JSON.parse(localStorage.getItem("guestKanbanData"));
+  if (data && data.users && data.users.guest) {
+    const guestUser = data.users.guest;
+
+    startUpdateInterval(guestUser, () => {
+      return new Promise((resolve) => {
+        const updatedData = JSON.parse(localStorage.getItem("guestKanbanData"));
+        resolve(updatedData?.users?.guest?.assignedTasks || {});
+      });
+    });
+
+    getLoggedUsername(guestUser);
+  } else {
+    console.log("No guest data found.");
   }
+}
+
+// Updates the UI and data for logged-in users
+function updateLoggedInUser(loggedInUser) {
+  const userId = loggedInUser.userId;
+  const BASE_URL = `https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData/users/${userId}/assignedTasks.json`;
+
+  startUpdateInterval(loggedInUser, () => {
+    return fetch(BASE_URL).then((response) => response.json());
+  });
+
+  getLoggedUsername(loggedInUser);
+}
+
+// Starts an interval to update the task counters for a given user
+function startUpdateInterval(user, fetchDataCallback) {
+  setInterval(() => {
+    fetchDataCallback()
+      .then((updatedData) => {
+        user.assignedTasks = updatedData || {};
+        updateSummaryCounts(user);
+      })
+      .catch((error) => console.error("Error updating data:", error));
+  }, 1000);
 }
 
 // Helper function to update the counts for various task categories
