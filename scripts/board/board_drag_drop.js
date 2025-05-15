@@ -2,6 +2,7 @@
 let draggedTask = null;
 let taskClone = null;
 let draggedTaskId = null;
+let dropPlaceholder = null;
 
 // Initializes drag-and-drop for all task containers
 function initializeDragAndDrop(taskContainers) {
@@ -40,14 +41,46 @@ function setupDragEndListener(container) {
 
 // Sets up the dragover event for a task container
 function setupDragOverListener(container) {
-  container.addEventListener("dragover", (event) => handleDragOver(event, taskClone));
+  container.addEventListener("dragover", (event) => {
+    event.preventDefault();
+
+    // Finde das Ziel-Task-Container-Element
+    const taskContainer = getTargetTaskContainer(container);
+
+    // Verhindere das Einfügen, wenn das Event auf dem Placeholder selbst ausgelöst wird
+    if (event.target === dropPlaceholder) return;
+
+    // Füge Placeholder nur ein, wenn noch keiner existiert
+    if (!dropPlaceholder && taskContainer) {
+      dropPlaceholder = document.createElement("div");
+      dropPlaceholder.className = "drop-placeholder";
+      dropPlaceholder.style.pointerEvents = "none";
+      taskContainer.appendChild(dropPlaceholder);
+    }
+
+    handleDragOver(event, taskClone);
+  });
+
+  container.addEventListener("dragleave", (event) => {
+    if (dropPlaceholder && dropPlaceholder.parentNode) {
+      dropPlaceholder.parentNode.removeChild(dropPlaceholder);
+      dropPlaceholder = null;
+    }
+  });
 }
 
 // Sets up the drop event for a task container
 function setupDropListener(container) {
-  container.addEventListener("drop", (event) =>
-    handleDrop(event, container, draggedTask, draggedTaskId, (taskId) => updateTaskStatus(taskId, container.id))
-  );
+  container.addEventListener("drop", (event) => {
+    const taskContainer = getTargetTaskContainer(container);
+    handleDrop(
+      event,
+      container,
+      draggedTask,
+      draggedTaskId,
+      (taskId) => updateTaskStatus(taskId, taskContainer.id) // <-- Hier die ID des inneren Containers!
+    );
+  });
 }
 
 // Handles the dragstart event for a task
@@ -117,11 +150,20 @@ function handleDragOver(event, taskClone) {
 // Handles the drop event and moves the task to the new container
 function handleDrop(event, container, draggedTask, taskId, onTaskDropped) {
   event.preventDefault();
-  // Finde das .task-container-Kind im Drop-Container
-  const taskContainer = container.querySelector('.task-container');
+  const taskContainer = getTargetTaskContainer(container);
   if (draggedTask && taskId && taskContainer) {
-    taskContainer.appendChild(draggedTask);
+    if (dropPlaceholder && dropPlaceholder.parentNode === taskContainer) {
+      taskContainer.insertBefore(draggedTask, dropPlaceholder);
+      dropPlaceholder.parentNode.removeChild(dropPlaceholder);
+      dropPlaceholder = null;
+    } else {
+      taskContainer.appendChild(draggedTask);
+    }
     onTaskDropped(taskId);
+  }
+  if (dropPlaceholder && dropPlaceholder.parentNode) {
+    dropPlaceholder.parentNode.removeChild(dropPlaceholder);
+    dropPlaceholder = null;
   }
 }
 
@@ -146,7 +188,7 @@ function updateTaskStatus(taskId, newStatusColumnId) {
     return Promise.resolve();
   } else {
     return updateTaskInFirebase(taskId, newStatus).catch((error) => {
-      // Error handling can be added here if needed
+
     });
   }
 }
@@ -214,4 +256,14 @@ function updateTaskInFirebase(taskId, newStatus) {
   }
   return removeTaskFromOtherStatuses(taskId, user.userId, BASE_URL)
     .then(() => addTaskToNewStatus(taskId, newStatus, user.userId, BASE_URL));
+}
+
+function getTargetTaskContainer(container) {
+  const map = {
+    'drag_drop_todo_container': 'toDoCardsColumn',
+    'drag_drop_progress_container': 'inProgressCardsColumn',
+    'drag_drop_in_await_container': 'awaitFeedbackCardsColumn',
+    'drag_drop_in_done_container': 'doneCardsColumn'
+  };
+  return document.getElementById(map[container.id]);
 }
