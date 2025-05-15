@@ -18,7 +18,7 @@ async function deleteTask(taskId) {
         }
         await waitForDatabaseOperations(taskId);
         closeConfirmDialog();
-        await backToBoardTable();
+        await fromFocusedTaskToBoard();
     } catch (error) {
     }
 }

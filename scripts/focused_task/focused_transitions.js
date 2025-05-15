@@ -6,19 +6,19 @@ function renderFocusedTask(taskId) {
   let boardContent = document.getElementById('boardContent');
   let focusedContent = document.getElementById('focusedTask');
   boardContent.classList.remove('active');
-  logoutButton.classList.add('d-none');
+  boardContent.classList.add('d-none');
     setTimeout(() => {
-      boardContent.classList.add('d-none');
+      
       focusedContent.innerHTML = getFocusedTask(taskContent);
       focusedContent.classList.remove('d-none');
       setTimeout(() => {
         focusedContent.classList.add('active');
-      }, 10);
+      }, 30);
     }, 300);
 }
 
 // Returns to the board view by hiding the focused task view and reloading the page.
-async function backToBoardTable() {
+async function fromFocusedTaskToBoard() {
   let focusedContent = document.getElementById('focusedTask');
   focusedContent.classList.remove('active');
     setTimeout(() => {
@@ -29,7 +29,7 @@ async function backToBoardTable() {
 }
 
 // Switches from the focused task view to the task editing view.
-function transitionToEditTask(taskId) { // Umbenannt von renderEditTask
+function fromFocusedToEditTask(taskId) {
   let editContent = document.getElementById('editTask');
   let focusedContent = document.getElementById('focusedTask');
   focusedContent.classList.remove('active');
@@ -39,20 +39,30 @@ function transitionToEditTask(taskId) { // Umbenannt von renderEditTask
       setTimeout(() => {
         editContent.classList.add('active');
         editContent.innerHTML = getEditTaskData(taskId);
-      }, 10);
+      }, 30);
     }, 300);
 }
 
 // Returns from the task editing view to the focused task view.
-async function backToFocusedTask() {
+async function fromEditToFocusedTask() {
   let focusedContent = document.getElementById('focusedTask');
   let editContent = document.getElementById('editTask');
   editContent.classList.remove('active');
+  setTimeout(() => {
+    editContent.classList.add('d-none');
+    focusedContent.classList.remove('d-none');
+    // Timeout auf 30ms erhöhen, damit das Einfaden sichtbar wird
     setTimeout(() => {
-      editContent.classList.add('d-none');
-      focusedContent.classList.remove('d-none');
-        setTimeout(() => {
-          focusedContent.classList.add('active');
-        }, 10);
-    }, 300);
+      focusedContent.classList.add('active');
+    }, 30);
+  }, 300);
+}
+
+// Returns from the task editing view to the board view.
+async function fromEditTaskToBoard() {
+  let editContent = document.getElementById('editTask');
+  editContent.classList.remove('active');
+  setTimeout(() => {
+    editContent.classList.add('d-none');
+  }, 300);
 }

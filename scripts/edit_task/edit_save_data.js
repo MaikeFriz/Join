@@ -9,7 +9,7 @@ async function saveEditedTask(taskId) {
         await updateTaskInDatabase(taskId, updatedTaskData);
         await deleteRemovedSubtasks(removedSubtasks);
         await waitForDatabaseSaveOperations(taskId);
-        await backToBoardTable();
+        await fromFocusedTaskToBoard();
     } catch (error) {
         console.error("Error updating task or subtasks:", error);
     }
