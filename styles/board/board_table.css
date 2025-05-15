@@ -74,6 +74,7 @@ span p:hover{
     border-radius: 10px;
     border: 1px dashed rgba(168, 168, 168, 1);
     margin: 16px 0px 0px 0px;
+    pointer-events: none;
 }
 
 .board-table-columns,

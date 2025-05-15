@@ -1,4 +1,3 @@
-
 // Global variables for drag-and-drop state
 let draggedTask = null;
 let taskClone = null;
@@ -118,16 +117,23 @@ function handleDragOver(event, taskClone) {
 // Handles the drop event and moves the task to the new container
 function handleDrop(event, container, draggedTask, taskId, onTaskDropped) {
   event.preventDefault();
-  if (draggedTask && taskId) {
-    draggedTask.dataset.taskId = taskId;
-    container.appendChild(draggedTask);
+  // Finde das .task-container-Kind im Drop-Container
+  const taskContainer = container.querySelector('.task-container');
+  if (draggedTask && taskId && taskContainer) {
+    taskContainer.appendChild(draggedTask);
     onTaskDropped(taskId);
   }
 }
 
 // Initializes drag-and-drop after the DOM is loaded
 document.addEventListener("DOMContentLoaded", () => {
-  const taskContainers = document.querySelectorAll(".task-container");
+  const dropContainers = [
+    "#drag_drop_todo_container",
+    "#drag_drop_progress_container",
+    "#drag_drop_in_await_container",
+    "#drag_drop_in_done_container"
+  ];
+  const taskContainers = document.querySelectorAll(dropContainers.join(", "));
   initializeDragAndDrop(taskContainers);
 });
 
