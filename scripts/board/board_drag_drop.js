@@ -1,4 +1,10 @@
-// Initializes the drag-and-drop functionality for each task container
+
+// Global variables for drag-and-drop state
+let draggedTask = null;
+let taskClone = null;
+let draggedTaskId = null;
+
+// Initializes drag-and-drop for all task containers
 function initializeDragAndDrop(taskContainers) {
   taskContainers.forEach((container) => {
     setupDragStartListener(container);
@@ -8,17 +14,18 @@ function initializeDragAndDrop(taskContainers) {
   });
 }
 
-// Sets up the 'dragstart' event listener for the task container
+// Sets up the dragstart event for a task container
 function setupDragStartListener(container) {
   container.addEventListener("dragstart", (event) =>
     handleDragStart(event, (task, clone) => {
       draggedTask = task;
       taskClone = clone;
+      draggedTaskId = task.dataset.taskId;
     })
   );
 }
 
-// Sets up the 'dragend' event listener for the task container
+// Sets up the dragend event for a task container
 function setupDragEndListener(container) {
   container.addEventListener("dragend", (event) =>
     handleDragEnd(event, () => {
@@ -27,85 +34,79 @@ function setupDragEndListener(container) {
         taskClone.remove();
         taskClone = null;
       }
+      draggedTaskId = null;
     })
   );
 }
 
-// Sets up the 'dragover' event listener for the task container
+// Sets up the dragover event for a task container
 function setupDragOverListener(container) {
   container.addEventListener("dragover", (event) => handleDragOver(event, taskClone));
 }
 
-// Sets up the 'drop' event listener for the task container
+// Sets up the drop event for a task container
 function setupDropListener(container) {
   container.addEventListener("drop", (event) =>
-    handleDrop(event, container, draggedTask, (task) => updateTaskStatus(task.dataset.taskId, container.id))
+    handleDrop(event, container, draggedTask, draggedTaskId, (taskId) => updateTaskStatus(taskId, container.id))
   );
 }
 
-// Handles the start of the drag-and-drop operation
+// Handles the dragstart event for a task
 function handleDragStart(event, onDragStart) {
   const task = event.target;
   event.dataTransfer.setData("text/plain", "");
-
   const taskClone = createTaskClone(task, event);
   const invisibleElement = createInvisibleDragImage(event);
-
   task.classList.add("dragging");
   onDragStart(task, taskClone);
-
   cleanUpInvisibleDragImage(invisibleElement);
 }
 
-// Creates a clone of the dragged task and positions it near the cursor
+// Creates a visual clone of the dragged task
 function createTaskClone(task, event) {
   const taskClone = task.cloneNode(true);
   taskClone.classList.add("dragging-clone");
+  if (task.dataset.taskId) {
+    taskClone.dataset.taskId = task.dataset.taskId;
+  }
   document.body.appendChild(taskClone);
-
   const rect = task.getBoundingClientRect();
   const offsetX = event.clientX - rect.left;
   const offsetY = event.clientY - rect.top;
-
   taskClone.style.left = `${event.pageX - offsetX}px`;
   taskClone.style.top = `${event.pageY - offsetY}px`;
   taskClone.style.width = `${task.offsetWidth}px`;
   taskClone.style.height = `${task.offsetHeight}px`;
-
   return taskClone;
 }
 
-// Creates an invisible drag image to prevent the default globe icon from showing
+// Creates an invisible drag image to hide the default drag icon
 function createInvisibleDragImage(event) {
   const invisibleElement = document.createElement("div");
   invisibleElement.style.width = "1px";
   invisibleElement.style.height = "1px";
   invisibleElement.style.opacity = "0";
   document.body.appendChild(invisibleElement);
-
   event.dataTransfer.setDragImage(invisibleElement, 0, 0);
-
   return invisibleElement;
 }
 
-// Cleans up the invisible drag image after it is used
+// Removes the invisible drag image after use
 function cleanUpInvisibleDragImage(invisibleElement) {
   setTimeout(() => {
     invisibleElement.remove();
   }, 0);
 }
 
-
-// Handles the dragend event, cleaning up after the drag operation
+// Handles the dragend event for a task
 function handleDragEnd(event, onDragEnd) {
   const task = event.target;
   task.classList.remove("dragging");
   onDragEnd();
   loadNoTasksFunctions();
-
 }
 
-// Updates the position of the task clone as it follows the cursor during drag
+// Updates the position of the task clone during dragover
 function handleDragOver(event, taskClone) {
   event.preventDefault();
   if (taskClone) {
@@ -114,37 +115,37 @@ function handleDragOver(event, taskClone) {
   }
 }
 
-// Handles the drop event, moving the dragged task to its new container
-function handleDrop(event, container, draggedTask, onTaskDropped) {
+// Handles the drop event and moves the task to the new container
+function handleDrop(event, container, draggedTask, taskId, onTaskDropped) {
   event.preventDefault();
-  if (draggedTask) {
+  if (draggedTask && taskId) {
+    draggedTask.dataset.taskId = taskId;
     container.appendChild(draggedTask);
-    onTaskDropped(draggedTask);
+    onTaskDropped(taskId);
   }
 }
 
-// Initializes the drag-and-drop functionality after the document is loaded
+// Initializes drag-and-drop after the DOM is loaded
 document.addEventListener("DOMContentLoaded", () => {
   const taskContainers = document.querySelectorAll(".task-container");
   initializeDragAndDrop(taskContainers);
 });
 
-// Updates the task's status in Firebase or LocalStorage (Guest Mode)
+// Updates the task's status in localStorage or Firebase
 function updateTaskStatus(taskId, newStatusColumnId) {
   const isGuest = JSON.parse(localStorage.getItem("isGuest"));
   const newStatus = mapColumnIdToStatus(newStatusColumnId);
-
   if (isGuest) {
     updateTaskInLocalStorage(taskId, newStatus);
-    return Promise.resolve(); // Keine Datenbankoperation erforderlich
+    return Promise.resolve();
   } else {
     return updateTaskInFirebase(taskId, newStatus).catch((error) => {
-      console.error("Error updating task in Firebase:", error);
+      // Error handling can be added here if needed
     });
   }
 }
 
-// Maps the column ID to the task's status
+// Maps a column ID to a status string
 function mapColumnIdToStatus(columnId) {
   const columnStatusMap = {
     toDoCardsColumn: "toDo",
@@ -155,36 +156,27 @@ function mapColumnIdToStatus(columnId) {
   return columnStatusMap[columnId];
 }
 
-// Updates the task's status in LocalStorage for Guest Mode
+// Updates the task's status in localStorage for guest users
 function updateTaskInLocalStorage(taskId, newStatus) {
   let data = JSON.parse(localStorage.getItem("guestKanbanData"));
   if (!data || !data.users || !data.users.guest || !data.users.guest.assignedTasks) {
     return;
   }
-
   let assignedTasks = data.users.guest.assignedTasks;
-
-  // Entferne die Aufgabe aus allen anderen Statuslisten
   ["toDo", "inProgress", "awaitingFeedback", "done"].forEach(status => {
     if (assignedTasks[status] && assignedTasks[status][taskId]) {
       delete assignedTasks[status][taskId];
     }
   });
-
-  // Füge die Aufgabe in die neue Statusliste ein
   if (!assignedTasks[newStatus]) {
     assignedTasks[newStatus] = {};
   }
   assignedTasks[newStatus][taskId] = true;
-
-  // Aktualisiere das globale kanbanData-Objekt
   kanbanData = data;
-
-  // Speichere die aktualisierten Daten im localStorage
-  localStorage.setItem("guestKanbanData", JSON.stringify(data));
+  localStorage.setItem("guestKanbanData", JSON.stringify(kanbanData));
 }
 
-// Removes the task from all other status lists in Firebase
+// Removes the task from all statuses in Firebase
 function removeTaskFromOtherStatuses(taskId, userId, baseUrl) {
   const statusPaths = ["toDo", "inProgress", "awaitingFeedback", "done"];
   const deletePromises = statusPaths.map((status) => {
@@ -196,7 +188,7 @@ function removeTaskFromOtherStatuses(taskId, userId, baseUrl) {
   return Promise.all(deletePromises);
 }
 
-// Adds the task to the new status list in Firebase
+// Adds the task to the new status in Firebase
 function addTaskToNewStatus(taskId, newStatus, userId, baseUrl) {
   const taskPath = `${baseUrl}users/${userId}/assignedTasks/${newStatus}/${taskId}.json`;
   return fetch(taskPath, {
@@ -208,21 +200,12 @@ function addTaskToNewStatus(taskId, newStatus, userId, baseUrl) {
   });
 }
 
-// Updates the task's status in Firebase by removing it from other statuses and adding it to the new one
+// Updates the task's status in Firebase for logged-in users
 function updateTaskInFirebase(taskId, newStatus) {
   let user = JSON.parse(localStorage.getItem("loggedInUser"));
-  
-  const isGuest = JSON.parse(localStorage.getItem("isGuest"));
-  if (isGuest) {
-    let data = JSON.parse(localStorage.getItem("guestKanbanData"));
-    user = data.users.user;
-  }
-
   if (!user) {
     return Promise.reject("No user found");
   }
   return removeTaskFromOtherStatuses(taskId, user.userId, BASE_URL)
     .then(() => addTaskToNewStatus(taskId, newStatus, user.userId, BASE_URL));
 }
-
-

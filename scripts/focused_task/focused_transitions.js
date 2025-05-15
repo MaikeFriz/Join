@@ -1,3 +1,4 @@
+
 // Displays a focused task view, transitioning from the board content.
 function renderFocusedTask(taskId) {
   let taskContent = getTaskContent(taskId, kanbanData);
