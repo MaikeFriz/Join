@@ -19,11 +19,11 @@ function searchTasks(searchTerm) {
   }
 }
 
-// Function to trigger task search when clicking the search icon (SVG) and clear the search input
-function searchTasksFromSVG() {
+// Function to handle the search input and trigger the search
+function resetSearch() {
   const searchInput = document.getElementById('search-input');
-  const searchTerm = searchInput.value;
-  
-  searchTasks(searchTerm);
-  searchInput.value = '';
+  if (searchInput) {
+    searchInput.value = '';
+    searchTasks('');
+  }
 }
