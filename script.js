@@ -50,7 +50,6 @@ function getUserInitialForHeader(userName) {
   let headerInitials = document.getElementById("user-initials-header");
 
   if (!headerInitials) {
-    console.error("Element with ID 'user-initials-header' not found.");
     return;
   }
 
