@@ -92,11 +92,10 @@ async function fetchAllUserContactData() {
   const response = await fetch(`${BASE_URL}users.json`);
   const users = await response.json();
   if (!users) return {};
-  // Extrahiere nur die gewünschten Felder
   const contactData = {};
   for (const userId in users) {
-    const { name, email, phone } = users[userId];
-    contactData[userId] = { name, email, phone };
+    if (userId === "guest") continue;
+    contactData[userId] = { name: users[userId].name }; 
   }
   return contactData;
 }
@@ -106,7 +105,7 @@ function saveGuestDataToLocalStorage(guestData, tasksData, subtasksData, allUser
   const structuredData = {
     users: {
       guest: guestData,
-      allContacts: allUserContactData // <-- neu
+      ...allUserContactData 
     },
     tasks: tasksData,
     subtasks: subtasksData

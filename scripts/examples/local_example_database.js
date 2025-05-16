@@ -330,7 +330,9 @@ let localExampleDatabase = {
       "priority": "urgent",
       "createdBy": "guest",
       "assignees": {
-        "guest": true
+        "guest": true,
+        "user2": true,
+        "user4": true
       },
       "subtasks": {
         "subtask19": true,
@@ -346,7 +348,9 @@ let localExampleDatabase = {
       "priority": "low",
       "createdBy": "guest",
       "assignees": {
-        "guest": true
+        "guest": true,
+        "user1": true,
+        "user3": true
       },
       "subtasks": {
         "subtask21": true
@@ -361,7 +365,8 @@ let localExampleDatabase = {
       "priority": "medium",
       "createdBy": "guest",
       "assignees": {
-        "guest": true
+        "guest": true,
+        "user6": true
       },
       "subtasks": {
         "subtask22": true
@@ -376,7 +381,9 @@ let localExampleDatabase = {
       "priority": "urgent",
       "createdBy": "guest",
       "assignees": {
-        "guest": true
+        "guest": true,
+        "user3": true,
+        "user7": true
       },
       "subtasks": {
         "subtask23": true
@@ -391,7 +398,8 @@ let localExampleDatabase = {
       "priority": "low",
       "createdBy": "guest",
       "assignees": {
-        "guest": true
+        "guest": true,
+        "user8": true
       },
       "subtasks": {
         "subtask24": true
