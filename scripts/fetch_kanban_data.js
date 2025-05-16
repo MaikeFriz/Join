@@ -116,32 +116,54 @@ async function fetchGuestKanbanData() {
   }
 }
 
-// Fetches guest Kanban data from LocalStorage
-async function fetchGuestKanbanDataFromLocalStorage() {
-  const guestKanbanData = localStorage.getItem("guestKanbanData");
-  if (!guestKanbanData) return null;
-  return JSON.parse(guestKanbanData);
+// Retrieves the task data for editing and generates the corresponding HTML
+function getEditTaskData(taskId) {
+    let taskContent = getTaskContent(taskId, kanbanData);
+    if (!taskContent) {
+        return `<div>Error: Task not found</div>`;
+    }
+
+    const editTaskHTML = renderEditTask(taskContent, taskId);
+    return editTaskHTML;
+}
+
+// Fetches Kanban data for guest users and stores it in LocalStorage
+async function getKanbanData() {
+    try {
+        if (localStorage.getItem("isGuest") === "true") {
+            kanbanData = await getGuestKanbanData();
+        } else {
+            kanbanData = await fetchKanbanData(BASE_URL);
+        }
+        if (!kanbanData.subtasks) kanbanData.subtasks = {};
+        if (!kanbanData || Object.keys(kanbanData).length === 0) {
+            console.error("Kanban data could not be loaded or is empty.");
+        }
+    } catch (error) {
+        console.error("Error loading Kanban data:", error);
+    }
+}
+
+// Fetches guest Kanban data from LocalStorage or Firebase
+async function getGuestKanbanData() {
+    let guestKanbanData = localStorage.getItem("guestKanbanData");
+    if (!guestKanbanData) {
+        await fetchGuestKanbanData();
+        guestKanbanData = localStorage.getItem("guestKanbanData");
+    }
+    return JSON.parse(guestKanbanData);
 }
 
 // Executes the main logic when the page is loaded
 document.addEventListener("DOMContentLoaded", async () => {
+  await getKanbanData();
   const guest = JSON.parse(localStorage.getItem("isGuest"));
+  const user = guest ? "guest" : checkUserLogin();
 
-  if (guest) {
-    kanbanData = await fetchGuestKanbanDataFromLocalStorage();
-    if (kanbanData?.users) {
-      processKanbanData(kanbanData, "guest");
-    } else {
-      console.error("No users found in Kanban Data for Guest.");
-    }
+  if (kanbanData?.users) {
+    processKanbanData(kanbanData, user);
   } else {
-    const user = checkUserLogin();
-    kanbanData = await fetchKanbanData(BASE_URL);
-    if (kanbanData?.users) {
-      processKanbanData(kanbanData, user);
-    } else {
-      console.error("No users found in Kanban Data for Logged-in User.");
-    }
+    console.error("No users found in Kanban Data for " + (guest ? "Guest" : "Logged-in User") + ".");
   }
 });
 
