@@ -240,6 +240,7 @@ function initializePrioritySelection() {
   const lowButton = document.getElementById("low_button");
 
   setupPriorityButtons(urgentButton, mediumButton, lowButton);
+  setActiveButton(mediumButton);
 }
 
 function setupPriorityButtons(urgentButton, mediumButton, lowButton) {
