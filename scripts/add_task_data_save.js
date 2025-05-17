@@ -1,13 +1,14 @@
 document.addEventListener("DOMContentLoaded", async function () {
   const isGuest = JSON.parse(localStorage.getItem("isGuest"));
   let user = JSON.parse(localStorage.getItem("loggedInUser"));
+  let kanbanData = JSON.parse(localStorage.getItem("guestKanbanData")) || {tasks: {}, subtasks: {}, users: {}};
 
   if (isGuest) {
     let data = JSON.parse(localStorage.getItem("guestKanbanData"));
-    user = data.users.user
+    user = data && data.users ? data.users.user : null;
   }
 
-  if (!user) {
+  if (!user && !isGuest) {
     window.location.href = "./log_in.html";
     return;
   }
@@ -44,7 +45,9 @@ document.addEventListener("DOMContentLoaded", async function () {
       event.preventDefault();
       const taskData = getTaskDetails();
       const newTaskId = await getNewTaskId();
-      saveTaskToDatabase(newTaskId, taskData, user.userId);
+      const isGuest = JSON.parse(localStorage.getItem("isGuest"));
+      const userId = isGuest ? "guest" : user.userId;
+      saveTaskToDatabase(newTaskId, taskData, userId);
     });
   }
 
@@ -53,7 +56,8 @@ document.addEventListener("DOMContentLoaded", async function () {
     let title = document.getElementById("input_title").value;
     let description = document.getElementById("input_description").value;
     let createdAt = new Date().toISOString();
-    let createdBy = user.userId;
+    const isGuest = JSON.parse(localStorage.getItem("isGuest"));
+    let createdBy = isGuest ? "guest" : user.userId; // <-- Anpassung hier!
     let updatedAt = createdAt;
     let priority = document.querySelector(".priority-buttons-div .active p").textContent.toLowerCase();
     let assignees = getAssignedUsers();
@@ -102,7 +106,12 @@ document.addEventListener("DOMContentLoaded", async function () {
           const urlCategory = getCategoryFromUrl();
           return addTaskToUserCategoryList(taskId, userId, urlCategory);
       })
-      .then(() => waitForTaskSaveOperations(taskId))
+      .then(() => {
+        const isGuest = JSON.parse(localStorage.getItem("isGuest"));
+        if (!isGuest) {
+          return waitForTaskSaveOperations(taskId);
+        }
+      })
       .then(() => {
         resetFormFields();
         resetAssigneesAndSubtasks();
@@ -150,10 +159,9 @@ document.addEventListener("DOMContentLoaded", async function () {
   function saveTaskData(taskId, taskData) {
     const isGuest = JSON.parse(localStorage.getItem("isGuest"));
     if (isGuest) {
-      let data = JSON.parse(localStorage.getItem("guestKanbanData"));
-      data.tasks[taskId] = taskData;
-      localStorage.setItem("guestKanbanData", JSON.stringify(data));
-      return Promise.resolve(data.tasks);
+      kanbanData.tasks[taskId] = taskData;
+      localStorage.setItem("guestKanbanData", JSON.stringify(kanbanData));
+      return Promise.resolve(kanbanData.tasks);
     } else {
       return fetch(`${BASE_URL}tasks/${taskId}.json`, {
         method: "PUT",
@@ -169,12 +177,11 @@ document.addEventListener("DOMContentLoaded", async function () {
   function saveSubtasksData(taskId) {
     const isGuest = JSON.parse(localStorage.getItem("isGuest"));
     if (isGuest) {
-      let data = JSON.parse(localStorage.getItem("guestKanbanData"));
-      let existingSubtasks = data.subtasks;
+      let existingSubtasks = kanbanData.subtasks;
       const updatedSubtasks = prepareSubtasksForDatabase(existingSubtasks, taskId);
-      data.subtasks = updatedSubtasks;
-      localStorage.setItem("guestKanbanData", JSON.stringify(data));
-      return Promise.resolve(data.subtasks);
+      kanbanData.subtasks = updatedSubtasks;
+      localStorage.setItem("guestKanbanData", JSON.stringify(kanbanData));
+      return Promise.resolve(kanbanData.subtasks);
     } else {
       return fetch(`${BASE_URL}subtasks.json`)
       .then((response) => response.json())
@@ -270,13 +277,15 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   // Adds the task to the guest user's category list in localStorage
   function addTaskToGuestCategory(taskId, databaseCategory) {
-    let data = JSON.parse(localStorage.getItem("guestKanbanData")) || { users: { user: { assignedTasks: {} } } };
-    if (!data.users.user.assignedTasks[databaseCategory]) {
-        data.users.user.assignedTasks[databaseCategory] = {};
-    }
-    data.users.user.assignedTasks[databaseCategory][taskId] = true;
-    localStorage.setItem("guestKanbanData", JSON.stringify(data));
-    return Promise.resolve(data.users.user.assignedTasks[databaseCategory]);
+    // Stelle sicher, dass die Struktur existiert
+    if (!kanbanData.users) kanbanData.users = {};
+    if (!kanbanData.users.guest) kanbanData.users.guest = {};
+    if (!kanbanData.users.guest.assignedTasks) kanbanData.users.guest.assignedTasks = {};
+    if (!kanbanData.users.guest.assignedTasks[databaseCategory]) kanbanData.users.guest.assignedTasks[databaseCategory] = {};
+
+    kanbanData.users.guest.assignedTasks[databaseCategory][taskId] = true;
+    localStorage.setItem("guestKanbanData", JSON.stringify(kanbanData));
+    return Promise.resolve(kanbanData.users.guest.assignedTasks[databaseCategory]);
   }
 
   // Adds the task to the user's category list in the database
