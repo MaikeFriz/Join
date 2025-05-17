@@ -183,7 +183,7 @@ body {
 
 .add-task-frame{
     width: calc(100vw - 360px);
-    max-height: calc(100vh + 230px);
+    min-height: fit-content;
     margin: -48px -32px;
     border-radius: 30px;
     background-color: rgba(255, 255, 255, 1);
