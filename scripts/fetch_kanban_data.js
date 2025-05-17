@@ -87,11 +87,25 @@ async function fetchSubtasks(subtaskIds) {
   return subtasksObject;
 }
 
+// Fetches all users' contact data (name, email, phone)
+async function fetchAllUserContactData() {
+  const response = await fetch(`${BASE_URL}users.json`);
+  const users = await response.json();
+  if (!users) return {};
+  const contactData = {};
+  for (const userId in users) {
+    if (userId === "guest") continue;
+    contactData[userId] = { name: users[userId].name }; 
+  }
+  return contactData;
+}
+
 // Saves structured guest data, tasks, and subtasks to LocalStorage
-function saveGuestDataToLocalStorage(guestData, tasksData, subtasksData) {
+function saveGuestDataToLocalStorage(guestData, tasksData, subtasksData, allUserContactData) {
   const structuredData = {
     users: {
-      guest: guestData
+      guest: guestData,
+      ...allUserContactData 
     },
     tasks: tasksData,
     subtasks: subtasksData
@@ -108,7 +122,8 @@ async function fetchGuestKanbanData() {
     const tasksData = await fetchTasks(taskIds);
     const subtaskIds = extractSubtaskIds(Object.values(tasksData));
     const subtasksData = await fetchSubtasks(subtaskIds);
-    saveGuestDataToLocalStorage(guestData, tasksData, subtasksData);
+    const allUserContactData = await fetchAllUserContactData(); // <-- neu
+    saveGuestDataToLocalStorage(guestData, tasksData, subtasksData, allUserContactData);
     return guestData;
   } catch (error) {
     console.error("Error fetching Guest Kanban data:", error);

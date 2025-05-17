@@ -66,7 +66,10 @@ function createSubtaskElement(subtaskId, subtaskText) {
 
   subtaskElement.innerHTML = `
     <span class="subtask-text">${subtaskText}</span>
-    <button><img class="delete_button_subtask" src="./assets/img/delete.svg" alt="Delete" /></button>
+    <div class="hover_button_div">
+      <button><img class="delete_button_subtask" src="./assets/img/delete.svg" alt="Delete" /></button>
+      <button><img class="edit_button_subtask" src="./assets/img/edit.svg" alt="Edit" /></button>
+    </div>
   `;
 
   const deleteButton = subtaskElement.querySelector("button");
@@ -83,10 +86,22 @@ function createSubtaskElement(subtaskId, subtaskText) {
 
 function setupEditEvents(span, subtaskId, deleteButton) {
   span.addEventListener("dblclick", () => {
-    const inputContainer = createEditContainer(span, subtaskId, deleteButton);
-    span.replaceWith(inputContainer);
-    deleteButton.style.display = "none";
+    openEditMode(span, subtaskId, deleteButton);
   });
+
+  const editButton = deleteButton.parentElement.nextElementSibling.querySelector(".edit_button_subtask");
+  editButton.addEventListener("click", () => {
+    openEditMode(span, subtaskId, deleteButton);
+  });
+}
+
+function openEditMode(span, subtaskId, deleteButton) {
+  const inputContainer = createEditContainer(span, subtaskId, deleteButton);
+  const subtaskItem = span.closest(".subtask-item");
+
+  span.replaceWith(inputContainer);
+  deleteButton.style.display = "none";
+  subtaskItem.classList.add("editing");
 }
 
 function createEditContainer(span, subtaskId, deleteButton) {
@@ -124,7 +139,7 @@ function createEditIcons(input, onSave, onCancel) {
   iconsContainer.innerHTML = `
     <img class="check-icon" src="./assets/img/check_dark.svg" alt="Save" />
     <div class="separator_subtasks">|</div>
-    <img class="clear_icon_show_subtask" src="./assets/img/delete.svg" alt="Clear" />
+    <img class="clear_icon_show_subtask" src="./assets/img/cancel.svg" alt="Clear" />
   `;
 
   iconsContainer.querySelector(".check-icon").addEventListener("click", onSave);
@@ -138,18 +153,26 @@ function createEditIcons(input, onSave, onCancel) {
 
 function saveEdit(input, span, subtaskId, inputContainer, deleteButton) {
   const newText = input.value.trim();
+  const subtaskItem = inputContainer.closest(".subtask-item");
+
   if (newText !== "") {
     span.textContent = newText;
     subtasksObject[subtaskId].title = newText;
   }
-  inputContainer.replaceWith(span);
-  deleteButton.style.display = "inline";
+
+  const updatedElement = createSubtaskElement(subtaskId, newText);
+  subtaskItem.replaceWith(updatedElement);
 }
 
 function cancelEdit(inputContainer, span, deleteButton) {
-  inputContainer.replaceWith(span);
-  deleteButton.style.display = "inline";
+  const subtaskId = span.closest(".subtask-item").id;
+  const originalText = subtasksObject[subtaskId].title;
+
+  const updatedElement = createSubtaskElement(subtaskId, originalText);
+  inputContainer.closest(".subtask-item").replaceWith(updatedElement);
 }
+
+
 
 function removeSubtask(subtaskId, subtaskElement) {
   delete subtasksObject[subtaskId];
