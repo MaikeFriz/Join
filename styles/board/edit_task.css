@@ -2,16 +2,13 @@
 .edit-task-content{
     display: flex;
     flex-direction: column;
-    position: fixed;
-    width: calc(100% - 250px);
-    height: calc(100% - 96px);
-    top: 96px;
-    left: 250px;
+    align-items: center;
+    width: calc(100vw - 430px);
+    margin-top: -48px;
+    max-height: 80%;
+    height: 80%;
     opacity: 0;
     background-color: transparent;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     transform: scale(0.5);
     transition: opacity 300ms ease, filter 300ms ease, transform 300ms ease;
 }
@@ -23,9 +20,7 @@
 }
 
 .edit-task{
-    width: 525px;
-    margin-left: 5%;
-    margin-right: 5%;
+   width: 525px;
     max-height: 85vh;
     top: 0;
     display: flex;

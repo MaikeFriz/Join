@@ -322,3 +322,11 @@ function getCategoryFromUrl() {
     const params = new URLSearchParams(window.location.search);
     return params.get('category');
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+  const addTaskFrame = document.getElementById("add_task_frame");
+  const category = getCategoryFromUrl();
+  if (addTaskFrame && category) {
+    addTaskFrame.classList.add("add-task-frame");
+  }
+});
