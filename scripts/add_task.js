@@ -317,3 +317,8 @@ function clearAllInputs() {
   const showAssignees = document.getElementById("show-assignees");
   showAssignees.innerHTML = "";
 }
+
+function getCategoryFromUrl() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('category');
+}
