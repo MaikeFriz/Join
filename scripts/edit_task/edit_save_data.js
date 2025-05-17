@@ -6,9 +6,13 @@ async function saveEditedTask(taskId) {
         const updatedTaskData = collectTaskData(taskId, existingSubtasks);
         const removedSubtasks = identifyRemovedSubtasks(existingSubtasks, updatedTaskData.subtasks);
 
-        await updateTaskInDatabase(taskId, updatedTaskData);
-        await deleteRemovedSubtasks(removedSubtasks);
-        await waitForDatabaseSaveOperations(taskId);
+        const isGuest = JSON.parse(localStorage.getItem("isGuest"));
+        if (isGuest) {
+            await saveEditedTaskForGuest(taskId, updatedTaskData, removedSubtasks);
+        } else {
+            await saveEditedTaskForUser(taskId, updatedTaskData, removedSubtasks);
+        }
+
         await fromFocusedTaskToBoard();
     } catch (error) {
         console.error("Error updating task or subtasks:", error);
@@ -33,7 +37,7 @@ function collectTaskData(taskId, existingSubtasks) {
         priority,
         assignees,
         label: category,
-        createdBy: kanbanData.tasks[taskId]?.createdBy || "unknown",
+        createdBy: (kanbanData && kanbanData.tasks && kanbanData.tasks[taskId]?.createdBy) || "unknown",
         subtasks: currentSubtasks,
         updatedAt: new Date().toISOString(),
     };
@@ -110,4 +114,32 @@ async function waitForDatabaseSaveOperations(taskId) {
         console.error(`Error while waiting for database save operations: ${error.message}`);
         throw error;
     }
+}
+
+// Saves the edited task for guest users in localStorage
+async function saveEditedTaskForGuest(taskId, updatedTaskData, removedSubtasks) {
+    kanbanData = JSON.parse(localStorage.getItem("guestKanbanData")) || {tasks: {}, subtasks: {}, users: {}};
+
+    kanbanData.tasks[taskId] = updatedTaskData;
+
+    Object.keys(updatedTaskData.subtasks).forEach(subtaskId => {
+        if (!kanbanData.subtasks[subtaskId]) {
+            kanbanData.subtasks[subtaskId] = {
+                title: updatedTaskData.subtasks[subtaskId]?.title || "Untitled Subtask",
+                completed: false,
+            };
+        }
+    });
+
+    removedSubtasks.forEach(subtaskId => {
+        delete kanbanData.subtasks[subtaskId];
+    });
+
+    localStorage.setItem("guestKanbanData", JSON.stringify(kanbanData));
+}
+
+async function saveEditedTaskForUser(taskId, updatedTaskData, removedSubtasks) {
+    await updateTaskInDatabase(taskId, updatedTaskData);
+    await deleteRemovedSubtasks(removedSubtasks);
+    await waitForDatabaseSaveOperations(taskId);
 }

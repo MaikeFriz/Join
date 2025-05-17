@@ -1,3 +1,4 @@
+
 // Global variables for drag-and-drop state
 let draggedTask = null;
 let taskClone = null;
@@ -43,14 +44,9 @@ function setupDragEndListener(container) {
 function setupDragOverListener(container) {
   container.addEventListener("dragover", (event) => {
     event.preventDefault();
-
-    // Finde das Ziel-Task-Container-Element
     const taskContainer = getTargetTaskContainer(container);
 
-    // Verhindere das Einfügen, wenn das Event auf dem Placeholder selbst ausgelöst wird
     if (event.target === dropPlaceholder) return;
-
-    // Füge Placeholder nur ein, wenn noch keiner existiert
     if (!dropPlaceholder && taskContainer) {
       dropPlaceholder = document.createElement("div");
       dropPlaceholder.className = "drop-placeholder";
@@ -185,6 +181,7 @@ function updateTaskStatus(taskId, newStatusColumnId) {
   const newStatus = mapColumnIdToStatus(newStatusColumnId);
   if (isGuest) {
     updateTaskInLocalStorage(taskId, newStatus);
+    localStorage.setItem("guestKanbanData", JSON.stringify(kanbanData));
     return Promise.resolve();
   } else {
     return updateTaskInFirebase(taskId, newStatus).catch((error) => {
@@ -207,21 +204,32 @@ function mapColumnIdToStatus(columnId) {
 // Updates the task's status in localStorage for guest users
 function updateTaskInLocalStorage(taskId, newStatus) {
   let data = JSON.parse(localStorage.getItem("guestKanbanData"));
-  if (!data || !data.users || !data.users.guest || !data.users.guest.assignedTasks) {
-    return;
+  if (!data?.users?.guest?.assignedTasks) return;
+
+  removeTaskFromAllStatuses(data.users.guest.assignedTasks, taskId);
+  addTaskToStatus(data.users.guest.assignedTasks, taskId, newStatus);
+
+  if (data.tasks?.[taskId]) {
+    data.tasks[taskId].status = newStatus;
   }
-  let assignedTasks = data.users.guest.assignedTasks;
+
+  kanbanData = data;
+  localStorage.setItem("guestKanbanData", JSON.stringify(kanbanData));
+}
+
+// Removes the task from all statuses in localStorage
+function removeTaskFromAllStatuses(assignedTasks, taskId) {
   ["toDo", "inProgress", "awaitingFeedback", "done"].forEach(status => {
-    if (assignedTasks[status] && assignedTasks[status][taskId]) {
+    if (assignedTasks[status]?.[taskId]) {
       delete assignedTasks[status][taskId];
     }
   });
-  if (!assignedTasks[newStatus]) {
-    assignedTasks[newStatus] = {};
-  }
-  assignedTasks[newStatus][taskId] = true;
-  kanbanData = data;
-  localStorage.setItem("guestKanbanData", JSON.stringify(kanbanData));
+}
+
+// Adds the task to the new status in localStorage
+function addTaskToStatus(assignedTasks, taskId, status) {
+  if (!assignedTasks[status]) assignedTasks[status] = {};
+  assignedTasks[status][taskId] = true;
 }
 
 // Removes the task from all statuses in Firebase
@@ -258,6 +266,7 @@ function updateTaskInFirebase(taskId, newStatus) {
     .then(() => addTaskToNewStatus(taskId, newStatus, user.userId, BASE_URL));
 }
 
+// Gets the target task container based on the ID of the dragged container
 function getTargetTaskContainer(container) {
   const map = {
     'drag_drop_todo_container': 'toDoCardsColumn',

@@ -1,3 +1,4 @@
+
 // Function to search tasks based on the search term
 function searchTasks(searchTerm) {
   let found = false;
