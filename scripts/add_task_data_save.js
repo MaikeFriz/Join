@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       const newTaskId = await getNewTaskId();
       const isGuest = JSON.parse(localStorage.getItem("isGuest"));
       const userId = isGuest ? "guest" : user.userId;
-      saveTaskToDatabase(newTaskId, taskData, userId);
+      await saveTaskToDatabase(newTaskId, taskData, userId);
     });
   }
 
@@ -95,26 +95,25 @@ document.addEventListener("DOMContentLoaded", async function () {
     return subtasks;
   }
 
-  // Saves the task and related data, then resets the form
-  function saveTaskToDatabase(taskId, taskData, userId) {
-    saveTaskData(taskId, taskData)
-      .then(() => saveSubtasksData(taskId))
-      .then(() => {
-          const urlCategory = getCategoryFromUrl();
-          return addTaskToUserCategoryList(taskId, userId, urlCategory);
-      })
-      .then(() => {
-        const isGuest = JSON.parse(localStorage.getItem("isGuest"));
-        if (!isGuest) {
-          return waitForTaskSaveOperations(taskId);
-        }
-      })
-      .then(() => {
-        resetFormFields();
-        resetAssigneesAndSubtasks();
-        window.location.href = "./board.html";
-      })
-      .catch((error) => {});
+  // Speichert die Aufgabe und zugehörige Daten, dann setzt das Formular zurück
+  async function saveTaskToDatabase(taskId, taskData, userId) {
+    try {
+      await saveTaskData(taskId, taskData);
+      await saveSubtasksData(taskId);
+      const urlCategory = getCategoryFromUrl();
+      await addTaskToUserCategoryList(taskId, userId, urlCategory);
+
+      const isGuest = JSON.parse(localStorage.getItem("isGuest"));
+      if (!isGuest) {
+        await waitForTaskSaveOperations(taskId);
+      }
+
+      resetFormFields();
+      resetAssigneesAndSubtasks();
+      window.location.href = "./board.html";
+    } catch (error) {
+      // Fehlerbehandlung falls nötig
+    }
   }
 
   // Resets the form fields
@@ -156,6 +155,8 @@ document.addEventListener("DOMContentLoaded", async function () {
   function saveTaskData(taskId, taskData) {
     const isGuest = JSON.parse(localStorage.getItem("isGuest"));
     if (isGuest) {
+      // Hole IMMER die aktuellen Daten aus dem localStorage
+      kanbanData = JSON.parse(localStorage.getItem("guestKanbanData")) || {tasks: {}, subtasks: {}, users: {}};
       kanbanData.tasks[taskId] = taskData;
       localStorage.setItem("guestKanbanData", JSON.stringify(kanbanData));
       return Promise.resolve(kanbanData.tasks);
@@ -174,6 +175,8 @@ document.addEventListener("DOMContentLoaded", async function () {
   function saveSubtasksData(taskId) {
     const isGuest = JSON.parse(localStorage.getItem("isGuest"));
     if (isGuest) {
+      // Hole aktuelle Daten
+      kanbanData = JSON.parse(localStorage.getItem("guestKanbanData")) || {tasks: {}, subtasks: {}, users: {}};
       let existingSubtasks = kanbanData.subtasks;
       const updatedSubtasks = prepareSubtasksForDatabase(existingSubtasks, taskId);
       kanbanData.subtasks = updatedSubtasks;
@@ -281,7 +284,8 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   // Adds the task to the guest user's category list in localStorage
   function addTaskToGuestCategory(taskId, databaseCategory) {
-    // Stelle sicher, dass die Struktur existiert
+    // Hole aktuelle Daten
+    kanbanData = JSON.parse(localStorage.getItem("guestKanbanData")) || {tasks: {}, subtasks: {}, users: {}};
     if (!kanbanData.users) kanbanData.users = {};
     if (!kanbanData.users.guest) kanbanData.users.guest = {};
     if (!kanbanData.users.guest.assignedTasks) kanbanData.users.guest.assignedTasks = {};

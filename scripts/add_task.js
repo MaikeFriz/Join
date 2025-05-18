@@ -263,7 +263,8 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
 
-  document.querySelectorAll(".custom-dropdown-option").forEach((option) => {
+  optionsContainer.querySelectorAll(".custom-dropdown-option").forEach((option) => {
+    
     option.addEventListener("click", function () {
       selectedText.textContent = this.textContent;
       inputField.value = this.dataset.value;
