@@ -1,17 +1,21 @@
 
 @media(max-width:768px) {
-    .focused-task-content{
+    .focused-task-content {
         width: 100%;
-        height:100%;
-        top: 8px;
-        left: 0px;
+        min-height: fit-content;
+        margin-bottom: 32px;
     }
 
     .focused-task{  
-        max-height: 76vh;
-        max-width: 90%;
+        width: 100%; 
+        min-height: fit-content;
         padding: 32px 24px;
     }
+
+    .triangle-top,
+    .triangle-bottom {
+        display: none;
+    } 
 
     .focused-task h1{
         font-size: 36px;
@@ -28,6 +32,22 @@
     .focused-task-due-date{
         font-size: 16px;
     }
+}
 
+@media(max-width:620px){
+    .focused-task-content {
+        margin-top: -24px;
+    }
+}
 
+@media(max-width:550px){
+    .focused-task-content {
+        margin-top: -16px;
+    }
+}   
+
+@media(max-width:400px){
+    .focused-task{  
+        padding: 30px 16px;
+    }
 }

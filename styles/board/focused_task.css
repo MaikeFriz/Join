@@ -1,13 +1,13 @@
 .focused-task-content {
-    position: fixed;
-    width: calc(100% - 250px);
-    height: calc(100% - 96px);
-    top: 96px;
-    left: 250px;
-    opacity: 0;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
+    width: calc(100vw - 430px);
+    margin-top: -48px;
+    max-height: 80%;
+    height: 80%;
+    opacity: 0;
+    background-color: transparent;
     transform: scale(0.5);
     transition: opacity 300ms ease, filter 300ms ease, transform 300ms ease;
 }

@@ -25,6 +25,7 @@
     align-items: center;
     gap: 8px;
     margin-bottom: 5px;
+    padding-bottom: 10px;
     list-style-type: disc;
     list-style-position: inside;
 }
@@ -56,6 +57,7 @@ button {
 .delete_button_subtask,
 .edit_button_subtask {
     margin-left: 32px;
+    height: 18px;
 }
 
 ul {

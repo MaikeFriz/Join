@@ -75,7 +75,7 @@ function editTaskTemplate(displayedDueDate, label, fitLabelForCSS, title, descri
             </svg>
           </button>
         </div>
-      </div>    
+      </div>   
     `;
 }
 

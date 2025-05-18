@@ -53,6 +53,7 @@
   <script src="./scripts/board/board_no_tasks_placeholder.js"></script>
   <script src="./scripts/board/board_drag_drop.js"></script>
   <script src="./scripts/board/board_search_functions.js"></script>
+  <script src="./scripts/board/board_add_task.js"></script>
 
   <script src="./scripts/focused_task/focused_task_data.js"></script>
   <script src="./scripts/focused_task/focused_subtasks.js"></script>
@@ -72,7 +73,6 @@
   <script src="./scripts/edit_task/edit_save_data.js"></script>
 
   <script src="./scripts/date_utils.js"></script>
-  <script src="./scripts/collapse.js" defer></script>
 
 </head>
 
@@ -117,32 +117,31 @@
 
         <div class="board-table">
           <div class="board-table-columns">
-            <span class="kanban-header">To do <button class="collapse-button"
-                data-target="toDoCardsColumn">-</button></span>
+            <span class="kanban-header">To do <button onclick="openAddTaskWithCategory(this)" class="add-task-column" 
+              data-target="toDoCardsColumn">+</button></span>
             <div id="drag_drop_todo_container">
               <div id="noToDoTasks" class="empty-board-info">No tasks To do</div>
               <div id="toDoCardsColumn" class="task-container"></div>
             </div>
           </div>
           <div class="board-table-columns">
-            <span class="kanban-header">In progress <button class="collapse-button"
-                data-target="inProgressCardsColumn">-</button></span>
+            <span class="kanban-header">In progress <button onclick="openAddTaskWithCategory(this)" class="add-task-column"
+                data-target="inProgressCardsColumn">+</button></span>
             <div id="drag_drop_progress_container">
               <div id="noInProgressTasks" class="empty-board-info">No tasks In progress</div>
               <div id="inProgressCardsColumn" class="task-container"></div>
             </div>
           </div>
           <div class="board-table-columns">
-            <span class="kanban-header">Await for feedback <button class="collapse-button"
-                data-target="awaitFeedbackCardsColumn">-</button></span>
+            <span class="kanban-header">Await for feedback <button onclick="openAddTaskWithCategory(this)" class="add-task-column"
+                data-target="awaitFeedbackCardsColumn">+</button></span>
             <div id="drag_drop_in_await_container">
               <div id="noAwaitFeedbackTasks" class="empty-board-info">No tasks Await feedback</div>
               <div id="awaitFeedbackCardsColumn" class="task-container"></div>
             </div>
           </div>
           <div class="board-table-columns">
-            <span class="kanban-header">Done <button class="collapse-button"
-                data-target="doneCardsColumn">-</button></span>
+            <span class="kanban-header">Done</span>
             <div id="drag_drop_in_done_container">
               <div id="noDoneTasks" class="empty-board-info">No tasks Done</div>
               <div id="doneCardsColumn" class="task-container"></div>
@@ -155,7 +154,7 @@
       <div id="focusedTask" class="focused-task-content d-none"></div>
       <div id="editTask" class="edit-task-content d-none"></div>
       <div id="confirmDialog" class="confirm-dialog-container d-none"></div>
-      <footer></footer>
+      
     </div>
 </body>
 
