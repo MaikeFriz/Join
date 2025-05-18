@@ -28,8 +28,13 @@
           </div>
           <div class="separator"></div>
         </div>
+        <div class="profile-container">
+          <div class="profile-icon">
+            <img src="./assets/img/person_placeholder.svg" alt="Profile" />
+          </div>
+        </div>
         <div class="right-column">
-          <form class="input_div">
+          <form class="input_div" id="addContactForm">
             <label class="input_label">
               <input id="input_name" type="text" required placeholder="Name" />
               <div class="input_icon">
@@ -46,23 +51,18 @@
               </div>
             </label>
             <label class="input_label">
-              <input type="phone" required placeholder="Phone" />
+              <input type="tel" required placeholder="Phone" />
               <div class="input_icon">
                 <img src="./assets/img/call.svg" alt="Phone" />
               </div>
             </label>
             <div class="button_div">
-              <button type="submit" class="button_cancel">Cancel</button>
-              <button type="submit" class="button_save">
+              <button type="button" class="button_cancel">Cancel</button>
+              <button type="submit" form="addContactForm" class="button_save">
                 Create Contact <img src="./assets/img/check.svg" />
               </button>
             </div>
           </form>
-          <div class="profile-container">
-            <div class="profile-icon">
-              <img src="./assets/img/person_placeholder.svg" alt="Profile" />
-            </div>
-          </div>
         </div>
       </div>
     </div>

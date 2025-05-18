@@ -5,6 +5,7 @@ let localExampleDatabase = {
       "name": "Guest User",
       "email": "",
       "password": "",
+      "phone": "+49 151 00000000",
       "assignedTasks": {
         "toDo": {
           "task11": true,
@@ -14,9 +15,10 @@ let localExampleDatabase = {
           "task12": true,
           "task15": true
         },
-        "awaitingFeedback": {},
+        "awaitingFeedback": {
+          "task13": true
+        },
         "done": {
-          "task13": true,
           "task16": true
         }
       }
@@ -26,6 +28,7 @@ let localExampleDatabase = {
       "name": "Sofia Müller",
       "email": "sofia.mueller@keine.de",
       "password": "1234",
+      "phone": "+49 151 11111111",
       "assignedTasks": {
         "toDo": {
           "task1": true,
@@ -42,9 +45,10 @@ let localExampleDatabase = {
       }
     },
     "user2": {
-      "name": "Anton Mayer",
-      "email": "anton.mayer@keine.de",
+      "name": "Tobias Mayer",
+      "email": "tobias.mayer@keine.de",
       "password": "password123",
+      "phone": "+49 151 22222222",
       "assignedTasks": {
         "toDo": {},
         "inProgress": {
@@ -55,9 +59,10 @@ let localExampleDatabase = {
       }
     },
     "user3": {
-      "name": "Anja Schulz",
-      "email": "anja.schulz@keine.de",
+      "name": "Lena Schulz",
+      "email": "lena.schulz@keine.de",
       "password": "password456",
+      "phone": "+49 151 33333333",
       "assignedTasks": {
         "toDo": {
           "task2": true
@@ -73,6 +78,7 @@ let localExampleDatabase = {
       "name": "Benedikt Ziegler",
       "email": "benedikt.ziegler@keine.de",
       "password": "password789",
+      "phone": "+49 151 44444444",
       "assignedTasks": {
         "toDo": {},
         "inProgress": {},
@@ -84,6 +90,7 @@ let localExampleDatabase = {
       "name": "Eva Fischer",
       "email": "eva.fischer@keine.de",
       "password": "password101",
+      "phone": "+49 151 55555555",
       "assignedTasks": {
         "toDo": {
           "task8": true
@@ -96,9 +103,10 @@ let localExampleDatabase = {
       }
     },
     "user6": {
-      "name": "David Eisenberg",
-      "email": "david.eisenberg@keine.de",
+      "name": "Moritz Eisenberg",
+      "email": "moritz.eisenberg@keine.de",
       "password": "password112",
+      "phone": "+49 151 66666666",
       "assignedTasks": {
         "toDo": {},
         "inProgress": {},
@@ -107,9 +115,10 @@ let localExampleDatabase = {
       }
     },
     "user7": {
-      "name": "Emanuel Mauer",
-      "email": "emanuel.mauer@keine.de",
+      "name": "Carla Mauer",
+      "email": "carla.mauer@keine.de",
       "password": "password113",
+      "phone": "+49 151 77777777",
       "assignedTasks": {
         "toDo": {},
         "inProgress": {},
@@ -118,9 +127,10 @@ let localExampleDatabase = {
       }
     },
     "user8": {
-      "name": "Manuel Schmidt",
-      "email": "manuel.schmidt@keine.de",
+      "name": "Philipp Schmidt",
+      "email": "philipp.schmidt@keine.de",
       "password": "password114",
+      "phone": "+49 151 88888888",
       "assignedTasks": {
         "toDo": {
           "task10": true
@@ -317,10 +327,12 @@ let localExampleDatabase = {
       "description": "Implement authentication logic for guest users",
       "createdAt": "2025-05-13T10:30:00Z",
       "updatedAt": "2025-05-13T13:00:00Z",
-      "priority": "high",
+      "priority": "urgent",
       "createdBy": "guest",
       "assignees": {
-        "guest": true
+        "guest": true,
+        "user2": true,
+        "user4": true
       },
       "subtasks": {
         "subtask19": true,
@@ -336,37 +348,42 @@ let localExampleDatabase = {
       "priority": "low",
       "createdBy": "guest",
       "assignees": {
-        "guest": true
+        "guest": true,
+        "user1": true,
+        "user3": true
       },
       "subtasks": {
         "subtask21": true
       }
     },
     "task14": {
-      "label": "HTML",
-      "title": "Improve Welcome Page",
-      "description": "Add animations and improve the layout of the welcome page",
+      "label": "User Story",
+      "title": "Improve Guest Experience",
+      "description": "Identify and implement improvements for the guest user experience",
       "createdAt": "2025-05-14T09:00:00Z",
       "updatedAt": "2025-05-14T11:00:00Z",
       "priority": "medium",
       "createdBy": "guest",
       "assignees": {
-        "guest": true
+        "guest": true,
+        "user6": true
       },
       "subtasks": {
         "subtask22": true
       }
     },
     "task15": {
-      "label": "JavaScript",
+      "label": "Technical Task",
       "title": "Add Guest Session Timeout",
       "description": "Implement a session timeout feature for guest users",
       "createdAt": "2025-05-14T10:00:00Z",
       "updatedAt": "2025-05-14T12:00:00Z",
-      "priority": "high",
+      "priority": "urgent",
       "createdBy": "guest",
       "assignees": {
-        "guest": true
+        "guest": true,
+        "user3": true,
+        "user7": true
       },
       "subtasks": {
         "subtask23": true
@@ -381,13 +398,15 @@ let localExampleDatabase = {
       "priority": "low",
       "createdBy": "guest",
       "assignees": {
-        "guest": true
+        "guest": true,
+        "user8": true
       },
       "subtasks": {
         "subtask24": true
       }
     }
   },
+
   "subtasks": {
     "subtask1": {
       "title": "Design homepage layout",

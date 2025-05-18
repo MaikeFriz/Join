@@ -16,20 +16,48 @@
 
     .input_div_left_content {
         width: 100%;
+        margin-top: 32px;
     }
 
     .input_div_right {
         width: 100%;
+    }
+
+    .add-task-frame{
+        position : relative;
+        margin-left: -64px;
+        padding: 48px;
+        width: calc(100vw - 300px);
+        max-height: calc(100vh + 230px);
+    }
+
+    .bottom-space{
+        height:100px;
+    }
+
+    footer{
+        height: 96px;
     }
 }
 
 @media(max-width:770px) {
     .right-side-content {
         padding: 64px 96px 64px 96px !important;
+        height: auto;
     }
 
     .info_and_button_div {
         margin-bottom: 120px;
+    }
+
+    .add-task-frame{
+        margin-top: -44px;
+        width: calc(100vw - 64px);
+        max-height: calc(100vh + 230px);
+    }
+
+    footer{
+        height: 160px;
     }
 }
 
@@ -54,6 +82,14 @@
     .right-side-content {
         padding: 64px 20px 64px 20px !important;
     }
+
+    .add-task-frame{
+        margin-top: -44px;
+        margin-left: 0;
+        padding: 32px;
+        width: calc(100vw - 40px);
+        max-height: calc(100vh + 230px);
+    }
 }
 
 @media(max-width:460px) {
@@ -65,5 +101,10 @@
     .h1_div h1 {
         font-size: 36px !important;
         word-wrap: break-word;
+    }
+
+    .add-task-frame{
+        padding-left: 16px;
+        padding-right: 16px;
     }
 }

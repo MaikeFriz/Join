@@ -1,21 +1,23 @@
+let BASE_URL = `https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData/`;
+let taskForm = document.getElementById("task_form");
+
+
 document.addEventListener("DOMContentLoaded", async function () {
   const isGuest = JSON.parse(localStorage.getItem("isGuest"));
   let user = JSON.parse(localStorage.getItem("loggedInUser"));
+  let kanbanData = JSON.parse(localStorage.getItem("guestKanbanData")) || {tasks: {}, subtasks: {}, users: {}};
 
   if (isGuest) {
     let data = JSON.parse(localStorage.getItem("guestKanbanData"));
-    user = data.users.user
+    user = data && data.users ? data.users.user : null;
   }
 
-  if (!user) {
+  if (!user && !isGuest) {
     window.location.href = "./log_in.html";
     return;
   }
 
-  let BASE_URL = `https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData/`;
-  let taskForm = document.getElementById("task_form");
 
-  // Fetches the next available task ID
   async function getNewTaskId() {
     try {
       let response = await fetch(`${BASE_URL}tasks.json`);
@@ -34,27 +36,27 @@ document.addEventListener("DOMContentLoaded", async function () {
       }, 0);
       return `task${maxTaskId + 1}`;
     } catch (error) {
-      console.error("Error fetching tasks:", error);
       return "task1";
     }
   }
 
-  // Listens for the form submission to create a task
   function addTaskFormListener() {
     taskForm.addEventListener("submit", async function (event) {
       event.preventDefault();
       const taskData = getTaskDetails();
       const newTaskId = await getNewTaskId();
-      saveTaskToDatabase(newTaskId, taskData, user.userId);
+      const isGuest = JSON.parse(localStorage.getItem("isGuest"));
+      const userId = isGuest ? "guest" : user.userId;
+      saveTaskToDatabase(newTaskId, taskData, userId);
     });
   }
 
-  // Retrieves all task details from the form
   function getTaskDetails() {
     let title = document.getElementById("input_title").value;
     let description = document.getElementById("input_description").value;
     let createdAt = new Date().toISOString();
-    let createdBy = user.userId;
+    const isGuest = JSON.parse(localStorage.getItem("isGuest"));
+    let createdBy = isGuest ? "guest" : user.userId;
     let updatedAt = createdAt;
     let priority = document.querySelector(".priority-buttons-div .active p").textContent.toLowerCase();
     let assignees = getAssignedUsers();
@@ -74,7 +76,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     };
   }
 
-  // Collects assigned users from the assignees object
   function getAssignedUsers() {
     let assignees = {};
     for (let assigneeName in assigneesObject) {
@@ -86,7 +87,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     return assignees;
   }
 
-  // Collects all subtasks from the subtasks object
   function getSubtaskDetails() {
     let subtasks = {};
     for (let subtaskId in subtasksObject) {
@@ -95,24 +95,29 @@ document.addEventListener("DOMContentLoaded", async function () {
     return subtasks;
   }
 
-  // Saves the task to the database and performs subsequent actions
+  // Saves the task and related data, then resets the form
   function saveTaskToDatabase(taskId, taskData, userId) {
     saveTaskData(taskId, taskData)
       .then(() => saveSubtasksData(taskId))
-      .then(() => addTaskToUserToDoList(taskId, userId))
-      .then(() => waitForTaskSaveOperations(taskId)) // Warten, bis alle Speicheroperationen abgeschlossen sind
+      .then(() => {
+          const urlCategory = getCategoryFromUrl();
+          return addTaskToUserCategoryList(taskId, userId, urlCategory);
+      })
+      .then(() => {
+        const isGuest = JSON.parse(localStorage.getItem("isGuest"));
+        if (!isGuest) {
+          return waitForTaskSaveOperations(taskId);
+        }
+      })
       .then(() => {
         resetFormFields();
         resetAssigneesAndSubtasks();
-        console.log("Task successfully saved and form reset.");
         window.location.href = "./board.html";
       })
-      .catch((error) => {
-        console.error("Error saving task or subtasks:", error);
-      });
+      .catch((error) => {});
   }
 
-  // Resets the form fields after task creation
+  // Resets the form fields
   function resetFormFields() {
     document.getElementById("input_title").value = "";
     document.getElementById("input_description").value = "";
@@ -123,13 +128,13 @@ document.addEventListener("DOMContentLoaded", async function () {
     resetAssignees();
   }
 
-  // Resets both assignees and subtasks
+  // Resets assignees and subtasks
   function resetAssigneesAndSubtasks() {
     resetAssignees();
     resetSubtasks();
   }
 
-  // Removes all assignees from the task
+
   function resetAssignees() {
     for (const userId in assigneesObject) {
       removeAssignee(userId);
@@ -138,7 +143,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     showAssigneesDiv.innerHTML = "";
   }
 
-  // Clears all subtasks from the task
+
   function resetSubtasks() {
     subtasksObject = {};
     const displaySubtasksDiv = document.getElementById("display_subtasks");
@@ -147,19 +152,13 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
   }
 
-  // Saves the task data to the database
+  // Saves the task data to the database or localStorage
   function saveTaskData(taskId, taskData) {
     const isGuest = JSON.parse(localStorage.getItem("isGuest"));
     if (isGuest) {
-      let data = JSON.parse(localStorage.getItem("guestKanbanData"));
-      // Add the new task to the `tasks` object
-      data.tasks[taskId] = taskData;
-      // Save updated data back to localStorage
-      localStorage.setItem("guestKanbanData", JSON.stringify(data));
-      console.log("Task added successfully:", data.tasks);
-
-    // Return a resolved Promise to match the expected behavior
-    return Promise.resolve(data.tasks);  // Return resolved promise with updated tasks
+      kanbanData.tasks[taskId] = taskData;
+      localStorage.setItem("guestKanbanData", JSON.stringify(kanbanData));
+      return Promise.resolve(kanbanData.tasks);
     } else {
       return fetch(`${BASE_URL}tasks/${taskId}.json`, {
         method: "PUT",
@@ -171,31 +170,27 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
   }
 
-  // Saves the subtasks related to the task
+
   function saveSubtasksData(taskId) {
     const isGuest = JSON.parse(localStorage.getItem("isGuest"));
     if (isGuest) {
-      let data = JSON.parse(localStorage.getItem("guestKanbanData"));
-
-      let existingSubtasks = data.subtasks;
+      let existingSubtasks = kanbanData.subtasks;
       const updatedSubtasks = prepareSubtasksForDatabase(existingSubtasks, taskId);
-      data.subtasks = updatedSubtasks;
-      localStorage.setItem("guestKanbanData", JSON.stringify(data));
-      console.log("Subtask added successfully:", data.subtasks);
-      // Return a resolved promise for consistency
-      return Promise.resolve(data.subtasks);
-  } else {
+      kanbanData.subtasks = updatedSubtasks;
+      localStorage.setItem("guestKanbanData", JSON.stringify(kanbanData));
+      return Promise.resolve(kanbanData.subtasks);
+    } else {
       return fetch(`${BASE_URL}subtasks.json`)
-      .then((response) => response.json())
-      .then((existingSubtasks) => {
-        existingSubtasks = existingSubtasks || {};
-        const updatedSubtasks = prepareSubtasksForDatabase(existingSubtasks, taskId);
-        return overwriteSubtaskCollection(updatedSubtasks);
-      });
+        .then((response) => response.json())
+        .then((existingSubtasks) => {
+          existingSubtasks = existingSubtasks || {};
+          const updatedSubtasks = prepareSubtasksForDatabase(existingSubtasks, taskId);
+          return overwriteSubtaskCollection(updatedSubtasks);
+        });
     }
   }
 
-  // Prepares the subtasks data for saving to the database
+  // Prepares the subtasks data for saving
   function prepareSubtasksForDatabase(existingSubtasks, taskId) {
     const newSubtasks = { ...existingSubtasks };
     for (let subtaskId in subtasksObject) {
@@ -209,7 +204,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     return newSubtasks;
   }
 
-  // Overwrites the entire subtasks collection in the database
+
   function overwriteSubtaskCollection(updatedSubtasks) {
     return fetch(`${BASE_URL}subtasks.json`, {
       method: "PUT",
@@ -220,61 +215,111 @@ document.addEventListener("DOMContentLoaded", async function () {
     });
   }
 
-  // Adds the task to the user's to-do list
+  // Adds the task to the user's to-do list (legacy, not used)
   function addTaskToUserToDoList(taskId, userId) {
     const isGuest = JSON.parse(localStorage.getItem("isGuest"));
     if (isGuest) {
       let data = JSON.parse(localStorage.getItem("guestKanbanData")) || { users: { user: { assignedTasks: { toDo: {} } } } };
       if (!data.users.user.assignedTasks.toDo) {
-          data.users.user.assignedTasks.toDo = {};
+        data.users.user.assignedTasks.toDo = {};
       }
       data.users.user.assignedTasks.toDo[taskId] = true;
       localStorage.setItem("guestKanbanData", JSON.stringify(data));
-
-      console.log(`Task ${taskId} wurde zu Gast-Benutzer's To-Do-Liste hinzugefügt`);
       return Promise.resolve(data.users.user.assignedTasks.toDo);
-
-  } else {
+    } else {
       fetch(`${BASE_URL}users/${userId}/assignedTasks/toDo.json`)
-      .then((response) => response.json())
-      .then((existingTasks) => {
-        existingTasks = existingTasks || {};
-        existingTasks[taskId] = true;
-        return fetch(`${BASE_URL}users/${userId}/assignedTasks/toDo.json`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(existingTasks),
+        .then((response) => response.json())
+        .then((existingTasks) => {
+          existingTasks = existingTasks || {};
+          existingTasks[taskId] = true;
+          return fetch(`${BASE_URL}users/${userId}/assignedTasks/toDo.json`, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(existingTasks),
+          });
+        })
+        .then(() => {
+          console.log(`Task ${taskId} added to user ${userId}'s to-do list`);
+        })
+        .catch((error) => {
+          console.error("Error adding task to user:", error);
         });
       })
-      .then(() => {
-        console.log(`Task ${taskId} added to user ${userId}'s to-do list`);
-      })
-      .catch((error) => {
-        console.error("Error adding task to user:", error);
-      });
+      .then(() => {})
+      .catch((error) => {});
     }
   }
 
-  // Waits for all pending task save operations in the database to complete
+  // Waits for all pending task save operations to complete
   async function waitForTaskSaveOperations(taskId) {
     try {
         const response = await fetch(`${BASE_URL}tasks/${taskId}/status.json`);
         if (!response.ok) {
             throw new Error(`Error checking task save status. Status: ${response.status}`);
         }
-
         const status = await response.json();
         if (status && status.pendingSaveOperations > 0) {
-            console.log(`Waiting for ${status.pendingSaveOperations} pending task save operations to complete...`);
             return new Promise(resolve => setTimeout(() => resolve(waitForTaskSaveOperations(taskId)), 1000));
         }
-
-        console.log("All task save operations completed.");
     } catch (error) {
-        console.error(`Error while waiting for task save operations: ${error.message}`);
         throw error;
+    }
+  }
+
+  // Maps URL category parameter to database category
+  function mapCategoryParameterToDatabaseCategory(categoryParameter) {
+    const categoryMapping = {
+        toDoCardsColumn: "toDo",
+        inProgressCardsColumn: "inProgress",
+        awaitFeedbackCardsColumn: "awaitingFeedback",
+        doneCardsColumn: "done"
+    };
+    return categoryMapping[categoryParameter] || "toDo";
+  }
+
+  // Adds the task to the guest user's category list in localStorage
+  function addTaskToGuestCategory(taskId, databaseCategory) {
+    // Stelle sicher, dass die Struktur existiert
+    if (!kanbanData.users) kanbanData.users = {};
+    if (!kanbanData.users.guest) kanbanData.users.guest = {};
+    if (!kanbanData.users.guest.assignedTasks) kanbanData.users.guest.assignedTasks = {};
+    if (!kanbanData.users.guest.assignedTasks[databaseCategory]) kanbanData.users.guest.assignedTasks[databaseCategory] = {};
+
+    kanbanData.users.guest.assignedTasks[databaseCategory][taskId] = true;
+    localStorage.setItem("guestKanbanData", JSON.stringify(kanbanData));
+    return Promise.resolve(kanbanData.users.guest.assignedTasks[databaseCategory]);
+  }
+
+  // Adds the task to the user's category list in the database
+  function addTaskToUserCategory(taskId, userId, databaseCategory) {
+    return fetch(`${BASE_URL}users/${userId}/assignedTasks/${databaseCategory}.json`)
+        .then((response) => response.json())
+        .then((existingTasks) => {
+            existingTasks = existingTasks || {};
+            existingTasks[taskId] = true;
+            return fetch(`${BASE_URL}users/${userId}/assignedTasks/${databaseCategory}.json`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(existingTasks),
+            });
+        })
+        .then(() => {})
+        .catch((error) => {});
+  }
+
+  // Adds the task to the correct user category list (guest or registered)
+  function addTaskToUserCategoryList(taskId, userId, categoryParameter) {
+    const isGuest = JSON.parse(localStorage.getItem("isGuest"));
+    const databaseCategory = mapCategoryParameterToDatabaseCategory(categoryParameter);
+
+    if (isGuest) {
+        return addTaskToGuestCategory(taskId, databaseCategory);
+    } else {
+        return addTaskToUserCategory(taskId, userId, databaseCategory);
     }
   }
 

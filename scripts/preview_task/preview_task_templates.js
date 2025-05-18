@@ -3,7 +3,7 @@ function previewTaskTemplate(taskContent) {
   let { label, fitLabelForCSS, title, description, totalSubtasks, completedSubtasks, progressPercentage, showProgress } = getTaskData(taskContent);
 
   return /*html*/ `
-    <div class="board-preview-task draggable" draggable="true" data-task-id="${taskContent.taskId}" onclick="renderFocusedTask('${taskContent.taskId}')">
+    <div class="board-preview-task draggable" draggable="true" data-task-id="${taskContent.taskId}" onclick=" refreshBoardSilent(); renderFocusedTask('${taskContent.taskId}')">
         <label class="${fitLabelForCSS}">${label}</label>
         <div>
             <h3 id="task-title">${title}</h3>

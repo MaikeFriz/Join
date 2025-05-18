@@ -1,12 +1,30 @@
-// Updates the UI to display the subtasks in the edit task modal.
-function displayEditSubtasks(subtasks) {
+// Displays the subtasks in the edit task modal and updates their completed status.
+async function displayEditSubtasks(subtasks) {
     const subtaskContainer = document.getElementById("display_subtasks");
-
-    subtaskContainer.innerHTML = ""; // Clear the container
+    subtaskContainer.innerHTML = "";
 
     if (subtasks && Object.keys(subtasks).length > 0) {
+        for (const subtaskId of Object.keys(subtasks)) {
+            const subtaskStatus = await fetchSubtaskStatusFromDatabase(subtaskId);
+            subtasks[subtaskId].completed = subtaskStatus?.completed || false;
+        }
+
         const subtaskHTML = renderEditSubtasks(subtasks);
         subtaskContainer.innerHTML = subtaskHTML;
+    }
+}
+
+// Fetches the completed status of a specific subtask from the database.
+async function fetchSubtaskStatusFromDatabase(subtaskId) {
+    try {
+        const response = await fetchFromDatabase(`${BASE_URL}subtasks/${subtaskId}.json`, "GET");
+        if (!response.ok) {
+            return { completed: false };
+        }
+        const subtaskData = await response.json();
+        return { completed: subtaskData?.completed || false };
+    } catch {
+        return { completed: false };
     }
 }
 
@@ -18,7 +36,6 @@ function renderEditSubtasks(subtasks) {
         const subtaskId = subtaskIds[subtaskIndex];
         const subtaskData = kanbanData.subtasks[subtaskId];
         if (!subtaskData) continue;
-
         subtaskHTML += editSubtaskTemplate(subtaskId, subtaskData);
     }
     return subtaskHTML;
@@ -28,7 +45,7 @@ function renderEditSubtasks(subtasks) {
 function addEditSubtask() {
     const inputField = document.getElementById("input_edit_subtask");
     const subtaskValue = inputField.value.trim();
-  
+
     if (subtaskValue) {
         let subtaskContainer = document.getElementById("display_subtasks");
         const nextSubtaskId = generateNextSubtaskId();
@@ -57,10 +74,13 @@ function removeEditSubtask(subtaskId, subtaskTitle) {
 // Uploads a subtask to the database using a PUT request.
 function uploadSubtaskToDatabase(subtaskId, subtaskData) {
     if (!subtaskData || typeof subtaskData !== "object") {
-        console.error(`Invalid subtask data for subtaskId: ${subtaskId}`, subtaskData);
         return Promise.reject(new Error(`Invalid subtask data for subtaskId: ${subtaskId}`));
     }
-  
+
+    if (typeof subtaskData.completed === "undefined") {
+        subtaskData.completed = false;
+    }
+
     return fetchFromDatabase(`${BASE_URL}subtasks/${subtaskId}.json`, "PUT", subtaskData);
 }
 

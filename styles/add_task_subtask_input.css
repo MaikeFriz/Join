@@ -25,6 +25,7 @@
     align-items: center;
     gap: 8px;
     margin-bottom: 5px;
+    padding-bottom: 10px;
     list-style-type: disc;
     list-style-position: inside;
 }
@@ -56,6 +57,7 @@ button {
 .delete_button_subtask,
 .edit_button_subtask {
     margin-left: 32px;
+    height: 18px;
 }
 
 ul {
@@ -157,39 +159,50 @@ ul {
     flex-grow: 1;
     flex: 1;
     padding-right: 80px;
-  }
-  
-  .edit-subtask-input:focus {
-    border-bottom: 1px solid rgb(41, 171, 226);
-  }
+}
 
-  .input-wrapper {
+.edit-subtask-input:focus {
+    border-bottom: 1px solid rgb(41, 171, 226);
+}
+
+.input-wrapper {
     position: relative;
     display: flex;
     align-items: center;
     width: 100%;
-  }
+}
 
-  .icons-container {
+.icons-container {
     position: absolute;
     right: 10px;
     display: flex;
     align-items: center;
     gap: 6px;
-  }
+}
 
-  .check-icon, .clear_icon{
+.check-icon,
+.clear_icon {
     cursor: pointer;
     transform: scale(1);
-  }
+}
 
-  .check-icon:hover, .clear_icon:hover{
+.check-icon:hover,
+.clear_icon:hover {
     transform: scale(1.1);
-  }
+}
 
-  
+.clear_icon_show_subtask {
+    cursor: pointer;
+}
 
+.hover_button_div {
+    display: none !important;
+}
 
+.subtask-item:hover .hover_button_div {
+  display: flex !important;
+}
 
-  
-  
+.subtask-item.editing:hover .hover_button_div {
+  display: none !important;
+}

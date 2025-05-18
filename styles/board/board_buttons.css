@@ -143,28 +143,28 @@
     }
 
 
-.collapse-button {
+.add-task-column {
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
     height: 24px;
     width: 24px;
-    min-width: 24px;
-    border: 2px solid rgba(42, 54, 71, 1);
+    border: 2px solid rgba(42, 54, 71, 0.9);
     border-radius: 8px;
     font-size: 20px;
     font-weight: 500;
     color: rgba(42, 54, 71, 1);
     transition: border 100ms ease-in-out,
                 color 100ms ease-in-out;
+    cursor: pointer;   
 }
 
-.collapse-button:hover {
+.add-task-column:hover {
     border: 2px solid rgba(41, 171, 226, 1);
     color: rgba(41, 171, 226, 1);
 }
 
-.collapse-button:active {
+.add-task-column:active {
     border: 2px solid rgba(9, 25, 49, 1);
     color: rgba(9, 25, 49, 1);
 }

@@ -65,7 +65,7 @@ footer a:hover {
 
 .right-side-content {
   margin-top: 96px;
-  /* width: 100%; */
+  width: 100%;
   padding: 64px 96px 64px 340px;
   box-sizing: border-box;
 }
@@ -184,6 +184,13 @@ footer a:hover {
 @media(max-width:768px) {
   .right-side-content {
     width: 100vw;
-    padding: 64px 96px 64px 64px;
+    padding: 64px 64px 64px 64px;
+  }
+}
+
+@media(max-width:620px) {
+  .right-side-content {
+    width: 100vw;
+    padding: 40px 24px 40px 24px;
   }
 }
