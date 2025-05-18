@@ -53,12 +53,28 @@
     filter: blur(0px);
   }
 
-  
+@media(max-width:768px){
+  .confirm-dialog-container {
+    position: fixed;
+    width: 100vw;
+    height: calc(100vh - 176px);
+    left: 0;
+  }
+}
+
+@media(max-width:620px){
+  .confirm-dialog-window {
+    width: 90%;
+    font-size: 12px;
+  }
+}
 
 
-
-
-
+@media(max-width:400px){
+  .confirm_buttons{
+    gap: 10px;
+}
+}
 
 
 
