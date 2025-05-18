@@ -156,7 +156,8 @@
     color: rgba(42, 54, 71, 1);
     transition: border 100ms ease-in-out,
                 color 100ms ease-in-out;
-    cursor: pointer;   
+    cursor: pointer; 
+    padding-bottom: 3px;  
 }
 
 .add-task-column:hover {

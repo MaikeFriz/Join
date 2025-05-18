@@ -1,4 +1,3 @@
-
 // Global variables for drag-and-drop state
 let draggedTask = null;
 let taskClone = null;
@@ -45,6 +44,16 @@ function setupDragOverListener(container) {
   container.addEventListener("dragover", (event) => {
     event.preventDefault();
     const taskContainer = getTargetTaskContainer(container);
+
+    const SCROLL_ZONE = 60; 
+    const SCROLL_SPEED = 15;
+
+    const rect = container.getBoundingClientRect();
+    if (event.clientY < rect.top + SCROLL_ZONE) {
+      container.scrollTop -= SCROLL_SPEED;
+    } else if (event.clientY > rect.bottom - SCROLL_ZONE) {
+      container.scrollTop += SCROLL_SPEED;
+    }
 
     if (event.target === dropPlaceholder) return;
     if (!dropPlaceholder && taskContainer) {

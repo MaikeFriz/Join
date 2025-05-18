@@ -79,11 +79,12 @@ span p:hover{
 
 .board-table-columns,
 .task-container{
-    height: 100vh;
+    height: fit-content;
     min-height: 16px;
     width: 98%;
     display: flex;
     flex-direction: column;
     gap: 16px;
+    padding-bottom: 16px;
 }
 
