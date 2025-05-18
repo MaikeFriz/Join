@@ -1,9 +1,7 @@
-// Stores assigned users
 let assigneesObject = {};
 
-// Initializes the dropdown for assigning users
-document.addEventListener("DOMContentLoaded", initDropdown);
 
+document.addEventListener("DOMContentLoaded", initDropdown);
 async function initDropdown() {
   try {
     const users = await fetchUsers();
@@ -14,10 +12,9 @@ async function initDropdown() {
   }
 }
 
-// Fetches user data from LocalStorage or Firebase
+
 async function fetchUsers() {
   const isGuest = JSON.parse(localStorage.getItem("isGuest"));
-
   let data;
   if (isGuest) {
     data = JSON.parse(localStorage.getItem("guestKanbanData"));
@@ -25,7 +22,6 @@ async function fetchUsers() {
     const response = await fetch("https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData.json");
     data = await response.json();
   }
-
   if (!data || !data.users) return [];
   return Object.entries(data.users).map(([userId, user]) => ({
     id: userId,
@@ -33,7 +29,7 @@ async function fetchUsers() {
   }));
 }
 
-// Creates dropdown options for users
+
 function createDropdownOptions(users) {
   const dropdownOptions = document.getElementById("dropdown_options_assignee");
   dropdownOptions.innerHTML = "";
@@ -44,73 +40,63 @@ function createDropdownOptions(users) {
   });
 }
 
-// Creates a single dropdown option for a user
-function createDropdownOptionTemplate(user) {
-  const option = document.createElement("div");
-  option.classList.add("custom-dropdown-option");
-  option.dataset.value = user.name;
-  option.dataset.userId = user.id;
 
-  const isChecked = assigneesObject[user.id] ? "checked_checkbox.svg" : "checkbox_unchecked.svg";
-  const initials = getAssigneeInitials(user.name);
-  const firstLetter = user.name[0].toLowerCase();
+function createDropdownOptionElement(user) {
+    const option = document.createElement("div");
+    option.classList.add("custom-dropdown-option");
+    option.dataset.value = user.name;
+    option.dataset.userId = user.id;
+    const isChecked = assigneesObject[user.id] ? "checked_checkbox.svg" : "checkbox_unchecked.svg";
+    const initials = getAssigneeInitials(user.name);
+    const firstLetter = user.name[0].toLowerCase();
+    option.innerHTML = generateDropdownOptionTemplate(initials, user.name, firstLetter, isChecked);
 
-  option.innerHTML = `
-    <div class="option_row">
-      <div class="name_initials_div">
-        <span class="initials-circle ${firstLetter}">${initials}</span> 
-        <span class="dropdown-item">${user.name}</span>
-      </div>      
-      <div class="checkbox-container">
-        <img src="./assets/img/${isChecked}" alt="Checkbox" class="checkbox-img">
-      </div>
-    </div>
-  `;
-
-  const checkboxImg = option.querySelector(".checkbox-img");
-  if (assigneesObject[user.id]) {
-    option.classList.add("selected");
-  }
-
-  option.addEventListener("mouseenter", () => {
-    if (option.classList.contains("selected")) {
-      checkboxImg.src = "./assets/img/checked_checkbox_white.svg";
-      checkboxImg.classList.add("checkbox-scale");
-    } else {
-      checkboxImg.src = "./assets/img/checkbox_unchecked_white.svg";
-      checkboxImg.classList.remove("checkbox-scale");
+    if (assigneesObject[user.id]) {
+        option.classList.add("selected");
     }
-  });
-
-  option.addEventListener("mouseleave", () => {
-    if (option.classList.contains("selected")) {
-      checkboxImg.src = "./assets/img/checked_checkbox_white.svg";
-      checkboxImg.classList.add("checkbox-scale");
-    } else {
-      checkboxImg.src = "./assets/img/checkbox_unchecked.svg";
-      checkboxImg.classList.remove("checkbox-scale");
-    }
-  });
-
-  option.addEventListener("click", () => {
-    option.classList.toggle("selected");
-    const nowSelected = option.classList.contains("selected");
-
-    if (nowSelected) {
-      checkboxImg.src = "./assets/img/checked_checkbox_white.svg";
-      checkboxImg.classList.add("checkbox-scale");
-    } else {
-      checkboxImg.src = "./assets/img/checkbox_unchecked_white.svg";
-      checkboxImg.classList.remove("checkbox-scale");
-    }
-
-    toggleAssignee(user.id, user.name, option);
-  });
-
-  return option;
+    return option;
 }
 
-// Calculates the initials of a user's name
+
+function setCheckboxImage(checkboxImg, isSelected, isHovered) {
+    let imageName = "checkbox_unchecked.svg";
+    if (isSelected) {
+        imageName = "checked_checkbox_white.svg";
+    } else if (isHovered) {
+        imageName = "checkbox_unchecked_white.svg";
+    } else if (isSelected) {
+        imageName = "checked_checkbox.svg"
+    }
+
+    checkboxImg.src = `./assets/img/${imageName}`;
+    checkboxImg.classList.toggle("checkbox-scale", isSelected || isHovered);
+}
+
+
+function addDropdownOptionEventListeners(option, user) {
+  const checkboxImg = option.querySelector(".checkbox-img");
+  option.addEventListener("mouseenter", () => {
+    setCheckboxImage(checkboxImg, option.classList.contains("selected"), true);
+  });
+  option.addEventListener("mouseleave", () => {
+      setCheckboxImage(checkboxImg, option.classList.contains("selected"), false);
+  });
+  option.addEventListener("click", () => {
+    option.classList.toggle("selected");
+    const isSelected = option.classList.contains("selected");
+    setCheckboxImage(checkboxImg, isSelected, false);
+    toggleAssignee(user.id, user.name, option);
+  });
+}
+
+
+function createDropdownOptionTemplate(user) {
+    const option = createDropdownOptionElement(user);
+    addDropdownOptionEventListeners(option, user);
+    return option;
+}
+
+
 function getAssigneeInitials(assignee) {
   let assigneeInitials = "";
   if (assignee) {
@@ -124,7 +110,7 @@ function getAssigneeInitials(assignee) {
   return assigneeInitials;
 }
 
-// Toggles a user in the list of assigned users
+
 function toggleAssignee(userId, userName, optionElement) {
   const imgElement = optionElement.querySelector(".checkbox-img");
 
@@ -139,7 +125,7 @@ function toggleAssignee(userId, userName, optionElement) {
   }
 }
 
-// Adds a user element to the "show-assignees" div
+
 function addAssigneeElement(userId, userName) {
   const showAssigneesDiv = document.getElementById("show-assignees");
 
@@ -149,23 +135,14 @@ function addAssigneeElement(userId, userName) {
   showAssigneesDiv.innerHTML += assigneeTemplate;
 }
 
-// Creates the HTML template for a user element
+
 function createAssigneeTemplate(userId, userName) {
-  const initials = getAssigneeInitials(userName);
-  const firstLetter = userName[0].toLowerCase();
-  return `
-<div class="assignee-item" id="assignee-${userId}">
-    <span class="initials-circle ${firstLetter}">${initials}</span> 
-    <button class="delete-assignee-button" onclick="removeAssignee('${userId}')">
-        <svg width="12" height="12" viewBox="0 0 17 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M3.14453 18C2.59453 18 2.1237 17.8042 1.73203 17.4125C1.34036 17.0208 1.14453 16.55 1.14453 16V3C0.861198 3 0.623698 2.90417 0.432031 2.7125C0.240365 2.52083 0.144531 2.28333 0.144531 2C0.144531 1.71667 0.240365 1.47917 0.432031 1.2875C0.623698 1.09583 0.861198 1 1.14453 1H5.14453C5.14453 0.716667 5.24036 0.479167 5.43203 0.2875C5.6237 0.0958333 5.8612 0 6.14453 0H10.1445C10.4279 0 10.6654 0.0958333 10.857 0.2875C11.0487 0.479167 11.1445 0.716667 11.1445 1H15.1445C15.4279 1 15.6654 1.09583 15.857 1.2875C16.0487 1.47917 16.1445 1.71667 16.1445 2C16.1445 2.28333 16.0487 2.52083 15.857 2.7125C15.6654 2.90417 15.4279 3 15.1445 3V16C15.1445 16.55 14.9487 17.0208 14.557 17.4125C14.1654 17.8042 13.6945 18 13.1445 18H3.14453ZM3.14453 3V16H13.1445V3H3.14453ZM5.14453 13C5.14453 13.2833 5.24036 13.5208 5.43203 13.7125C5.6237 13.9042 5.8612 14 6.14453 14C6.42786 14 6.66536 13.9042 6.85703 13.7125C7.0487 13.5208 7.14453 13.2833 7.14453 13V6C7.14453 5.71667 7.0487 5.47917 6.85703 5.2875C6.66536 5.09583 6.42786 5 6.14453 5C5.8612 5 5.6237 5.09583 5.43203 5.2875C5.24036 5.47917 5.14453 5.71667 5.14453 6V13ZM9.14453 13C9.14453 13.2833 9.24037 13.5208 9.43203 13.7125C9.6237 13.9042 9.8612 14 10.1445 14C10.4279 14 10.6654 13.9042 10.857 13.7125C11.0487 13.5208 11.1445 13.2833 11.1445 13V6C11.1445 5.71667 11.0487 5.47917 10.857 5.2875C10.6654 5.09583 10.4279 5 10.1445 5C9.8612 5 9.6237 5.09583 9.43203 5.2875C9.24037 5.47917 9.14453 5.71667 9.14453 6V13Z" fill="red"/>
-        </svg>
-    </button>
-</div>
-  `;
+    const initials = getAssigneeInitials(userName);
+    const firstLetter = userName[0].toLowerCase();
+    return generateAssigneeTemplate(userId, initials, firstLetter);
 }
 
-// Removes a user from the assigned list
+
 function removeAssignee(userId) {
   delete assigneesObject[userId];
 
@@ -181,7 +158,7 @@ function removeAssignee(userId) {
   });
 }
 
-// Removes the assignee element from the "show-assignees" div
+
 function removeAssigneeElement(userId) {
   const assigneeElement = document.getElementById(`assignee-${userId}`);
   if (assigneeElement) {
@@ -189,22 +166,19 @@ function removeAssigneeElement(userId) {
   }
 }
 
-// Sets up events for opening and closing the dropdown
+
 function setupDropdownEvents() {
   const dropdown = document.getElementById("dropdown_assigned_to");
   dropdown.addEventListener("click", toggleDropdown);
   document.addEventListener("click", closeDropdownOnClickOutside);
 }
 
-// Toggles the visibility of the dropdown menu
+
 function toggleDropdown(event) {
   event.stopPropagation();
-
   const dropdown = document.getElementById("dropdown_assigned_to");
   const dropdownOptions = document.getElementById("dropdown_options_assignee");
-
   const isOpen = dropdownOptions.classList.contains("show");
-
   if (!isOpen) {
     dropdownOptions.classList.add("show");
     dropdown.classList.add("dropdown_open");
@@ -214,7 +188,7 @@ function toggleDropdown(event) {
   }
 }
 
-// Closes the dropdown menu when clicking outside
+
 function closeDropdownOnClickOutside(event) {
   const dropdown = document.getElementById("dropdown_assigned_to");
   const dropdownOptions = document.getElementById("dropdown_options_assignee");
@@ -223,16 +197,17 @@ function closeDropdownOnClickOutside(event) {
   }
 }
 
-// Closes the dropdown menu
+
 function closeDropdown() {
   document.getElementById("dropdown_options_assignee").classList.remove("show");
   document.getElementById("dropdown_assigned_to").classList.remove("dropdown_open");
 }
 
-//-------------------------------- Select priority
+
 document.addEventListener("DOMContentLoaded", function () {
   initializePrioritySelection();
 });
+
 
 function initializePrioritySelection() {
   const urgentButton = document.getElementById("urgent_button");
@@ -242,6 +217,7 @@ function initializePrioritySelection() {
   setupPriorityButtons(urgentButton, mediumButton, lowButton);
   setActiveButton(mediumButton);
 }
+
 
 function setupPriorityButtons(urgentButton, mediumButton, lowButton) {
   urgentButton.addEventListener("click", () =>
@@ -253,13 +229,13 @@ function setupPriorityButtons(urgentButton, mediumButton, lowButton) {
   lowButton.addEventListener("click", () => handlePriorityClick(lowButton));
 }
 
-// Klick auf Prioritätsbutton.
+
 function handlePriorityClick(clickedButton) {
   removeActiveClassFromOtherButtons(clickedButton);
   setActiveButton(clickedButton);
 }
 
-// Entfernt aktive Klasse von anderen Prioritätsbuttons.
+
 function removeActiveClassFromOtherButtons(clickedButton) {
   const allButtons = document.querySelectorAll(
     "#urgent_button, #medium_button, #low_button"
@@ -271,21 +247,21 @@ function removeActiveClassFromOtherButtons(clickedButton) {
   });
 }
 
-// Setzt angeklickten Button aktiv.
+
 function setActiveButton(clickedButton) {
   clickedButton.classList.add("active");
 }
 
-//-------------------------------- Select category
+
 document.addEventListener("DOMContentLoaded", function () {
   const dropdown = document.getElementById("dropdown_category");
   const optionsContainer = document.querySelector(".dropdown_options");
   const selectedText = document.getElementById("dropdown_selected");
   const inputField = document.getElementById("category");
-
   dropdown.addEventListener("click", function () {
     dropdown.parentElement.classList.toggle("open");
   });
+
 
   document.querySelectorAll(".custom-dropdown-option").forEach((option) => {
     option.addEventListener("click", function () {
@@ -295,6 +271,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
+
   document.addEventListener("click", function (event) {
     if (!dropdown.parentElement.contains(event.target)) {
       dropdown.parentElement.classList.remove("open");
@@ -302,18 +279,15 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-// Clear Button
+
 function clearAllInputs() {
   const form = document.getElementById("task_form");
   form.reset();
-
   document.getElementById("dropdown_selected").textContent = "Select task category";
   document.getElementById("dropdown_selected_assignee").textContent = "Select a person";
   document.getElementById("display_subtasks").innerHTML = "";
-
   const priorityButtons = document.querySelectorAll(".priority-buttons-div > div");
   priorityButtons.forEach((button) => button.classList.remove("active"));
-
   const showAssignees = document.getElementById("show-assignees");
   showAssignees.innerHTML = "";
 }
