@@ -26,7 +26,7 @@
   <script src="./scripts/add_task_subtasks.js"></script>
   <script src="./scripts/add_task_data_save.js"></script>
   <script src="./scripts/log_out.js"></script>
-<script src="./scripts/load_header_sidebar.js"></script>
+  <script src="./scripts/load_header_sidebar.js"></script>
   <script src="./scripts/date_utils.js"></script>
 </head>
 
@@ -37,119 +37,128 @@
     <!-- Right side content -->
     <div class="right-side-content">
       <div>
-      <div id="add_task_frame">
-        <div class="h1_div">
-          <h1>Add task</h1>
-        </div>
-        <form id="task_form">
-          <div class="add_task_board">
-            <div class="input_div_left input_div_left_content">
-              <p>Title<span class="red_color">*</span></p>
-              <label class="input_label">
-                <input id="input_title" type="text" required placeholder="Enter a title" />
-              </label>
-              <p>Description</p>
-              <label class="input_label">
-                <textarea id="input_description" class="textarea-with-icon" type="text" required placeholder="Enter a description"></textarea>
-                <svg class="resize-icon resize-icon-position" width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M18.9 0V1.69C18.9017 2.31796 18.7788 2.94002 18.5385 3.52019C18.2982 4.10036 17.9452 4.62712 17.5 5.07L5.07 17.5C4.62712 17.9452 4.10036 18.2982 3.52019 18.5385C2.94002 18.7788 2.31796 18.9017 1.69 18.9H0L18.9 0Z" fill="#D1D1D1"/>
-                  <path d="M18.9001 6.31006V8.00006C18.9006 8.62786 18.7772 9.2496 18.537 9.82961C18.2967 10.4096 17.9444 10.9365 17.5001 11.3801L11.3801 17.5001C10.9365 17.9444 10.4096 18.2967 9.82961 18.537C9.2496 18.7772 8.62786 18.9006 8.00006 18.9001H6.31006L18.9001 6.31006Z" fill="#D1D1D1"/>
-                  <path d="M18.8999 12.4302V14.1202C18.9005 14.748 18.7771 15.3697 18.5369 15.9497C18.2966 16.5297 17.9442 17.0566 17.4999 17.5002C17.0564 17.9445 16.5295 18.2969 15.9495 18.5371C15.3695 18.7773 14.7477 18.9007 14.1199 18.9002H12.4299L18.8999 12.4302Z" fill="#D1D1D1"/>
-                </svg>
-              </label>
-              <p>Due Date<span class="red_color">*</span></p>
-              <label class="input_label input_label_calender">
-                <input  type="date" required />
-              </label>
-            </div>
-            <div class="separator"></div>
-            <div class="input_div_right">
-              <p class="right_side_inputfield_titles">Priority</p>
-              <div class="priority-buttons-div">
-                <div id="urgent_button" class="urgent_button">
-                  <p>Urgent</p>
-                  <svg class="urgent_symbol" width="21" height="16" viewBox="0 0 21 16">
+        <div id="add_task_frame">
+          <div class="h1_div">
+            <h1>Add task</h1>
+          </div>
+          <form id="task_form">
+            <div class="add_task_board">
+              <div class="input_div_left input_div_left_content">
+                <p>Title<span class="red_color">*</span></p>
+                <label class="input_label">
+                  <input id="input_title" type="text" required placeholder="Enter a title" />
+                </label>
+                <p>Description</p>
+                <label class="input_label">
+                  <textarea id="input_description" class="textarea-with-icon" type="text" required
+                    placeholder="Enter a description"></textarea>
+                  <svg class="resize-icon resize-icon-position" width="19" height="19" viewBox="0 0 19 19" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
                     <path
-                      d="M19.65 15.25c-.23 0-.46-.07-.65-.21L10.75 8.96 2.5 15.04c-.23.17-.52.23-.81.2s-.52-.15-.73-.32c-.21-.18-.37-.41-.46-.66-.1-.26-.12-.53-.08-.79.04-.29.2-.55.44-.73L10.1 6.71c.19-.14.42-.22.65-.22s.46.08.65.22l8.9 6.57c.19.14.33.34.4.57.08.22.07.46 0 .68-.07.23-.2.42-.39.57-.19.15-.42.22-.66.22z" />
+                      d="M18.9 0V1.69C18.9017 2.31796 18.7788 2.94002 18.5385 3.52019C18.2982 4.10036 17.9452 4.62712 17.5 5.07L5.07 17.5C4.62712 17.9452 4.10036 18.2982 3.52019 18.5385C2.94002 18.7788 2.31796 18.9017 1.69 18.9H0L18.9 0Z"
+                      fill="#D1D1D1" />
                     <path
-                      d="M19.65 9.5c-.23 0-.46-.07-.65-.21L10.75 3.21 2.5 9.29c-.23.17-.52.23-.81.2s-.52-.15-.73-.32c-.21-.18-.37-.41-.46-.66-.1-.26-.12-.53-.08-.79.04-.29.2-.55.44-.73L10.1.96c.19-.14.42-.22.65-.22s.46.08.65.22l8.9 6.57c.19.14.33.34.4.57.08.22.07.46 0 .68-.07.23-.2.42-.39.57-.19.15-.42.22-.66.22z" />
+                      d="M18.9001 6.31006V8.00006C18.9006 8.62786 18.7772 9.2496 18.537 9.82961C18.2967 10.4096 17.9444 10.9365 17.5001 11.3801L11.3801 17.5001C10.9365 17.9444 10.4096 18.2967 9.82961 18.537C9.2496 18.7772 8.62786 18.9006 8.00006 18.9001H6.31006L18.9001 6.31006Z"
+                      fill="#D1D1D1" />
+                    <path
+                      d="M18.8999 12.4302V14.1202C18.9005 14.748 18.7771 15.3697 18.5369 15.9497C18.2966 16.5297 17.9442 17.0566 17.4999 17.5002C17.0564 17.9445 16.5295 18.2969 15.9495 18.5371C15.3695 18.7773 14.7477 18.9007 14.1199 18.9002H12.4299L18.8999 12.4302Z"
+                      fill="#D1D1D1" />
                   </svg>
-                </div>
-                <div id="medium_button" class="medium_button">
-                  <p>Medium</p>
-                  <svg class="medium_symbol" width="21" height="8" viewBox="0 0 21 8">
-                    <path d="M19.76 7.92H1.95a1.1 1.1 0 1 1 0-2.21h17.81a1.1 1.1 0 1 1 0 2.21Z" />
-                    <path d="M19.76 2.67H1.95A1.1 1.1 0 1 1 1.95.47h17.81a1.1 1.1 0 1 1 0 2.21Z" />
-                  </svg>
-                </div>
-                <div id="low_button" class="low_button">
-                  <p>Low</p>
-                  <svg class="low_symbol" width="21" height="16" viewBox="0 0 21 16">
-                    <path
-                      d="M10.25 9.51a1 1 0 0 1-.65-.22L0.69 2.72a1 1 0 0 1 .49-1.76 1 1 0 0 1 1.06.22l8 6 8-6a1 1 0 0 1 1.56 1.21l-8.9 6.57a1 1 0 0 1-.65.22Z" />
-                    <path
-                      d="M10.25 15.25a1 1 0 0 1-.65-.21L0.69 8.47a1 1 0 0 1 1.31-1.53l8.25 6.08 8.25-6.08a1 1 0 1 1 1.31 1.53l-8.9 6.57a1 1 0 0 1-.65.21Z" />
-                  </svg>
-                </div>
+                </label>
+                <p>Due Date<span class="red_color">*</span></p>
+                <label class="input_label input_label_calender">
+                  <input type="date" required />
+                </label>
               </div>
-              <p class="right_side_inputfield_titles">Assigned to</p>
-              <div class="assigned_to_div">
-                <div class="dropdown-assigned-to" id="dropdown_assigned_to" tabindex="0">
-                  <span id="dropdown_selected_assignee">Select a person</span>
-                  <img src="./assets/img/arrow_drop_down.svg" alt="dropdown arrow" class="dropdown_arrow" />
-                </div>
-                <div class="dropdown-options-assignee" id="dropdown_options_assignee"></div>
-                <input class="focus_blue_border" type="hidden" id="assigned_to" name="assigned_to" required />
-              </div>
-              <div class="show-assignees" id="show-assignees"></div>
-              <p class="right_side_inputfield_titles">Category<span class="red_color">*</span></p>
-              <div class="category_div">
-                <div class="dropdown-category" id="dropdown_category" tabindex="0">
-                  <span id="dropdown_selected">Select task category</span>
-                  <img src="./assets/img/arrow_drop_down.svg" alt="dropdown arrow" class="dropdown_arrow" />
-                </div>
-                <div class="dropdown_options">
-                  <div class="custom-dropdown-option" data-value="User Story">User Story</div>
-                  <div class="custom-dropdown-option" data-value="Technical Task">Technical Task</div>
-                  <div class="custom-dropdown-option" data-value="HTML">HTML</div>
-                  <div class="custom-dropdown-option" data-value="Javascript">Javascript</div>
-                  <div class="custom-dropdown-option" data-value="CSS">CSS</div>
-                </div>
-                <input class="focus_blue_border" type="hidden" id="category" name="category" required />
-              </div>
-              <p class="right_side_inputfield_titles">Subtasks</p>
-              <label class="input_label focus_blue_border">
-                <input id="input_subtask" type="text" placeholder="Add new subtask" />
-                <button type="button" id="button_add_subtask">
-                  <img id="add_icon" src="./assets/img/add_icon.svg" alt="Add" />
-                  <div id="input_icons" class="input-icons">
-                    <img id="clear_icon" src="./assets/img/clear_symbol.svg" alt="Clear" />
-                    <div class="separator_subtasks">|</div>
-                    <img id="check_icon" src="./assets/img/check_dark.svg" alt="Check" />
+              <div class="separator"></div>
+              <div class="input_div_right">
+                <p class="right_side_inputfield_titles">Priority</p>
+                <div class="priority-buttons-div">
+                  <div id="urgent_button" class="urgent_button">
+                    <p>Urgent</p>
+                    <svg class="urgent_symbol" width="21" height="16" viewBox="0 0 21 16">
+                      <path
+                        d="M19.65 15.25c-.23 0-.46-.07-.65-.21L10.75 8.96 2.5 15.04c-.23.17-.52.23-.81.2s-.52-.15-.73-.32c-.21-.18-.37-.41-.46-.66-.1-.26-.12-.53-.08-.79.04-.29.2-.55.44-.73L10.1 6.71c.19-.14.42-.22.65-.22s.46.08.65.22l8.9 6.57c.19.14.33.34.4.57.08.22.07.46 0 .68-.07.23-.2.42-.39.57-.19.15-.42.22-.66.22z" />
+                      <path
+                        d="M19.65 9.5c-.23 0-.46-.07-.65-.21L10.75 3.21 2.5 9.29c-.23.17-.52.23-.81.2s-.52-.15-.73-.32c-.21-.18-.37-.41-.46-.66-.1-.26-.12-.53-.08-.79.04-.29.2-.55.44-.73L10.1.96c.19-.14.42-.22.65-.22s.46.08.65.22l8.9 6.57c.19.14.33.34.4.57.08.22.07.46 0 .68-.07.23-.2.42-.39.57-.19.15-.42.22-.66.22z" />
+                    </svg>
                   </div>
+                  <div id="medium_button" class="medium_button">
+                    <p>Medium</p>
+                    <svg class="medium_symbol" width="21" height="8" viewBox="0 0 21 8">
+                      <path d="M19.76 7.92H1.95a1.1 1.1 0 1 1 0-2.21h17.81a1.1 1.1 0 1 1 0 2.21Z" />
+                      <path d="M19.76 2.67H1.95A1.1 1.1 0 1 1 1.95.47h17.81a1.1 1.1 0 1 1 0 2.21Z" />
+                    </svg>
+                  </div>
+                  <div id="low_button" class="low_button">
+                    <p>Low</p>
+                    <svg class="low_symbol" width="21" height="16" viewBox="0 0 21 16">
+                      <path
+                        d="M10.25 9.51a1 1 0 0 1-.65-.22L0.69 2.72a1 1 0 0 1 .49-1.76 1 1 0 0 1 1.06.22l8 6 8-6a1 1 0 0 1 1.56 1.21l-8.9 6.57a1 1 0 0 1-.65.22Z" />
+                      <path
+                        d="M10.25 15.25a1 1 0 0 1-.65-.21L0.69 8.47a1 1 0 0 1 1.31-1.53l8.25 6.08 8.25-6.08a1 1 0 1 1 1.31 1.53l-8.9 6.57a1 1 0 0 1-.65.21Z" />
+                    </svg>
+                  </div>
+                </div>
+                <p class="right_side_inputfield_titles">Assigned to</p>
+                <div class="assigned_to_div">
+                  <div class="dropdown-assigned-to" id="dropdown_assigned_to" tabindex="0">
+                    <span id="dropdown_selected_assignee">Select a person</span>
+                    <img src="./assets/img/arrow_drop_down.svg" alt="dropdown arrow" class="dropdown_arrow" />
+                  </div>
+                  <div class="dropdown-options-assignee" id="dropdown_options_assignee"></div>
+                  <input class="focus_blue_border" type="hidden" id="assigned_to" name="assigned_to" required />
+                </div>
+                <div class="show-assignees" id="show-assignees"></div>
+                <p class="right_side_inputfield_titles">Category<span class="red_color">*</span></p>
+                <div class="category_div">
+                  <div class="dropdown-category" id="dropdown_category" tabindex="0">
+                    <span id="dropdown_selected">Select task category</span>
+                    <img src="./assets/img/arrow_drop_down.svg" alt="dropdown arrow" class="dropdown_arrow" />
+                  </div>
+                  <div class="dropdown_options">
+                    <div class="custom-dropdown-option" data-value="User Story">User Story</div>
+                    <div class="custom-dropdown-option" data-value="Technical Task">Technical Task</div>
+                    <div class="custom-dropdown-option" data-value="HTML">HTML</div>
+                    <div class="custom-dropdown-option" data-value="Javascript">Javascript</div>
+                    <div class="custom-dropdown-option" data-value="CSS">CSS</div>
+                  </div>
+                  <input class="focus_blue_border" type="hidden" id="category" name="category" required />
+                </div>
+                <p class="right_side_inputfield_titles">Subtasks</p>
+                <label class="input_label focus_blue_border">
+                  <input id="input_subtask" type="text" placeholder="Add new subtask" />
+                  <button type="button" id="button_add_subtask">
+                    <img id="add_icon" src="./assets/img/add_icon.svg" alt="Add" />
+                    <div id="input_icons" class="input-icons">
+                      <img id="clear_icon" src="./assets/img/clear_symbol.svg" alt="Clear" />
+                      <div class="separator_subtasks">|</div>
+                      <img id="check_icon" src="./assets/img/check_dark.svg" alt="Check" />
+                    </div>
+                  </button>
+                </label>
+                <ul id="display_subtasks" class="display_subtasks"></ul>
+              </div>
+            </div>
+            <div class="info_and_button_div">
+              <p><span class="red_color">*</span>This field is required</p>
+              <div class="clear_create_buttons">
+                <button type="button" class="clear_button_div" onclick="clearAllInputs()">
+                  <p>Clear</p>
                 </button>
-              </label>
-              <ul id="display_subtasks" class="display_subtasks"></ul>
+                <button type="submit" class="create_button_div">
+                  <p>Create</p>
+                </button>
+              </div>
             </div>
-          </div>
-          <div class="info_and_button_div">
-            <p><span class="red_color">*</span>This field is required</p>
-            <div class="clear_create_buttons">
-              <button type="button" class="clear_button_div" onclick="clearAllInputs()">
-                <p>Clear</p>
-              </button>
-              <button type="submit" class="create_button_div">
-                <p>Create</p>
-              </button>
-            </div>
-          </div>
-          
-        </form>
-        </div> 
+
+          </form>
+        </div>
       </div>
       <footer></footer>
     </div>
-    </div>
-      
+  </div>
+
 </body>
+
 </html>

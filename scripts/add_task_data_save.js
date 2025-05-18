@@ -1,3 +1,7 @@
+let BASE_URL = `https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData/`;
+let taskForm = document.getElementById("task_form");
+
+
 document.addEventListener("DOMContentLoaded", async function () {
   const isGuest = JSON.parse(localStorage.getItem("isGuest"));
   let user = JSON.parse(localStorage.getItem("loggedInUser"));
@@ -13,10 +17,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     return;
   }
 
-  let BASE_URL = `https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData/`;
-  let taskForm = document.getElementById("task_form");
 
-  // Returns the next available task ID
   async function getNewTaskId() {
     try {
       let response = await fetch(`${BASE_URL}tasks.json`);
@@ -39,7 +40,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
   }
 
-  // Adds a submit event listener to the task form
   function addTaskFormListener() {
     taskForm.addEventListener("submit", async function (event) {
       event.preventDefault();
@@ -51,13 +51,12 @@ document.addEventListener("DOMContentLoaded", async function () {
     });
   }
 
-  // Collects all task details from the form
   function getTaskDetails() {
     let title = document.getElementById("input_title").value;
     let description = document.getElementById("input_description").value;
     let createdAt = new Date().toISOString();
     const isGuest = JSON.parse(localStorage.getItem("isGuest"));
-    let createdBy = isGuest ? "guest" : user.userId; // <-- Anpassung hier!
+    let createdBy = isGuest ? "guest" : user.userId;
     let updatedAt = createdAt;
     let priority = document.querySelector(".priority-buttons-div .active p").textContent.toLowerCase();
     let assignees = getAssignedUsers();
@@ -77,7 +76,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     };
   }
 
-  // Returns assigned users as an object
   function getAssignedUsers() {
     let assignees = {};
     for (let assigneeName in assigneesObject) {
@@ -89,7 +87,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     return assignees;
   }
 
-  // Returns all subtasks as an object
   function getSubtaskDetails() {
     let subtasks = {};
     for (let subtaskId in subtasksObject) {
@@ -136,7 +133,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     resetSubtasks();
   }
 
-  // Removes all assignees from the task
+
   function resetAssignees() {
     for (const userId in assigneesObject) {
       removeAssignee(userId);
@@ -145,7 +142,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     showAssigneesDiv.innerHTML = "";
   }
 
-  // Clears all subtasks from the task
+
   function resetSubtasks() {
     subtasksObject = {};
     const displaySubtasksDiv = document.getElementById("display_subtasks");
@@ -174,7 +171,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
   }
 
-  // Saves the subtasks related to the task
+
   function saveSubtasksData(taskId) {
     const isGuest = JSON.parse(localStorage.getItem("isGuest"));
     if (isGuest) {
@@ -187,12 +184,12 @@ document.addEventListener("DOMContentLoaded", async function () {
       return Promise.resolve(kanbanData.subtasks);
     } else {
       return fetch(`${BASE_URL}subtasks.json`)
-      .then((response) => response.json())
-      .then((existingSubtasks) => {
-        existingSubtasks = existingSubtasks || {};
-        const updatedSubtasks = prepareSubtasksForDatabase(existingSubtasks, taskId);
-        return overwriteSubtaskCollection(updatedSubtasks);
-      });
+        .then((response) => response.json())
+        .then((existingSubtasks) => {
+          existingSubtasks = existingSubtasks || {};
+          const updatedSubtasks = prepareSubtasksForDatabase(existingSubtasks, taskId);
+          return overwriteSubtaskCollection(updatedSubtasks);
+        });
     }
   }
 
@@ -210,7 +207,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     return newSubtasks;
   }
 
-  // Overwrites the entire subtasks collection in the database
+
   function overwriteSubtaskCollection(updatedSubtasks) {
     return fetch(`${BASE_URL}subtasks.json`, {
       method: "PUT",
@@ -227,23 +224,30 @@ document.addEventListener("DOMContentLoaded", async function () {
     if (isGuest) {
       let data = JSON.parse(localStorage.getItem("guestKanbanData")) || { users: { user: { assignedTasks: { toDo: {} } } } };
       if (!data.users.user.assignedTasks.toDo) {
-          data.users.user.assignedTasks.toDo = {};
+        data.users.user.assignedTasks.toDo = {};
       }
       data.users.user.assignedTasks.toDo[taskId] = true;
       localStorage.setItem("guestKanbanData", JSON.stringify(data));
       return Promise.resolve(data.users.user.assignedTasks.toDo);
     } else {
       fetch(`${BASE_URL}users/${userId}/assignedTasks/toDo.json`)
-      .then((response) => response.json())
-      .then((existingTasks) => {
-        existingTasks = existingTasks || {};
-        existingTasks[taskId] = true;
-        return fetch(`${BASE_URL}users/${userId}/assignedTasks/toDo.json`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(existingTasks),
+        .then((response) => response.json())
+        .then((existingTasks) => {
+          existingTasks = existingTasks || {};
+          existingTasks[taskId] = true;
+          return fetch(`${BASE_URL}users/${userId}/assignedTasks/toDo.json`, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(existingTasks),
+          });
+        })
+        .then(() => {
+          console.log(`Task ${taskId} added to user ${userId}'s to-do list`);
+        })
+        .catch((error) => {
+          console.error("Error adding task to user:", error);
         });
       })
       .then(() => {})

@@ -67,17 +67,9 @@ function getUserInitialForHeader(userName) {
         ? "translateY(-10px)"
         : "translateY(0px)";
   });
-
-  // WICHTIG: Event-Listener für Logout-Button (nutzt logoutUser aus log_out.js)
-  const logoutBtn = document.getElementById("logoutButton");
-  if (logoutBtn) {
-    logoutBtn.addEventListener("click", function (e) {
-      e.stopPropagation();
-      logoutUser(); // wird aus log_out.js geholt
-    });
-  }
 }
 
+// Falls zusätzliche Logik gebraucht wird (Platzhalter)
 document.addEventListener("DOMContentLoaded", () => {
   const userInitialsHeader = document.getElementById("user-initials-header");
   if (!userInitialsHeader) {
