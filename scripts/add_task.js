@@ -287,7 +287,8 @@ document.addEventListener("DOMContentLoaded", function () {
     dropdown.parentElement.classList.toggle("open");
   });
 
-  document.querySelectorAll(".custom-dropdown-option").forEach((option) => {
+  // Nur Optionen im Category-Dropdown auswählen!
+  optionsContainer.querySelectorAll(".custom-dropdown-option").forEach((option) => {
     option.addEventListener("click", function () {
       selectedText.textContent = this.textContent;
       inputField.value = this.dataset.value;
