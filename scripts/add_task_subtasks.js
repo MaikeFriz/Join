@@ -1,10 +1,14 @@
 let subtasksObject = {};
 let highestSubtaskId = 0;
 
+// --- Initialization & Event Handling ---
+
+// Initializes subtask input listeners on DOMContentLoaded
 document.addEventListener("DOMContentLoaded", function () {
   initializeSubtaskListeners();
 });
 
+// Sets up event listeners for subtask input and icons
 function initializeSubtaskListeners() {
   const inputSubtask = document.getElementById("input_subtask");
   const addIcon = document.getElementById("add_icon");
@@ -18,47 +22,34 @@ function initializeSubtaskListeners() {
   checkIcon.addEventListener("click", () => addSubtask(inputSubtask));
 }
 
+// --- Subtask UI Handling ---
+
+// Toggles visibility of icons based on input value
 function toggleIcons(inputSubtask, addIcon, inputIcons) {
   const isNotEmpty = inputSubtask.value.trim() !== "";
   addIcon.style.display = isNotEmpty ? "none" : "inline";
   inputIcons.style.display = isNotEmpty ? "flex" : "none";
 }
 
+// Resets icons if input is empty
 function resetIcons(inputSubtask, addIcon, inputIcons) {
   if (inputSubtask.value.trim() === "") toggleIcons(inputSubtask, addIcon, inputIcons);
 }
 
+// Clears the subtask input and resets icons
 function clearInput(inputSubtask, addIcon, inputIcons) {
   inputSubtask.value = "";
   toggleIcons(inputSubtask, addIcon, inputIcons);
   inputSubtask.focus();
 }
 
-async function addSubtask(inputSubtask) {
-    const subtaskText = inputSubtask.value.trim();
-    if (subtaskText !== "") {
-      await loadHighestSubtaskId();
-      const newSubtaskId = `subtask${highestSubtaskId + 1}`;
-      subtasksObject[newSubtaskId] = { title: subtaskText, completed: false };
-      displaySubtask(newSubtaskId, subtaskText);
-      highestSubtaskId++;
-      clearInput(inputSubtask, document.getElementById("add_icon"), document.getElementById("input_icons"));
-    }
-  }
-
-async function loadHighestSubtaskId() {
-  if (Object.keys(subtasksObject).length === 0) {
-    const response = await fetch("https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData.json");
-    const data = await response.json();
-    highestSubtaskId = Math.max(...Object.keys(data.subtasks || {}).map(id => parseInt(id.replace('subtask', ''))), 0);
-  }
-}
-
+// Displays a subtask in the UI
 function displaySubtask(subtaskId, subtaskText) {
   const subtaskElement = createSubtaskElement(subtaskId, subtaskText);
   document.getElementById("display_subtasks").appendChild(subtaskElement);
 }
 
+// Creates a subtask list element with edit and delete buttons
 function createSubtaskElement(subtaskId, subtaskText) {
   const subtaskElement = document.createElement("li");
   subtaskElement.className = "subtask-item";
@@ -84,6 +75,7 @@ function createSubtaskElement(subtaskId, subtaskText) {
   return subtaskElement;
 }
 
+// Sets up edit mode events for a subtask
 function setupEditEvents(span, subtaskId, deleteButton) {
   span.addEventListener("dblclick", () => {
     openEditMode(span, subtaskId, deleteButton);
@@ -95,6 +87,7 @@ function setupEditEvents(span, subtaskId, deleteButton) {
   });
 }
 
+// Opens the edit mode for a subtask
 function openEditMode(span, subtaskId, deleteButton) {
   const inputContainer = createEditContainer(span, subtaskId, deleteButton);
   const subtaskItem = span.closest(".subtask-item");
@@ -104,6 +97,7 @@ function openEditMode(span, subtaskId, deleteButton) {
   subtaskItem.classList.add("editing");
 }
 
+// Creates the edit input container for a subtask
 function createEditContainer(span, subtaskId, deleteButton) {
   const inputContainer = document.createElement("div");
   inputContainer.className = "edit-subtask-container";
@@ -132,6 +126,7 @@ function createEditContainer(span, subtaskId, deleteButton) {
   return inputContainer;
 }
 
+// Creates save and clear icons for the edit mode
 function createEditIcons(input, onSave, onCancel) {
   const iconsContainer = document.createElement("div");
   iconsContainer.className = "icons-container";
@@ -151,6 +146,7 @@ function createEditIcons(input, onSave, onCancel) {
   return iconsContainer;
 }
 
+// Saves the edited subtask text
 function saveEdit(input, span, subtaskId, inputContainer, deleteButton) {
   const newText = input.value.trim();
   const subtaskItem = inputContainer.closest(".subtask-item");
@@ -164,6 +160,7 @@ function saveEdit(input, span, subtaskId, inputContainer, deleteButton) {
   subtaskItem.replaceWith(updatedElement);
 }
 
+// Cancels the edit mode and restores the original subtask text
 function cancelEdit(inputContainer, span, deleteButton) {
   const subtaskId = span.closest(".subtask-item").id;
   const originalText = subtasksObject[subtaskId].title;
@@ -172,9 +169,65 @@ function cancelEdit(inputContainer, span, deleteButton) {
   inputContainer.closest(".subtask-item").replaceWith(updatedElement);
 }
 
-
-
+// Removes a subtask from the object and UI
 function removeSubtask(subtaskId, subtaskElement) {
   delete subtasksObject[subtaskId];
   subtaskElement.remove();
+}
+
+// --- Subtask Adding ---
+
+// Adds a new subtask to the object and UI
+async function addSubtask(inputSubtask) {
+  const subtaskText = inputSubtask.value.trim();
+  if (subtaskText !== "") {
+    await loadHighestSubtaskId();
+    const newSubtaskId = `subtask${highestSubtaskId + 1}`;
+    subtasksObject[newSubtaskId] = { title: subtaskText, completed: false };
+    displaySubtask(newSubtaskId, subtaskText);
+    highestSubtaskId++;
+    clearInput(inputSubtask, document.getElementById("add_icon"), document.getElementById("input_icons"));
+  }
+}
+
+// --- Subtask ID Management ---
+
+// Loads the highest subtask ID depending on user type
+async function loadHighestSubtaskId() {
+  if (Object.keys(subtasksObject).length === 0) {
+    const isGuest = JSON.parse(localStorage.getItem("isGuest"));
+    if (isGuest) {
+      highestSubtaskId = getHighestSubtaskIdForGuest();
+    } else {
+      highestSubtaskId = await getHighestSubtaskIdForUser();
+    }
+  }
+}
+
+// Returns the highest subtask ID for a guest user
+function getHighestSubtaskIdForGuest() {
+  const guestData = JSON.parse(localStorage.getItem("guestKanbanData")) || {};
+  const guestSubtasks = guestData.subtasks || {};
+  const subtaskList = Object.keys(guestSubtasks);
+  let highestSubtask = 0;
+  for (let subtaskIndex = 0; subtaskIndex < subtaskList.length; subtaskIndex++) {
+    const subtaskId = subtaskList[subtaskIndex];
+    const subtaskNumber = parseInt(subtaskId.replace('subtask', ''));
+    if (subtaskNumber > highestSubtask) highestSubtask = subtaskNumber;
+  }
+  return highestSubtask;
+}
+
+// Returns the highest subtask ID for a registered user
+async function getHighestSubtaskIdForUser() {
+  const response = await fetch("https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData.json");
+  const data = await response.json();
+  const subtaskList = Object.keys(data.subtasks || {});
+  let highestSubtask = 0;
+  for (let subtaskIndex = 0; subtaskIndex < subtaskList.length; subtaskIndex++) {
+    const subtaskId = subtaskList[subtaskIndex];
+    const subtaskNumber = parseInt(subtaskId.replace('subtask', ''));
+    if (subtaskNumber > highestSubtask) highestSubtask = subtaskNumber;
+  }
+  return highestSubtask;
 }
