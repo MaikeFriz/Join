@@ -2,8 +2,8 @@ function getSubtaskElementHTML(subtaskText) {
     return `
     <span class="subtask-text">${subtaskText}</span>
     <div class="hover_button_div">
-      <button><img class="delete_button_subtask" src="./assets/img/delete.svg" alt="Delete" /></button>
-      <button><img class="edit_button_subtask" src="./assets/img/edit.svg" alt="Edit" /></button>
+      <button type="button"><img class="delete_button_subtask" src="./assets/img/delete.svg" alt="Delete" /></button>
+      <button type="button"><img class="edit_button_subtask" src="./assets/img/edit.svg" alt="Edit" /></button>
     </div>
   `;
 }
