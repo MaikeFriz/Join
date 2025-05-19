@@ -46,6 +46,22 @@ function displaySubtask(subtaskId, subtaskText) {
 }
 
 
+function createSubtaskElement(subtaskId, subtaskText) {
+    const subtaskElement = document.createElement("li");
+    subtaskElement.className = "subtask-item";
+    subtaskElement.id = subtaskId;
+    subtaskElement.innerHTML = getSubtaskElementHTML(subtaskText);
+    const deleteButton = subtaskElement.querySelector("button");
+    deleteButton.addEventListener("click", () =>
+        removeSubtask(subtaskId, subtaskElement)
+    );
+    const span = subtaskElement.querySelector(".subtask-text");
+    const deleteImg = subtaskElement.querySelector(".delete_button_subtask");
+    setupEditEvents(span, subtaskId, deleteImg);
+    return subtaskElement;
+}
+
+
 function setupEditEvents(span, subtaskId, deleteButton) {
   span.addEventListener("dblclick", () => {
     openEditMode(span, subtaskId, deleteButton);
@@ -86,6 +102,20 @@ function createEditContainer(span, subtaskId, deleteButton) {
     if (e.key === "Escape") cancelEdit(inputContainer, span, deleteButton);
   });
   return inputContainer;
+}
+
+
+function createEditIcons(input, onSave, onCancel) {
+    const iconsContainer = document.createElement("div");
+    iconsContainer.className = "icons-container";
+    iconsContainer.innerHTML = getEditIconsHTML();
+    iconsContainer.querySelector(".check-icon").addEventListener("click", onSave);
+    iconsContainer.querySelector(".clear_icon_show_subtask").addEventListener("click", (e) => {
+        e.preventDefault();
+        input.value = "";
+        if (typeof onCancel === "function") onCancel();
+    });
+    return iconsContainer;
 }
 
 
