@@ -1,7 +1,6 @@
-// Stores assigned users
 let assigneesObject = {};
 
-// Initializes the dropdown for assigning users
+
 document.addEventListener("DOMContentLoaded", initDropdown);
 
 async function initDropdown() {
@@ -14,7 +13,7 @@ async function initDropdown() {
   }
 }
 
-// Fetches user data from LocalStorage or Firebase
+
 async function fetchUsers() {
   const isGuest = JSON.parse(localStorage.getItem("isGuest"));
 
@@ -33,7 +32,7 @@ async function fetchUsers() {
   }));
 }
 
-// Creates dropdown options for users
+
 function createDropdownOptions(users) {
   const dropdownOptions = document.getElementById("dropdown_options_assignee");
   dropdownOptions.innerHTML = "";
@@ -44,7 +43,7 @@ function createDropdownOptions(users) {
   });
 }
 
-// Creates a single dropdown option for a user
+
 function createDropdownOptionTemplate(user) {
   const option = document.createElement("div");
   option.classList.add("custom-dropdown-option");
@@ -110,7 +109,7 @@ function createDropdownOptionTemplate(user) {
   return option;
 }
 
-// Calculates the initials of a user's name
+
 function getAssigneeInitials(assignee) {
   let assigneeInitials = "";
   if (assignee) {
@@ -124,7 +123,7 @@ function getAssigneeInitials(assignee) {
   return assigneeInitials;
 }
 
-// Toggles a user in the list of assigned users
+
 function toggleAssignee(userId, userName, optionElement) {
   const imgElement = optionElement.querySelector(".checkbox-img");
 
@@ -139,7 +138,7 @@ function toggleAssignee(userId, userName, optionElement) {
   }
 }
 
-// Adds a user element to the "show-assignees" div
+
 function addAssigneeElement(userId, userName) {
   const showAssigneesDiv = document.getElementById("show-assignees");
 
@@ -149,7 +148,7 @@ function addAssigneeElement(userId, userName) {
   showAssigneesDiv.innerHTML += assigneeTemplate;
 }
 
-// Creates the HTML template for a user element
+
 function createAssigneeTemplate(userId, userName) {
   const initials = getAssigneeInitials(userName);
   const firstLetter = userName[0].toLowerCase();
@@ -165,7 +164,7 @@ function createAssigneeTemplate(userId, userName) {
   `;
 }
 
-// Removes a user from the assigned list
+
 function removeAssignee(userId) {
   delete assigneesObject[userId];
 
@@ -181,7 +180,7 @@ function removeAssignee(userId) {
   });
 }
 
-// Removes the assignee element from the "show-assignees" div
+
 function removeAssigneeElement(userId) {
   const assigneeElement = document.getElementById(`assignee-${userId}`);
   if (assigneeElement) {
@@ -189,14 +188,14 @@ function removeAssigneeElement(userId) {
   }
 }
 
-// Sets up events for opening and closing the dropdown
+
 function setupDropdownEvents() {
   const dropdown = document.getElementById("dropdown_assigned_to");
   dropdown.addEventListener("click", toggleDropdown);
   document.addEventListener("click", closeDropdownOnClickOutside);
 }
 
-// Toggles the visibility of the dropdown menu
+
 function toggleDropdown(event) {
   event.stopPropagation();
 
@@ -214,7 +213,7 @@ function toggleDropdown(event) {
   }
 }
 
-// Closes the dropdown menu when clicking outside
+
 function closeDropdownOnClickOutside(event) {
   const dropdown = document.getElementById("dropdown_assigned_to");
   const dropdownOptions = document.getElementById("dropdown_options_assignee");
@@ -223,16 +222,17 @@ function closeDropdownOnClickOutside(event) {
   }
 }
 
-// Closes the dropdown menu
+
 function closeDropdown() {
   document.getElementById("dropdown_options_assignee").classList.remove("show");
   document.getElementById("dropdown_assigned_to").classList.remove("dropdown_open");
 }
 
-//-------------------------------- Select priority
+
 document.addEventListener("DOMContentLoaded", function () {
   initializePrioritySelection();
 });
+
 
 function initializePrioritySelection() {
   const urgentButton = document.getElementById("urgent_button");
@@ -242,6 +242,7 @@ function initializePrioritySelection() {
   setupPriorityButtons(urgentButton, mediumButton, lowButton);
   setActiveButton(mediumButton);
 }
+
 
 function setupPriorityButtons(urgentButton, mediumButton, lowButton) {
   urgentButton.addEventListener("click", () =>
@@ -253,13 +254,13 @@ function setupPriorityButtons(urgentButton, mediumButton, lowButton) {
   lowButton.addEventListener("click", () => handlePriorityClick(lowButton));
 }
 
-// Klick auf Prioritätsbutton.
+
 function handlePriorityClick(clickedButton) {
   removeActiveClassFromOtherButtons(clickedButton);
   setActiveButton(clickedButton);
 }
 
-// Entfernt aktive Klasse von anderen Prioritätsbuttons.
+
 function removeActiveClassFromOtherButtons(clickedButton) {
   const allButtons = document.querySelectorAll(
     "#urgent_button, #medium_button, #low_button"
@@ -271,12 +272,12 @@ function removeActiveClassFromOtherButtons(clickedButton) {
   });
 }
 
-// Setzt angeklickten Button aktiv.
+
 function setActiveButton(clickedButton) {
   clickedButton.classList.add("active");
 }
 
-//-------------------------------- Select category
+
 document.addEventListener("DOMContentLoaded", function () {
   const dropdown = document.getElementById("dropdown_category");
   const optionsContainer = document.querySelector(".dropdown_options");
@@ -287,7 +288,7 @@ document.addEventListener("DOMContentLoaded", function () {
     dropdown.parentElement.classList.toggle("open");
   });
 
-  // Nur Optionen im Category-Dropdown auswählen!
+
   optionsContainer.querySelectorAll(".custom-dropdown-option").forEach((option) => {
     option.addEventListener("click", function () {
       selectedText.textContent = this.textContent;
@@ -296,6 +297,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
+
   document.addEventListener("click", function (event) {
     if (!dropdown.parentElement.contains(event.target)) {
       dropdown.parentElement.classList.remove("open");
@@ -303,7 +305,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-// Clear Button
+
 function clearAllInputs() {
   const form = document.getElementById("task_form");
   form.reset();
@@ -319,10 +321,12 @@ function clearAllInputs() {
   showAssignees.innerHTML = "";
 }
 
+
 function getCategoryFromUrl() {
     const params = new URLSearchParams(window.location.search);
     return params.get('category');
 }
+
 
 document.addEventListener("DOMContentLoaded", function () {
   const addTaskFrame = document.getElementById("add_task_frame");
