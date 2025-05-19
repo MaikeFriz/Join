@@ -115,6 +115,12 @@ function createEditIcons(input, onSave, onCancel) {
         input.value = "";
         if (typeof onCancel === "function") onCancel();
     });
+    input.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            onSave();
+        }
+    });
     return iconsContainer;
 }
 
