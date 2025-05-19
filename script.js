@@ -1,8 +1,6 @@
-// Function to check if the user is logged in and redirect to login page if not
 function checkUserLogin() {
   const user = JSON.parse(localStorage.getItem("loggedInUser"));
   const guest = JSON.parse(localStorage.getItem("isGuest"));
-
   if (!user && !guest) {
     const excludedPages = [
       "log_in.html",
@@ -16,7 +14,6 @@ function checkUserLogin() {
       .pop()
       .split("?")[0]
       .split("#")[0];
-
     if (excludedPages.includes(currentPage)) {
       return;
     } else {
@@ -26,11 +23,10 @@ function checkUserLogin() {
   return user;
 }
 
-// Function to retrieve the logged-in user's name and display initials in the header
+
 function getUserName() {
   const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
   const guest = JSON.parse(localStorage.getItem("isGuest"));
-
   if (guest) {
     getUserInitialForHeader("Guest");
   } else if (loggedInUser) {
@@ -41,21 +37,17 @@ function getUserName() {
   }
 }
 
-// Function to extract initials from the user's name and display them in the header
+
 function getUserInitialForHeader(userName) {
   let [firstName, lastName] = userName.split(" ");
   let firstLetter = firstName.charAt(0).toUpperCase();
   let lastNameFirstLetter = lastName ? lastName.charAt(0).toUpperCase() : "";
   let initials = firstLetter + lastNameFirstLetter;
   let headerInitials = document.getElementById("user-initials-header");
-
   if (!headerInitials) {
     return;
   }
-
   headerInitials.textContent = initials;
-
-  // Event-Listener für das Dropdown-Menü
   headerInitials.addEventListener("click", function (event) {
     event.stopPropagation();
     const dropdown = document.querySelector(".user-dropdown");
@@ -67,22 +59,19 @@ function getUserInitialForHeader(userName) {
         ? "translateY(-10px)"
         : "translateY(0px)";
   });
-
-  // WICHTIG: Event-Listener für Logout-Button (nutzt logoutUser aus log_out.js)
   const logoutBtn = document.getElementById("logoutButton");
   if (logoutBtn) {
     logoutBtn.addEventListener("click", function (e) {
       e.stopPropagation();
-      logoutUser(); // wird aus log_out.js geholt
+      logoutUser();
     });
   }
 }
+
 
 document.addEventListener("DOMContentLoaded", () => {
   const userInitialsHeader = document.getElementById("user-initials-header");
   if (!userInitialsHeader) {
     return;
   }
-
-  // Add logic to populate or manipulate the element here
 });

@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initForm();
 });
 
-//Loading Spinner
+
 function showLoadingSpinner() {
   document.getElementById("loading-spinner").style.display = "flex";
 }
@@ -11,7 +11,7 @@ function hideLoadingSpinner() {
   document.getElementById("loading-spinner").style.display = "none";
 }
 
-//Check if password is strong enough
+
 function isStrongPassword(password) {
   const minLength = 8;
   const specialChars = password.match(/[!@#$%^&*()_\-+=\[\]{};':"\\|,.<>/?]/g);
@@ -20,7 +20,7 @@ function isStrongPassword(password) {
   );
 }
 
-//Check if email already exists in data base
+
 async function emailAlreadyExists(email) {
   const response = await fetch(
     "https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData/users.json"
@@ -30,7 +30,7 @@ async function emailAlreadyExists(email) {
   return Object.values(users).some((user) => user.email === email);
 }
 
-// Initialisiert das Formular: fügt Fehlermeldung und Overlay hinzu, registriert Submit-Handler
+
 function initForm() {
   const form = document.getElementById("sign-up-form");
   form.appendChild(createErrorMessage());
@@ -45,7 +45,7 @@ function createErrorMessage() {
   return errorMessage;
 }
 
-// Erstellt das Overlay, das nach erfolgreichem Sign-up angezeigt wird
+
 function createOverlay() {
   const overlay = document.createElement("div");
   overlay.className = "overlay";
@@ -54,11 +54,10 @@ function createOverlay() {
   return overlay;
 }
 
-// Behandelt das Formular-Submit-Event: validiert und registriert den User
+
 async function handleFormSubmit(event) {
   event.preventDefault();
   showLoadingSpinner();
-
   const { name, email, password, confirmPassword, privacyCheckbox } =
     getFormData();
   if (
@@ -71,6 +70,7 @@ async function handleFormSubmit(event) {
   await registerUser(name, email, password);
 }
 
+
 function getFormData() {
   return {
     name: document.getElementById("input_name").value,
@@ -82,7 +82,7 @@ function getFormData() {
   };
 }
 
-// Zeigt eine Fehlermeldung im dafür vorgesehenen Div an
+
 function showErrorMessage(message) {
   const errorMessageDiv = document.getElementById("error_message_sign_up");
   errorMessageDiv.textContent = message;
@@ -90,21 +90,24 @@ function showErrorMessage(message) {
   errorMessageDiv.style.color = "red";
 }
 
+
 function hideErrorMessage() {
   const errorMessageDiv = document.getElementById("error_message_sign_up");
   errorMessageDiv.textContent = "";
   errorMessageDiv.style.display = "none";
 }
 
+
 function passwordsMatch(password, confirmPassword) {
   return password === confirmPassword;
 }
+
 
 function privacyAccepted(checkbox) {
   return checkbox.checked;
 }
 
-// Führt die Validierung der Passwörter und der Datenschutz-Checkbox durch
+
 function validateInputs(password, confirmPassword) {
   if (!passwordsMatch(password, confirmPassword)) {
     showErrorMessage("Your passwords don't match. Please try again.");
@@ -112,10 +115,10 @@ function validateInputs(password, confirmPassword) {
     document.getElementById("input_confirm_password_sign_up").value = "";
     return false;
   }
-  // Privacy policy is auto-accepted, no need to validate
   hideErrorMessage();
   return true;
 }
+
 
 function checkIfPasswordErrorMessageNeeded() {
   const passwordInput = document.getElementById("input_password_sign_up");
@@ -138,6 +141,7 @@ function checkIfPasswordErrorMessageNeeded() {
   }
 }
 
+
 function getInputValues() {
   return {
     name: document.getElementById("input_name").value.trim(),
@@ -149,12 +153,12 @@ function getInputValues() {
   };
 }
 
-// Prüft, ob mindestens eines der Eingabefelder leer ist
+
 function anyFieldIsEmpty({ name, email, password, confirmPassword }) {
   return !name || !email || !password || !confirmPassword;
 }
 
-// Zeigt eine allgemeine Fehlermeldung für leere Felder
+
 function showFieldErrorMessage(message) {
   const errorMessageDiv = document.getElementById("error_message_sign_up");
   errorMessageDiv.textContent = message;
@@ -162,11 +166,13 @@ function showFieldErrorMessage(message) {
   errorMessageDiv.style.display = "block";
 }
 
+
 function hideFieldErrorMessage() {
   const errorMessageDiv = document.getElementById("error_message_sign_up");
   errorMessageDiv.textContent = "";
   errorMessageDiv.style.display = "none";
 }
+
 
 function checkIfAllFieldsFilled() {
   const values = getInputValues();
@@ -178,7 +184,7 @@ function checkIfAllFieldsFilled() {
   return true;
 }
 
-// Registriert einen neuen Nutzer: erstellt ID, Objekt, speichert in DB
+
 async function registerUser(name, email, password) {
   try {
     if (await emailAlreadyExists(email)) {
@@ -192,8 +198,6 @@ async function registerUser(name, email, password) {
     const userId = await generateUserId();
     const newUser = createUserObject(name, email, password);
     await saveUserToDatabase(userId, newUser);
-
-    // Automatically log in the user
     localStorage.setItem(
       "loggedInUser",
       JSON.stringify({
@@ -202,10 +206,7 @@ async function registerUser(name, email, password) {
         email: newUser.email,
       })
     );
-
-    // Add the user to their own contacts
     await addUserToContacts(userId, newUser);
-
     showSuccessMessage();
   } catch (error) {
     document.getElementById(
@@ -215,16 +216,15 @@ async function registerUser(name, email, password) {
   }
 }
 
-// Adds the newly registered user to their own contacts list
+
 async function addUserToContacts(userId, user) {
   const BASE_URL = `https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData/users/${userId}/contacts.json`;
 
   const contact = {
     name: user.name,
     email: user.email,
-    phone: "", // Optional: Add a default or empty phone number
+    phone: "",
   };
-
   try {
     await fetch(BASE_URL, {
       method: "POST",
@@ -239,7 +239,7 @@ async function addUserToContacts(userId, user) {
   }
 }
 
-// Generiert eine neue eindeutige Nutzer-ID anhand der vorhandenen Datenbankeinträge
+
 async function generateUserId() {
   const response = await fetch(
     "https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData.json"
@@ -249,15 +249,15 @@ async function generateUserId() {
   const maxUserId =
     existingUserIds.length > 0
       ? Math.max(
-          ...existingUserIds.map(
-            (id) => parseInt(id.replace("user", ""), 10) || 0
-          )
+        ...existingUserIds.map(
+          (id) => parseInt(id.replace("user", ""), 10) || 0
         )
+      )
       : 0;
   return `user${maxUserId + 1}`;
 }
 
-// Erstellt ein User-Objekt mit den eingegebenen Daten und leeren Task-Listen
+
 function createUserObject(name, email, password) {
   return {
     name,
@@ -267,7 +267,7 @@ function createUserObject(name, email, password) {
   };
 }
 
-// Speichert das User-Objekt in der Datenbank unter der neuen ID
+
 async function saveUserToDatabase(userId, user) {
   await fetch(
     `https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData/users/${userId}.json`,
@@ -279,7 +279,7 @@ async function saveUserToDatabase(userId, user) {
   );
 }
 
-// Zeigt das Overlay mit Erfolgsmeldung und leitet nach 1 Sekunde zur Startseite weiter
+
 function showSuccessMessage() {
   const overlay = document.querySelector(".overlay");
   overlay.style.display = "flex";

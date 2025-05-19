@@ -6,6 +6,7 @@ function togglePasswordLogIn() {
     updatePasswordIconLogIn(passwordInput, passwordIcon);
 }
 
+
 function updatePasswordIconLogIn(passwordInput, passwordIcon) {
     if (passwordInput.value.length > 0) {
         passwordIcon.src = passwordInput.type === "password"
@@ -16,6 +17,7 @@ function updatePasswordIconLogIn(passwordInput, passwordIcon) {
     }
 }
 
+
 document.getElementById("toggle_icon").addEventListener("click", togglePasswordLogIn);
 document.getElementById("input_password").addEventListener("input", function () {
     updatePasswordIconLogIn(
@@ -23,6 +25,7 @@ document.getElementById("input_password").addEventListener("input", function () 
         document.getElementById("password_icon")
     );
 });
+
 
 updatePasswordIconLogIn(
     document.getElementById("input_password"),
