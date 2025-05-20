@@ -1,121 +1,122 @@
-document.addEventListener("DOMContentLoaded", function () {
-  const urlParams = new URLSearchParams(window.location.search);
-  const contactId = urlParams.get("contactId");
+
+// Initializes the edit contact process on DOMContentLoaded.
+document.addEventListener("DOMContentLoaded", initEditContact);
+
+// Determines user type and starts the appropriate edit process.
+function initEditContact() {
+  const contactId = getContactIdFromUrl();
   const isGuest = JSON.parse(localStorage.getItem("isGuest"));
-
   if (isGuest) {
-    // Komplettes guestKanbanData-Objekt laden
-    let guestKanbanData = JSON.parse(localStorage.getItem("guestKanbanData")) || { users: { guest: { contacts: {} } } };
-    let contact = guestKanbanData?.users?.guest?.contacts?.[contactId];
-    if (contact) {
-      document.getElementById("input_name").value = contact.name;
-      document.querySelector("input[type='email']").value = contact.email;
-      document.querySelector("input[type='tel']").value = contact.phone;
-      // Initialen setzen
-      const initials = getInitials(contact.name);
-      const profileInitials = document.getElementById("profileInitials");
-      if (profileInitials) {
-        profileInitials.textContent = initials;
-        profileInitials.className = "contact-initials " + initials[0].toLowerCase();
-      }
-    }
-
-    document.querySelector("form").addEventListener("submit", function (event) {
-      event.preventDefault();
-      // Werte übernehmen
-      contact.name = document.getElementById("input_name").value;
-      contact.email = document.querySelector("input[type='email']").value;
-      contact.phone = document.querySelector("input[type='tel']").value;
-      // Änderung am Objekt
-      guestKanbanData.users.guest.contacts[contactId] = contact;
-      // Gesamtes Objekt speichern
-      localStorage.setItem("guestKanbanData", JSON.stringify(guestKanbanData));
-      window.parent.postMessage({ type: "editContact", contact: { ...contact, id: contactId } }, "*");
-      return; // <--- Das sorgt dafür, dass das Overlay geschlossen wird!
-    });
-
-    document.querySelector(".close-btn").addEventListener("click", function () {
-      window.parent.postMessage({ type: "closeOverlay" }, "*");
-    });
-
-    document.querySelector(".button_cancel").addEventListener("click", function () {
-      window.parent.postMessage({ type: "closeOverlay" }, "*");
-    });
-
+    handleGuestEdit(contactId);
     return;
   }
+  handleUserEdit(contactId);
+}
 
-  // --- Bisheriger Code für eingeloggte User ---
-  const userId = JSON.parse(localStorage.getItem("loggedInUser")).userId;
+// Extracts the contactId from the URL parameters.
+function getContactIdFromUrl() {
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get("contactId");
+}
 
-  fetch(
-    `https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData/users/${userId}/contacts/${contactId}.json`
-  )
-    .then((response) => response.json())
-    .then((contact) => {
-      document.getElementById("input_name").value = contact.name;
-      document.querySelector("input[type='email']").value = contact.email;
-      document.querySelector("input[type='tel']").value = contact.phone;
-      // Set initials in profile container styled as contact-initials
-      const initials = getInitials(contact.name);
-      const profileInitials = document.getElementById("profileInitials");
-      if (profileInitials) {
-        profileInitials.textContent = initials;
-        profileInitials.className = "contact-initials " + initials[0].toLowerCase();
-      }
-    });
-
+// Handles editing a contact for a guest user.
+function handleGuestEdit(contactId) {
+  let guestKanbanData = getGuestKanbanData();
+  let contact = guestKanbanData?.users?.guest?.contacts?.[contactId];
+  if (contact) fillForm(contact);
   document.querySelector("form").addEventListener("submit", function (event) {
     event.preventDefault();
-
-    const contact = {
-      id: contactId,
-      name: document.getElementById("input_name").value,
-      email: document.querySelector("input[type='email']").value,
-      phone: document.querySelector("input[type='tel']").value,
-    };
-
-    // Save the updated contact to the database
-    fetch(
-      `https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData/users/${userId}/contacts/${contactId}.json`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(contact),
-      }
-    )
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Failed to save contact changes.");
-        }
-        return response.json();
-      })
-      .then(() => {
-        // Notify the parent window about the update
-        window.parent.postMessage(
-          { type: "editContact", contact: contact },
-          "*"
-        );
-      })
-      .catch((error) => {
-        console.error("Error saving contact:", error);
-        alert("Failed to save changes. Please try again.");
-      });
+    updateGuestContact(contact, contactId, guestKanbanData);
   });
+  addCloseListeners();
+}
 
-  document.querySelector(".close-btn").addEventListener("click", function () {
-    window.parent.postMessage({ type: "closeOverlay" }, "*");
+// Retrieves guest kanban data from localStorage or returns a default object.
+function getGuestKanbanData() {
+  return JSON.parse(localStorage.getItem("guestKanbanData")) || { users: { guest: { contacts: {} } } };
+}
+
+// Fills the edit form with the contact's data.
+function fillForm(contact) {
+  document.getElementById("input_name").value = contact.name;
+  document.querySelector("input[type='email']").value = contact.email;
+  document.querySelector("input[type='tel']").value = contact.phone;
+  setProfileInitials(contact.name);
+}
+
+// Sets the profile initials in the UI.
+function setProfileInitials(name) {
+  const initials = getInitials(name);
+  const profileInitials = document.getElementById("profileInitials");
+  if (profileInitials) {
+    profileInitials.textContent = initials;
+    profileInitials.className = "contact-initials " + initials[0].toLowerCase();
+  }
+}
+
+// Updates a guest contact in localStorage and notifies the parent window.
+function updateGuestContact(contact, contactId, guestKanbanData) {
+  contact.name = document.getElementById("input_name").value;
+  contact.email = document.querySelector("input[type='email']").value;
+  contact.phone = document.querySelector("input[type='tel']").value;
+  guestKanbanData.users.guest.contacts[contactId] = contact;
+  localStorage.setItem("guestKanbanData", JSON.stringify(guestKanbanData));
+  window.parent.postMessage({ type: "editContact", contact: { ...contact, id: contactId } }, "*");
+}
+
+// Adds event listeners to close the overlay.
+function addCloseListeners() {
+  document.querySelector(".close-btn").addEventListener("click", closeOverlay);
+  document.querySelector(".button_cancel").addEventListener("click", closeOverlay);
+}
+
+// Sends a message to the parent window to close the overlay.
+function closeOverlay() {
+  window.parent.postMessage({ type: "closeOverlay" }, "*");
+}
+
+// Handles editing a contact for a logged-in user.
+function handleUserEdit(contactId) {
+  const userId = JSON.parse(localStorage.getItem("loggedInUser")).userId;
+  fetchContact(userId, contactId).then((contact) => fillForm(contact));
+  document.querySelector("form").addEventListener("submit", function (event) {
+    event.preventDefault();
+    updateUserContact(userId, contactId);
   });
+  addCloseListeners();
+}
 
-  document
-    .querySelector(".button_cancel")
-    .addEventListener("click", function () {
-      window.parent.postMessage({ type: "closeOverlay" }, "*");
-    });
-});
+// Fetches a contact from Firebase for a logged-in user.
+function fetchContact(userId, contactId) {
+  const url = `https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData/users/${userId}/contacts/${contactId}.json`;
+  return fetch(url).then((response) => response.json());
+}
 
+// Updates a contact in Firebase and notifies the parent window.
+function updateUserContact(userId, contactId) {
+  const contact = {
+    id: contactId,
+    name: document.getElementById("input_name").value,
+    email: document.querySelector("input[type='email']").value,
+    phone: document.querySelector("input[type='tel']").value,
+  };
+  const url = `https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData/users/${userId}/contacts/${contactId}.json`;
+  fetch(url, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(contact),
+  })
+    .then((response) => {
+      if (!response.ok) throw new Error("Failed to save contact changes.");
+      return response.json();
+    })
+    .then(() => {
+      window.parent.postMessage({ type: "editContact", contact: contact }, "*");
+    })
+    .catch(() => {});
+}
+
+// Returns the initials from a contact's name.
 function getInitials(name) {
   if (!name) return "";
   const parts = name.trim().split(" ");
