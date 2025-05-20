@@ -21,6 +21,58 @@ let localExampleDatabase = {
         "done": {
           "task16": true
         }
+      },
+      "contacts": {
+        "contact1": {
+          "name": "Sofia Müller",
+          "email": "sofia.mueller@keine.de",
+          "phone": "+49 151 11111111"
+        },
+        "contact2": {
+          "name": "Tobias Mayer",
+          "email": "tobias.mayer@keine.de",
+          "phone": "+49 151 22222222"
+        },
+        "contact3": {
+          "name": "Lena Schulz",
+          "email": "lena.schulz@keine.de",
+          "phone": "+49 151 33333333"
+        },
+        "contact4": {
+          "name": "Benedikt Ziegler",
+          "email": "benedikt.ziegler@keine.de",
+          "phone": "+49 151 44444444"
+        },
+        "contact5": {
+          "name": "Eva Fischer",
+          "email": "eva.fischer@keine.de",
+          "phone": "+49 151 55555555"
+        },
+        "contact9": {
+          "name": "Quirin Adler",
+          "email": "quirin.adler@keine.de",
+          "phone": "+49 151 99990001"
+        },
+        "contact10": {
+          "name": "Ute Berger",
+          "email": "ute.berger@keine.de",
+          "phone": "+49 151 99990002"
+        },
+        "contact11": {
+          "name": "Xaver Dietrich",
+          "email": "xaver.dietrich@keine.de",
+          "phone": "+49 151 99990003"
+        },
+        "contact12": {
+          "name": "Yvonne Engel",
+          "email": "yvonne.engel@keine.de",
+          "phone": "+49 151 99990004"
+        },
+        "contact13": {
+          "name": "Zeno Frank",
+          "email": "zeno.frank@keine.de",
+          "phone": "+49 151 99990005"
+        }
       }
     },
 
@@ -32,15 +84,71 @@ let localExampleDatabase = {
       "assignedTasks": {
         "toDo": {
           "task1": true,
+          "task2": true,
           "task5": true
         },
         "inProgress": {
           "task3": true,
+          "task6": true,
           "task7": true
         },
-        "awaitingFeedback": {},
+        "awaitingFeedback": {
+          "task13": true
+        },
         "done": {
           "task4": true
+        }
+      },
+      "contacts": {
+        "contact2": {
+          "name": "Tobias Mayer",
+          "email": "tobias.mayer@keine.de",
+          "phone": "+49 151 22222222"
+        },
+        "contact3": {
+          "name": "Lena Schulz",
+          "email": "lena.schulz@keine.de",
+          "phone": "+49 151 33333333"
+        },
+        "contact4": {
+          "name": "Benedikt Ziegler",
+          "email": "benedikt.ziegler@keine.de",
+          "phone": "+49 151 44444444"
+        },
+        "contact5": {
+          "name": "Eva Fischer",
+          "email": "eva.fischer@keine.de",
+          "phone": "+49 151 55555555"
+        },
+        "contact6": {
+          "name": "Moritz Eisenberg",
+          "email": "moritz.eisenberg@keine.de",
+          "phone": "+49 151 66666666"
+        },
+        "contact9": {
+          "name": "Quirin Adler",
+          "email": "quirin.adler@keine.de",
+          "phone": "+49 151 99990001"
+        },
+        "contact10": {
+          "name": "Ute Berger",
+          "email": "ute.berger@keine.de",
+          "phone": "+49 151 99990002"
+        },
+        "contact14": {
+          "name": "Hanna Graf",
+          "email": "hanna.graf@keine.de",
+          "phone": "+49 151 99990006"
+        },
+        "contact15": {
+          "name": "Jörg Hartmann",
+          "email": "joerg.hartmann@keine.de",
+          "phone": "+49 151 99990007"
+        },
+        "contact16": {
+          "name": "Vera Irmer",
+          "email": "vera.irmer@keine.de",
+          "phone": "+49 151 99990008"
         }
       }
     },
@@ -50,12 +158,70 @@ let localExampleDatabase = {
       "password": "password123",
       "phone": "+49 151 22222222",
       "assignedTasks": {
-        "toDo": {},
+        "toDo": {
+          "task5": true
+        },
         "inProgress": {
-          "task6": true
+          "task3": true,
+          "task6": true,
+          "task12": true
         },
         "awaitingFeedback": {},
-        "done": {}
+        "done": {
+          "task4": true
+        }
+      },
+      "contacts": {
+        "contact1": {
+          "name": "Sofia Müller",
+          "email": "sofia.mueller@keine.de",
+          "phone": "+49 151 11111111"
+        },
+        "contact3": {
+          "name": "Lena Schulz",
+          "email": "lena.schulz@keine.de",
+          "phone": "+49 151 33333333"
+        },
+        "contact4": {
+          "name": "Benedikt Ziegler",
+          "email": "benedikt.ziegler@keine.de",
+          "phone": "+49 151 44444444"
+        },
+        "contact5": {
+          "name": "Eva Fischer",
+          "email": "eva.fischer@keine.de",
+          "phone": "+49 151 55555555"
+        },
+        "contact7": {
+          "name": "Carla Mauer",
+          "email": "carla.mauer@keine.de",
+          "phone": "+49 151 77777777"
+        },
+        "contact9": {
+          "name": "Quirin Adler",
+          "email": "quirin.adler@keine.de",
+          "phone": "+49 151 99990001"
+        },
+        "contact11": {
+          "name": "Xaver Dietrich",
+          "email": "xaver.dietrich@keine.de",
+          "phone": "+49 151 99990003"
+        },
+        "contact12": {
+          "name": "Yvonne Engel",
+          "email": "yvonne.engel@keine.de",
+          "phone": "+49 151 99990004"
+        },
+        "contact14": {
+          "name": "Hanna Graf",
+          "email": "hanna.graf@keine.de",
+          "phone": "+49 151 99990006"
+        },
+        "contact15": {
+          "name": "Jörg Hartmann",
+          "email": "joerg.hartmann@keine.de",
+          "phone": "+49 151 99990007"
+        }
       }
     },
     "user3": {
@@ -65,12 +231,70 @@ let localExampleDatabase = {
       "phone": "+49 151 33333333",
       "assignedTasks": {
         "toDo": {
+          "task1": true,
           "task2": true
         },
-        "inProgress": {},
-        "awaitingFeedback": {},
+        "inProgress": {
+          "task7": true,
+          "task15": true
+        },
+        "awaitingFeedback": {
+          "task13": true
+        },
         "done": {
           "task4": true
+        }
+      },
+      "contacts": {
+        "contact1": {
+          "name": "Sofia Müller",
+          "email": "sofia.mueller@keine.de",
+          "phone": "+49 151 11111111"
+        },
+        "contact2": {
+          "name": "Tobias Mayer",
+          "email": "tobias.mayer@keine.de",
+          "phone": "+49 151 22222222"
+        },
+        "contact5": {
+          "name": "Eva Fischer",
+          "email": "eva.fischer@keine.de",
+          "phone": "+49 151 55555555"
+        },
+        "contact6": {
+          "name": "Moritz Eisenberg",
+          "email": "moritz.eisenberg@keine.de",
+          "phone": "+49 151 66666666"
+        },
+        "contact8": {
+          "name": "Philipp Schmidt",
+          "email": "philipp.schmidt@keine.de",
+          "phone": "+49 151 88888888"
+        },
+        "contact10": {
+          "name": "Ute Berger",
+          "email": "ute.berger@keine.de",
+          "phone": "+49 151 99990002"
+        },
+        "contact11": {
+          "name": "Xaver Dietrich",
+          "email": "xaver.dietrich@keine.de",
+          "phone": "+49 151 99990003"
+        },
+        "contact13": {
+          "name": "Zeno Frank",
+          "email": "zeno.frank@keine.de",
+          "phone": "+49 151 99990005"
+        },
+        "contact14": {
+          "name": "Hanna Graf",
+          "email": "hanna.graf@keine.de",
+          "phone": "+49 151 99990006"
+        },
+        "contact16": {
+          "name": "Vera Irmer",
+          "email": "vera.irmer@keine.de",
+          "phone": "+49 151 99990008"
         }
       }
     },
@@ -81,9 +305,63 @@ let localExampleDatabase = {
       "phone": "+49 151 44444444",
       "assignedTasks": {
         "toDo": {},
-        "inProgress": {},
+        "inProgress": {
+          "task12": true
+        },
         "awaitingFeedback": {},
         "done": {}
+      },
+      "contacts": {
+        "contact1": {
+          "name": "Sofia Müller",
+          "email": "sofia.mueller@keine.de",
+          "phone": "+49 151 11111111"
+        },
+        "contact2": {
+          "name": "Tobias Mayer",
+          "email": "tobias.mayer@keine.de",
+          "phone": "+49 151 22222222"
+        },
+        "contact3": {
+          "name": "Lena Schulz",
+          "email": "lena.schulz@keine.de",
+          "phone": "+49 151 33333333"
+        },
+        "contact5": {
+          "name": "Eva Fischer",
+          "email": "eva.fischer@keine.de",
+          "phone": "+49 151 55555555"
+        },
+        "contact7": {
+          "name": "Carla Mauer",
+          "email": "carla.mauer@keine.de",
+          "phone": "+49 151 77777777"
+        },
+        "contact9": {
+          "name": "Quirin Adler",
+          "email": "quirin.adler@keine.de",
+          "phone": "+49 151 99990001"
+        },
+        "contact12": {
+          "name": "Yvonne Engel",
+          "email": "yvonne.engel@keine.de",
+          "phone": "+49 151 99990004"
+        },
+        "contact13": {
+          "name": "Zeno Frank",
+          "email": "zeno.frank@keine.de",
+          "phone": "+49 151 99990005"
+        },
+        "contact15": {
+          "name": "Jörg Hartmann",
+          "email": "joerg.hartmann@keine.de",
+          "phone": "+49 151 99990007"
+        },
+        "contact16": {
+          "name": "Vera Irmer",
+          "email": "vera.irmer@keine.de",
+          "phone": "+49 151 99990008"
+        }
       }
     },
     "user5": {
@@ -100,6 +378,58 @@ let localExampleDatabase = {
           "task9": true
         },
         "done": {}
+      },
+      "contacts": {
+        "contact1": {
+          "name": "Sofia Müller",
+          "email": "sofia.mueller@keine.de",
+          "phone": "+49 151 11111111"
+        },
+        "contact3": {
+          "name": "Lena Schulz",
+          "email": "lena.schulz@keine.de",
+          "phone": "+49 151 33333333"
+        },
+        "contact4": {
+          "name": "Benedikt Ziegler",
+          "email": "benedikt.ziegler@keine.de",
+          "phone": "+49 151 44444444"
+        },
+        "contact6": {
+          "name": "Moritz Eisenberg",
+          "email": "moritz.eisenberg@keine.de",
+          "phone": "+49 151 66666666"
+        },
+        "contact8": {
+          "name": "Philipp Schmidt",
+          "email": "philipp.schmidt@keine.de",
+          "phone": "+49 151 88888888"
+        },
+        "contact9": {
+          "name": "Quirin Adler",
+          "email": "quirin.adler@keine.de",
+          "phone": "+49 151 99990001"
+        },
+        "contact10": {
+          "name": "Ute Berger",
+          "email": "ute.berger@keine.de",
+          "phone": "+49 151 99990002"
+        },
+        "contact11": {
+          "name": "Xaver Dietrich",
+          "email": "xaver.dietrich@keine.de",
+          "phone": "+49 151 99990003"
+        },
+        "contact13": {
+          "name": "Zeno Frank",
+          "email": "zeno.frank@keine.de",
+          "phone": "+49 151 99990005"
+        },
+        "contact14": {
+          "name": "Hanna Graf",
+          "email": "hanna.graf@keine.de",
+          "phone": "+49 151 99990006"
+        }
       }
     },
     "user6": {
@@ -108,10 +438,64 @@ let localExampleDatabase = {
       "password": "password112",
       "phone": "+49 151 66666666",
       "assignedTasks": {
-        "toDo": {},
+        "toDo": {
+          "task14": true
+        },
         "inProgress": {},
         "awaitingFeedback": {},
         "done": {}
+      },
+      "contacts": {
+        "contact1": {
+          "name": "Sofia Müller",
+          "email": "sofia.mueller@keine.de",
+          "phone": "+49 151 11111111"
+        },
+        "contact2": {
+          "name": "Tobias Mayer",
+          "email": "tobias.mayer@keine.de",
+          "phone": "+49 151 22222222"
+        },
+        "contact3": {
+          "name": "Lena Schulz",
+          "email": "lena.schulz@keine.de",
+          "phone": "+49 151 33333333"
+        },
+        "contact5": {
+          "name": "Eva Fischer",
+          "email": "eva.fischer@keine.de",
+          "phone": "+49 151 55555555"
+        },
+        "contact7": {
+          "name": "Carla Mauer",
+          "email": "carla.mauer@keine.de",
+          "phone": "+49 151 77777777"
+        },
+        "contact10": {
+          "name": "Ute Berger",
+          "email": "ute.berger@keine.de",
+          "phone": "+49 151 99990002"
+        },
+        "contact11": {
+          "name": "Xaver Dietrich",
+          "email": "xaver.dietrich@keine.de",
+          "phone": "+49 151 99990003"
+        },
+        "contact12": {
+          "name": "Yvonne Engel",
+          "email": "yvonne.engel@keine.de",
+          "phone": "+49 151 99990004"
+        },
+        "contact15": {
+          "name": "Jörg Hartmann",
+          "email": "joerg.hartmann@keine.de",
+          "phone": "+49 151 99990007"
+        },
+        "contact16": {
+          "name": "Vera Irmer",
+          "email": "vera.irmer@keine.de",
+          "phone": "+49 151 99990008"
+        }
       }
     },
     "user7": {
@@ -121,9 +505,63 @@ let localExampleDatabase = {
       "phone": "+49 151 77777777",
       "assignedTasks": {
         "toDo": {},
-        "inProgress": {},
+        "inProgress": {
+          "task15": true
+        },
         "awaitingFeedback": {},
         "done": {}
+      },
+      "contacts": {
+        "contact1": {
+          "name": "Sofia Müller",
+          "email": "sofia.mueller@keine.de",
+          "phone": "+49 151 11111111"
+        },
+        "contact2": {
+          "name": "Tobias Mayer",
+          "email": "tobias.mayer@keine.de",
+          "phone": "+49 151 22222222"
+        },
+        "contact3": {
+          "name": "Lena Schulz",
+          "email": "lena.schulz@keine.de",
+          "phone": "+49 151 33333333"
+        },
+        "contact4": {
+          "name": "Benedikt Ziegler",
+          "email": "benedikt.ziegler@keine.de",
+          "phone": "+49 151 44444444"
+        },
+        "contact5": {
+          "name": "Eva Fischer",
+          "email": "eva.fischer@keine.de",
+          "phone": "+49 151 55555555"
+        },
+        "contact9": {
+          "name": "Quirin Adler",
+          "email": "quirin.adler@keine.de",
+          "phone": "+49 151 99990001"
+        },
+        "contact12": {
+          "name": "Yvonne Engel",
+          "email": "yvonne.engel@keine.de",
+          "phone": "+49 151 99990004"
+        },
+        "contact13": {
+          "name": "Zeno Frank",
+          "email": "zeno.frank@keine.de",
+          "phone": "+49 151 99990005"
+        },
+        "contact14": {
+          "name": "Hanna Graf",
+          "email": "hanna.graf@keine.de",
+          "phone": "+49 151 99990006"
+        },
+        "contact16": {
+          "name": "Vera Irmer",
+          "email": "vera.irmer@keine.de",
+          "phone": "+49 151 99990008"
+        }
       }
     },
     "user8": {
@@ -137,7 +575,61 @@ let localExampleDatabase = {
         },
         "inProgress": {},
         "awaitingFeedback": {},
-        "done": {}
+        "done": {
+          "task16": true
+        }
+      },
+      "contacts": {
+        "contact1": {
+          "name": "Sofia Müller",
+          "email": "sofia.mueller@keine.de",
+          "phone": "+49 151 11111111"
+        },
+        "contact2": {
+          "name": "Tobias Mayer",
+          "email": "tobias.mayer@keine.de",
+          "phone": "+49 151 22222222"
+        },
+        "contact3": {
+          "name": "Lena Schulz",
+          "email": "lena.schulz@keine.de",
+          "phone": "+49 151 33333333"
+        },
+        "contact5": {
+          "name": "Eva Fischer",
+          "email": "eva.fischer@keine.de",
+          "phone": "+49 151 55555555"
+        },
+        "contact6": {
+          "name": "Moritz Eisenberg",
+          "email": "moritz.eisenberg@keine.de",
+          "phone": "+49 151 66666666"
+        },
+        "contact10": {
+          "name": "Ute Berger",
+          "email": "ute.berger@keine.de",
+          "phone": "+49 151 99990002"
+        },
+        "contact11": {
+          "name": "Xaver Dietrich",
+          "email": "xaver.dietrich@keine.de",
+          "phone": "+49 151 99990003"
+        },
+        "contact12": {
+          "name": "Yvonne Engel",
+          "email": "yvonne.engel@keine.de",
+          "phone": "+49 151 99990004"
+        },
+        "contact13": {
+          "name": "Zeno Frank",
+          "email": "zeno.frank@keine.de",
+          "phone": "+49 151 99990005"
+        },
+        "contact15": {
+          "name": "Jörg Hartmann",
+          "email": "joerg.hartmann@keine.de",
+          "phone": "+49 151 99990007"
+        }
       }
     }
   },
