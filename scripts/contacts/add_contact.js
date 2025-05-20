@@ -32,50 +32,16 @@ window.addEventListener("message", function (event) {
     closeOverlay();
   } else if (event.data.type === "editContact") {
     const updatedContact = event.data.contact;
-    updateContact(updatedContact); // Das Rendering passiert jetzt in updateContact!
+    updateContact(updatedContact); // Usermodus
+    if (JSON.parse(localStorage.getItem("isGuest"))) {
+      renderContacts();
+      displayContactDetails(updatedContact.id);
+    }
     closeOverlay();
   }
 });
 
-function openOverlay(url) {
-  const overlay = document.createElement("div");
-  overlay.id = "overlay";
-  overlay.style.position = "fixed";
-  overlay.style.top = "0";
-  overlay.style.left = "0";
-  overlay.style.width = "100%";
-  overlay.style.height = "100%";
-  overlay.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
-  overlay.style.zIndex = "1000";
-  overlay.style.display = "flex";
-  overlay.style.justifyContent = "center";
-  overlay.style.alignItems = "center";
-
-  const iframe = document.createElement("iframe");
-  iframe.src = url;
-  iframe.style.width = "80%";
-  iframe.style.height = "80%";
-  iframe.style.border = "none";
-  iframe.style.borderRadius = "8px";
-
-  overlay.appendChild(iframe);
-
-  document.body.appendChild(overlay);
-
-  overlay.addEventListener("click", function (event) {
-    if (event.target === overlay) {
-      closeOverlay();
-    }
-  });
-}
-
-function closeOverlay() {
-  const overlay = document.getElementById("overlay");
-  if (overlay) {
-    document.body.removeChild(overlay);
-  }
-}
-
+// Displays the contact details for the given contactId, for guest or user.
 function displayContactDetails(contactId) {
   const isGuest = JSON.parse(localStorage.getItem("isGuest"));
   if (isGuest) {
@@ -85,6 +51,7 @@ function displayContactDetails(contactId) {
   displayUserContactDetails(contactId);
 }
 
+// Displays guest contact details in the UI.
 function displayGuestContactDetails(contactId) {
   const contact = getGuestContactById(contactId);
   if (!contact) return;
@@ -96,17 +63,20 @@ function displayGuestContactDetails(contactId) {
   highlightSelectedContact(contactId);
 }
 
+// Retrieves a guest contact by its ID from localStorage.
 function getGuestContactById(contactId) {
   const guestKanbanData = JSON.parse(localStorage.getItem("guestKanbanData"));
   const contacts = guestKanbanData?.users?.guest?.contacts || {};
   return contacts[contactId];
 }
 
+// Removes the currently displayed contact details from the UI.
 function removeExistingContactDetails() {
   const contactDetailsDiv = document.querySelector(".contact-details");
   if (contactDetailsDiv) contactDetailsDiv.remove();
 }
 
+// Returns initials and CSS class for a contact name.
 function getInitialsAndClass(name) {
   const initials = name
     .split(" ")
@@ -116,6 +86,7 @@ function getInitialsAndClass(name) {
   return { initials, initialClass: initials[0].toLowerCase() };
 }
 
+// Creates a div element for contact details.
 function createContactDetailsDiv(contact, initials, initialClass) {
   const div = document.createElement("div");
   div.className = "contact-details";
@@ -123,6 +94,7 @@ function createContactDetailsDiv(contact, initials, initialClass) {
   return div;
 }
 
+// Renders the contact details div in the appropriate container.
 function renderContactDetailsDiv(newDiv) {
   const isMobileView = window.innerWidth <= 768;
   const rightSideContent = document.querySelector(".right-side-content-contacts");
@@ -134,6 +106,7 @@ function renderContactDetailsDiv(newDiv) {
   }
 }
 
+// Adds event listeners for editing and deleting a guest contact.
 function addGuestContactDetailListeners(contactId) {
   document.getElementById("edit-contact-button")
     .addEventListener("click", () => openOverlay(`./edit_contact.html?contactId=${contactId}`));
@@ -145,6 +118,7 @@ function addGuestContactDetailListeners(contactId) {
   }
 }
 
+// Highlights the selected contact in the contact list.
 function highlightSelectedContact(contactId) {
   const contactItems = document.querySelectorAll(".contacts-list ul li");
   contactItems.forEach((item) => item.classList.remove("contact-highlight"));
@@ -154,6 +128,7 @@ function highlightSelectedContact(contactId) {
   if (selectedContact) selectedContact.classList.add("contact-highlight");
 }
 
+// Fetches and displays user contact details from Firebase.
 function displayUserContactDetails(contactId) {
   const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
   if (!loggedInUser || !loggedInUser.userId) return;
@@ -165,6 +140,7 @@ function displayUserContactDetails(contactId) {
     .catch(() => {});
 }
 
+// Handles rendering and listeners for user contact details.
 function handleUserContactDetails(contact, contactId) {
   removeExistingContactDetails();
   const { initials, initialClass } = getInitialsAndClass(contact.name);
@@ -175,6 +151,7 @@ function handleUserContactDetails(contact, contactId) {
   highlightSelectedContact(contactId);
 }
 
+// Adds event listeners for editing and deleting a user contact.
 function addUserContactDetailListeners(contactId) {
   document.getElementById("edit-contact-button")
     .addEventListener("click", () => openOverlay(`./edit_contact.html?contactId=${contactId}`));
@@ -182,6 +159,7 @@ function addUserContactDetailListeners(contactId) {
     .addEventListener("click", () => deleteContact(contactId));
 }
 
+// Adds the mobile action menu button for user contacts.
 function addMobileActionMenu(contactId) {
   const actionButton = createMobileActionButton();
   document.body.appendChild(actionButton);
@@ -190,6 +168,7 @@ function addMobileActionMenu(contactId) {
     .addEventListener("click", () => location.reload());
 }
 
+// Creates the floating action button for mobile actions.
 function createMobileActionButton() {
   const btn = document.createElement("button");
   btn.id = "action-button";
@@ -203,24 +182,27 @@ function createMobileActionButton() {
   return btn;
 }
 
+// Shows the mobile action menu for a contact.
 function showMobileActionMenu(contactId, actionButton) {
+  const actionMenu = createMobileActionMenu();
+  addMobileActionMenuListeners(actionMenu, contactId, actionButton);
+  document.body.appendChild(actionMenu);
+}
+
+// Creates the mobile action menu element.
+function createMobileActionMenu() {
   const actionMenu = document.createElement("div");
   Object.assign(actionMenu.style, {
     position: "fixed", bottom: "160px", right: "20px", backgroundColor: "#fff",
     boxShadow: "0 4px 6px rgba(0, 0, 0, 0.2)", borderRadius: "8px", padding: "10px",
     zIndex: "1200", display: "flex", flexDirection: "column", gap: "10px"
   });
-  actionMenu.innerHTML = `
-    <button id="mobile-edit-contact-button" style="display: flex; align-items: center; gap: 5px; border: none; background-color: white; border-radius: 4px; padding: 8px; cursor: pointer;">
-      <img src="./assets/img/edit.svg" alt="Edit" style="width: 16px; height: 16px;">
-      Edit
-    </button>
-    <button id="mobile-delete-contact-button" style="display: flex; align-items: center; gap: 5px; border: none; background-color: white; border-radius: 4px; padding: 8px; cursor: pointer;">
-      <img src="./assets/img/delete.svg" alt="Delete" style="width: 16px; height: 16px;">
-      Delete
-    </button>
-  `;
-  document.body.appendChild(actionMenu);
+  actionMenu.innerHTML = mobileActionMenuTemplate();
+  return actionMenu;
+}
+
+// Adds event listeners to the mobile action menu buttons and closes the menu on outside click.
+function addMobileActionMenuListeners(actionMenu, contactId, actionButton) {
   document.getElementById("mobile-edit-contact-button")
     .addEventListener("click", () => {
       openOverlay(`./edit_contact.html?contactId=${contactId}`);
@@ -238,34 +220,17 @@ function showMobileActionMenu(contactId, actionButton) {
   }, { once: true });
 }
 
+// Renders the headline in the contact details area.
 function renderHeadline() {
   const headlineContainer = document.querySelector(
     ".right-side-content-contacts"
   );
   if (!headlineContainer) return;
 
-  const headlineHTML = `
-    <h1 class="contact-headline">
-      Contacts
-      <span class="vertical-line"></span>
-      <span class="team-tagline">Better with a Team</span>
-    </h1>
-  `;
-
-  headlineContainer.innerHTML = headlineHTML;
+  headlineContainer.innerHTML = contactHeadlineTemplate();
 }
 
-// edit_contact.js
-const form = document.querySelector("form");
-form.addEventListener("submit", onSubmit);
-
-function onSubmit(event) {
-  event.preventDefault();
-  // ... update logic ...
-  // Nach dem ersten Submit ggf. Listener entfernen:
-  form.removeEventListener("submit", onSubmit);
-}
-
+// Updates a contact in Firebase and refreshes the list and details.
 function updateContact(contact) {
   const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
   if (!loggedInUser || !loggedInUser.userId) return;
@@ -281,7 +246,6 @@ function updateContact(contact) {
       return response.json();
     })
     .then(() => {
-      // Jetzt die Kontakte frisch laden und Details anzeigen!
       renderContacts();
       displayContactDetails(contact.id);
     })

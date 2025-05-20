@@ -1,4 +1,3 @@
-
 // Adds a new contact for either guest or logged-in user.
 function addContact(contact) {
   const isGuest = JSON.parse(localStorage.getItem("isGuest"));
@@ -77,7 +76,10 @@ function putContact(BASE_URL, contact) {
       if (!response.ok) throw new Error("Failed to update contact.");
       return response.json();
     })
-    .then(() => renderContacts())
+    .then(() => {
+      renderContacts();
+      displayContactDetails(contact.id); // <--- Detailansicht aktualisieren
+    })
     .catch(() => {});
 }
 
