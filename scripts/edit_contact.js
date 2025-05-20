@@ -1,6 +1,51 @@
 document.addEventListener("DOMContentLoaded", function () {
   const urlParams = new URLSearchParams(window.location.search);
   const contactId = urlParams.get("contactId");
+  const isGuest = JSON.parse(localStorage.getItem("isGuest"));
+
+  if (isGuest) {
+    // Komplettes guestKanbanData-Objekt laden
+    let guestKanbanData = JSON.parse(localStorage.getItem("guestKanbanData")) || { users: { guest: { contacts: {} } } };
+    let contact = guestKanbanData?.users?.guest?.contacts?.[contactId];
+    if (contact) {
+      document.getElementById("input_name").value = contact.name;
+      document.querySelector("input[type='email']").value = contact.email;
+      document.querySelector("input[type='tel']").value = contact.phone;
+      // Initialen setzen
+      const initials = getInitials(contact.name);
+      const profileInitials = document.getElementById("profileInitials");
+      if (profileInitials) {
+        profileInitials.textContent = initials;
+        profileInitials.style.backgroundColor = getInitialsBackgroundColor(initials[0]);
+      }
+    }
+
+    document.querySelector("form").addEventListener("submit", function (event) {
+      event.preventDefault();
+      // Werte übernehmen
+      contact.name = document.getElementById("input_name").value;
+      contact.email = document.querySelector("input[type='email']").value;
+      contact.phone = document.querySelector("input[type='tel']").value;
+      // Änderung am Objekt
+      guestKanbanData.users.guest.contacts[contactId] = contact;
+      // Gesamtes Objekt speichern
+      localStorage.setItem("guestKanbanData", JSON.stringify(guestKanbanData));
+      window.parent.postMessage({ type: "editContact", contact: { ...contact, id: contactId } }, "*");
+      return; // <--- Das sorgt dafür, dass das Overlay geschlossen wird!
+    });
+
+    document.querySelector(".close-btn").addEventListener("click", function () {
+      window.parent.postMessage({ type: "closeOverlay" }, "*");
+    });
+
+    document.querySelector(".button_cancel").addEventListener("click", function () {
+      window.parent.postMessage({ type: "closeOverlay" }, "*");
+    });
+
+    return;
+  }
+
+  // --- Bisheriger Code für eingeloggte User ---
   const userId = JSON.parse(localStorage.getItem("loggedInUser")).userId;
 
   fetch(

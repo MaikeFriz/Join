@@ -83,7 +83,7 @@ function setupDropListener(container) {
       container,
       draggedTask,
       draggedTaskId,
-      (taskId) => updateTaskStatus(taskId, taskContainer.id) // <-- Hier die ID des inneren Containers!
+      (taskId) => updateTaskStatus(taskId, taskContainer.id)
     );
   });
 }

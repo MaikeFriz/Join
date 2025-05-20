@@ -35,8 +35,20 @@ window.addEventListener("message", function (event) {
     closeOverlay();
   } else if (event.data.type === "editContact") {
     const updatedContact = event.data.contact;
-    updateContact(updatedContact);
-    displayContactDetails(updatedContact.id); // Refresh the contact details view
+    updateContact(updatedContact); // Für eingeloggte User, im Gastmodus ggf. leer lassen
+    renderContacts(); // <-- Das sorgt für das direkte Update der Liste!
+    displayContactDetails(updatedContact.id); // Optional: Details-Ansicht aktualisieren
+    closeOverlay();
+  }
+});
+
+window.addEventListener("message", function (event) {
+  if (event.data.type === "editContact") {
+    const updatedContact = event.data.contact;
+    updateContact(updatedContact); // Für eingeloggte User, im Gastmodus ggf. leer lassen
+    renderContacts();
+    displayContactDetails(updatedContact.id);
+    console.log("Closing overlay..."); // <--- Debug-Ausgabe
     closeOverlay();
   }
 });
@@ -141,14 +153,14 @@ function updateContact(contact) {
 function renderContacts() {
   const isGuest = JSON.parse(localStorage.getItem("isGuest"));
   const contactsList = document.querySelector(".contacts-list ul");
-  contactsList.innerHTML = "";
+  contactsList.innerHTML = ""; // <-- Liste immer leeren!
 
   if (isGuest) {
-    // Kontakte für Gast aus LocalStorage laden
     const guestKanbanData = JSON.parse(localStorage.getItem("guestKanbanData"));
     const contacts = guestKanbanData?.users?.guest?.contacts || {};
     if (!contacts || Object.keys(contacts).length === 0) {
-      console.log("No contacts found for guest.");
+      // Wenn keine Kontakte mehr da sind, Liste leer lassen oder Info anzeigen:
+      // contactsList.innerHTML = "<li>Keine Kontakte vorhanden.</li>";
       return;
     }
 
@@ -184,8 +196,8 @@ function renderContacts() {
           </div>
         `;
         listItem.dataset.contactId = contact.id;
-        // Optional: Klick-Handler für Details, falls gewünscht
-        // listItem.addEventListener("click", () => displayContactDetails(contact.id));
+        // Klick-Handler für Details aktivieren:
+        listItem.addEventListener("click", () => displayContactDetails(contact.id));
         contactsList.appendChild(listItem);
       });
     });
@@ -285,6 +297,121 @@ function getInitialsBackgroundColor(initial) {
 }
 
 function displayContactDetails(contactId) {
+  const isGuest = JSON.parse(localStorage.getItem("isGuest"));
+  if (isGuest) {
+    // Für Gast: Kontakt aus LocalStorage laden
+    const guestKanbanData = JSON.parse(localStorage.getItem("guestKanbanData"));
+    const contacts = guestKanbanData?.users?.guest?.contacts || {};
+    const contact = contacts[contactId];
+    if (!contact) {
+      console.error("Contact not found for guest.");
+      return;
+    }
+
+    const contactDetailsDiv = document.querySelector(".contact-details");
+    if (contactDetailsDiv) {
+      contactDetailsDiv.remove();
+    }
+
+    const initials = contact.name
+      .split(" ")
+      .map((name) => name[0])
+      .join("")
+      .toUpperCase();
+    const backgroundColor = getInitialsBackgroundColor(initials[0]);
+
+    const newContactDetailsDiv = document.createElement("div");
+    newContactDetailsDiv.className = "contact-details";
+    newContactDetailsDiv.innerHTML = `
+      <h1 class="contact-headline">
+        Contacts
+        <span class="vertical-line"></span>
+        <span class="team-tagline">Better with a Team</span>
+      </h1>
+      <div class="contact-header">
+        <div class="contact-initials" style="background-color: ${backgroundColor};">${initials}</div>
+        <div class="contact-name">
+          <p><strong>${contact.name}</strong></p>
+          <div class="contact-buttons">
+            <button id="edit-contact-button" class="desktop-visible">
+              <img src="./assets/img/edit.svg" alt="Edit" style="width: 16px; height: 16px; margin-right: 5px;">
+              Edit
+            </button>
+            <button id="delete-contact-button" class="desktop-visible">
+              <img src="./assets/img/delete.svg" alt="Delete" style="width: 16px; height: 16px; margin-right: 5px;">
+              Delete
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="contact-details-info">
+        <h3>Contact Information</h3>
+        <p>
+          <strong>Email:</strong><br><br>
+          <a href="mailto:${contact.email}">${contact.email}</a>
+        </p>
+        <br>
+        <p>
+          <strong>Phone:</strong><br><br>
+          <span>${contact.phone}</span>
+        </p>
+      </div>
+      ${
+        window.innerWidth <= 768
+          ? `<button id="reload-page-button" style="margin-top: 20px; display: flex; align-items: center; gap: 5px; background: none; border: none; cursor: pointer; color: #007bff; font-size: 16px;">
+               <img src="./assets/img/arrow-left-line.svg" alt="Back" style="width: 16px; height: 16px;">
+             </button>`
+          : ""
+      }
+    `;
+
+    const isMobileView = window.innerWidth <= 768;
+    const rightSideContent = document.querySelector(".right-side-content-contacts");
+    if (isMobileView) {
+      rightSideContent.innerHTML = "";
+      rightSideContent.appendChild(newContactDetailsDiv);
+    } else {
+      rightSideContent.appendChild(newContactDetailsDiv);
+    }
+
+    // Edit-Button für Gast
+    document
+      .getElementById("edit-contact-button")
+      .addEventListener("click", () => {
+        openOverlay(`edit_contact.html?contactId=${contactId}`);
+      });
+
+    // Delete-Button für Gast
+    document
+      .getElementById("delete-contact-button")
+      .addEventListener("click", () => {
+        deleteGuestContact(contactId);
+      });
+
+    if (isMobileView) {
+      document
+        .getElementById("reload-page-button")
+        .addEventListener("click", function () {
+          location.reload();
+        });
+    }
+
+    const contactItems = document.querySelectorAll(".contacts-list ul li");
+    contactItems.forEach((item) =>
+      item.classList.remove("contact-highlight")
+    );
+
+    const selectedContact = document.querySelector(
+      `.contacts-list ul li[data-contact-id="${contactId}"]`
+    );
+    if (selectedContact) {
+      selectedContact.classList.add("contact-highlight");
+    }
+    return;
+  }
+
+  // ...bisheriger Code für eingeloggte User...
+  // (ab hier bleibt alles wie gehabt)
   const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
   if (!loggedInUser || !loggedInUser.userId) {
     console.error("No logged-in user found");
@@ -509,6 +636,21 @@ function deleteContact(contactId) {
       console.error("Error deleting contact:", error);
     });
 }
+
+function deleteGuestContact(contactId) {
+  const guestKanbanData = JSON.parse(localStorage.getItem("guestKanbanData"));
+  if (
+    guestKanbanData &&
+    guestKanbanData.users &&
+    guestKanbanData.users.guest &&
+    guestKanbanData.users.guest.contacts
+  ) {
+    delete guestKanbanData.users.guest.contacts[contactId];
+    localStorage.setItem("guestKanbanData", JSON.stringify(guestKanbanData));
+    location.reload(); // Seite komplett neu laden
+  }
+}
+
 function renderHeadline() {
   const headlineContainer = document.querySelector(
     ".right-side-content-contacts"
