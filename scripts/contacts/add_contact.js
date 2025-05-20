@@ -12,13 +12,13 @@ document.addEventListener("DOMContentLoaded", function () {
   document
     .getElementById("add-contact-button")
     .addEventListener("click", function () {
-      openOverlay("add_contact.html");
+      openOverlay("./scripts/contacts/add_contact.html");
     });
 
   const floatingButton = document.querySelector(".add-contact-floating-button");
   if (floatingButton) {
     floatingButton.addEventListener("click", function () {
-      openOverlay("add_contact.html");
+      openOverlay("./scripts/contacts/add_contact.html");
     });
   }
 });
@@ -340,7 +340,7 @@ function displayContactDetails(contactId) {
     document
       .getElementById("edit-contact-button")
       .addEventListener("click", () => {
-        openOverlay(`edit_contact.html?contactId=${contactId}`);
+        openOverlay(`./edit_contact.html?contactId=${contactId}`);
       });
 
     document
@@ -456,7 +456,7 @@ function displayContactDetails(contactId) {
       document
         .getElementById("edit-contact-button")
         .addEventListener("click", () => {
-          openOverlay(`edit_contact.html?contactId=${contactId}`);
+          openOverlay(`./edit_contact.html?contactId=${contactId}`);
         });
 
       document
@@ -519,7 +519,7 @@ function displayContactDetails(contactId) {
           document
             .getElementById("mobile-edit-contact-button")
             .addEventListener("click", () => {
-              openOverlay(`edit_contact.html?contactId=${contactId}`);
+              openOverlay(`./edit_contact.html?contactId=${contactId}`);
               document.body.removeChild(actionMenu);
             });
 
