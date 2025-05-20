@@ -1,7 +1,9 @@
 document.addEventListener("DOMContentLoaded", function () {
   const user = JSON.parse(localStorage.getItem("loggedInUser"));
+  const isGuest = JSON.parse(localStorage.getItem("isGuest"));
 
-  if (!user) {
+
+  if (!user && !isGuest) {
     window.location.href = "./log_in.html";
     return;
   }
