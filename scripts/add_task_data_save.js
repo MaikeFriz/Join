@@ -37,16 +37,21 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
 
 
-  function addTaskFormListener() {
-    taskForm.addEventListener("submit", async function (event) {
-      event.preventDefault();
+function addTaskFormListener() {
+  taskForm.addEventListener("submit", async function (event) {
+    event.preventDefault();
+    showLoadingSpinner(); 
+    try {
       const taskData = getTaskDetails();
       const newTaskId = await getNewTaskId();
       const isGuest = JSON.parse(localStorage.getItem("isGuest"));
       const userId = isGuest ? "guest" : user.userId;
       await saveTaskToDatabase(newTaskId, taskData, userId);
-    });
-  }
+    } finally {
+      hideLoadingSpinner(); 
+    }
+  });
+}
 
 
   function getTaskDetails() {
@@ -54,7 +59,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     let description = document.getElementById("input_description").value;
     let createdAt = new Date().toISOString();
     const isGuest = JSON.parse(localStorage.getItem("isGuest"));
-    let createdBy = isGuest ? "guest" : user.userId; // <-- Anpassung hier!
+    let createdBy = isGuest ? "guest" : user.userId;
     let updatedAt = createdAt;
     let priority = document.querySelector(".priority-buttons-div .active p").textContent.toLowerCase();
     let assignees = getAssignedUsers();
@@ -313,3 +318,13 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
   addTaskFormListener();
 });
+
+
+function showLoadingSpinner() {
+  document.getElementById("loading_spinner").style.display = "flex";
+}
+
+
+function hideLoadingSpinner() {
+  document.getElementById("loading_spinner").style.display = "none";
+}

@@ -33,6 +33,9 @@
 </head>
 
 <body>
+  <div id="loading_spinner" class="loading-spinner" style="display: none;">
+    <img src="./assets/img/loadingspinner.png" alt="Loading..." />
+  </div>
   <div id="header-container"></div>
   <div class="start-content">
     <div id="sidebar-container"></div>
@@ -50,7 +53,7 @@
                 <label class="input_label">
                   <input id="input_title" type="text" required placeholder="Enter a title" />
                 </label>
-                <p>Description</p>
+                <p>Description<span class="red_color">*</span></p>
                 <label class="input_label">
                   <textarea id="input_description" class="textarea-with-icon" type="text" required
                     placeholder="Enter a description"></textarea>
