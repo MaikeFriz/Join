@@ -93,6 +93,19 @@ function closeOverlay() {
 }
 
 function addContact(contact) {
+  const isGuest = JSON.parse(localStorage.getItem("isGuest"));
+  if (isGuest) {
+    let guestKanbanData = JSON.parse(localStorage.getItem("guestKanbanData")) || { users: { guest: { contacts: {} } } };
+    // Eindeutige ID generieren (z.B. Zeitstempel)
+    const contactId = Date.now().toString();
+    guestKanbanData.users.guest.contacts[contactId] = { ...contact, id: contactId };
+    localStorage.setItem("guestKanbanData", JSON.stringify(guestKanbanData));
+    renderContacts();
+    displayContactDetails(contactId); // <-- Detailansicht direkt anzeigen
+    return;
+  }
+
+  // ...bisheriger Code für eingeloggte User...
   const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
   if (!loggedInUser || !loggedInUser.userId) {
     console.error("No logged-in user found");
@@ -150,6 +163,7 @@ function updateContact(contact) {
       console.error("Error updating contact:", error);
     });
 }
+
 function renderContacts() {
   const isGuest = JSON.parse(localStorage.getItem("isGuest"));
   const contactsList = document.querySelector(".contacts-list ul");
