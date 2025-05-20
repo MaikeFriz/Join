@@ -139,6 +139,60 @@ function updateContact(contact) {
     });
 }
 function renderContacts() {
+  const isGuest = JSON.parse(localStorage.getItem("isGuest"));
+  const contactsList = document.querySelector(".contacts-list ul");
+  contactsList.innerHTML = "";
+
+  if (isGuest) {
+    // Kontakte für Gast aus LocalStorage laden
+    const guestKanbanData = JSON.parse(localStorage.getItem("guestKanbanData"));
+    const contacts = guestKanbanData?.users?.guest?.contacts || {};
+    if (!contacts || Object.keys(contacts).length === 0) {
+      console.log("No contacts found for guest.");
+      return;
+    }
+
+    const sortedContacts = Object.keys(contacts)
+      .map((key) => ({ id: key, ...contacts[key] }))
+      .sort((a, b) => a.name.localeCompare(b.name));
+
+    const groupedContacts = sortedContacts.reduce((acc, contact) => {
+      const initial = contact.name[0].toUpperCase();
+      if (!acc[initial]) acc[initial] = [];
+      acc[initial].push(contact);
+      return acc;
+    }, {});
+
+    Object.keys(groupedContacts).forEach((initial) => {
+      const section = document.createElement("li");
+      section.innerHTML = `<h3>${initial}</h3>`;
+      contactsList.appendChild(section);
+
+      groupedContacts[initial].forEach((contact) => {
+        const initials = contact.name
+          .split(" ")
+          .map((name) => name[0])
+          .join("")
+          .toUpperCase();
+        const backgroundColor = getInitialsBackgroundColor(initials[0]);
+        const listItem = document.createElement("li");
+        listItem.innerHTML = `
+          <div class="contact-initials" style="background-color: ${backgroundColor};">${initials}</div>
+          <div>
+            <strong>${contact.name}</strong><br>
+            <a href="mailto:${contact.email}">${contact.email}</a>
+          </div>
+        `;
+        listItem.dataset.contactId = contact.id;
+        // Optional: Klick-Handler für Details, falls gewünscht
+        // listItem.addEventListener("click", () => displayContactDetails(contact.id));
+        contactsList.appendChild(listItem);
+      });
+    });
+    return;
+  }
+
+  // Bisheriger Code für eingeloggte User:
   const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
   if (!loggedInUser || !loggedInUser.userId) {
     console.error("No logged-in user found");
@@ -151,9 +205,6 @@ function renderContacts() {
   fetch(BASE_URL)
     .then((response) => response.json())
     .then((contacts) => {
-      const contactsList = document.querySelector(".contacts-list ul");
-      contactsList.innerHTML = "";
-
       if (!contacts) {
         console.log("No contacts found.");
         return;
