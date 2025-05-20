@@ -35,6 +35,7 @@ function loadGuestDataFromLocalStorage() {
 
 
 async function guestLogin() {
+  showLoadingSpinner();
   console.log("Guest Log In clicked");
   document.getElementById("input_email").removeAttribute("required");
   document.getElementById("input_password").removeAttribute("required");
@@ -43,8 +44,10 @@ async function guestLogin() {
   const guestData = await fetchGuestKanbanData();
   if (guestData) {
     console.log("Guest data successfully fetched and stored.");
+    hideLoadingSpinner()
   } else {
     console.error("Failed to fetch guest data.");
+    hideLoadingSpinner()
   }
   window.location.href = "./summary.html";
 }
