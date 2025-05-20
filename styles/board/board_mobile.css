@@ -12,7 +12,7 @@
 
     .board-table-columns,
     .task-container{
-        height: auto;
+        min-height: auto;
         width: 100%;
         left: 0;
         display: flex;
