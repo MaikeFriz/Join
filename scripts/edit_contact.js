@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const profileInitials = document.getElementById("profileInitials");
       if (profileInitials) {
         profileInitials.textContent = initials;
-        profileInitials.style.backgroundColor = getInitialsBackgroundColor(initials[0]);
+        profileInitials.className = "contact-initials " + initials[0].toLowerCase();
       }
     }
 
@@ -61,9 +61,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const profileInitials = document.getElementById("profileInitials");
       if (profileInitials) {
         profileInitials.textContent = initials;
-        profileInitials.style.backgroundColor = getInitialsBackgroundColor(
-          initials[0]
-        );
+        profileInitials.className = "contact-initials " + initials[0].toLowerCase();
       }
     });
 
@@ -123,36 +121,4 @@ function getInitials(name) {
   const parts = name.trim().split(" ");
   if (parts.length === 1) return parts[0][0].toUpperCase();
   return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
-}
-
-function getInitialsBackgroundColor(initial) {
-  const colors = {
-    A: "#FF5733",
-    B: "#33FF57",
-    C: "#3357FF",
-    D: "#FF33A1",
-    E: "#FF8C33",
-    F: "#33FFF5",
-    G: "#8C33FF",
-    H: "#FF3333",
-    I: "#33FF8C",
-    J: "#FF5733",
-    K: "#33FF57",
-    L: "#3357FF",
-    M: "#FF33A1",
-    N: "#FF8C33",
-    O: "#33FFF5",
-    P: "#8C33FF",
-    Q: "#FF3333",
-    R: "#33FF8C",
-    S: "#FF5733",
-    T: "#33FF57",
-    U: "#3357FF",
-    V: "#FF33A1",
-    W: "#FF8C33",
-    X: "#33FFF5",
-    Y: "#8C33FF",
-    Z: "#FF3333",
-  };
-  return colors[initial.toUpperCase()] || "#007bff";
 }

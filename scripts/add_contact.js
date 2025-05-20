@@ -187,10 +187,10 @@ function renderContacts() {
           .map((name) => name[0])
           .join("")
           .toUpperCase();
-        const backgroundColor = getInitialsBackgroundColor(initials[0]);
+        const initialClass = initials[0].toLowerCase();
         const listItem = document.createElement("li");
         listItem.innerHTML = `
-          <div class="contact-initials" style="background-color: ${backgroundColor};">${initials}</div>
+          <div class="contact-initials ${initialClass}">${initials}</div>
           <div>
             <strong>${contact.name}</strong><br>
             <a href="mailto:${contact.email}">${contact.email}</a>
@@ -241,10 +241,10 @@ function renderContacts() {
             .map((name) => name[0])
             .join("")
             .toUpperCase();
-          const backgroundColor = getInitialsBackgroundColor(initials[0]);
+          const initialClass = initials[0].toLowerCase();
           const listItem = document.createElement("li");
           listItem.innerHTML = `
-            <div class="contact-initials" style="background-color: ${backgroundColor};">${initials}</div>
+            <div class="contact-initials ${initialClass}">${initials}</div>
             <div>
               <strong>${contact.name}</strong><br>
               <a href="mailto:${contact.email}">${contact.email}</a>
@@ -259,38 +259,6 @@ function renderContacts() {
       });
     })
     .catch((error) => {});
-}
-
-function getInitialsBackgroundColor(initial) {
-  const colors = {
-    A: "#FF5733",
-    B: "#33FF57",
-    C: "#3357FF",
-    D: "#FF33A1",
-    E: "#FF8C33",
-    F: "#33FFF5",
-    G: "#8C33FF",
-    H: "#FF3333",
-    I: "#33FF8C",
-    J: "#FF5733",
-    K: "#33FF57",
-    L: "#3357FF",
-    M: "#FF33A1",
-    N: "#FF8C33",
-    O: "#33FFF5",
-    P: "#8C33FF",
-    Q: "#FF3333",
-    R: "#33FF8C",
-    S: "#FF5733",
-    T: "#33FF57",
-    U: "#3357FF",
-    V: "#FF33A1",
-    W: "#FF8C33",
-    X: "#33FFF5",
-    Y: "#8C33FF",
-    Z: "#FF3333",
-  };
-  return colors[initial.toUpperCase()] || "#007bff";
 }
 
 function displayContactDetails(contactId) {
@@ -313,7 +281,7 @@ function displayContactDetails(contactId) {
       .map((name) => name[0])
       .join("")
       .toUpperCase();
-    const backgroundColor = getInitialsBackgroundColor(initials[0]);
+    const initialClass = initials[0].toLowerCase();
 
     const newContactDetailsDiv = document.createElement("div");
     newContactDetailsDiv.className = "contact-details";
@@ -324,7 +292,7 @@ function displayContactDetails(contactId) {
         <span class="team-tagline">Better with a Team</span>
       </h1>
       <div class="contact-header">
-        <div class="contact-initials" style="background-color: ${backgroundColor};">${initials}</div>
+        <div class="contact-initials ${initialClass}">${initials}</div>
         <div class="contact-name">
           <p><strong>${contact.name}</strong></p>
           <div class="contact-buttons">
@@ -424,7 +392,7 @@ function displayContactDetails(contactId) {
         .map((name) => name[0])
         .join("")
         .toUpperCase();
-      const backgroundColor = getInitialsBackgroundColor(initials[0]);
+      const initialClass = initials[0].toLowerCase();
 
       const newContactDetailsDiv = document.createElement("div");
       newContactDetailsDiv.className = "contact-details";
@@ -435,7 +403,7 @@ function displayContactDetails(contactId) {
           <span class="team-tagline">Better with a Team</span>
         </h1>
         <div class="contact-header">
-          <div class="contact-initials" style="background-color: ${backgroundColor};">${initials}</div>
+          <div class="contact-initials ${initialClass}">${initials}</div>
           <div class="contact-name">
             <p><strong>${contact.name}</strong></p>
             <div class="contact-buttons">
