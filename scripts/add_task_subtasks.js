@@ -2,11 +2,13 @@ let subtasksObject = {};
 let highestSubtaskId = 0;
 
 
+// Initializes subtask input listeners on DOMContentLoaded
 document.addEventListener("DOMContentLoaded", function () {
   initializeSubtaskListeners();
 });
 
 
+// Sets up event listeners for subtask input and icons
 function initializeSubtaskListeners() {
   const inputSubtask = document.getElementById("input_subtask");
   const addIcon = document.getElementById("add_icon");
@@ -21,6 +23,7 @@ function initializeSubtaskListeners() {
 }
 
 
+// Toggles visibility of add and input icons based on input value
 function toggleIcons(inputSubtask, addIcon, inputIcons) {
   const isNotEmpty = inputSubtask.value.trim() !== "";
   addIcon.style.display = isNotEmpty ? "none" : "inline";
@@ -28,11 +31,13 @@ function toggleIcons(inputSubtask, addIcon, inputIcons) {
 }
 
 
+// Resets icons to default state if input is empty
 function resetIcons(inputSubtask, addIcon, inputIcons) {
   if (inputSubtask.value.trim() === "") toggleIcons(inputSubtask, addIcon, inputIcons);
 }
 
 
+// Clears the subtask input and resets icons
 function clearInput(inputSubtask, addIcon, inputIcons) {
   inputSubtask.value = "";
   toggleIcons(inputSubtask, addIcon, inputIcons);
@@ -40,28 +45,31 @@ function clearInput(inputSubtask, addIcon, inputIcons) {
 }
 
 
+// Displays a subtask in the subtask list
 function displaySubtask(subtaskId, subtaskText) {
   const subtaskElement = createSubtaskElement(subtaskId, subtaskText);
   document.getElementById("display_subtasks").appendChild(subtaskElement);
 }
 
 
+// Creates a subtask list item element with edit and delete functionality
 function createSubtaskElement(subtaskId, subtaskText) {
-    const subtaskElement = document.createElement("li");
-    subtaskElement.className = "subtask-item";
-    subtaskElement.id = subtaskId;
-    subtaskElement.innerHTML = getSubtaskElementHTML(subtaskText);
-    const deleteButton = subtaskElement.querySelector("button");
-    deleteButton.addEventListener("click", () =>
-        removeSubtask(subtaskId, subtaskElement)
-    );
-    const span = subtaskElement.querySelector(".subtask-text");
-    const deleteImg = subtaskElement.querySelector(".delete_button_subtask");
-    setupEditEvents(span, subtaskId, deleteImg);
-    return subtaskElement;
+  const subtaskElement = document.createElement("li");
+  subtaskElement.className = "subtask-item";
+  subtaskElement.id = subtaskId;
+  subtaskElement.innerHTML = getSubtaskElementHTML(subtaskText);
+  const deleteButton = subtaskElement.querySelector("button");
+  deleteButton.addEventListener("click", () =>
+    removeSubtask(subtaskId, subtaskElement)
+  );
+  const span = subtaskElement.querySelector(".subtask-text");
+  const deleteImg = subtaskElement.querySelector(".delete_button_subtask");
+  setupEditEvents(span, subtaskId, deleteImg);
+  return subtaskElement;
 }
 
 
+// Sets up double-click and edit button events for editing a subtask
 function setupEditEvents(span, subtaskId, deleteButton) {
   span.addEventListener("dblclick", () => {
     openEditMode(span, subtaskId, deleteButton);
@@ -73,6 +81,7 @@ function setupEditEvents(span, subtaskId, deleteButton) {
 }
 
 
+// Opens the edit mode for a subtask
 function openEditMode(span, subtaskId, deleteButton) {
   const inputContainer = createEditContainer(span, subtaskId, deleteButton);
   const subtaskItem = span.closest(".subtask-item");
@@ -82,6 +91,7 @@ function openEditMode(span, subtaskId, deleteButton) {
 }
 
 
+// Creates the input container and icons for editing a subtask
 function createEditContainer(span, subtaskId, deleteButton) {
   const inputContainer = document.createElement("div");
   inputContainer.className = "edit-subtask-container";
@@ -105,26 +115,28 @@ function createEditContainer(span, subtaskId, deleteButton) {
 }
 
 
+// Creates the icons for editing a subtask and sets up their events
 function createEditIcons(input, onSave, onCancel) {
-    const iconsContainer = document.createElement("div");
-    iconsContainer.className = "icons-container";
-    iconsContainer.innerHTML = getEditIconsHTML();
-    iconsContainer.querySelector(".check-icon").addEventListener("click", onSave);
-    iconsContainer.querySelector(".clear_icon_show_subtask").addEventListener("click", (e) => {
-        e.preventDefault();
-        input.value = "";
-        if (typeof onCancel === "function") onCancel();
-    });
-    input.addEventListener("keydown", (e) => {
-        if (e.key === "Enter") {
-            e.preventDefault();
-            onSave();
-        }
-    });
-    return iconsContainer;
+  const iconsContainer = document.createElement("div");
+  iconsContainer.className = "icons-container";
+  iconsContainer.innerHTML = getEditIconsHTML();
+  iconsContainer.querySelector(".check-icon").addEventListener("click", onSave);
+  iconsContainer.querySelector(".clear_icon_show_subtask").addEventListener("click", (e) => {
+    e.preventDefault();
+    input.value = "";
+    if (typeof onCancel === "function") onCancel();
+  });
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      onSave();
+    }
+  });
+  return iconsContainer;
 }
 
 
+// Saves the edited subtask and updates the UI
 function saveEdit(input, span, subtaskId, inputContainer, deleteButton) {
   const newText = input.value.trim();
   const subtaskItem = inputContainer.closest(".subtask-item");
@@ -137,6 +149,7 @@ function saveEdit(input, span, subtaskId, inputContainer, deleteButton) {
 }
 
 
+// Cancels editing and restores the original subtask text
 function cancelEdit(inputContainer, span, deleteButton) {
   const subtaskId = span.closest(".subtask-item").id;
   const originalText = subtasksObject[subtaskId].title;
@@ -151,6 +164,7 @@ function removeSubtask(subtaskId, subtaskElement) {
 }
 
 
+// Removes a subtask from the object and UI
 async function addSubtask(inputSubtask) {
   const subtaskText = inputSubtask.value.trim();
   if (subtaskText !== "") {
@@ -164,6 +178,7 @@ async function addSubtask(inputSubtask) {
 }
 
 
+// Adds a new subtask to the object and displays it
 async function loadHighestSubtaskId() {
   if (Object.keys(subtasksObject).length === 0) {
     const isGuest = JSON.parse(localStorage.getItem("isGuest"));
@@ -176,6 +191,7 @@ async function loadHighestSubtaskId() {
 }
 
 
+// Loads the highest subtask ID for guest or user to avoid ID conflicts
 function getHighestSubtaskIdForGuest() {
   const guestData = JSON.parse(localStorage.getItem("guestKanbanData")) || {};
   const guestSubtasks = guestData.subtasks || {};
@@ -190,6 +206,7 @@ function getHighestSubtaskIdForGuest() {
 }
 
 
+// Gets the highest subtask ID for a user from the database
 async function getHighestSubtaskIdForUser() {
   const response = await fetch("https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData.json");
   const data = await response.json();

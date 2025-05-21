@@ -1,5 +1,5 @@
 // Global variable to store Kanban data
-let kanbanData = {}; 
+let kanbanData = {};
 
 // Base URL for the Firebase database
 const BASE_URL = `https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData/`;
@@ -16,6 +16,7 @@ async function fetchKanbanData(BASE_URL) {
   }
 }
 
+
 // Fetches guest user data from Firebase
 async function fetchGuestData() {
   const response = await fetch(`${BASE_URL}users/guest.json`);
@@ -23,6 +24,7 @@ async function fetchGuestData() {
   if (!guestData) return null;
   return guestData;
 }
+
 
 // Extracts task IDs from guest data
 function extractTaskIds(guestData) {
@@ -41,6 +43,7 @@ function extractTaskIds(guestData) {
   return taskIds;
 }
 
+
 // Fetches tasks based on the provided task IDs
 async function fetchTasks(taskIds) {
   const tasksArray = [];
@@ -57,6 +60,7 @@ async function fetchTasks(taskIds) {
   return tasksObject;
 }
 
+
 // Extracts subtask IDs from the provided tasks
 function extractSubtaskIds(tasksArray) {
   const subtaskIds = [];
@@ -70,6 +74,7 @@ function extractSubtaskIds(tasksArray) {
   }
   return subtaskIds;
 }
+
 
 // Fetches subtasks based on the provided subtask IDs
 async function fetchSubtasks(subtaskIds) {
@@ -87,6 +92,7 @@ async function fetchSubtasks(subtaskIds) {
   return subtasksObject;
 }
 
+
 // Fetches all users' contact data (name, email, phone)
 async function fetchAllUserContactData() {
   const response = await fetch(`${BASE_URL}users.json`);
@@ -95,23 +101,25 @@ async function fetchAllUserContactData() {
   const contactData = {};
   for (const userId in users) {
     if (userId === "guest") continue;
-    contactData[userId] = { name: users[userId].name }; 
+    contactData[userId] = { name: users[userId].name };
   }
   return contactData;
 }
+
 
 // Saves structured guest data, tasks, and subtasks to LocalStorage
 function saveGuestDataToLocalStorage(guestData, tasksData, subtasksData, allUserContactData) {
   const structuredData = {
     users: {
       guest: guestData,
-      ...allUserContactData 
+      ...allUserContactData
     },
     tasks: tasksData,
     subtasks: subtasksData
   };
   localStorage.setItem("guestKanbanData", JSON.stringify(structuredData));
 }
+
 
 // Fetches and processes Kanban data for guest users
 async function fetchGuestKanbanData() {
@@ -131,43 +139,47 @@ async function fetchGuestKanbanData() {
   }
 }
 
+
 // Retrieves the task data for editing and generates the corresponding HTML
 function getEditTaskData(taskId) {
-    let taskContent = getTaskContent(taskId, kanbanData);
-    if (!taskContent) {
-        return `<div>Error: Task not found</div>`;
-    }
+  let taskContent = getTaskContent(taskId, kanbanData);
+  if (!taskContent) {
+    return `<div>Error: Task not found</div>`;
+  }
 
-    const editTaskHTML = renderEditTask(taskContent, taskId);
-    return editTaskHTML;
+  const editTaskHTML = renderEditTask(taskContent, taskId);
+  return editTaskHTML;
 }
+
 
 // Fetches Kanban data for guest users and stores it in LocalStorage
 async function getKanbanData() {
-    try {
-        if (localStorage.getItem("isGuest") === "true") {
-            kanbanData = await getGuestKanbanData();
-        } else {
-            kanbanData = await fetchKanbanData(BASE_URL);
-        }
-        if (!kanbanData.subtasks) kanbanData.subtasks = {};
-        if (!kanbanData || Object.keys(kanbanData).length === 0) {
-            console.error("Kanban data could not be loaded or is empty.");
-        }
-    } catch (error) {
-        console.error("Error loading Kanban data:", error);
+  try {
+    if (localStorage.getItem("isGuest") === "true") {
+      kanbanData = await getGuestKanbanData();
+    } else {
+      kanbanData = await fetchKanbanData(BASE_URL);
     }
+    if (!kanbanData.subtasks) kanbanData.subtasks = {};
+    if (!kanbanData || Object.keys(kanbanData).length === 0) {
+      console.error("Kanban data could not be loaded or is empty.");
+    }
+  } catch (error) {
+    console.error("Error loading Kanban data:", error);
+  }
 }
+
 
 // Fetches guest Kanban data from LocalStorage or Firebase
 async function getGuestKanbanData() {
-    let guestKanbanData = localStorage.getItem("guestKanbanData");
-    if (!guestKanbanData) {
-        await fetchGuestKanbanData();
-        guestKanbanData = localStorage.getItem("guestKanbanData");
-    }
-    return JSON.parse(guestKanbanData);
+  let guestKanbanData = localStorage.getItem("guestKanbanData");
+  if (!guestKanbanData) {
+    await fetchGuestKanbanData();
+    guestKanbanData = localStorage.getItem("guestKanbanData");
+  }
+  return JSON.parse(guestKanbanData);
 }
+
 
 // Executes the main logic when the page is loaded
 document.addEventListener("DOMContentLoaded", async () => {
@@ -182,6 +194,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 });
 
+
 // Processes the Kanban data and assigns it to the user
 function processKanbanData(data, user) {
   if (!data) return;
@@ -195,6 +208,7 @@ function processKanbanData(data, user) {
     });
   }
 }
+
 
 // Checks if the `assignedTasks` object is valid
 function isValidAssignedTasks(assignedTasks) {

@@ -8,6 +8,7 @@ function handleDateChange(event) {
     const formattedDate = formatDate(isoDate);
 }
 
+
 // Formats an ISO date string to "DD/MM/YYYY".
 function formatDate(isoDate) {
     if (!isoDate) return "";
@@ -17,6 +18,7 @@ function formatDate(isoDate) {
     const year = date.getFullYear();
     return `${day}/${month}/${year}`;
 }
+
 
 // Formats an ISO date string to "YYYY-MM-DD" for input fields.
 function formatDateForInput(isoDate) {

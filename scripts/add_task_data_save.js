@@ -1,3 +1,4 @@
+// Handles DOMContentLoaded: checks login, sets up form, and initializes task creation logic
 document.addEventListener("DOMContentLoaded", async function () {
   const isGuest = JSON.parse(localStorage.getItem("isGuest"));
   let user = JSON.parse(localStorage.getItem("loggedInUser"));
@@ -15,6 +16,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   let taskForm = document.getElementById("task_form");
 
 
+  // Generates a new unique task ID
   async function getNewTaskId() {
     try {
       let response = await fetch(`${BASE_URL}tasks.json`);
@@ -37,6 +39,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
 
 
+  // Adds the submit event listener to the add task form and handles task creation
 function addTaskFormListener() {
   taskForm.addEventListener("submit", async function (event) {
     event.preventDefault();
@@ -54,6 +57,7 @@ function addTaskFormListener() {
 }
 
 
+  // Collects all task details from the form fields
   function getTaskDetails() {
     let title = document.getElementById("input_title").value;
     let description = document.getElementById("input_description").value;
@@ -80,6 +84,7 @@ function addTaskFormListener() {
   }
 
 
+  // Returns the selected assignees as an object
   function getAssignedUsers() {
     let assignees = {};
     for (let assigneeName in assigneesObject) {
@@ -92,6 +97,7 @@ function addTaskFormListener() {
   }
 
 
+  // Returns the selected subtasks as an object
   function getSubtaskDetails() {
     let subtasks = {};
     for (let subtaskId in subtasksObject) {
@@ -101,6 +107,7 @@ function addTaskFormListener() {
   }
 
 
+  // Saves the task and subtasks to the database or localStorage, updates user/guest lists, and resets the form
   async function saveTaskToDatabase(taskId, taskData, userId) {
     try {
       await saveTaskData(taskId, taskData);
@@ -119,6 +126,7 @@ function addTaskFormListener() {
   }
 
 
+  // Resets all form fields to their default state
   function resetFormFields() {
     document.getElementById("input_title").value = "";
     document.getElementById("input_description").value = "";
@@ -130,12 +138,14 @@ function addTaskFormListener() {
   }
 
 
+  // Resets assignees and subtasks objects and UI
   function resetAssigneesAndSubtasks() {
     resetAssignees();
     resetSubtasks();
   }
 
 
+  // Removes all selected assignees from the UI and object
   function resetAssignees() {
     for (const userId in assigneesObject) {
       removeAssignee(userId);
@@ -145,6 +155,7 @@ function addTaskFormListener() {
   }
 
 
+  // Removes all subtasks from the UI and object
   function resetSubtasks() {
     subtasksObject = {};
     const displaySubtasksDiv = document.getElementById("display_subtasks");
@@ -154,6 +165,7 @@ function addTaskFormListener() {
   }
 
 
+  // Saves the task data to the database or localStorage (for guests)
   function saveTaskData(taskId, taskData) {
     const isGuest = JSON.parse(localStorage.getItem("isGuest"));
     if (isGuest) {
@@ -173,6 +185,7 @@ function addTaskFormListener() {
   }
 
 
+  // Saves the subtasks data to the database or localStorage (for guests)
   function saveSubtasksData(taskId) {
     const isGuest = JSON.parse(localStorage.getItem("isGuest"));
     if (isGuest) {
@@ -194,6 +207,7 @@ function addTaskFormListener() {
   }
 
 
+  // Prepares the subtasks object for saving to the database or localStorage
   function prepareSubtasksForDatabase(existingSubtasks, taskId) {
     const newSubtasks = { ...existingSubtasks };
     for (let subtaskId in subtasksObject) {
@@ -208,6 +222,7 @@ function addTaskFormListener() {
   }
 
 
+  // Overwrites the entire subtask collection in the database
   function overwriteSubtaskCollection(updatedSubtasks) {
     return fetch(`${BASE_URL}subtasks.json`, {
       method: "PUT",
@@ -219,6 +234,7 @@ function addTaskFormListener() {
   }
 
 
+  // Adds the task to the guest's to-do list in localStorage
   function addTaskToUserToDoList(taskId, userId) {
     const isGuest = JSON.parse(localStorage.getItem("isGuest"));
     if (isGuest) {
@@ -249,6 +265,7 @@ function addTaskFormListener() {
   }
 
 
+  // Waits for all asynchronous save operations to complete before proceeding
   async function waitForTaskSaveOperations(taskId) {
     try {
       const response = await fetch(`${BASE_URL}tasks/${taskId}/status.json`);
@@ -265,6 +282,7 @@ function addTaskFormListener() {
   }
 
 
+  // Maps the category parameter from the URL to the database category name
   function mapCategoryParameterToDatabaseCategory(categoryParameter) {
     const categoryMapping = {
       toDoCardsColumn: "toDo",
@@ -276,6 +294,7 @@ function addTaskFormListener() {
   }
 
 
+  // Adds the task to the guest's assigned tasks for the selected category in localStorage
   function addTaskToGuestCategory(taskId, databaseCategory) {
     kanbanData = JSON.parse(localStorage.getItem("guestKanbanData")) || { tasks: {}, subtasks: {}, users: {} };
     if (!kanbanData.users) kanbanData.users = {};
@@ -288,6 +307,7 @@ function addTaskFormListener() {
   }
 
 
+  // Adds the task to the user's assigned tasks for the selected category in the database
   function addTaskToUserCategory(taskId, userId, databaseCategory) {
     return fetch(`${BASE_URL}users/${userId}/assignedTasks/${databaseCategory}.json`)
       .then((response) => response.json())
@@ -307,6 +327,7 @@ function addTaskFormListener() {
   }
 
 
+  // Adds the task to the correct category list for guest or user
   function addTaskToUserCategoryList(taskId, userId, categoryParameter) {
     const isGuest = JSON.parse(localStorage.getItem("isGuest"));
     const databaseCategory = mapCategoryParameterToDatabaseCategory(categoryParameter);
@@ -320,6 +341,7 @@ function addTaskFormListener() {
 });
 
 
+//Loading spinner functions
 function showLoadingSpinner() {
   document.getElementById("loading_spinner").style.display = "flex";
 }

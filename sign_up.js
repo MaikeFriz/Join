@@ -2,16 +2,17 @@ document.addEventListener("DOMContentLoaded", () => {
   initForm();
 });
 
-
+//Loading spinner
 function showLoadingSpinner() {
   document.getElementById("loading-spinner").style.display = "flex";
 }
+
 
 function hideLoadingSpinner() {
   document.getElementById("loading-spinner").style.display = "none";
 }
 
-
+// Checks if the password is strong
 function isStrongPassword(password) {
   const minLength = 8;
   const specialChars = password.match(/[!@#$%^&*()_\-+=\[\]{};':"\\|,.<>/?]/g);
@@ -21,6 +22,7 @@ function isStrongPassword(password) {
 }
 
 
+// Checks if the email already exists in the database
 async function emailAlreadyExists(email) {
   const response = await fetch(
     "https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData/users.json"
@@ -31,6 +33,7 @@ async function emailAlreadyExists(email) {
 }
 
 
+// Initializes the sign-up form and its event listeners
 function initForm() {
   const form = document.getElementById("sign-up-form");
   form.appendChild(createErrorMessage());
@@ -38,6 +41,8 @@ function initForm() {
   form.addEventListener("submit", handleFormSubmit);
 }
 
+
+// Creates an error message element for the form
 function createErrorMessage() {
   const errorMessage = document.createElement("p");
   errorMessage.id = "error-message";
@@ -46,6 +51,7 @@ function createErrorMessage() {
 }
 
 
+// Creates the overlay for the success message after sign-up
 function createOverlay() {
   const overlay = document.createElement("div");
   overlay.className = "overlay";
@@ -55,6 +61,7 @@ function createOverlay() {
 }
 
 
+//Handles the form submit event, validates input, and registers the user
 async function handleFormSubmit(event) {
   event.preventDefault();
   showLoadingSpinner();
@@ -71,6 +78,7 @@ async function handleFormSubmit(event) {
 }
 
 
+// Retrieves all form field values
 function getFormData() {
   return {
     name: document.getElementById("input_name").value,
@@ -83,6 +91,7 @@ function getFormData() {
 }
 
 
+// Displays an error message in the form
 function showErrorMessage(message) {
   const errorMessageDiv = document.getElementById("error_message_sign_up");
   errorMessageDiv.textContent = message;
@@ -91,6 +100,7 @@ function showErrorMessage(message) {
 }
 
 
+// Hides the error message in the form
 function hideErrorMessage() {
   const errorMessageDiv = document.getElementById("error_message_sign_up");
   errorMessageDiv.textContent = "";
@@ -98,16 +108,19 @@ function hideErrorMessage() {
 }
 
 
+// Checks if both passwords match
 function passwordsMatch(password, confirmPassword) {
   return password === confirmPassword;
 }
 
 
+// Checks if the privacy policy checkbox is checked
 function privacyAccepted(checkbox) {
   return checkbox.checked;
 }
 
 
+// Validates the password fields and shows an error if they don't match
 function validateInputs(password, confirmPassword) {
   if (!passwordsMatch(password, confirmPassword)) {
     showErrorMessage("Your passwords don't match. Please try again.");
@@ -120,6 +133,7 @@ function validateInputs(password, confirmPassword) {
 }
 
 
+// Shows or hides the password mismatch error and highlights fields
 function checkIfPasswordErrorMessageNeeded() {
   const passwordInput = document.getElementById("input_password_sign_up");
   const confirmPasswordInput = document.getElementById(
@@ -142,6 +156,7 @@ function checkIfPasswordErrorMessageNeeded() {
 }
 
 
+// Retrieves and trims all input values from the form
 function getInputValues() {
   return {
     name: document.getElementById("input_name").value.trim(),
@@ -154,11 +169,13 @@ function getInputValues() {
 }
 
 
+// Checks if any required field is empty
 function anyFieldIsEmpty({ name, email, password, confirmPassword }) {
   return !name || !email || !password || !confirmPassword;
 }
 
 
+// Shows an error message if a required field is empty
 function showFieldErrorMessage(message) {
   const errorMessageDiv = document.getElementById("error_message_sign_up");
   errorMessageDiv.textContent = message;
@@ -167,6 +184,7 @@ function showFieldErrorMessage(message) {
 }
 
 
+// Hides the error message for empty fields
 function hideFieldErrorMessage() {
   const errorMessageDiv = document.getElementById("error_message_sign_up");
   errorMessageDiv.textContent = "";
@@ -174,6 +192,7 @@ function hideFieldErrorMessage() {
 }
 
 
+// Checks if all required fields are filled and shows an error if not
 function checkIfAllFieldsFilled() {
   const values = getInputValues();
   if (anyFieldIsEmpty(values)) {
@@ -185,6 +204,7 @@ function checkIfAllFieldsFilled() {
 }
 
 
+// Registers the user, checks for duplicate email, saves user, and shows success
 async function registerUser(name, email, password) {
   try {
     if (await emailAlreadyExists(email)) {
@@ -217,6 +237,7 @@ async function registerUser(name, email, password) {
 }
 
 
+// Adds the new user to their own contacts list in the database
 async function addUserToContacts(userId, user) {
   const BASE_URL = `https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData/users/${userId}/contacts.json`;
 
@@ -240,6 +261,7 @@ async function addUserToContacts(userId, user) {
 }
 
 
+// Generates a new unique user ID
 async function generateUserId() {
   const response = await fetch(
     "https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData.json"
@@ -258,6 +280,7 @@ async function generateUserId() {
 }
 
 
+// Creates a user object with all required properties
 function createUserObject(name, email, password) {
   return {
     name,
@@ -268,6 +291,7 @@ function createUserObject(name, email, password) {
 }
 
 
+// Saves the user object to the database
 async function saveUserToDatabase(userId, user) {
   await fetch(
     `https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData/users/${userId}.json`,
@@ -280,6 +304,7 @@ async function saveUserToDatabase(userId, user) {
 }
 
 
+// Shows the success overlay and redirects to the login page after 1 second
 function showSuccessMessage() {
   const overlay = document.querySelector(".overlay");
   overlay.style.display = "flex";

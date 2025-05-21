@@ -1,8 +1,10 @@
+// Stores the selected assignees for the task
 let assigneesObject = {};
 
+// Initializes the assignee dropdown on page load
 document.addEventListener("DOMContentLoaded", initDropdown);
 
-
+// Loads users and sets up the assignee dropdown
 async function initDropdown() {
   try {
     const users = await fetchUsers();
@@ -14,6 +16,7 @@ async function initDropdown() {
 }
 
 
+// Fetches users from localStorage (guest) or database (user)
 async function fetchUsers() {
   const isGuest = JSON.parse(localStorage.getItem("isGuest"));
   let data;
@@ -31,6 +34,7 @@ async function fetchUsers() {
 }
 
 
+// Creates and appends dropdown options for each user
 function createDropdownOptions(users) {
   const dropdownOptions = document.getElementById("dropdown_options_assignee");
   dropdownOptions.innerHTML = "";
@@ -42,6 +46,7 @@ function createDropdownOptions(users) {
 }
 
 
+// Creates a dropdown option element for a user
 function createDropdownOptionTemplate(user) {
   const option = createDropdownOptionElement(user);
   setDropdownOptionState(option, user);
@@ -50,6 +55,7 @@ function createDropdownOptionTemplate(user) {
 }
 
 
+// Builds the dropdown option HTML element for a user
 function createDropdownOptionElement(user) {
   const option = document.createElement("div");
   option.classList.add("custom-dropdown-option");
@@ -60,6 +66,7 @@ function createDropdownOptionElement(user) {
 }
 
 
+// Sets the selected state for a dropdown option if the user is already assigned
 function setDropdownOptionState(option, user) {
   if (assigneesObject[user.id]) {
     option.classList.add("selected");
@@ -67,6 +74,7 @@ function setDropdownOptionState(option, user) {
 }
 
 
+// Adds mouse and click event listeners to a dropdown option
 function setupDropdownOptionEvents(option, user) {
   const checkboxImg = option.querySelector(".checkbox-img");
   setupDropdownOptionMouseenter(option, checkboxImg);
@@ -75,6 +83,7 @@ function setupDropdownOptionEvents(option, user) {
 }
 
 
+// Handles mouseenter event for a dropdown option (visual feedback)
 function setupDropdownOptionMouseenter(option, checkboxImg) {
   option.addEventListener("mouseenter", () => {
     if (option.classList.contains("selected")) {
@@ -88,6 +97,7 @@ function setupDropdownOptionMouseenter(option, checkboxImg) {
 }
 
 
+// Handles mouseleave event for a dropdown option (visual feedback)
 function setupDropdownOptionMouseleave(option, checkboxImg) {
   option.addEventListener("mouseleave", () => {
     if (option.classList.contains("selected")) {
@@ -101,6 +111,7 @@ function setupDropdownOptionMouseleave(option, checkboxImg) {
 }
 
 
+// Handles click event for a dropdown option (selects/deselects assignee)
 function setupDropdownOptionClick(option, user, checkboxImg) {
   option.addEventListener("click", () => {
     option.classList.toggle("selected");
@@ -117,6 +128,7 @@ function setupDropdownOptionClick(option, user, checkboxImg) {
 }
 
 
+// Returns the initials for a given assignee name
 function getAssigneeInitials(assignee) {
   let assigneeInitials = "";
   if (assignee) {
@@ -131,6 +143,7 @@ function getAssigneeInitials(assignee) {
 }
 
 
+// Toggles the selection of an assignee and updates the UI
 function toggleAssignee(userId, userName, optionElement) {
   const imgElement = optionElement.querySelector(".checkbox-img");
   if (assigneesObject[userId]) {
@@ -145,6 +158,7 @@ function toggleAssignee(userId, userName, optionElement) {
 }
 
 
+// Adds the selected assignee to the UI
 function addAssigneeElement(userId, userName) {
   const showAssigneesDiv = document.getElementById("show-assignees");
   if (document.getElementById(`assignee-${userId}`)) return;
@@ -153,6 +167,7 @@ function addAssigneeElement(userId, userName) {
 }
 
 
+// Removes the assignee from the selection and UI
 function removeAssignee(userId) {
   delete assigneesObject[userId];
   const assigneeElement = document.getElementById(`assignee-${userId}`);
@@ -167,6 +182,7 @@ function removeAssignee(userId) {
 }
 
 
+// Removes the assignee element from the UI
 function removeAssigneeElement(userId) {
   const assigneeElement = document.getElementById(`assignee-${userId}`);
   if (assigneeElement) {
@@ -175,6 +191,7 @@ function removeAssigneeElement(userId) {
 }
 
 
+// Sets up the dropdown open/close events for the assignee dropdown
 function setupDropdownEvents() {
   const dropdown = document.getElementById("dropdown_assigned_to");
   dropdown.addEventListener("click", toggleDropdown);
@@ -182,6 +199,7 @@ function setupDropdownEvents() {
 }
 
 
+// Toggles the assignee dropdown open or closed
 function toggleDropdown(event) {
   event.stopPropagation();
   const dropdown = document.getElementById("dropdown_assigned_to");
@@ -197,6 +215,7 @@ function toggleDropdown(event) {
 }
 
 
+// Closes the dropdown if a click occurs outside of it
 function closeDropdownOnClickOutside(event) {
   const dropdown = document.getElementById("dropdown_assigned_to");
   const dropdownOptions = document.getElementById("dropdown_options_assignee");
@@ -206,17 +225,20 @@ function closeDropdownOnClickOutside(event) {
 }
 
 
+// Closes the assignee dropdown
 function closeDropdown() {
   document.getElementById("dropdown_options_assignee").classList.remove("show");
   document.getElementById("dropdown_assigned_to").classList.remove("dropdown_open");
 }
 
 
+// Initializes the priority selection buttons on page load
 document.addEventListener("DOMContentLoaded", function () {
   initializePrioritySelection();
 });
 
 
+// Sets up the priority selection buttons and default active state
 function initializePrioritySelection() {
   const urgentButton = document.getElementById("urgent_button");
   const mediumButton = document.getElementById("medium_button");
@@ -226,6 +248,7 @@ function initializePrioritySelection() {
 }
 
 
+// Adds click event listeners to the priority buttons
 function setupPriorityButtons(urgentButton, mediumButton, lowButton) {
   urgentButton.addEventListener("click", () =>
     handlePriorityClick(urgentButton)
@@ -237,12 +260,14 @@ function setupPriorityButtons(urgentButton, mediumButton, lowButton) {
 }
 
 
+// Handles the click event for a priority button
 function handlePriorityClick(clickedButton) {
   removeActiveClassFromOtherButtons(clickedButton);
   setActiveButton(clickedButton);
 }
 
 
+// Removes the active class from all priority buttons except the clicked one
 function removeActiveClassFromOtherButtons(clickedButton) {
   const allButtons = document.querySelectorAll(
     "#urgent_button, #medium_button, #low_button"
@@ -255,11 +280,13 @@ function removeActiveClassFromOtherButtons(clickedButton) {
 }
 
 
+// Sets the clicked priority button as active
 function setActiveButton(clickedButton) {
   clickedButton.classList.add("active");
 }
 
 
+// Initializes the category dropdown and its event listeners on page load
 document.addEventListener("DOMContentLoaded", function () {
   const dropdown = document.getElementById("dropdown_category");
   const optionsContainer = document.querySelector(".dropdown_options");
@@ -268,8 +295,6 @@ document.addEventListener("DOMContentLoaded", function () {
   dropdown.addEventListener("click", function () {
     dropdown.parentElement.classList.toggle("open");
   });
-
-
   optionsContainer.querySelectorAll(".custom-dropdown-option").forEach((option) => {
     option.addEventListener("click", function () {
       selectedText.textContent = this.textContent;
@@ -277,8 +302,6 @@ document.addEventListener("DOMContentLoaded", function () {
       dropdown.parentElement.classList.remove("open");
     });
   });
-
-
   document.addEventListener("click", function (event) {
     if (!dropdown.parentElement.contains(event.target)) {
       dropdown.parentElement.classList.remove("open");
@@ -287,6 +310,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
+// Clears all input fields and resets the add task form
 function clearAllInputs() {
   const form = document.getElementById("task_form");
   form.reset();
@@ -300,12 +324,14 @@ function clearAllInputs() {
 }
 
 
+// Gets the category from the URL query parameters
 function getCategoryFromUrl() {
   const params = new URLSearchParams(window.location.search);
   return params.get('category');
 }
 
 
+// Adds a class to the add task frame if a category is present in the URL
 document.addEventListener("DOMContentLoaded", function () {
   const addTaskFrame = document.getElementById("add_task_frame");
   const category = getCategoryFromUrl();

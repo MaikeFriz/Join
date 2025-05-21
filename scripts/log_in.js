@@ -1,3 +1,4 @@
+// Handles DOMContentLoaded: sets up form, error message, and event listeners for login and guest login
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("log-in-form");
   const emailInput = document.getElementById("input_email");
@@ -9,8 +10,6 @@ document.addEventListener("DOMContentLoaded", () => {
     event.preventDefault();
     guestLogin();
   });
-
-
   form.addEventListener("submit", function (event) {
     event.preventDefault();
     showLoadingSpinner();
@@ -19,21 +18,25 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
+// Shows the loading spinner overlay
 function showLoadingSpinner() {
   document.getElementById("loading_spinner").style.display = "flex";
 }
 
 
+// Hides the loading spinner overlay
 function hideLoadingSpinner() {
   document.getElementById("loading_spinner").style.display = "none";
 }
 
 
+// Loads guest data from local storage (not implemented)
 function loadGuestDataFromLocalStorage() {
   return
 }
 
 
+// Handles guest login: sets guest state, fetches guest data, and redirects to summary
 async function guestLogin() {
   showLoadingSpinner();
   console.log("Guest Log In clicked");
@@ -53,6 +56,7 @@ async function guestLogin() {
 }
 
 
+// Handles the login form submission: validates input and authenticates user
 function handleFormSubmit(event, emailInput, passwordInput, errorMessage) {
   const email = emailInput.value.trim();
   const password = passwordInput.value.trim();
@@ -64,12 +68,14 @@ function handleFormSubmit(event, emailInput, passwordInput, errorMessage) {
 }
 
 
+// Checks if a user is currently logged in
 function isUserLoggedIn() {
   const loggedInUser = localStorage.getItem("loggedInUser");
   return loggedInUser !== null;
 }
 
 
+// Clears input field styles and hides error messages
 function clearInputStyles(emailInput, passwordInput, errorMessage) {
   emailInput.style.border = "";
   passwordInput.style.border = "";
@@ -78,6 +84,7 @@ function clearInputStyles(emailInput, passwordInput, errorMessage) {
 }
 
 
+// Shows an error message and marks input fields as invalid
 function showError(emailInput, passwordInput, errorMessage, message) {
   errorMessage.textContent = message;
   errorMessage.style.display = "block";
@@ -86,12 +93,14 @@ function showError(emailInput, passwordInput, errorMessage, message) {
 }
 
 
+// Validates the email format using a regex
 function isEmailFormatValid(email) {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
 }
 
 
+// Validates login input fields and shows errors if invalid
 function isInputValid(email, password) {
   const emailInput = document.getElementById("input_email");
   const passwordInput = document.getElementById("input_password");
@@ -112,6 +121,7 @@ function isInputValid(email, password) {
 }
 
 
+// Fetches user data from the database and authenticates the user
 function authenticateUser(email, password, errorMessage) {
   fetch("https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData/users.json")
     .then((response) => response.json())
@@ -120,6 +130,7 @@ function authenticateUser(email, password, errorMessage) {
 }
 
 
+// Handles the authentication response: logs in user or shows error
 function handleAuthenticationResponse(data, email, password) {
   const userKey = findUserKey(data, email, password);
   if (userKey) {
@@ -130,6 +141,7 @@ function handleAuthenticationResponse(data, email, password) {
 }
 
 
+// Handles successful login: stores user, hides spinner, and redirects
 function handleSuccessfulLogin(data, userKey) {
   hideLoginError();
   resetInputBorders();
@@ -139,6 +151,7 @@ function handleSuccessfulLogin(data, userKey) {
 }
 
 
+// Handles failed login: shows error, marks inputs, and resets fields
 function handleFailedLogin() {
   showLoginError("Check your email and password. Please try again.");
   markInputsAsInvalid();
@@ -150,6 +163,7 @@ function handleFailedLogin() {
 }
 
 
+// Shows the login error message
 function showLoginError(message) {
   const errorDiv = document.getElementById("login-error-message");
   errorDiv.textContent = message;
@@ -157,6 +171,7 @@ function showLoginError(message) {
 }
 
 
+// Hides the login error message
 function hideLoginError() {
   const errorDiv = document.getElementById("login-error-message");
   errorDiv.textContent = "";
@@ -164,6 +179,7 @@ function hideLoginError() {
 }
 
 
+// Marks the email and password input fields as invalid
 function markInputsAsInvalid() {
   const emailInput = document.getElementById("input_email");
   const passwordInput = document.getElementById("input_password");
@@ -172,6 +188,7 @@ function markInputsAsInvalid() {
 }
 
 
+// Resets the input field borders to default
 function resetInputBorders() {
   const emailInput = document.getElementById("input_email");
   const passwordInput = document.getElementById("input_password");
@@ -180,11 +197,13 @@ function resetInputBorders() {
 }
 
 
+// Redirects the user to the summary page after successful login
 function redirectToSummary() {
   window.location.href = "./summary.html";
 }
 
 
+// Finds the user key in the database matching the given email and password
 function findUserKey(data, email, password) {
   return Object.keys(data).find(
     (key) => data[key].email === email && data[key].password === password
@@ -192,6 +211,7 @@ function findUserKey(data, email, password) {
 }
 
 
+// Stores the logged-in user in localStorage and clears guest data
 function storeUserInLocalStorage(data, userKey) {
   const user = data[userKey];
   const loggedInUser = {
@@ -204,12 +224,14 @@ function storeUserInLocalStorage(data, userKey) {
 }
 
 
+// Handles errors during authentication and displays an error message
 function handleError(error, errorMessage) {
   hideLoadingSpinner();
   errorMessage.textContent = "Error logging in: " + error.message;
 }
 
 
+// Handles logo animation end event to reset logo styles
 document.addEventListener("DOMContentLoaded", () => {
   const logoHeader = document.querySelector(".logo_header");
   logoHeader.addEventListener("animationend", () => {

@@ -8,7 +8,6 @@ document.addEventListener("DOMContentLoaded", function () {
       phone: document.querySelector("input[type='tel']").value,
     };
 
-    // Send the contact data to the parent window
     window.parent.postMessage({ type: "createContact", contact: contact }, "*");
   });
 

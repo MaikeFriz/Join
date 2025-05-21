@@ -1,3 +1,4 @@
+// Checks if a user or guest is logged in; redirects to login page if not authenticated and not on an excluded page
 function checkUserLogin() {
   const user = JSON.parse(localStorage.getItem("loggedInUser"));
   const guest = JSON.parse(localStorage.getItem("isGuest"));
@@ -24,6 +25,7 @@ function checkUserLogin() {
 }
 
 
+// Sets the user initials in the header based on the logged-in user or guest
 function getUserName() {
   const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
   const guest = JSON.parse(localStorage.getItem("isGuest"));
@@ -38,6 +40,7 @@ function getUserName() {
 }
 
 
+// Displays the user's initials in the header and sets up dropdown and logout event listeners
 function getUserInitialForHeader(userName) {
   let [firstName, lastName] = userName.split(" ");
   let firstLetter = firstName.charAt(0).toUpperCase();
@@ -69,6 +72,7 @@ function getUserInitialForHeader(userName) {
 }
 
 
+// Initializes the user initials header on DOMContentLoaded if the element exists
 document.addEventListener("DOMContentLoaded", () => {
   const userInitialsHeader = document.getElementById("user-initials-header");
   if (!userInitialsHeader) {
