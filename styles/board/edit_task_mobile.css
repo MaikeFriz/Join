@@ -1,16 +1,14 @@
 
 @media(max-width:768px) {
-    .edit-task-content {
-        width: 100%;
-        min-height: fit-content;
-        margin-bottom: 32px;
+    .edit-task{ 
+        min-height: 90%;
+        max-height: fit-content;
     }
 
-    .edit-task{ 
-        width: 100%; 
-        min-height: fit-content;
-        padding: 32px 24px;
-    }
+    .triangle-top,
+    .triangle-bottom {
+        display: none;
+    } 
 
     .input_label
     {   display: flex;
@@ -33,31 +31,19 @@
         width: 100%;
         padding: 0;
         margin-top: 0px;
-    }
-
-    .triangle-top,
-    .triangle-bottom {
-        display: none;
-    }
-
-    .scrollable-container {
-        min-height: fit-content;
-    }
-    
+    } 
 }
 
 @media(max-width:620px){
-    .edit-task-content {
-        margin-top: -24px;
+    .edit-task {
+        width: 90%;
+        min-height: 90%;
     }
+
 }
 
 
 @media(max-width:550px){
-    .edit-task-content {
-        margin-top: -16px;
-    }
-
     .category-label {
         width: 50% !important;
     }

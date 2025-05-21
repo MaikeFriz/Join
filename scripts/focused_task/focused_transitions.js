@@ -1,59 +1,96 @@
-
 // Displays a focused task view, transitioning from the board content.
 function renderFocusedTask(taskId) {
   let taskContent = getTaskContent(taskId, kanbanData);
   if (!taskContent) return;
   let boardContent = document.getElementById('boardContent');
   let focusedContent = document.getElementById('focusedTask');
-  boardContent.classList.remove('active');
-  boardContent.classList.add('d-none');
+  document.body.style.overflow = 'hidden'; // <--- hier hinzufügen
+  // Entferne diese Zeilen, damit das Board sichtbar bleibt:
+  // boardContent.classList.remove('active');
+  // boardContent.classList.add('d-none');
+  setTimeout(() => {
+    focusedContent.innerHTML = getFocusedTask(taskContent);
+    focusedContent.classList.remove('d-none');
+    // Klick außerhalb der Karte schließt das Overlay
+    focusedContent.onclick = function(event) {
+      const card = focusedContent.querySelector('.focused-task');
+      if (card && !card.contains(event.target)) {
+        fromFocusedTaskToBoard();
+      }
+    };
+    // Nach dem Rendern die Karte animieren:
     setTimeout(() => {
-      
-      focusedContent.innerHTML = getFocusedTask(taskContent);
-      focusedContent.classList.remove('d-none');
-      setTimeout(() => {
-        focusedContent.classList.add('active');
-      }, 30);
-    }, 300);
+      const card = focusedContent.querySelector('.focused-task');
+      if (card) card.classList.add('active');
+    }, 30);
+  }, 300);
 }
 
 // Returns to the board view by hiding the focused task view and reloading the page.
 async function fromFocusedTaskToBoard() {
   let focusedContent = document.getElementById('focusedTask');
-  focusedContent.classList.remove('active');
-    setTimeout(() => {
-      focusedContent.classList.add('d-none');
-      focusedContent.innerHTML = '';
-      location.reload();
-    }, 300);
+  const card = focusedContent.querySelector('.focused-task');
+  if (card) card.classList.remove('active');
+
+  document.body.style.overflow = '';
+
+  setTimeout(() => {
+    focusedContent.classList.add('d-none');
+    focusedContent.innerHTML = '';
+    // Nur die vier Spalten ausblenden
+    [
+      'toDoCardsColumn',
+      'awaitFeedbackCardsColumn',
+      'doneCardsColumn',
+      'inProgressCardsColumn'
+    ].forEach(id => {
+      const col = document.getElementById(id);
+      if (col) col.classList.add('d-none');
+    });
+    location.reload();
+  }, 300);
 }
 
 // Switches from the focused task view to the task editing view.
 function fromFocusedToEditTask(taskId) {
   let editContent = document.getElementById('editTask');
   let focusedContent = document.getElementById('focusedTask');
-  focusedContent.classList.remove('active');
+  const focusedCard = focusedContent.querySelector('.focused-task');
+  if (focusedCard) focusedCard.classList.remove('active');
+  setTimeout(() => {
+    focusedContent.classList.add('d-none');
+    editContent.classList.remove('d-none');
+    editContent.innerHTML = getEditTaskData(taskId);
+
+    // Klick außerhalb der Karte schließt das Overlay
+    editContent.onclick = function(event) {
+      const card = editContent.querySelector('.edit-task');
+      if (card && !card.contains(event.target)) {
+        fromEditTaskToBoard();
+      }
+    };
+
     setTimeout(() => {
-      focusedContent.classList.add('d-none');
-      editContent.classList.remove('d-none');
-      setTimeout(() => {
-        editContent.classList.add('active');
-        editContent.innerHTML = getEditTaskData(taskId);
-      }, 30);
-    }, 300);
+      const card = editContent.querySelector('.edit-task');
+      if (card) card.classList.add('active');
+    }, 30);
+  }, 300);
 }
 
 // Returns from the task editing view to the focused task view.
 async function fromEditToFocusedTask() {
   let focusedContent = document.getElementById('focusedTask');
   let editContent = document.getElementById('editTask');
-  editContent.classList.remove('active');
+  // Edit-Karte ausblenden
+  const editCard = editContent.querySelector('.edit-task');
+  if (editCard) editCard.classList.remove('active');
   setTimeout(() => {
     editContent.classList.add('d-none');
     focusedContent.classList.remove('d-none');
-    // Timeout auf 30ms erhöhen, damit das Einfaden sichtbar wird
+    // Focused-Karte einblenden
     setTimeout(() => {
-      focusedContent.classList.add('active');
+      const focusedCard = focusedContent.querySelector('.focused-task');
+      if (focusedCard) focusedCard.classList.add('active');
     }, 30);
   }, 300);
 }
@@ -61,8 +98,22 @@ async function fromEditToFocusedTask() {
 // Returns from the task editing view to the board view.
 async function fromEditTaskToBoard() {
   let editContent = document.getElementById('editTask');
-  editContent.classList.remove('active');
+  const editCard = editContent.querySelector('.edit-task');
+  if (editCard) editCard.classList.remove('active');
+
   setTimeout(() => {
     editContent.classList.add('d-none');
+    editContent.innerHTML = '';
+    // Nur die vier Spalten ausblenden
+    [
+      'toDoCardsColumn',
+      'awaitFeedbackCardsColumn',
+      'doneCardsColumn',
+      'inProgressCardsColumn'
+    ].forEach(id => {
+      const col = document.getElementById(id);
+      if (col) col.classList.add('d-none');
+    });
+    location.reload();
   }, 300);
 }

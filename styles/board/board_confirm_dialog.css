@@ -1,30 +1,31 @@
 
 .confirm-dialog-container {
     position: fixed;
-    width: calc(100% - 250px);
-    height: calc(100% - 96px);
-    top: 96px;
-    left: 250px;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
     background: rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(0px);
     opacity: 0;
     pointer-events: none;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: backdrop-filter 0.4s ease, opacity 0.4s ease;
-    z-index: 1000;
+    z-index: 9999;
   }
   
   #confirmDialog.active {
-    backdrop-filter: blur(3px);
+    backdrop-filter: blur(10px);
     opacity: 1;
     pointer-events: all;
   }
   
   .confirm-dialog-window {
     height: auto;
+    max-width: 600px;
     width: 60%;
+    min-height: 20%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -34,8 +35,8 @@
     padding: 20px;
     gap: 20px;
     border-radius: 24px;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(0, 0, 0, 0.4);
+    box-shadow: 0px 0px 16px 2px rgba(0, 0, 0, 0.4);
     transform: scale(0.5);
     opacity: 0;
     filter: blur(6px);
@@ -47,25 +48,22 @@
     margin: 0;
   }
   
-  #confirmDialog.active .confirm-dialog-window {
+  #confirmDialog.active 
+  .confirm-dialog-window {
     transform: scale(1);
     opacity: 1;
     filter: blur(0px);
   }
 
-@media(max-width:768px){
-  .confirm-dialog-container {
-    position: fixed;
-    width: 100vw;
-    height: calc(100vh - 176px);
-    left: 0;
+@media(max-width:620px){
+  .confirm-dialog-window {
+    font-size: 12px;
   }
 }
 
 @media(max-width:620px){
   .confirm-dialog-window {
     width: 90%;
-    font-size: 12px;
   }
 }
 

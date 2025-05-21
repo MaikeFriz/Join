@@ -1,15 +1,7 @@
 
 @media(max-width:768px) {
-    .focused-task-content {
-        width: 100%;
-        min-height: fit-content;
-        margin-bottom: 32px;
-    }
-
     .focused-task{  
-        width: 100%; 
-        min-height: fit-content;
-        padding: 32px 24px;
+        max-height: fit-content;
     }
 
     .triangle-top,
@@ -35,16 +27,11 @@
 }
 
 @media(max-width:620px){
-    .focused-task-content {
-        margin-top: -24px;
+    .focused-task {
+        width: 90%;
+           
     }
 }
-
-@media(max-width:550px){
-    .focused-task-content {
-        margin-top: -16px;
-    }
-}   
 
 @media(max-width:400px){
     .focused-task{  
