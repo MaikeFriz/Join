@@ -18,13 +18,12 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-// Shows the loading spinner overlay
+// Loading Spinner functions
 function showLoadingSpinner() {
   document.getElementById("loading_spinner").style.display = "flex";
 }
 
 
-// Hides the loading spinner overlay
 function hideLoadingSpinner() {
   document.getElementById("loading_spinner").style.display = "none";
 }

@@ -166,14 +166,19 @@ function removeSubtask(subtaskId, subtaskElement) {
 
 // Removes a subtask from the object and UI
 async function addSubtask(inputSubtask) {
-  const subtaskText = inputSubtask.value.trim();
-  if (subtaskText !== "") {
-    await loadHighestSubtaskId();
-    const newSubtaskId = `subtask${highestSubtaskId + 1}`;
-    subtasksObject[newSubtaskId] = { title: subtaskText, completed: false };
-    displaySubtask(newSubtaskId, subtaskText);
-    highestSubtaskId++;
-    clearInput(inputSubtask, document.getElementById("add_icon"), document.getElementById("input_icons"));
+  showLoadingSpinner();
+  try {
+    const subtaskText = inputSubtask.value.trim();
+    if (subtaskText !== "") {
+      await loadHighestSubtaskId();
+      const newSubtaskId = `subtask${highestSubtaskId + 1}`;
+      subtasksObject[newSubtaskId] = { title: subtaskText, completed: false };
+      displaySubtask(newSubtaskId, subtaskText);
+      highestSubtaskId++;
+      clearInput(inputSubtask, document.getElementById("add_icon"), document.getElementById("input_icons"));
+    }
+  } finally {
+    hideLoadingSpinner();
   }
 }
 
@@ -218,4 +223,15 @@ async function getHighestSubtaskIdForUser() {
     if (subtaskNumber > highestSubtask) highestSubtask = subtaskNumber;
   }
   return highestSubtask;
+}
+
+
+// Loading Spinner functions
+function showLoadingSpinner() {
+  document.getElementById("loading_spinner").style.display = "flex";
+}
+
+
+function hideLoadingSpinner() {
+  document.getElementById("loading_spinner").style.display = "none";
 }
