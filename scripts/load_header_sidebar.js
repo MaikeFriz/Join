@@ -1,3 +1,4 @@
+// Fetches an HTML component file and returns its content as text.
 function fetchComponent(file) {
   return fetch(file).then((response) => {
     if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
@@ -5,45 +6,53 @@ function fetchComponent(file) {
   });
 }
 
+// Inserts the loaded component HTML into the specified container.
 function insertComponent(content, elementId) {
   const container = document.getElementById(elementId);
   if (!container) {
     console.error(`Element with ID "${elementId}" not found.`);
     return;
   }
-
   container.innerHTML = content;
 
-  // Nur Header-spezifische Logik für das Dropdown
   if (elementId === "header-container") {
-    setTimeout(() => {
-      const loggedInUser = checkUserLogin();
-      const guest = JSON.parse(localStorage.getItem("isGuest"));
-      if (loggedInUser || guest) {
-        setupUserDropdown(loggedInUser ? loggedInUser.name : "Guest");
-      }
-    }, 0);
+    initializeHeaderUserDropdown();
   }
 }
 
-// Vereinfachte Dropdown-Initialisierung
+// Initializes the user dropdown in the header after rendering.
+function initializeHeaderUserDropdown() {
+  setTimeout(() => {
+    const loggedInUser = checkUserLogin();
+    const guest = JSON.parse(localStorage.getItem("isGuest"));
+    let userName = "";
+    if (loggedInUser) {
+      userName = loggedInUser.name;
+    } else if (guest) {
+      const guestKanbanData = JSON.parse(localStorage.getItem("guestKanbanData"));
+      userName = guestKanbanData?.users?.guest?.name || "Guest";
+    }
+    if (userName) {
+      setupUserDropdown(userName);
+    }
+  }, 0);
+}
+
+// Sets up the user initials in the header and handles dropdown menu interactions.
 function setupUserDropdown(userName) {
   const headerInitials = document.getElementById("user-initials-header");
   if (!headerInitials) return;
 
-  // Initialen setzen
   const [first, last] = userName.split(" ");
   headerInitials.textContent =
     (first?.charAt(0)?.toUpperCase() || "") +
     (last?.charAt(0)?.toUpperCase() || "");
 
-  // Dropdown-Toggle
   headerInitials.onclick = (e) => {
     e.stopPropagation();
     document.querySelector(".user-dropdown").classList.toggle("active");
   };
 
-  // Schließen bei Klick außerhalb
   document.onclick = (e) => {
     if (!e.target.closest(".user-menu-container")) {
       document.querySelector(".user-dropdown")?.classList.remove("active");
@@ -51,29 +60,32 @@ function setupUserDropdown(userName) {
   };
 }
 
+// Loads an HTML component and inserts it into the specified element.
 function loadComponent(file, elementId) {
   fetchComponent(file)
     .then((content) => insertComponent(content, elementId))
     .catch((error) => console.error("Error loading component:", error));
 }
 
+// Loads the header and sidebar components for logged-in or guest users.
 function loadHeaderAndSidebar() {
   loadComponent("header.html", "header-container");
-  loadComponent("sidebar.html", "sidebar-container"); // Sidebar bleibt unverändert
+  loadComponent("sidebar.html", "sidebar-container");
 }
 
+// Loads the header and sidebar components for logged-out users.
 function loadHeaderAndSidebarLoggedOut() {
   loadComponent("header.html", "header-container");
   loadComponent("sidebar_logged_out.html", "sidebar-container");
 }
 
-// Initialisierung
+// Initializes the header and sidebar based on the user's login status when the DOM is ready.
 document.addEventListener("DOMContentLoaded", () => {
   const loggedInUser = checkUserLogin();
   const guest = JSON.parse(localStorage.getItem("isGuest"));
 
   if (loggedInUser || guest) {
-    loadHeaderAndSidebar(); // Lädt beides: Header UND Sidebar
+    loadHeaderAndSidebar(); 
   } else {
     loadHeaderAndSidebarLoggedOut();
   }
