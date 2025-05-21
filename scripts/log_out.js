@@ -1,14 +1,12 @@
-// Logout-Funktion
-function logoutUser() {
-  localStorage.removeItem("loggedInUser");
-  localStorage.removeItem("isGuest");
-  localStorage.removeItem("guestKanbanData");
-  window.location.href = "./index.html";
-}
-
-// Event Delegation für dynamische Elemente
-document.body.addEventListener("click", function (event) {
-  if (event.target.closest("#logoutButton")) {
-    logoutUser();
+document.addEventListener("click", function (event) {
+  if (
+    event.target.id === "logoutButton" ||
+    event.target.closest("#logoutButton")
+  ) {
+    event.preventDefault();
+    localStorage.removeItem("loggedInUser");
+    localStorage.removeItem("isGuest");
+    localStorage.removeItem("guestKanbanData");
+    window.location.href = "./index.html";
   }
 });
