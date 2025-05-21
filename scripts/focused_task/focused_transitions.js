@@ -4,21 +4,18 @@ function renderFocusedTask(taskId) {
   if (!taskContent) return;
   let boardContent = document.getElementById('boardContent');
   let focusedContent = document.getElementById('focusedTask');
-  document.body.style.overflow = 'hidden'; // <--- hier hinzufügen
-  // Entferne diese Zeilen, damit das Board sichtbar bleibt:
-  // boardContent.classList.remove('active');
-  // boardContent.classList.add('d-none');
+  document.body.style.overflow = 'hidden';
+  
   setTimeout(() => {
     focusedContent.innerHTML = getFocusedTask(taskContent);
     focusedContent.classList.remove('d-none');
-    // Klick außerhalb der Karte schließt das Overlay
+    
     focusedContent.onclick = function(event) {
       const card = focusedContent.querySelector('.focused-task');
       if (card && !card.contains(event.target)) {
         fromFocusedTaskToBoard();
       }
     };
-    // Nach dem Rendern die Karte animieren:
     setTimeout(() => {
       const card = focusedContent.querySelector('.focused-task');
       if (card) card.classList.add('active');

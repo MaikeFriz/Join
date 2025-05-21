@@ -331,11 +331,40 @@ function getCategoryFromUrl() {
 }
 
 
-// Adds a class to the add task frame if a category is present in the URL
 document.addEventListener("DOMContentLoaded", function () {
-  const addTaskFrame = document.getElementById("add_task_frame");
-  const category = getCategoryFromUrl();
-  if (addTaskFrame && category) {
-    addTaskFrame.classList.add("add-task-frame");
-  }
+  setupAddTaskOverlay();
+  setupOverlayClickToBoard();
 });
+
+// Sets up the add task overlay and its styles based on the URL category
+function setupAddTaskOverlay() {
+  const addTaskFrame = document.getElementById("add_task_frame");
+  const addTaskContainer = document.getElementById("add_task_container");
+  const category = getCategoryFromUrl();
+  if (addTaskFrame && addTaskContainer && category) {
+    addTaskFrame.classList.add("add-task-frame");
+    addTaskContainer.classList.add("add-task-overlay");
+    // Animation nach 300ms Timeout starten (wie bei focused/edit)
+    setTimeout(() => {
+      addTaskFrame.classList.add("active");
+    }, 30);
+  }
+}
+
+// Sets up the click event to redirect to the board page when clicking outside the overlay
+function setupOverlayClickToBoard() {
+  const addTaskContainer = document.getElementById("add_task_container");
+  const addTaskFrame = document.getElementById("add_task_frame");
+  if (addTaskContainer && addTaskFrame) {
+    addTaskContainer.addEventListener("click", function (event) {
+      if (!addTaskFrame.contains(event.target)) {
+        addTaskFrame.classList.remove("active");
+        document.body.style.overflow = '';
+        setTimeout(() => {
+          window.location.href = "board.html";
+        }, 300);
+      }
+    });
+  }
+}
+

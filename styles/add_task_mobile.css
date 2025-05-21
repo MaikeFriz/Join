@@ -23,14 +23,6 @@
         width: 100%;
     }
 
-    .add-task-frame {
-        position: relative;
-        margin-left: -64px;
-        padding: 48px;
-        width: calc(100vw - 300px);
-        max-height: calc(100vh + 230px);
-    }
-
     .bottom-space {
         height: 100px;
     }
@@ -38,6 +30,13 @@
     footer {
         height: 96px;
     }
+
+    .add-task-overlay{
+        align-items: start;
+        padding-top: 32px;
+        padding-bottom: 32px;
+    }
+
 }
 
 @media(max-width:770px) {
@@ -50,15 +49,13 @@
         margin-bottom: 120px;
     }
 
-    .add-task-frame {
-        margin-top: -44px;
-        width: calc(100vw - 64px);
-        max-height: calc(100vh + 230px);
-    }
-
     footer {
         height: 160px;
     }
+
+    .add-task-frame {
+        width: 90%;
+}
 }
 
 @media(max-width:520px) {
@@ -84,8 +81,6 @@
     }
 
     .add-task-frame {
-        margin-top: -44px;
-        margin-left: 0;
         padding: 32px;
         width: calc(100vw - 40px);
         max-height: calc(100vh + 230px);
