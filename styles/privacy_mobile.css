@@ -1,10 +1,10 @@
 @media(max-width:770px) {
-.h1_div h1{
-  font-size: 32px !important;
-}
+  .h1_div h1 {
+    font-size: 32px !important;
+  }
 
-footer {
-margin-bottom: 40px !important;
-}
+  footer {
+    margin-bottom: 40px !important;
+  }
 
 }

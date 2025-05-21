@@ -27,20 +27,21 @@
 .input-title {
     height: 48px;
     width: 100%;
-    outline: none; 
+    outline: none;
     border-radius: 10px;
 }
 
 .input-description {
     height: 120px;
     width: 100%;
-    border: 1px solid #D1D1D1; 
-    outline: none; 
+    border: 1px solid #D1D1D1;
+    outline: none;
     border-radius: 10px;
 }
 
-.input-title:focus, #input_description:focus {
-    border: 1px solid rgb(41, 171, 226); 
+.input-title:focus,
+#input_description:focus {
+    border: 1px solid rgb(41, 171, 226);
 }
 
 .enlarge_inputfield_symbol_div {
@@ -116,7 +117,7 @@
 
 .textarea-with-icon::placeholder {
     font-size: 20px;
-    color: rgba(209, 209, 209, 1);  
+    color: rgba(209, 209, 209, 1);
 }
 
 .resize-icon {
@@ -133,6 +134,6 @@
     background-color: white;
 }
 
-.resize-icon-position{
+.resize-icon-position {
     bottom: 1px;
 }

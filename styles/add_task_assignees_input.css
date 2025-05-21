@@ -1,10 +1,8 @@
-/* Container für das "Assigned to" Dropdown */
 .assigned_to_div {
   position: relative;
   width: 100%;
 }
 
-/* Dropdown-Kopf */
 .dropdown-assigned-to {
   display: flex;
   align-items: center;
@@ -29,19 +27,16 @@
   border-color: rgb(41, 171, 226) !important;
 }
 
-/* Dropdown-Pfeil */
 .dropdown_arrow {
   width: 12px;
   height: 5px;
   transition: transform 0.3s ease;
 }
 
-/* Dropdown-Pfeil dreht sich, wenn das Dropdown geöffnet ist */
 .dropdown_open .dropdown_arrow {
   transform: rotate(180deg) !important;
 }
 
-/* Dropdown-Liste */
 .dropdown-options-assignee {
   position: absolute;
   top: 100%;
@@ -58,7 +53,6 @@
   width: 100%;
 }
 
-/* Dropdown anzeigen, wenn aktiv */
 .dropdown-options-assignee.show {
   display: block;
 }
@@ -78,7 +72,6 @@
   object-fit: contain;
 }
 
-/* Einzelne Dropdown-Option */
 .custom-dropdown-option {
   padding: 3px 10px;
   cursor: pointer;
@@ -102,7 +95,6 @@
   transition: transform 0.2s ease;
 }
 
-/* Assignee-Anzeige */
 .show-assignees {
   margin-top: 10px;
   display: flex;

@@ -58,13 +58,11 @@ header {
   background-color: rgba(226, 230, 237, 1);
 }
 
-/* User Dropdown Container - WICHTIG für die Funktionalität */
 .user-menu-container {
   position: relative;
-  display: inline-block; /* Wichtig für korrekte Positionierung */
+  display: inline-block;
 }
 
-/* Dropdown-Menü */
 .user-dropdown {
   position: absolute;
   top: calc(100% + 25px);
@@ -83,14 +81,12 @@ header {
   transition: all 0.2s ease;
 }
 
-/* Dropdown sichtbar machen bei Hover */
 .user-menu-container:hover .user-dropdown {
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
 }
 
-/* Gemeinsamer Stil für Logout und Links */
 .logout-container,
 .dropdown-links a {
   padding: 12px 16px;
@@ -105,25 +101,21 @@ header {
   transition: background-color 100ms ease-in-out;
 }
 
-/* Hover-Effekte */
 .logout-container:hover,
 .dropdown-links a:hover {
   background-color: #4c535c;
 }
 
-/* KEINE extra Box oder Trennlinie für Logout */
 .logout-container {
   border: none;
 }
 
-/* Dropdown-Inhalt als eine Liste darstellen */
 .dropdown-links {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-/* Alles in einer gemeinsamen Liste */
 .user-dropdown {
   display: flex;
   flex-direction: column;

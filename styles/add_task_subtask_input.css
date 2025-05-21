@@ -200,9 +200,9 @@ ul {
 }
 
 .subtask-item:hover .hover_button_div {
-  display: flex !important;
+    display: flex !important;
 }
 
 .subtask-item.editing:hover .hover_button_div {
-  display: none !important;
+    display: none !important;
 }

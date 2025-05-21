@@ -1,5 +1,4 @@
-
-.summary-content{
+.summary-content {
     width: 100%;
     max-height: fit-content;
     display: flex;
@@ -9,17 +8,17 @@
     padding-top: 40px;
 }
 
-.right-side-content{
+.right-side-content {
     min-height: fit-content;
     width: 100vw;
 }
 
-.summary-left{
+.summary-left {
     display: flex;
     flex-direction: column;
 }
 
-.summary-right{
+.summary-right {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -27,7 +26,7 @@
     gap: 8px;
 }
 
-.summary-right h1{
+.summary-right h1 {
     line-height: 1;
     font-size: 64px;
     font-weight: 700;
@@ -35,7 +34,7 @@
     margin: 0;
 }
 
-.summary-right h2{
+.summary-right h2 {
     line-height: 1;
     font-size: 47px;
     font-weight: 500;
@@ -43,34 +42,34 @@
     margin: 0;
 }
 
-.summary-headline{
+.summary-headline {
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: 30px;
 }
 
-.summary-headline h1{
+.summary-headline h1 {
     margin-block: 0;
-    color: rgba(0,0,0,1);
+    color: rgba(0, 0, 0, 1);
     font-size: 61px;
-    font-weight: 700;  
+    font-weight: 700;
     width: auto;
 }
 
-.summary-headline p{
+.summary-headline p {
     font-size: 27px;
     font-weight: 400;
     color: rgba(42, 54, 71, 1);
     margin-block: 0;
-    }
+}
 
-.headline-separator{
+.headline-separator {
     border-right: 3px solid rgba(41, 171, 226, 1);
     height: 61px;
 }
 
-.headline-underline{
+.headline-underline {
     display: none;
 }
 
@@ -83,23 +82,23 @@
     width: 560px;
     height: 562px;
     margin-top: 20px;
-}  
-
-.overview-amount-contents h1{
-    line-height: 120%;
-    font-size: 64px;
-    margin: 0; 
 }
 
-.overview-amount-contents p{
+.overview-amount-contents h1 {
+    line-height: 120%;
+    font-size: 64px;
+    margin: 0;
+}
+
+.overview-amount-contents p {
     color: rgba(42, 54, 71, 1);
     line-height: 1;
-    margin: 0; 
+    margin: 0;
     line-height: normal;
 }
 
-.overview-line-one, 
-.overview-line-three{
+.overview-line-one,
+.overview-line-three {
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -108,8 +107,8 @@
     overflow: visible;
 }
 
-.summary-to-do, 
-.summary-done{
+.summary-to-do,
+.summary-done {
     width: 264px;
     height: 168px;
     display: flex;
@@ -119,20 +118,20 @@
     border-radius: 30px;
     box-shadow: 0px 0px 4px 2px rgba(0, 0, 0, 0.1);
     gap: 18px;
-    transition: background-color 100ms ease-in-out, 
-                transform 100ms ease-in-out;
-    cursor: pointer;            
+    transition: background-color 100ms ease-in-out,
+        transform 100ms ease-in-out;
+    cursor: pointer;
 }
 
-.summary-to-do:hover, 
-.summary-done:hover{
+.summary-to-do:hover,
+.summary-done:hover {
     transform: scale(1.07008, 1.09524);
     background-color: rgba(42, 54, 71, 1);
     box-shadow: 0px 2px 4px 2px rgba(0, 0, 0, 0.25);
 }
 
-.summary-to-do:active, 
-.summary-done:active{
+.summary-to-do:active,
+.summary-done:active {
     transform: scale(1, 1);
     background-color: rgba(255, 255, 255, 1);
     box-shadow: 0px 2px 4px 1px rgba(0, 0, 0, 0.2);
@@ -141,33 +140,34 @@
 .summary-to-do p,
 .summary-to-do h1,
 .summary-done p,
-.summary-done h1{
+.summary-done h1 {
     transition: color 100ms ease-in-out,
 }
 
 .summary-to-do:hover p,
 .summary-to-do:hover h1,
 .summary-done:hover p,
-.summary-done:hover h1{
+.summary-done:hover h1 {
     color: rgba(255, 255, 255, 1);
 }
 
 .summary-to-do:active p,
 .summary-to-do:active h1,
 .summary-done:active p,
-.summary-done:active h1{
+.summary-done:active h1 {
     color: rgba(42, 54, 71, 1);
 }
 
 .svg-icon circle,
 .svg-icon path {
-  transition:   fill 100ms ease-in-out,
-                stroke 100ms ease-in-out;
+    transition: fill 100ms ease-in-out,
+        stroke 100ms ease-in-out;
 }
 
 .summary-to-do:hover .svg-icon circle {
     fill: rgba(255, 255, 255, 1);
 }
+
 .summary-to-do:hover .svg-icon path {
     fill: rgba(42, 54, 71, 1);
 }
@@ -175,6 +175,7 @@
 .summary-to-do:active .svg-icon circle {
     fill: rgba(42, 54, 71, 1);
 }
+
 .summary-to-do:active .svg-icon path {
     fill: rgba(255, 255, 255, 1);
 }
@@ -183,6 +184,7 @@
 .summary-done:hover .svg-icon circle {
     fill: rgba(255, 255, 255, 1);
 }
+
 .summary-done:hover .svg-icon path {
     stroke: rgba(42, 54, 71, 1);
 }
@@ -190,13 +192,14 @@
 .summary-done:active .svg-icon circle {
     fill: rgba(42, 54, 71, 1);
 }
+
 .summary-done:active .svg-icon path {
     stroke: rgba(255, 255, 255, 1);
 }
 
 .summary-task-amount,
 .summary-task-progress,
-.summary-awaiting-feedback{
+.summary-awaiting-feedback {
     cursor: pointer;
     width: 168px;
     height: 168px;
@@ -207,13 +210,13 @@
     border-radius: 30px;
     box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.1);
     gap: 18px;
-    transition: background-color 100ms ease-in-out, 
-                transform 100ms ease-in-out; 
+    transition: background-color 100ms ease-in-out,
+        transform 100ms ease-in-out;
 }
 
 .summary-task-amount:hover,
 .summary-task-progress:hover,
-.summary-awaiting-feedback:hover{
+.summary-awaiting-feedback:hover {
     transform: scale(1.1);
     background-color: rgba(42, 54, 71, 1);
     box-shadow: 0px 2px 4px 2px rgba(0, 0, 0, 0.25);
@@ -221,7 +224,7 @@
 
 .summary-task-amount:active,
 .summary-task-progress:active,
-.summary-awaiting-feedback:active{
+.summary-awaiting-feedback:active {
     transform: scale(1);
     background-color: rgba(255, 255, 255, 1);
     box-shadow: 0px 2px 4px 1px rgba(0, 0, 0, 0.25);
@@ -256,29 +259,29 @@
 }
 
 
-.overview-line-two{
+.overview-line-two {
     width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    background-color: rgba(255,255,255,1);
+    background-color: rgba(255, 255, 255, 1);
     border-radius: 30px;
     box-shadow: 0px 0px 4px 2px rgba(0, 0, 0, 0.1);
     gap: 61px;
-    transition: background-color 100ms ease-in-out, 
-                transform 100ms ease-in-out;
+    transition: background-color 100ms ease-in-out,
+        transform 100ms ease-in-out;
     cursor: pointer;
 }
 
 .overview-line-two p,
 .overview-line-two h1,
-.overview-line-two h3{
+.overview-line-two h3 {
     transition: color 100ms ease-in-out;
 }
 
 
-.overview-line-two:hover{
+.overview-line-two:hover {
     background-color: rgba(42, 54, 71, 1);
     box-shadow: 0px 2px 4px 2px rgba(0, 0, 0, 0.25);
     transform: scale(1.02857, 1.09524);
@@ -286,44 +289,44 @@
 
 .overview-line-two:hover p,
 .overview-line-two:hover h1,
-.overview-line-two:hover h3{
+.overview-line-two:hover h3 {
     color: rgba(255, 255, 255, 1);
 }
 
 .overview-line-two:active {
-    background-color: rgba(255,255,255,1);
+    background-color: rgba(255, 255, 255, 1);
     box-shadow: 0px 2px 4px 1px rgba(0, 0, 0, 0.25);
     transform: scale(1);
 }
 
 .overview-line-two:active p,
 .overview-line-two:active h1,
-.overview-line-two:active h3{
+.overview-line-two:active h3 {
     color: rgba(42, 54, 71, 1);
 }
 
-.summary-urgent{
+.summary-urgent {
     height: 168px;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 18px; 
+    gap: 18px;
 }
 
-.line-two-separator{
+.line-two-separator {
     height: 102px;
     border-right: 3px solid rgba(209, 209, 209, 1);
 }
 
-.summary-deadline h3, 
-.summary-deadline p{
+.summary-deadline h3,
+.summary-deadline p {
     transition: color 100ms ease-in-out;
     margin: 8px 0;
     color: rgba(42, 54, 71, 1);
     line-height: 1;
 }
 
-.overview-amount-contents{
+.overview-amount-contents {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -331,12 +334,11 @@
     text-align: center;
 }
 
-.summary-to-do img, 
-.summary-done img{
+.summary-to-do img,
+.summary-done img {
     height: 69px;
 }
 
-.summary-urgent img{
+.summary-urgent img {
     height: 60px;
 }
-

@@ -1,7 +1,7 @@
 .svg-checkbox {
     display: inline-flex;
     align-items: center;
-    
+
     transition: opacity 100ms ease-in-out;
 }
 
@@ -9,34 +9,32 @@
     display: none;
 }
 
-.svg-checkbox 
-.checkbox-icon {
+.svg-checkbox .checkbox-icon {
     padding: 2px;
     width: 28px;
     height: 28px;
     transition: all 0.3s ease;
     cursor: pointer;
 }
+
 .checkbox-icon:hover {
     border-radius: 50px;
-    background-color:rgba(209, 209, 209, 1) ;
+    background-color: rgba(209, 209, 209, 1);
 }
 
-.svg-checkbox 
-.unchecked {
+.svg-checkbox .unchecked {
     display: block;
 }
 
-.svg-checkbox 
-.checked {
+.svg-checkbox .checked {
     display: none;
 }
 
-.svg-checkbox input:checked ~ .unchecked {
+.svg-checkbox input:checked~.unchecked {
     display: none;
 }
 
-.svg-checkbox input:checked ~ .checked {
+.svg-checkbox input:checked~.checked {
     display: block;
 }
 
@@ -65,11 +63,11 @@
     display: none;
 }
 
-.svg-edit-checkbox input[type="checkbox"]:checked ~ .unchecked {
+.svg-edit-checkbox input[type="checkbox"]:checked~.unchecked {
     display: none;
 }
 
-.svg-edit-checkbox input[type="checkbox"]:checked ~ .checked {
+.svg-edit-checkbox input[type="checkbox"]:checked~.checked {
     display: inline-block;
 }
 
@@ -93,16 +91,14 @@
     fill: none;
 }
 
-/* Sichtbarkeit der Checkboxen */
 .checkbox-svg.checked {
-  display: none;
+    display: none;
 }
 
-.checkbox-toggle:checked + .checkbox-svg.unchecked {
-  display: none;
+.checkbox-toggle:checked+.checkbox-svg.unchecked {
+    display: none;
 }
 
-.checkbox-toggle:checked + .checkbox-svg.unchecked + .checkbox-svg.checked {
-  display: inline-block;
+.checkbox-toggle:checked+.checkbox-svg.unchecked+.checkbox-svg.checked {
+    display: inline-block;
 }
-

@@ -80,8 +80,6 @@ footer a:hover {
     transform: scale(1.05);
 }
 
-/* Ab hier Sign Up und Log In individueller Style. Bis hier hin gleich*/
-
 header {
     height: 130px;
     max-width: 100%;
@@ -301,7 +299,6 @@ a {
     color: rgb(209, 209, 209);
 }
 
-/*Change color of border and icons etc. when writing*/
 .input_label input:focus,
 .input_label input:not(:placeholder-shown) {
     border-color: rgb(41, 171, 226);
@@ -317,11 +314,10 @@ a {
     text-decoration: underline;
 }
 
-.d_none_forgot_password-div{
+.d_none_forgot_password-div {
     display: none;
 }
 
-/* Loading Spinner */
 .loading-spinner {
     position: fixed;
     top: 50%;
@@ -334,19 +330,20 @@ a {
     background-color: rgba(255, 255, 255, 0.8);
     width: 100%;
     height: 100%;
-  }
-  
-  .loading-spinner img {
+}
+
+.loading-spinner img {
     width: 200px;
     height: auto;
     transform-origin: center center;
     animation: spin 1s linear infinite;
-  }
+}
 
-  @keyframes spin {
+@keyframes spin {
     from {
         transform: rotate(0deg);
     }
+
     to {
         transform: rotate(360deg);
     }

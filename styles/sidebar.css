@@ -1,4 +1,3 @@
-
 .sidebar-container {
     display: flex;
     flex-direction: column;
@@ -32,7 +31,7 @@
     cursor: pointer;
 }
 
-.tab-content a{
+.tab-content a {
     width: 100%;
     padding: 0 48px;
     color: rgba(205, 205, 205, 1)
@@ -46,11 +45,11 @@
     background-color: rgba(9, 25, 49, 1);
 }
 
-.tab-content:hover a{   
+.tab-content:hover a {
     color: rgba(255, 255, 255, 1);
 }
 
-.tab-content:hover svg path{
+.tab-content:hover svg path {
     fill: rgba(255, 255, 255, 1);
 }
 
@@ -64,7 +63,7 @@
     text-decoration: none;
 }
 
-.tab-content-inner a{
+.tab-content-inner a {
     width: 100%;
     padding-left: 48px;
 }

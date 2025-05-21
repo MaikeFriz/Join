@@ -1,4 +1,3 @@
-/* General Reset */
 html,
 body {
   height: 100%;
@@ -21,13 +20,11 @@ body {
   font-family: Inter;
 }
 
-/* Fonts */
 @font-face {
   font-family: "Inter";
   src: url("fonts/inter/Inter-VariableFont_opsz,wght.ttf");
 }
 
-/* Links */
 a {
   text-decoration: none;
   font-family: "Inter";
@@ -53,7 +50,6 @@ footer a:hover {
   color: rgb(41, 171, 226) !important;
 }
 
-/* Layout Containers */
 .start-content {
   display: flex;
   height: 100%;
@@ -79,7 +75,6 @@ footer a:hover {
   font-weight: 600;
 }
 
-/* Contacts Section */
 .contacts-list {
   max-width: 456px;
   width: 100%;
@@ -105,15 +100,15 @@ footer a:hover {
 }
 
 .contacts-list ul li:not(.contact-highlight):hover:has(.contact-initials) {
-  background-color: #007bff; /* Blue background on hover */
-  cursor: pointer; /* Change cursor to pointer */
+  background-color: #007bff; 
+  cursor: pointer; 
   border-radius: 10px;
 }
 .contacts-list h3 {
-  border-bottom: 1px solid #D1D1D1; /* Black horizontal line under h3 */
+  border-bottom: 1px solid #D1D1D1; 
   width: 100%;
-  padding-bottom: 8px; /* Optional: Add spacing below the text */
-  margin-bottom: 8px; /* Optional: Add spacing between the line and the next element */
+  padding-bottom: 8px; 
+  margin-bottom: 8px; 
 }
 
 .contact-initials {
@@ -129,7 +124,6 @@ footer a:hover {
   margin-right: 10px;
 }
 
-/* Add Contact Button */
 #add-contact-button {
   width: 352px;
   height: 56px;
@@ -140,7 +134,7 @@ footer a:hover {
   border: 1px solid #2a3647;
   padding: 12px 0;
   background: #2a3647;
-  color: #ffffff; /* Set text color to white */
+  color: #ffffff; 
   font-family: Inter;
   font-weight: 700;
   font-size: 21px;
@@ -154,13 +148,11 @@ footer a:hover {
   border: solid 2px rgb(41, 171, 226);
 }
 
-/* Buttons */
 .button-icon {
   width: 20px;
   height: 20px;
 }
 
-/* Right-Side Content */
 .right-side-content-contacts {
   margin-top: 96px;
   display: flex;
@@ -171,10 +163,9 @@ footer a:hover {
 }
 
 .right-side-content-contacts a {
-  color: blue; /* Specific rule for links in contacts.html */
+  color: blue;
 }
 
-/* Utility Classes */
 .d-none {
   display: none !important;
 }

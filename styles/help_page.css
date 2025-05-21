@@ -1,4 +1,4 @@
-.single_step{
+.single_step {
     display: flex;
     justify-content: flex-start;
     align-items: start;
@@ -6,60 +6,59 @@
     gap: 24px;
 }
 
-.right-side-content{
+.right-side-content {
     min-height: fit-content;
 }
 
-.explanation_div p{
+.explanation_div p {
     margin-block-start: 0;
     margin-block-end: 0;
 }
 
-.explanation_div h3{
+.explanation_div h3 {
     margin-block-start: 0;
     margin-block-end: 0;
 }
 
-.title_single_step_div h3{
+.title_single_step_div h3 {
     margin-block-start: 0;
     margin-block-end: 0;
 }
 
-.step_by_step_guid_div{
+.step_by_step_guid_div {
     display: flex;
     flex-direction: column;
     gap: 24px;
     margin: 32px 0;
 }
 
-.h1_div{
+.h1_div {
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-direction: row;
 }
 
-.h1_div h1{
+.h1_div h1 {
     margin-block: 0;
     font-size: 61px;
     font-weight: 700;
 }
 
-.back_arrow{
+.back_arrow {
     height: 32px;
     width: 32px;
 }
 
-.h1_div img{
+.h1_div img {
     transform: scale(1);
     cursor: pointer;
 }
 
-.h1_div img:hover{
+.h1_div img:hover {
     transform: scale(1.1);
 }
 
-.turquoise{
+.turquoise {
     color: rgb(41, 171, 226);
 }
-

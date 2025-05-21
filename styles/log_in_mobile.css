@@ -10,6 +10,7 @@
         max-height: auto;
         padding: 16px 0;
     }
+
     .input_label {
         width: 350px;
     }
@@ -22,9 +23,11 @@
         max-height: auto;
         padding: 16px 0;
     }
+
     .input_label {
         width: 280px;
     }
+
     .logo_header {
         display: none;
     }

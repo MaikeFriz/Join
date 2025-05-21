@@ -78,8 +78,7 @@
     transition: fill 100ms ease-in-out;
 }
 
-.urgent_button:active 
-.urgent_symbol path {
+.urgent_button:active .urgent_symbol path {
     fill: white;
 }
 
@@ -88,8 +87,7 @@
     transition: fill 100ms ease-in-out;
 }
 
-.medium_button:active 
-.medium_symbol path {
+.medium_button:active .medium_symbol path {
     fill: white;
 }
 
@@ -98,46 +96,39 @@
     transition: fill 100ms ease-in-out;
 }
 
-.low_button:active 
-.low_symbol path {
+.low_button:active .low_symbol path {
     fill: white;
 }
 
-/*Fur js priority buttons*/
-
-
-.urgent_button.active, 
+.urgent_button.active,
 .urgent_button:active {
     box-shadow: none;
     background-color: #FF3D00;
     color: white;
 }
 
-.medium_button.active, 
+.medium_button.active,
 .medium_button:active {
     box-shadow: none;
     background-color: #FFA800;
     color: white;
 }
 
-.low_button.active, 
+.low_button.active,
 .low_button:active {
     box-shadow: none;
     background-color: #7AE229;
     color: white;
 }
 
-.urgent_button.active 
-.urgent_symbol path {
+.urgent_button.active .urgent_symbol path {
     fill: white;
 }
 
-.medium_button.active 
-.medium_symbol path {
+.medium_button.active .medium_symbol path {
     fill: white;
 }
 
-.low_button.active 
-.low_symbol path {
+.low_button.active .low_symbol path {
     fill: white;
 }
