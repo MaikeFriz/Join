@@ -1,4 +1,3 @@
-
 // Deletes a task and all related guest data from localStorage
 function deleteTaskForGuest(taskId) {
     deleteSubtasksForGuest(taskId);
@@ -6,6 +5,7 @@ function deleteTaskForGuest(taskId) {
     deleteTaskFromCategoriesForGuest(taskId);
     deleteTaskFromAssigneesForGuest(taskId);
 }
+
 
 // Deletes all subtasks for a guest task from localStorage
 function deleteSubtasksForGuest(taskId) {
@@ -21,6 +21,7 @@ function deleteSubtasksForGuest(taskId) {
     localStorage.setItem("guestKanbanData", JSON.stringify(kanbanData));
 }
 
+
 // Removes the task from localStorage for guest users
 function deleteTaskFromLocalStorage(taskId) {
     if (kanbanData && kanbanData.tasks) {
@@ -28,6 +29,7 @@ function deleteTaskFromLocalStorage(taskId) {
     }
     localStorage.setItem("guestKanbanData", JSON.stringify(kanbanData));
 }
+
 
 // Removes a guest task from all categories in localStorage
 function deleteTaskFromCategoriesForGuest(taskId) {
@@ -41,6 +43,7 @@ function deleteTaskFromCategoriesForGuest(taskId) {
     }
     localStorage.setItem("guestKanbanData", JSON.stringify(kanbanData));
 }
+
 
 // Removes a guest task from all assignees in localStorage
 function deleteTaskFromAssigneesForGuest(taskId) {

@@ -7,12 +7,20 @@ async function fetchTaskData(taskId) {
     return await taskResponse.json();
 }
 
+   function showLoadingSpinner() {
+     document.getElementById("loading_spinner").style.display = "flex";
+   }
+   function hideLoadingSpinner() {
+     document.getElementById("loading_spinner").style.display = "none";
+   }
+
 // Deletes a task and its related data, then navigates back to the board
 async function deleteTask(taskId) {
+    showLoadingSpinner(); 
     try {
         const isGuest = JSON.parse(localStorage.getItem("isGuest"));
         if (isGuest) {
-            deleteTaskForGuest(taskId);
+            await deleteTaskForGuest(taskId); // await hinzugefügt!
         } else {
             await deleteTaskForUser(taskId);
         }
@@ -20,6 +28,9 @@ async function deleteTask(taskId) {
         closeConfirmDialog();
         await fromFocusedTaskToBoard();
     } catch (error) {
+        // Optional: Fehlerbehandlung
+    } finally {
+        hideLoadingSpinner(); 
     }
 }
 

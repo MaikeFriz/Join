@@ -22,8 +22,8 @@
   <link rel="stylesheet" href="./styles/board/edit_task.css">
   <link rel="stylesheet" href="./styles/board/edit_dropdown.css">
   <link rel="stylesheet" href="./styles/board/focused_task_mobile.css">
-  
-  
+
+
   <link rel="stylesheet" href="./styles/label_and_user_backgrounds.css">
   <link rel="stylesheet" href="./styles/checkbox.css">
   <link rel="stylesheet" href="./styles/add_task_general.css">
@@ -77,6 +77,9 @@
 </head>
 
 <body>
+    <div id="loading_spinner" class="loading-spinner" style="display: none;">
+      <img src="./assets/img/loadingspinner.png" alt="Loading..." />
+  </div>
   <div id="header-container"></div>
   <div class="start-content">
     <div id="sidebar-container"></div>
@@ -117,24 +120,24 @@
 
         <div class="board-table">
           <div class="board-table-columns">
-            <span class="kanban-header">To do <button onclick="openAddTaskWithCategory(this)" class="add-task-column" 
-              data-target="toDoCardsColumn">+</button></span>
+            <span class="kanban-header">To do <button onclick="openAddTaskWithCategory(this)" class="add-task-column"
+                data-target="toDoCardsColumn">+</button></span>
             <div id="drag_drop_todo_container">
               <div id="noToDoTasks" class="empty-board-info">No tasks To do</div>
               <div id="toDoCardsColumn" class="task-container"></div>
             </div>
           </div>
           <div class="board-table-columns">
-            <span class="kanban-header">In progress <button onclick="openAddTaskWithCategory(this)" class="add-task-column"
-                data-target="inProgressCardsColumn">+</button></span>
+            <span class="kanban-header">In progress <button onclick="openAddTaskWithCategory(this)"
+                class="add-task-column" data-target="inProgressCardsColumn">+</button></span>
             <div id="drag_drop_progress_container">
               <div id="noInProgressTasks" class="empty-board-info">No tasks In progress</div>
               <div id="inProgressCardsColumn" class="task-container"></div>
             </div>
           </div>
           <div class="board-table-columns">
-            <span class="kanban-header">Await for feedback <button onclick="openAddTaskWithCategory(this)" class="add-task-column"
-                data-target="awaitFeedbackCardsColumn">+</button></span>
+            <span class="kanban-header">Await for feedback <button onclick="openAddTaskWithCategory(this)"
+                class="add-task-column" data-target="awaitFeedbackCardsColumn">+</button></span>
             <div id="drag_drop_in_await_container">
               <div id="noAwaitFeedbackTasks" class="empty-board-info">No tasks Await feedback</div>
               <div id="awaitFeedbackCardsColumn" class="task-container"></div>
@@ -154,7 +157,7 @@
       <div id="focusedTask" class="focused-task-content d-none"></div>
       <div id="editTask" class="edit-task-content d-none"></div>
       <div id="confirmDialog" class="confirm-dialog-container d-none"></div>
-      
+
     </div>
 </body>
 
