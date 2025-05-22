@@ -141,7 +141,7 @@
 
   #reload-page-button:hover {
     background-color: #1f2d3d;
-    transition: background-color 0.3s ease;
+    transition: background-color 100ms ease;
   }
 }
 

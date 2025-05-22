@@ -16,7 +16,7 @@
     min-height: 48px;
     word-wrap: break-word;
     outline: none;
-    transition: border-color 0.3s ease;
+    transition: border-color 100ms ease;
 }
 
 .input_div_left p {
@@ -78,7 +78,7 @@
     width: 100%;
     height: 48px;
     outline: none;
-    transition: border-color 0.3s ease;
+    transition: border-color 100ms ease;
 }
 
 .input_div_left textarea:focus {
@@ -111,7 +111,7 @@
     background-color: transparent;
     position: relative;
     z-index: 1;
-    transition: outline 0.3s ease;
+    transition: outline 100ms ease;
     font-size: 16px;
 }
 

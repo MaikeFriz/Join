@@ -15,7 +15,7 @@
   white-space: nowrap;
   width: 100%;
   height: 48px;
-  transition: border-color 0.3s ease;
+  transition: border-color 100ms ease;
 }
 
 .dropdown-assigned-to:hover {
@@ -30,7 +30,7 @@
 .dropdown_arrow {
   width: 12px;
   height: 5px;
-  transition: transform 0.3s ease;
+  transition: transform 100ms ease;
 }
 
 .dropdown_open .dropdown_arrow {
