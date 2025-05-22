@@ -18,7 +18,8 @@ function createOverlay() {
     left: "0",
     width: "100%",
     height: "100%",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    background: "rgba(0, 0, 0, 0.3)",
+    backdropFilter: "blur(10px)",
     zIndex: "1000",
     display: "flex",
     justifyContent: "center",
@@ -32,10 +33,11 @@ function createOverlayIframe(url) {
   const iframe = document.createElement("iframe");
   iframe.src = url;
   Object.assign(iframe.style, {
-    width: "80%",
-    height: "80%",
+    width: "85%",
+    height: "85%",
     border: "none",
-    borderRadius: "8px",
+    borderRadius: "30px",
+    boxShadow: "0px 0px 16px 2px rgba(0, 0, 0, 0.3)"
   });
   return iframe;
 }
