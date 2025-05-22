@@ -19,7 +19,7 @@
 @media(max-width:450px) {
     .log_in_box {
         height: auto;
-        width: 300px;
+        width: 280px;
         max-height: auto;
         padding: 16px 0;
     }
