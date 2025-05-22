@@ -54,9 +54,14 @@
 }
 
 @media(max-width:768px){
+
+    .right-side-content{
+        padding: 16px 5% 64px 5% !important;
+    }
     
     .kanban-header{
         padding: 24px 0px 16px 4px;
+        top: 80px;
     }
 
     .board-title h1{
@@ -73,12 +78,5 @@
         height: 40px;
         width: 40px;
         padding-left: 12px;       
-    }
-}
-
-@media(max-width:550px){
-    
-    .right-side-content{
-        padding: 32px 5% 64px 5% !important;
     }
 }
