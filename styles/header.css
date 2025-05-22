@@ -69,12 +69,10 @@ header {
   right: 0;
   width: 160px;
   background: #2a3647;
-  border-radius: 8px;
+  border-radius:24px 0px 24px 24px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border: 1px solid rgba(42, 54, 71, 0.1);
-  padding: 4px 0;
   z-index: 1000;
-
   opacity: 0;
   visibility: hidden;
   transform: translateY(-10px);
@@ -89,21 +87,24 @@ header {
 
 .logout-container,
 .dropdown-links a {
-  padding: 12px 16px;
-  font-size: 14px;
-  color: white;
+  font-size: 16px;
+  margin: 0;
+  color: rgba(168, 168, 168, 1);
   cursor: pointer;
   display: flex;
   align-items: center;
-  min-height: 40px;
   box-sizing: border-box;
   text-decoration: none;
-  transition: background-color 100ms ease-in-out;
+  transition: font-weight 100ms ease-in-out,
+              color 100ms ease-in-out,
+              margin-left 100ms ease-in-out; 
 }
 
 .logout-container:hover,
 .dropdown-links a:hover {
-  background-color: #4c535c;
+  margin-left: -0.8%;
+  font-weight: 500;
+  color:rgba(41, 171, 226, 1)
 }
 
 .logout-container {
@@ -113,7 +114,8 @@ header {
 .dropdown-links {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  padding: 20px;
+  gap: 20px;
 }
 
 .user-dropdown {
