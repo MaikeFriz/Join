@@ -340,11 +340,12 @@ document.addEventListener("DOMContentLoaded", function () {
 function setupAddTaskOverlay() {
   const addTaskFrame = document.getElementById("add_task_frame");
   const addTaskContainer = document.getElementById("add_task_container");
+  const closeBtn = document.getElementById("close_add_task");
   const category = getCategoryFromUrl();
   if (addTaskFrame && addTaskContainer && category) {
     addTaskFrame.classList.add("add-task-frame");
     addTaskContainer.classList.add("add-task-overlay");
-    // Animation nach 300ms Timeout starten (wie bei focused/edit)
+    if (closeBtn) closeBtn.classList.remove("d-none");
     setTimeout(() => {
       addTaskFrame.classList.add("active");
     }, 30);
@@ -365,6 +366,17 @@ function setupOverlayClickToBoard() {
         }, 300);
       }
     });
+  }
+}
+
+function closeAddTaskOverlay() {
+  const addTaskFrame = document.getElementById("add_task_frame");
+  if (addTaskFrame) {
+    addTaskFrame.classList.remove("active");
+    document.body.style.overflow = '';
+    setTimeout(() => {
+      window.location.href = "board.html";
+    }, 300);
   }
 }
 

@@ -2,6 +2,12 @@ body {
     overflow-x: hidden;
 }
 
+
+.h1_div{
+    display: flex;
+    align-items: start !important;
+}
+
 .h1_div h1 {
     font-size: 61px;
     margin-block: 0;
@@ -202,7 +208,7 @@ body {
     height: 85%;
     border-radius: 30px;
     background-color: rgba(255, 255, 255, 1);
-    padding: 64px 48px 48px 48px;
+    padding: 48px;
     border: 1px solid rgba(0, 0, 0, 0.4);
     box-shadow: 0px 0px 16px 2px rgba(0, 0, 0, 0.3);
     opacity: 0;
@@ -213,6 +219,30 @@ body {
 .add-task-frame.active {
     opacity: 1;
     transform: scale(1);
+}
+
+.h1_div svg{
+    height: 32px;
+    width: 32px;
+    padding: 8px;
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 0);
+    border-radius: 56px;
+    transition: background-color 100ms ease-in-out;
+}
+
+.h1_div svg:hover {
+    background-color: rgba(41, 171, 226, 1);
+    padding: 8px;
+    border-radius: 56px;
+}
+
+.h1_div svg path{
+    transition: fill 100ms ease-in-out;
+}
+
+.h1_div svg:hover path{
+    fill: rgba(255, 255, 255, 1);
 }
 
 .loading-spinner {

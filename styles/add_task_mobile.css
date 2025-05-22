@@ -9,11 +9,6 @@
         display: none;
     }
 
-    .h1_div {
-        display: flex;
-        justify-content: center;
-    }
-
     .input_div_left_content {
         width: 100%;
         margin-top: 32px;
@@ -55,9 +50,15 @@
 
     .add-task-frame {
         width: 95%;
-}
+    }
 }
 
+@media(max-width:620px) {
+    .add-task-overlay{
+        padding-top: 2.5vh !important;
+    }
+    
+}
 @media(max-width:520px) {
 
     .urgent_button,
