@@ -13,7 +13,7 @@
     padding: 2px;
     width: 28px;
     height: 28px;
-    transition: all 0.3s ease;
+    transition: all 100ms ease;
     cursor: pointer;
 }
 

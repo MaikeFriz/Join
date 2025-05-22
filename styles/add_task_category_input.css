@@ -35,7 +35,7 @@
     cursor: pointer;
     background-color: #fff;
     width: 100%;
-    transition: border-color 0.3s ease;
+    transition: border-color 100ms ease;
 }
 
 .dropdown-category:hover {
@@ -50,7 +50,7 @@
 
 .dropdown_arrow {
     width: 12px;
-    transition: transform 0.3s;
+    transition: transform 100ms;
 }
 
 .dropdown_options {
