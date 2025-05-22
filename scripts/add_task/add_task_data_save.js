@@ -85,16 +85,15 @@ function addTaskFormListener() {
 
 
   // Returns the selected assignees as an object
-  function getAssignedUsers() {
-    let assignees = {};
-    for (let assigneeName in assigneesObject) {
-      if (assigneesObject.hasOwnProperty(assigneeName)) {
-        const lowerCaseName = assigneeName.toLowerCase();
-        assignees[lowerCaseName] = true;
-      }
+function getAssignedUsers() {
+  let assignees = {};
+  for (let assigneeId in assigneesObject) {
+    if (assigneesObject.hasOwnProperty(assigneeId)) {
+      assignees[assigneeId] = true;
     }
-    return assignees;
   }
+  return assignees;
+}
 
 
   // Returns the selected subtasks as an object

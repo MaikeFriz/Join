@@ -59,9 +59,11 @@ function createSubtaskElement(subtaskId, subtaskText) {
   subtaskElement.id = subtaskId;
   subtaskElement.innerHTML = getSubtaskElementHTML(subtaskText);
   const deleteButton = subtaskElement.querySelector("button");
-  deleteButton.addEventListener("click", () =>
-    removeSubtask(subtaskId, subtaskElement)
-  );
+  deleteButton.addEventListener("click", (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    removeSubtask(subtaskId, subtaskElement);
+  });
   const span = subtaskElement.querySelector(".subtask-text");
   const deleteImg = subtaskElement.querySelector(".delete_button_subtask");
   setupEditEvents(span, subtaskId, deleteImg);
@@ -120,11 +122,10 @@ function createEditIcons(input, onSave, onCancel) {
   const iconsContainer = document.createElement("div");
   iconsContainer.className = "icons-container";
   iconsContainer.innerHTML = getEditIconsHTML();
-  iconsContainer.querySelector(".check-icon").addEventListener("click", onSave);
   iconsContainer.querySelector(".clear_icon_show_subtask").addEventListener("click", (e) => {
     e.preventDefault();
+    e.stopPropagation();
     input.value = "";
-    if (typeof onCancel === "function") onCancel();
   });
   input.addEventListener("keydown", (e) => {
     if (e.key === "Enter") {
@@ -151,10 +152,14 @@ function saveEdit(input, span, subtaskId, inputContainer, deleteButton) {
 
 // Cancels editing and restores the original subtask text
 function cancelEdit(inputContainer, span, deleteButton) {
-  const subtaskId = span.closest(".subtask-item").id;
+  // Statt span.closest(".subtask-item") nimm inputContainer.closest(".subtask-item")
+  const subtaskItem = inputContainer.closest(".subtask-item");
+  const subtaskId = subtaskItem ? subtaskItem.id : null;
+  if (!subtaskId) return; // Fehlerfall abfangen
+
   const originalText = subtasksObject[subtaskId].title;
   const updatedElement = createSubtaskElement(subtaskId, originalText);
-  inputContainer.closest(".subtask-item").replaceWith(updatedElement);
+  subtaskItem.replaceWith(updatedElement);
 }
 
 

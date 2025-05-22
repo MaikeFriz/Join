@@ -7,20 +7,20 @@ async function fetchTaskData(taskId) {
     return await taskResponse.json();
 }
 
-   function showLoadingSpinner() {
-     document.getElementById("loading_spinner").style.display = "flex";
-   }
-   function hideLoadingSpinner() {
-     document.getElementById("loading_spinner").style.display = "none";
-   }
+function showLoadingSpinner() {
+    document.getElementById("loading_spinner_delete_task").style.display = "flex";
+}
+function hideLoadingSpinner() {
+    document.getElementById("loading_spinner_delete_task").style.display = "none";
+}
 
 // Deletes a task and its related data, then navigates back to the board
 async function deleteTask(taskId) {
-    showLoadingSpinner(); 
+    showLoadingSpinner();
     try {
         const isGuest = JSON.parse(localStorage.getItem("isGuest"));
         if (isGuest) {
-            await deleteTaskForGuest(taskId); // await hinzugefügt!
+            await deleteTaskForGuest(taskId);
         } else {
             await deleteTaskForUser(taskId);
         }
@@ -28,9 +28,8 @@ async function deleteTask(taskId) {
         closeConfirmDialog();
         await fromFocusedTaskToBoard();
     } catch (error) {
-        // Optional: Fehlerbehandlung
     } finally {
-        hideLoadingSpinner(); 
+        hideLoadingSpinner();
     }
 }
 
