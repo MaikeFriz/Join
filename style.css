@@ -202,7 +202,6 @@ footer a:hover {
   display: none !important;
 }
 
-
 @media(max-width:768px) {
   .right-side-content {
     width: 100vw;

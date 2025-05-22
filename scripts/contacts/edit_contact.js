@@ -1,4 +1,3 @@
-
 // Initializes the edit contact process on DOMContentLoaded.
 document.addEventListener("DOMContentLoaded", initEditContact);
 
@@ -66,13 +65,21 @@ function updateGuestContact(contact, contactId, guestKanbanData) {
 
 // Adds event listeners to close the overlay.
 function addCloseListeners() {
-  document.querySelector(".close-btn").addEventListener("click", closeOverlay);
-  document.querySelector(".button_cancel").addEventListener("click", closeOverlay);
+  document.querySelector(".close-btn").addEventListener("click", closeEditContactOverlay);
+  document.querySelector(".button_cancel").addEventListener("click", closeEditContactOverlay);
 }
 
 // Sends a message to the parent window to close the overlay.
-function closeOverlay() {
-  window.parent.postMessage({ type: "closeOverlay" }, "*");
+function closeEditContactOverlay() {
+  const overlay = document.querySelector('.contact-overlay');
+  if (overlay) {
+    overlay.classList.remove('active');
+    setTimeout(() => {
+      window.parent.postMessage({ type: "closeOverlay" }, "*");
+    }, 300); // 300ms wie in deiner CSS-Transition
+  } else {
+    window.parent.postMessage({ type: "closeOverlay" }, "*");
+  }
 }
 
 // Handles editing a contact for a logged-in user.
@@ -123,3 +130,16 @@ function getInitials(name) {
   if (parts.length === 1) return parts[0][0].toUpperCase();
   return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+  setTimeout(() => {
+    const overlay = document.querySelector('.contact-overlay');
+    if (overlay) overlay.classList.add('active');
+  }, 30);
+});
+
+window.addEventListener("message", function(event) {
+  if (event.data.type === "startCloseAnimation") {
+    closeEditContactOverlay();
+  }
+});

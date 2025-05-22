@@ -48,22 +48,6 @@ h2 {
   margin-block-end: 0;
 }
 
-.close-btn {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  cursor: pointer;
-  font-size: 20px;
-  color: #888;
-  height: 32px;
-  width: auto;
-  transform: scale(1);
-}
-
-.close-btn:hover {
-  transform: scale(1.1);
-}
-
 .logo {
   height: 67px;
   width: auto;
