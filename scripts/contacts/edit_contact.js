@@ -69,19 +69,6 @@ function addCloseListeners() {
   document.querySelector(".button_cancel").addEventListener("click", closeEditContactOverlay);
 }
 
-// Sends a message to the parent window to close the overlay.
-function closeEditContactOverlay() {
-  const overlay = document.querySelector('.contact-overlay');
-  if (overlay) {
-    overlay.classList.remove('active');
-    setTimeout(() => {
-      window.parent.postMessage({ type: "closeOverlay" }, "*");
-    }, 300); // 300ms wie in deiner CSS-Transition
-  } else {
-    window.parent.postMessage({ type: "closeOverlay" }, "*");
-  }
-}
-
 // Handles editing a contact for a logged-in user.
 function handleUserEdit(contactId) {
   const userId = JSON.parse(localStorage.getItem("loggedInUser")).userId;
@@ -130,16 +117,3 @@ function getInitials(name) {
   if (parts.length === 1) return parts[0][0].toUpperCase();
   return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
 }
-
-document.addEventListener("DOMContentLoaded", function () {
-  setTimeout(() => {
-    const overlay = document.querySelector('.contact-overlay');
-    if (overlay) overlay.classList.add('active');
-  }, 30);
-});
-
-window.addEventListener("message", function(event) {
-  if (event.data.type === "startCloseAnimation") {
-    closeEditContactOverlay();
-  }
-});

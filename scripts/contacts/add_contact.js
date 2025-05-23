@@ -23,39 +23,6 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
-window.addEventListener("message", function (event) {
-  if (event.data.type === "createContact") {
-    const newContact = event.data.contact;
-    addContact(newContact);
-    closeOverlay();
-  } else if (event.data.type === "closeOverlay") {
-    closeOverlay();
-    // Jetzt erst das Overlay/iframe entfernen!
-    removeOverlayIframe();
-  } else if (event.data.type === "editContact") {
-    const updatedContact = event.data.contact;
-    updateContact(updatedContact); // Usermodus
-    if (JSON.parse(localStorage.getItem("isGuest"))) {
-      renderContacts();
-      displayContactDetails(updatedContact.id);
-    }
-    closeOverlay();
-  }
-});
-
-window.addEventListener("message", function (event) {
-  if (event.data.type === "closeOverlay") {
-    removeOverlayIframe(); // Entfernt das iframe aus dem DOM
-  }
-  // ... andere event.data.type Fälle ...
-});
-
-// Beispiel für removeOverlayIframe:
-function removeOverlayIframe() {
-  const iframe = document.getElementById("dein-iframe-id"); // Passe die ID an!
-  if (iframe) iframe.remove();
-}
-
 // Displays the contact details for the given contactId, for guest or user.
 function displayContactDetails(contactId) {
   const isGuest = JSON.parse(localStorage.getItem("isGuest"));
@@ -267,14 +234,3 @@ function updateContact(contact) {
     .catch(() => {});
 }
 
-function closeEditContactOverlay() {
-  const overlay = document.querySelector('.contact-overlay');
-  if (overlay) {
-    overlay.classList.remove('active');
-    setTimeout(() => {
-      window.parent.postMessage({ type: "closeOverlay" }, "*");
-    }, 300);
-  } else {
-    window.parent.postMessage({ type: "closeOverlay" }, "*");
-  }
-}
