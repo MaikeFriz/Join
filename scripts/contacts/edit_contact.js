@@ -117,3 +117,21 @@ function getInitials(name) {
   if (parts.length === 1) return parts[0][0].toUpperCase();
   return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
 }
+
+function updateProfileInitials(name) {
+  const initials = getInitials(name);
+  const profileInitials = document.getElementById("profileInitials");
+  if (profileInitials) {
+    profileInitials.textContent = initials;
+    profileInitials.className = "contact-initials " + initials[0].toLowerCase();
+  }
+}
+
+// Beim Laden:
+const nameInput = document.getElementById('input_name');
+updateProfileInitials(nameInput.value);
+
+// Beim Tippen:
+nameInput.addEventListener('input', (e) => {
+  updateProfileInitials(e.target.value);
+});
