@@ -22,7 +22,8 @@
         width: 280px;
         max-height: auto;
         padding: 16px 0;
-        overflow: hidden !important;
+        overflow-x: hidden !important;
+        margin-bottom: 8px;
     }
 
     .input_label {
@@ -50,7 +51,6 @@
         align-items: center;
         flex-direction: column;
         gap: 8px;
-        transform: translateY(-16px)
     }
 
     header {
@@ -64,7 +64,7 @@
     }
 
     .h1_box {
-        font-size: 48px !important;
+        font-size: 32px !important;
     }
 
     .button_log_in_input_section {
