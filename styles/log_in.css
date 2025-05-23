@@ -348,3 +348,17 @@ a {
         transform: rotate(360deg);
     }
 }
+
+.d_none_mobile{
+    display: none;
+}
+
+.mobile_footer a{
+    font-size: 12px;
+    text-decoration: none;
+    color: #2a3647;
+}
+
+.mobile_footer a:hover{
+    color: #29abe2;
+}
