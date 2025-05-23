@@ -26,7 +26,7 @@ function createOverlayIframe(url) {
   iframe.src = url;
   iframe.classList.add("overlay-iframe");
   Object.assign(iframe.style, {
-    width: "85%",
+    width: "90%",
     height: "85%",
     border: "none",
     borderRadius: "30px",

@@ -11,9 +11,10 @@
   color: #333333;
 }
 
-.contact-details .contact-initials {
-  width: 120px;
-  height: 120px;
+.contact-details 
+.contact-initials {
+  min-width: 120px;
+  min-height: 120px;
   border-radius: 50%;
   display: flex;
   align-items: center;
