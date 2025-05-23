@@ -47,13 +47,6 @@
   margin-top: 20px;
   margin-left: -4px;
 }
-.contact-buttons button svg path{
-  transition: fill 100ms ease-in-out;
-}
-
-.contact-buttons button:hover svg path{
-    fill: rgba(41, 171, 226, 1); 
-}
 
 .contact-buttons button {
   border: none;
@@ -64,6 +57,19 @@
   align-items: center;
   gap: 5px;
   transition: color 100ms ease-in-out;
+}
+
+.contact-buttons button svg path {
+  transition: fill 100ms ease-in-out;
+}
+
+.contact-buttons button:hover {
+  color: rgba(41, 171, 226, 1);
+  transition: background-color 100ms ease, color 100ms ease;
+}
+
+.contact-buttons button:hover svg path {
+  fill: rgba(41, 171, 226, 1); 
 }
 
 .contact-highlight {
@@ -82,7 +88,7 @@
   gap: 15px;
 }
 
-.contact-name{
+.contact-name {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -104,7 +110,8 @@
   color: #333;
 }
 
-.contact-headline .vertical-line {
+.contact-headline 
+.vertical-line {
   display: inline-block;
   width: 2px;
   height: 59px;
@@ -116,9 +123,4 @@
   font-weight: 400;
   font-size: 27px;
   line-height: 120%;
-}
-
-.contact-buttons button:hover {
-  color: rgba(41, 171, 226, 1);
-  transition: background-color 100ms ease, color 100ms ease;
 }

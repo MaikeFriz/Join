@@ -1,0 +1,72 @@
+@media (max-width: 768px) {
+
+.contact-details {
+    overflow: hidden;
+    height: calc(100vh - 80px);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin: 0;
+    width: 100vw !important;
+    box-sizing: border-box;
+    position: fixed;
+    left: 0;
+    padding: 0 !important;
+  }
+
+  .contact-headline {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .contact-headline .vertical-line {
+    order: 3;
+    width: 100%;
+    height: 2px;
+    background-color: #007bff;
+  }
+
+  .team-tagline {
+    order: 2;
+    font-size: 18px;
+  }
+
+  .contact-name {
+    order: 1;
+  }
+
+  #reload-page-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 1200;
+    background-color: #2A3647;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+
+  #reload-page-button:hover {
+    background-color: #1f2d3d;
+    transition: background-color 100ms ease;
+  }
+
+  .input_div input {
+    max-width: 352px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .input_label {
+    max-width: 352px;
+    width: 100%;
+    margin: 0 auto;
+  }
+}

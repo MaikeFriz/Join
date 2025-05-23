@@ -1,0 +1,82 @@
+
+@media (max-width: 768px) {
+
+  html,
+  body {
+    overflow: hidden;
+    height: 100%;
+  }
+
+  .right-side-content-contacts {
+    overflow: hidden;
+    height: 100vh;
+    padding: 0 !important;
+    flex-grow: 0 !important;
+  }
+
+  .contacts-list {
+    width: 100vw !important;
+    height: 100vh;
+    box-sizing: border-box;
+    padding: 0 !important;
+    overflow: hidden;
+  }
+
+  .contacts-list #add-contact-button {
+    display: none;
+  }
+
+  .add-contact-floating-button {
+    display: flex;
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    background-color: #2A3647;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 1100;
+  }
+
+  .add-contact-floating-button img {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+@media (max-width: 425px) {
+  body {
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+  }
+
+  .contacts-list {
+    width: 100%;
+    height: 100vh;
+    box-sizing: border-box;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .sidebar-container {
+    width: 100%;
+    overflow-x: hidden;
+  }
+
+  .right-side-content-contacts {
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  .tab-content a {
+    padding: 0;
+  }
+}
