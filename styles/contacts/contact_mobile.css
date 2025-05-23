@@ -231,7 +231,7 @@
   .contact-details,
   .contacts-list {
     width: 100vw !important;
-    padding: 0 !important;
+    padding: 16px !important;
     box-sizing: border-box;
   }
 }

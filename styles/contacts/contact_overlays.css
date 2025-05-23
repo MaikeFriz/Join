@@ -326,7 +326,7 @@ a {
     min-height: unset;
     align-items: center;
     justify-content: center;
-    height: 50%;
+    height: 42%;
   }
 
   .input_div {
@@ -367,7 +367,7 @@ a {
   .profile-container {
     position: absolute;
     left: 50%;
-    top: 50%;
+    top: 42%;
     transform: translate(-50%, -50%);
     z-index: 3;
     margin: 0;
