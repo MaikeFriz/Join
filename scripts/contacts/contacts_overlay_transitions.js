@@ -25,12 +25,22 @@ function createOverlayIframe(url) {
   const iframe = document.createElement("iframe");
   iframe.src = url;
   iframe.classList.add("overlay-iframe");
-  Object.assign(iframe.style, {
-    width: "90%",
-    height: "85%",
-    border: "none",
-    borderRadius: "30px",
-  });
+
+  function setIframeSize() {
+    if (window.matchMedia("(max-width: 768px)").matches) {
+      iframe.style.width = "95%";
+      iframe.style.height = "95%";
+    } else {
+      iframe.style.width = "90%";
+      iframe.style.height = "85%";
+    }
+    iframe.style.border = "none";
+    iframe.style.borderRadius = "30px";
+  }
+
+  setIframeSize();
+  window.addEventListener("resize", setIframeSize);
+
   return iframe;
 }
 
