@@ -39,6 +39,7 @@
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    z-index: 1100;
   }
 
   .add-contact-floating-button img {
@@ -231,15 +232,17 @@
   .contact-details,
   .contacts-list {
     width: 100vw !important;
-    padding: 16px !important;
+    padding: 0 !important;
     box-sizing: border-box;
+  }
+
+  .overlay-iframe {
+    width: 95% !important;
+    height: 95% !important;
   }
 }
 
 
 @media (max-width: 620px) {
-  .overlay-iframe {
-    width: 95% !important;
-    height: 95% !important;
-  }
+  
 }
