@@ -22,6 +22,7 @@
         width: 280px;
         max-height: auto;
         padding: 16px 0;
+        overflow: hidden !important;
     }
 
     .input_label {
@@ -29,12 +30,16 @@
         width: 260px;
     }
 
-    .logo_header {
+    .right_header_section {
         display: none;
     }
 
     .d_none_footer {
         display: flex;
+    }
+
+    .logo_header {
+        width: 30px;
     }
 
     footer {
@@ -45,10 +50,12 @@
         align-items: center;
         flex-direction: column;
         gap: 8px;
+        transform: translateY(-16px)
     }
 
     header {
-        display: none;
+        height: fit-content;
+        padding: 24px 0 0 24px;
     }
 
     .input_div input,
@@ -62,14 +69,14 @@
 
     .button_log_in_input_section {
         padding: 8px 8px;
-        width: auto;
+        width: 120px;
         height: auto;
         font-size: 16px;
     }
 
     .button_sign_up_input_section {
         padding: 8px 8px;
-        width: auto;
+        width: 120px;
         height: auto;
         font-size: 16px;
     }
@@ -77,6 +84,7 @@
     .input_div {
         height: fit-content;
         max-height: fit-content;
+        gap: 8px;
     }
 
     .separation_line_h1 {
@@ -85,5 +93,18 @@
 
     .legal_privacy_div a {
         font-size: 12px;
+    }
+
+    .d_none_forgot_password-div {
+        transform: translateY(-40px);
+    }
+
+    .main_content {
+        padding: 0 0;
+    }
+
+    html,
+    body {
+        overflow: hidden;
     }
 }
