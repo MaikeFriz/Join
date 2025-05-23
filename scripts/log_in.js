@@ -107,12 +107,12 @@ function isInputValid(email, password) {
   const forgotPasswordDiv = document.getElementById("forgot_password_div");
   clearInputStyles(emailInput, passwordInput, errorMessage);
   if (!email || !password) {
-    showError(emailInput, passwordInput, errorMessage, "Check your email and password. Please try again.");
+    showError(emailInput, passwordInput, errorMessage, "Wrong email or password.");
     forgotPasswordDiv.style.display = "block";
     return false;
   }
   if (!isEmailFormatValid(email)) {
-    showError(emailInput, passwordInput, errorMessage, "Check your email and password. Please try again.");
+    showError(emailInput, passwordInput, errorMessage, "Wrong email or password.");
     forgotPasswordDiv.style.display = "block";
     return false;
   }

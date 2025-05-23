@@ -18,26 +18,14 @@
 
 @media(max-width:450px) {
     .log_in_box {
-        height: 100% !important;
-        width: 100% !important;
-        min-height: 100% !important;
-        min-width: 100% !important;
+        height: auto;
+        width: 280px;
+        max-height: auto;
         padding: 16px 0;
-        overflow-y: hidden !important;
-        overflow-x: hidden !important;
-        margin: 0 !important;
-        border-radius: 0 !important;
-        max-height: none !important;
-    }
-
-        html, body, .main_content {
-        height: 100% !important;
-        min-height: 100% !important;
-        padding: 0 !important;
-        margin: 0 !important;
     }
 
     .input_label {
+        width: 280px;
         width: 260px;
     }
 
@@ -45,23 +33,57 @@
         display: none;
     }
 
-    header {
-        display: none !important;
-    }
-
-    body {
-        overflow: hidden !important;
+    .d_none_footer {
+        display: flex;
     }
 
     footer {
-        display: none;
-    }
-
-    .d_none_mobile {
+        height: auto;
+        max-width: 100%;
         display: flex;
         justify-content: center;
         align-items: center;
-        flex-direction: row;
-        gap: 16px;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    header {
+        display: none;
+    }
+
+    .input_div input,
+    .input_label input {
+        height: 30px !important;
+    }
+
+    .h1_box {
+        font-size: 48px !important;
+    }
+
+    .button_log_in_input_section {
+        padding: 8px 8px;
+        width: auto;
+        height: auto;
+        font-size: 16px;
+    }
+
+    .button_sign_up_input_section {
+        padding: 8px 8px;
+        width: auto;
+        height: auto;
+        font-size: 16px;
+    }
+
+    .input_div {
+        height: fit-content;
+        max-height: fit-content;
+    }
+
+    .separation_line_h1 {
+        margin-bottom: 8px;
+    }
+
+    .legal_privacy_div a {
+        font-size: 12px;
     }
 }
