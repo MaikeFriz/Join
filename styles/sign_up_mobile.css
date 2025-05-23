@@ -1,13 +1,17 @@
 @media(max-width:640px) {
     .input_label {
-        width: 280px;
+        width: 260px;
     }
 
     .sign_up_box {
         height: fit-content;
-        min-height: 500px;
-        width: 310px;
+        max-height: fit-content;
+        width: 280px;
         overflow-x: none !important;
+        overflow-y: none !important;
+        display: flex;
+        justify-content: center;
+
     }
 
     .input_div input {
@@ -30,5 +34,22 @@
 
     header {
         height: auto;
+    }
+
+    .main_content {
+        padding: 0 0;
+    }
+
+    .input_div {
+        gap: 8px;
+    }
+
+    .h1_div_sign_up_field {
+        min-height: fit-content;
+        max-height: fit-content;
+    }
+
+    footer{
+        max-height: fit-content;
     }
 }
