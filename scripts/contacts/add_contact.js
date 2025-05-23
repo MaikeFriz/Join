@@ -79,7 +79,9 @@ function createContactDetailsDiv(contact, initials, initialClass) {
 // Renders the contact details div in the appropriate container.
 function renderContactDetailsDiv(newDiv) {
   const isMobileView = window.innerWidth <= 768;
-  const rightSideContent = document.querySelector(".right-side-content-contacts");
+  const rightSideContent = document.querySelector(
+    ".right-side-content-contacts"
+  );
   if (isMobileView) {
     rightSideContent.innerHTML = "";
     rightSideContent.appendChild(newDiv);
@@ -90,12 +92,17 @@ function renderContactDetailsDiv(newDiv) {
 
 // Adds event listeners for editing and deleting a guest contact.
 function addGuestContactDetailListeners(contactId) {
-  document.getElementById("edit-contact-button")
-    .addEventListener("click", () => openOverlay(`./edit_contact.html?contactId=${contactId}`));
-  document.getElementById("delete-contact-button")
+  document
+    .getElementById("edit-contact-button")
+    .addEventListener("click", () =>
+      openOverlay(`./edit_contact.html?contactId=${contactId}`)
+    );
+  document
+    .getElementById("delete-contact-button")
     .addEventListener("click", () => deleteGuestContact(contactId));
   if (window.innerWidth <= 768) {
-    document.getElementById("reload-page-button")
+    document
+      .getElementById("reload-page-button")
       .addEventListener("click", () => location.reload());
   }
 }
@@ -135,9 +142,13 @@ function handleUserContactDetails(contact, contactId) {
 
 // Adds event listeners for editing and deleting a user contact.
 function addUserContactDetailListeners(contactId) {
-  document.getElementById("edit-contact-button")
-    .addEventListener("click", () => openOverlay(`./edit_contact.html?contactId=${contactId}`));
-  document.getElementById("delete-contact-button")
+  document
+    .getElementById("edit-contact-button")
+    .addEventListener("click", () =>
+      openOverlay(`./edit_contact.html?contactId=${contactId}`)
+    );
+  document
+    .getElementById("delete-contact-button")
     .addEventListener("click", () => deleteContact(contactId));
 }
 
@@ -145,8 +156,11 @@ function addUserContactDetailListeners(contactId) {
 function addMobileActionMenu(contactId) {
   const actionButton = createMobileActionButton();
   document.body.appendChild(actionButton);
-  actionButton.addEventListener("click", () => showMobileActionMenu(contactId, actionButton));
-  document.getElementById("reload-page-button")
+  actionButton.addEventListener("click", () =>
+    showMobileActionMenu(contactId, actionButton)
+  );
+  document
+    .getElementById("reload-page-button")
     .addEventListener("click", () => location.reload());
 }
 
@@ -155,10 +169,20 @@ function createMobileActionButton() {
   const btn = document.createElement("button");
   btn.id = "action-button";
   Object.assign(btn.style, {
-    position: "fixed", bottom: "90px", right: "20px", width: "50px", height: "50px",
-    borderRadius: "50%", backgroundColor: "#2A3647", color: "#fff", border: "none",
-    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.2)", display: "flex", justifyContent: "center",
-    alignItems: "center", cursor: "pointer", zIndex: "1100"
+    position: "fixed",
+    bottom: "90px",
+    right: "20px",
+    width: "50px",
+    height: "50px",
+    borderRadius: "50%",
+    backgroundColor: "#2A3647",
+    color: "#fff",
+    border: "none",
+    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.2)",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    cursor: "pointer",
   });
   btn.innerHTML = `<img src="./assets/img/more_vert.svg" alt="Actions" style="width: 24px; height: 24px;">`;
   return btn;
@@ -175,9 +199,17 @@ function showMobileActionMenu(contactId, actionButton) {
 function createMobileActionMenu() {
   const actionMenu = document.createElement("div");
   Object.assign(actionMenu.style, {
-    position: "fixed", bottom: "160px", right: "20px", backgroundColor: "#fff",
-    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.2)", borderRadius: "8px", padding: "10px",
-    zIndex: "1200", display: "flex", flexDirection: "column", gap: "10px"
+    position: "fixed",
+    bottom: "160px",
+    right: "20px",
+    backgroundColor: "#fff",
+    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.2)",
+    borderRadius: "8px",
+    padding: "10px",
+    zIndex: "1200",
+    display: "flex",
+    flexDirection: "column",
+    gap: "10px",
   });
   actionMenu.innerHTML = mobileActionMenuTemplate();
   return actionMenu;
@@ -185,21 +217,27 @@ function createMobileActionMenu() {
 
 // Adds event listeners to the mobile action menu buttons and closes the menu on outside click.
 function addMobileActionMenuListeners(actionMenu, contactId, actionButton) {
-  document.getElementById("mobile-edit-contact-button")
+  actionMenu
+    .querySelector("#mobile-edit-contact-button")
     .addEventListener("click", () => {
       openOverlay(`./edit_contact.html?contactId=${contactId}`);
       document.body.removeChild(actionMenu);
     });
-  document.getElementById("mobile-delete-contact-button")
+  actionMenu
+    .querySelector("#mobile-delete-contact-button")
     .addEventListener("click", () => {
       deleteContact(contactId);
       document.body.removeChild(actionMenu);
     });
-  document.addEventListener("click", (event) => {
-    if (!actionMenu.contains(event.target) && event.target !== actionButton) {
-      document.body.removeChild(actionMenu);
-    }
-  }, { once: true });
+  document.addEventListener(
+    "click",
+    (event) => {
+      if (!actionMenu.contains(event.target) && event.target !== actionButton) {
+        document.body.removeChild(actionMenu);
+      }
+    },
+    { once: true }
+  );
 }
 
 // Renders the headline in the contact details area.
@@ -233,4 +271,3 @@ function updateContact(contact) {
     })
     .catch(() => {});
 }
-
