@@ -4,13 +4,6 @@
 }
 
 @media (max-width: 768px) {
-  .contacts-list {
-    width: 100%;
-    box-sizing: border-box;
-  }
-}
-
-@media (max-width: 768px) {
   .sidebar-container {
     display: flex;
     justify-content: center;

@@ -15,11 +15,14 @@
   }
 
   .contacts-list {
-    width: 100vw !important;
-    height: 100vh;
+    position: fixed;
+    width: 100vw;
+    max-width: 100%;
+    height: 100%;
     box-sizing: border-box;
-    padding: 0 !important;
     overflow: hidden;
+    margin-top: -56px;
+    padding-bottom: 100px;
   }
 
   .contacts-list #add-contact-button {
@@ -61,14 +64,6 @@
     padding: 0;
   }
 
-  .contacts-list {
-    width: 100%;
-    height: 100vh;
-    box-sizing: border-box;
-    padding: 0;
-    overflow: hidden;
-  }
-
   .sidebar-container {
     width: 100%;
     overflow-x: hidden;
@@ -82,5 +77,17 @@
 
   .tab-content a {
     padding: 0;
+  }
+
+  .contacts-list li{
+    gap: 8px
+  }
+
+  .contact-initials{
+    margin-left: 8px;
+  }
+
+  .contacts-list h3{
+    margin-left: -16px
   }
 }
