@@ -107,4 +107,25 @@
     body {
         overflow: hidden;
     }
+
+    .blue_loading_screen {
+        display: flex;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 99999;
+        justify-content: center;
+        align-items: center;
+        background-color: rgb(42, 54, 71);
+    }
+
+    .logo_blue_loading_screen {
+        height: 120px;
+        width: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 }

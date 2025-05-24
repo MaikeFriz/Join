@@ -11,65 +11,71 @@
   <link rel="stylesheet" href="./styles/log_in_mobile.css" />
 </head>
 
-<body>
-  <div id="loading_spinner" class="loading-spinner" style="display: none;">
-    <img src="./assets/img/loadingspinner.png" alt="Loading..." />
+<body onload="handleLoadingScreen()">
+  <div class="blue_loading_screen d_none_blue_loading_screen" id="blue_loading_screen">
+    <img class="logo_blue_loading_screen" src="./assets/img/join_logo_bright.svg" alt="Logo">
   </div>
-  <header>
-    <a href="./index.html"><img class="logo_header" src="./assets/img/join_logo_dark.svg" /></a>
-    <div class="right_header_section">
-      <p>Not a Join User?</p>
-      <a href="./sign_up.html">
-        <p class="sign_up_button_header">Sign Up</p>
-      </a>
+  <div class="page_content">
+    <div id="loading_spinner" class="loading-spinner" style="display: none;">
+      <img src="./assets/img/loadingspinner.png" alt="Loading..." />
     </div>
-  </header>
-  <div class="main_content">
-    <div class="log_in_box">
-      <div class="h1_div_log_in_field">
-        <p class="h1_box">Log in</p>
-        <div class="separation_line_h1"></div>
+    <header>
+      <a href="./index.html"><img class="logo_header" src="./assets/img/join_logo_dark.svg" /></a>
+      <div class="right_header_section">
+        <p>Not a Join User?</p>
+        <a href="./sign_up.html">
+          <p class="sign_up_button_header">Sign Up</p>
+        </a>
       </div>
-      <form id="log-in-form" class="input_div">
-        <label class="input_label">
-          <input id="input_email" type="text" placeholder="Email" />
-          <div class="input_icon">
-            <img src="./assets/img/placeholder_mail_input.svg" alt="Email" />
-          </div>
-        </label>
-        <label class="input_label">
-          <input id="input_password" type="password" placeholder="Password" />
-          <div class="input_icon" id="toggle_icon">
-            <img id="password_icon" src="./assets/img/placeholder_lock_input_field.svg" alt="Password" />
-          </div>
-        </label>
-        <div id="login-error-message" class="error-message" style="display: none; color: red;"></div>
-        <div class="button_div">
-          <button type="submit" class="button_log_in_input_section" id="loginButton">
-            Log in
-          </button>
-          <button type="button" class="button_sign_up_input_section" id="guestButton">
-            Guest Log In
-          </button>
+    </header>
+    <div class="main_content">
+      <div class="log_in_box">
+        <div class="h1_div_log_in_field">
+          <p class="h1_box">Log in</p>
+          <div class="separation_line_h1"></div>
         </div>
-      </form>
-      <div id="forgot_password_div" class="forgot_password_div d_none_forgot_password-div">
-        <a href="./forgot_password.html">I forgot my password.</a>
+        <form id="log-in-form" class="input_div">
+          <label class="input_label">
+            <input id="input_email" type="text" placeholder="Email" />
+            <div class="input_icon">
+              <img src="./assets/img/placeholder_mail_input.svg" alt="Email" />
+            </div>
+          </label>
+          <label class="input_label">
+            <input id="input_password" type="password" placeholder="Password" />
+            <div class="input_icon" id="toggle_icon">
+              <img id="password_icon" src="./assets/img/placeholder_lock_input_field.svg" alt="Password" />
+            </div>
+          </label>
+          <div id="login-error-message" class="error-message" style="display: none; color: red;"></div>
+          <div class="button_div">
+            <button type="submit" class="button_log_in_input_section" id="loginButton">
+              Log in
+            </button>
+            <button type="button" class="button_sign_up_input_section" id="guestButton">
+              Guest Log In
+            </button>
+          </div>
+        </form>
+        <div id="forgot_password_div" class="forgot_password_div d_none_forgot_password-div">
+          <a href="./forgot_password.html">I forgot my password.</a>
+        </div>
       </div>
     </div>
+    <footer>
+      <div class="sign_up_div_footer_mobile d_none_footer">
+        <p>Not a Join User?</p>
+        <a href="./sign_up.html">
+          <p class="sign_up_button_footer_mobile">Sign Up</p>
+        </a>
+      </div>
+      <div class="legal_privacy_div">
+        <a href="./privacy_policy_logged_out.html">Privacy Policy</a>
+        <a href="./privacy_policy_logged_out.html">Legal Notice</a>
+      </div>
+    </footer>
   </div>
-  <footer>
-    <div class="sign_up_div_footer_mobile d_none_footer">
-      <p>Not a Join User?</p>
-      <a href="./sign_up.html">
-        <p class="sign_up_button_footer_mobile">Sign Up</p>
-      </a>
-    </div>
-    <div class="legal_privacy_div">
-      <a href="./privacy_policy_logged_out.html">Privacy Policy</a>
-      <a href="./privacy_policy_logged_out.html">Legal Notice</a>
-    </div>
-  </footer>
+  <script src="./script.js"></script>
   <script src="./scripts/log_in.js"></script>
   <script src="./scripts/inputfields_style_log_in.js"></script>
   <script src="./scripts/fetch_kanban_data.js"></script>

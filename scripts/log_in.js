@@ -1,5 +1,41 @@
+//Handle loading screen and mobile loading screen
+function handleLoadingScreen() {
+  const loadingScreen = document.getElementById("blue_loading_screen");
+  const pageContent = document.querySelector(".page_content");
+
+  if (window.innerWidth <= 450) {
+    pageContent.style.display = "none";
+
+    setTimeout(() => {
+      loadingScreen.style.display = "none";
+      pageContent.style.display = "";
+      setupLoginForm();
+      setupLogoAnimationReset();
+    }, 1500);
+  } else {
+    setupLoginForm();
+    setupLogoAnimationReset();
+  }
+}
+
+
+
+// Handles logo animation end event to reset logo styles
+function setupLogoAnimationReset() {
+  const logoHeader = document.querySelector(".logo_header");
+  logoHeader.addEventListener("animationend", () => {
+    logoHeader.style.position = "relative";
+    logoHeader.style.transform = "none";
+    logoHeader.style.top = "auto";
+    logoHeader.style.left = "auto";
+    logoHeader.style.marginTop = "0";
+    logoHeader.style.marginLeft = "0";
+  });
+};
+
+
 // Handles DOMContentLoaded: sets up form, error message, and event listeners for login and guest login
-document.addEventListener("DOMContentLoaded", () => {
+function setupLoginForm() {
   const form = document.getElementById("log-in-form");
   const emailInput = document.getElementById("input_email");
   const passwordInput = document.getElementById("input_password");
@@ -15,7 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
     showLoadingSpinner();
     handleFormSubmit(event, emailInput, passwordInput, errorMessage);
   });
-});
+};
 
 
 // Loading Spinner functions
@@ -230,15 +266,3 @@ function handleError(error, errorMessage) {
 }
 
 
-// Handles logo animation end event to reset logo styles
-document.addEventListener("DOMContentLoaded", () => {
-  const logoHeader = document.querySelector(".logo_header");
-  logoHeader.addEventListener("animationend", () => {
-    logoHeader.style.position = "relative";
-    logoHeader.style.transform = "none";
-    logoHeader.style.top = "auto";
-    logoHeader.style.left = "auto";
-    logoHeader.style.marginTop = "0";
-    logoHeader.style.marginLeft = "0";
-  });
-});

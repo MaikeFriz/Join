@@ -198,6 +198,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 // Processes the Kanban data and assigns it to the user
 function processKanbanData(data, user) {
   if (!data) return;
+  if (!user && user !== "guest") return;
   const userId = user === "guest" ? "guest" : user.userId;
   if (!data.users?.[userId]) return;
   const currentAssignedStatus = data.users[userId].assignedTasks;

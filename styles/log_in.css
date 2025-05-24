@@ -379,3 +379,7 @@ a {
     justify-content: center;
     align-items: center;
 }
+
+.d_none_blue_loading_screen{
+    display: none;
+}
