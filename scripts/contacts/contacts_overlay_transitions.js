@@ -27,7 +27,6 @@ function createOverlayIframe(url) {
   iframe.classList.add("overlay-iframe");
 
   function setIframeSize() {
-    
     iframe.style.border = "none";
     iframe.style.borderRadius = "30px";
   }
@@ -57,14 +56,12 @@ function addOverlayCloseListener(overlay) {
 // Opens an overlay with the given URL loaded in an iframe.
 function openOverlay(url) {
   const overlay = createOverlay();
+  overlay.classList.add('overlay-fade-in'); // Startzustand: opacity 0
   const iframe = createOverlayIframe(url);
+  iframe.classList.add('overlay-iframe-fade-in'); // Startzustand: opacity 0, scale 0.95
   overlay.appendChild(iframe);
   document.body.appendChild(overlay);
   addOverlayCloseListener(overlay);
-
-  setTimeout(() => {
-    iframe.classList.add("active");
-  }, 30);
 }
 
 // Removes the overlay from the DOM.
@@ -120,9 +117,10 @@ window.openOverlayIframe = function(iframe) {
 window.closeOverlayIframe = function(iframe, overlay) {
   if (iframe) {
     iframe.classList.remove('active');
+    if (overlay) document.body.removeChild(overlay);
     setTimeout(() => {
-      if (overlay) document.body.removeChild(overlay);
-    }, 600);
+      if (iframe.parentNode) iframe.parentNode.removeChild(iframe);
+    }, 600); 
   } else if (overlay) {
     document.body.removeChild(overlay);
   }
@@ -132,9 +130,7 @@ window.closeOverlayIframe = function(iframe, overlay) {
 window.openContactOverlay = function() {
   const overlay = document.querySelector('.contact-overlay');
   if (overlay) {
-    setTimeout(() => {
-      overlay.classList.add('active');
-    }, 30);
+    overlay.classList.add('active');
   }
 };
 
@@ -173,10 +169,17 @@ window.addEventListener("message", function (event) {
   }
 });
 
-// Handles special cases for closing the overlay iframe
 window.addEventListener("message", function (event) {
   if (event.data.type === "closeOverlay") {
-    removeOverlayIframe();
+    const overlay = document.getElementById("overlay");
+    const iframe = document.querySelector('.overlay-iframe');
+    if (iframe) {
+      iframe.classList.add('d-none');
+      if (iframe.contentWindow) {
+        iframe.contentWindow.postMessage({ type: "startContentCloseAnimation" }, "*");
+      }
+    }
+    if (overlay) document.body.removeChild(overlay);
   }
 });
 
@@ -187,12 +190,23 @@ window.addEventListener("message", function(event) {
   }
 });
 
+// Listener: iframe signalisiert, dass Content fertig animiert ist
+window.addEventListener("message", function(event) {
+  if (event.data.type === "iframeContentReady") {
+    const overlay = document.getElementById("overlay");
+    const iframe = document.querySelector('.overlay-iframe');
+    if (overlay) overlay.classList.add('active');
+    if (iframe) iframe.classList.add('active');
+  }
+});
+
 // 5. Overlay open animation on DOMContentLoaded (for iframe overlays)
 document.addEventListener("DOMContentLoaded", function () {
+  const overlay = document.querySelector('.contact-overlay');
+  if (overlay) overlay.classList.add('active'); // Content-Animation sofort starten
   setTimeout(() => {
-    const overlay = document.querySelector('.contact-overlay');
-    if (overlay) overlay.classList.add('active');
-  }, 30);
+    window.parent.postMessage({ type: "iframeContentReady" }, "*");
+  }, 400); // 400ms = Dauer der Content-Animation
 });
 
 
