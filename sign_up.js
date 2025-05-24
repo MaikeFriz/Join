@@ -55,7 +55,10 @@ function createErrorMessage() {
 function createOverlay() {
   const overlay = document.createElement("div");
   overlay.className = "overlay";
-  overlay.innerHTML = "<p>User signed up successfully!</p>";
+  const successMsg = document.createElement("p");
+  successMsg.textContent = "User signed up successfully!";
+  successMsg.className = "success-message";
+  overlay.appendChild(successMsg);
   overlay.style.display = "none";
   return overlay;
 }

@@ -316,3 +316,14 @@ a:hover {
         transform: rotate(360deg);
     }
 }
+
+.success-message {
+    color: #fff;
+    background: rgb(42, 54, 71);
+    padding: 20px 40px;
+    border-radius: 10px;
+    font-size: 1.3rem;
+    font-weight: bold;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    text-align: center;
+}
