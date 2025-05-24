@@ -53,3 +53,24 @@
 .turquoise {
   color: rgb(41, 171, 226);
 }
+
+@media (max-width: 620px) {
+  .h1_div h1 {
+    font-size: 32px;
+  }
+
+  body,
+  html {
+    overflow-y: scroll !important;
+  }
+
+  .start-content {
+    display: flex;
+    min-height: 100vh;
+    height: auto !important;
+  }
+
+  footer{
+    margin-bottom: 64px;
+  }
+}
