@@ -47,12 +47,9 @@ function fillForm(contact) {
 function setProfileInitials(name) {
   const initials = getInitials(name);
   const profileInitials = document.getElementById("profileInitials");
-  if (profileInitials && initials) {
+  if (profileInitials) {
     profileInitials.textContent = initials;
-    // Entferne alte Farbkategorie (a-z)
-    profileInitials.className = profileInitials.className.replace(/\b[a-z]\b/g, '').trim();
-    // Füge neue Farbkategorie hinzu
-    profileInitials.classList.add(initials[0].toLowerCase());
+    profileInitials.className = "contact-initials " + initials[0].toLowerCase();
   }
 }
 
@@ -121,9 +118,20 @@ function getInitials(name) {
   return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
 }
 
+function updateProfileInitials(name) {
+  const initials = getInitials(name);
+  const profileInitials = document.getElementById("profileInitials");
+  if (profileInitials) {
+    profileInitials.textContent = initials;
+    profileInitials.className = "contact-initials " + initials[0].toLowerCase();
+  }
+}
+
 // Beim Laden:
 const nameInput = document.getElementById('input_name');
+updateProfileInitials(nameInput.value);
+
+// Beim Tippen:
 nameInput.addEventListener('input', (e) => {
-  setProfileInitials(e.target.value);
+  updateProfileInitials(e.target.value);
 });
-setProfileInitials(nameInput.value);

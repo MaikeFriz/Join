@@ -23,6 +23,23 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
+window.addEventListener("resize", handleResponsiveContactDetails);
+
+function handleResponsiveContactDetails() {
+  const isMobile = window.innerWidth <= 768;
+  const rightSideContent = document.querySelector(".right-side-content-contacts");
+  const contactsList = document.querySelector(".contacts-list");
+  const contactDetails = document.querySelector(".contact-details");
+
+  if (isMobile && contactDetails && rightSideContent.contains(contactDetails)) {
+    // Details sind offen, wir sind jetzt mobil: Liste ausblenden
+    if (contactsList) contactsList.style.display = "none";
+  } else {
+    // Desktop oder keine Details offen: Liste einblenden
+    if (contactsList) contactsList.style.display = "";
+  }
+}
+
 // Displays the contact details for the given contactId, for guest or user.
 function displayContactDetails(contactId) {
   const isGuest = JSON.parse(localStorage.getItem("isGuest"));
@@ -43,6 +60,16 @@ function displayGuestContactDetails(contactId) {
   renderContactDetailsDiv(newDiv);
   addGuestContactDetailListeners(contactId);
   highlightSelectedContact(contactId);
+
+  if (window.innerWidth <= 768) {
+    const addBtn = document.querySelector('.add-contact-floating-button');
+    if (addBtn) addBtn.style.display = 'none';
+
+    const oldActionBtn = document.getElementById('action-button');
+    if (oldActionBtn) oldActionBtn.remove();
+
+    addMobileActionMenu(contactId);
+  }
 }
 
 // Retrieves a guest contact by its ID from localStorage.
@@ -136,8 +163,19 @@ function handleUserContactDetails(contact, contactId) {
   const newDiv = createContactDetailsDiv(contact, initials, initialClass);
   renderContactDetailsDiv(newDiv);
   addUserContactDetailListeners(contactId);
-  if (window.innerWidth <= 768) addMobileActionMenu(contactId);
   highlightSelectedContact(contactId);
+
+  // --- NEU: Floating Add-Button ausblenden, Action-Button anzeigen ---
+  if (window.innerWidth <= 768) {
+    const addBtn = document.querySelector('.add-contact-floating-button');
+    if (addBtn) addBtn.style.display = 'none';
+
+    // Vorherigen Action-Button entfernen, falls vorhanden
+    const oldActionBtn = document.getElementById('action-button');
+    if (oldActionBtn) oldActionBtn.remove();
+
+    addMobileActionMenu(contactId);
+  }
 }
 
 // Adds event listeners for editing and deleting a user contact.
@@ -168,49 +206,31 @@ function addMobileActionMenu(contactId) {
 function createMobileActionButton() {
   const btn = document.createElement("button");
   btn.id = "action-button";
-  Object.assign(btn.style, {
-    position: "fixed",
-    bottom: "90px",
-    right: "20px",
-    width: "50px",
-    height: "50px",
-    borderRadius: "50%",
-    backgroundColor: "#2A3647",
-    color: "#fff",
-    border: "none",
-    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.2)",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    cursor: "pointer",
-  });
+  btn.className = "action-button";
   btn.innerHTML = `<img src="./assets/img/more_vert.svg" alt="Actions" style="width: 24px; height: 24px;">`;
   return btn;
 }
 
 // Shows the mobile action menu for a contact.
 function showMobileActionMenu(contactId, actionButton) {
+  // Entferne ggf. altes Menü
+  const oldMenu = document.getElementById("mobile-action-menu");
+  if (oldMenu) oldMenu.remove();
+
   const actionMenu = createMobileActionMenu();
-  addMobileActionMenuListeners(actionMenu, contactId, actionButton);
+  actionMenu.id = "mobile-action-menu";
   document.body.appendChild(actionMenu);
+
+  // Listener erst nach dem Einfügen setzen!
+  setTimeout(() => {
+    addMobileActionMenuListeners(actionMenu, contactId, actionButton);
+  }, 0);
 }
 
 // Creates the mobile action menu element.
 function createMobileActionMenu() {
   const actionMenu = document.createElement("div");
-  Object.assign(actionMenu.style, {
-    position: "fixed",
-    bottom: "160px",
-    right: "20px",
-    backgroundColor: "#fff",
-    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.2)",
-    borderRadius: "8px",
-    padding: "10px",
-    zIndex: "1200",
-    display: "flex",
-    flexDirection: "column",
-    gap: "10px",
-  });
+  actionMenu.className = "mobile-action-menu";
   actionMenu.innerHTML = mobileActionMenuTemplate();
   return actionMenu;
 }
@@ -223,21 +243,33 @@ function addMobileActionMenuListeners(actionMenu, contactId, actionButton) {
       openOverlay(`./edit_contact.html?contactId=${contactId}`);
       document.body.removeChild(actionMenu);
     });
+
   actionMenu
     .querySelector("#mobile-delete-contact-button")
     .addEventListener("click", () => {
-      deleteContact(contactId);
+      // Prüfe, ob Gast oder User
+      const isGuest = JSON.parse(localStorage.getItem("isGuest"));
+      if (isGuest) {
+        deleteGuestContact(contactId);
+      } else {
+        deleteContact(contactId);
+      }
       document.body.removeChild(actionMenu);
     });
-  document.addEventListener(
-    "click",
-    (event) => {
-      if (!actionMenu.contains(event.target) && event.target !== actionButton) {
-        document.body.removeChild(actionMenu);
-      }
-    },
-    { once: true }
-  );
+
+  setTimeout(() => {
+    document.addEventListener(
+      "click",
+      (event) => {
+        if (!actionMenu.contains(event.target) && event.target !== actionButton) {
+          if (document.body.contains(actionMenu)) {
+            document.body.removeChild(actionMenu);
+          }
+        }
+      },
+      { once: true }
+    );
+  }, 0);
 }
 
 // Renders the headline in the contact details area.

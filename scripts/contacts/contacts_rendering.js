@@ -1,19 +1,30 @@
-
 // Renders the contact list for guest or logged-in user.
 function renderContacts() {
-  const isGuest = JSON.parse(localStorage.getItem("isGuest"));
-  const contactsList = document.querySelector(".contacts-list ul");
-  contactsList.innerHTML = "";
-  if (isGuest) {
-    const contacts = getGuestContacts();
-    renderContactsList(contactsList, contacts, true);
-    return;
-  }
-  const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
-  if (!loggedInUser || !loggedInUser.userId) return;
-  fetchContactsFromServer(loggedInUser.userId)
-    .then((contacts) => renderContactsList(contactsList, contacts, false))
-    .catch(() => {});
+  return new Promise((resolve) => {
+    const isGuest = JSON.parse(localStorage.getItem("isGuest"));
+    const contactsList = document.querySelector(".contacts-list ul");
+    contactsList.innerHTML = "";
+    if (isGuest) {
+      const contacts = getGuestContacts();
+      renderContactsList(contactsList, contacts, true);
+      resolve();
+      return;
+    }
+    const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+    if (!loggedInUser || !loggedInUser.userId) {
+      resolve();
+      return;
+    }
+    const userId = loggedInUser.userId;
+    const BASE_URL = `https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData/users/${userId}/contacts.json`;
+    fetch(BASE_URL)
+      .then((response) => response.json())
+      .then((contacts) => {
+        renderContactsList(contactsList, contacts, false);
+        resolve();
+      })
+      .catch(() => resolve());
+  });
 }
 
 // Retrieves guest contacts from localStorage.

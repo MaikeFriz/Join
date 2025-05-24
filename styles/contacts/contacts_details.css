@@ -1,8 +1,10 @@
 .contact-details {
+  height: calc(100vh - 96px);
   border-radius: 8px;
   padding: 20px;
   max-width: none;
   font-family: Arial, sans-serif;
+  margin-top: 96px;
 }
 
 .contact-details h2 {
@@ -141,4 +143,13 @@
   font-weight: 400;
   font-size: 27px;
   line-height: 120%;
+}
+
+.reload-page-button:hover{
+  transform: scale(1);
+  transition: transform 100ms ease-in-out;
+}
+
+.reload-page-button:hover{
+  transform: scale(1.05);
 }

@@ -1,13 +1,19 @@
 .contacts-list {
   max-width: 456px;
-  width: 100%;
+  width: 40vw;
+  height: calc(100vh - 96px);
   flex-grow: 1;
   background-color: #f9f9f9;
   padding: 20px;
-  border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
+  margin-bottom: 0;
+  margin-top: 96px;
+}
+
+#reload-page-button {
+  display: none !important;
 }
 
 .contacts-list ul {
@@ -108,7 +114,8 @@
 }
 
 .right-side-content-contacts {
-  margin-top: 96px;
+  position: fixed;
+  height: 100%;
   display: flex;
   flex-direction: row;
   flex-grow: 1;

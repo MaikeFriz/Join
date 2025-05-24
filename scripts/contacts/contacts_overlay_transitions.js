@@ -190,6 +190,14 @@ window.addEventListener("message", function(event) {
   }
 });
 
+// Nur nach Signal aus dem Iframe:
+window.addEventListener("message", function(event) {
+  if (event.data.type === "iframeContentReady") {
+    const iframe = document.querySelector('.overlay-iframe');
+    if (iframe) iframe.classList.add('active');
+  }
+});
+
 // Listener: iframe signalisiert, dass Content fertig animiert ist
 window.addEventListener("message", function(event) {
   if (event.data.type === "iframeContentReady") {
