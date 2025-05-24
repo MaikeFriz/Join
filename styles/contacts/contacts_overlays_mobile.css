@@ -78,6 +78,7 @@
     border-radius: 50%;
   }
 
+  .profile-container 
   .contact-initials{
     position: absolute;
     left: 50%;
@@ -130,7 +131,6 @@
 
   .button_save {
     display: block;
-    margin: 20px auto 0;
     text-align: center;
     width: fit-content;
   }
@@ -138,6 +138,7 @@
   .button_div {
     align-items: center;
     justify-content: center;
+    margin-top: 32px;
   }
 
   .contact-buttons {
