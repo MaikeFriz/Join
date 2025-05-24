@@ -218,8 +218,9 @@ h3 {
   padding: 8px 16px;
   cursor: pointer;
   transform: scale(1);
-  font-weight: 700;
+  font-weight: 500;
   width: fit-content !important;
+  min-height: 48px;
   height: 48px;
   font-size: 21px;
   display: flex;
@@ -227,35 +228,93 @@ h3 {
   align-items: center;
   flex-direction: row;
   gap: 8px;
+  transition: background-color 100ms ease-in-out, 
+              border 100ms ease-in-out, 
+              box-shadow 100ms ease-in-out;
 }
 
-.button_save,
-.button_save_input_section:hover {
-  background-color: rgb(41, 171, 226);
-  transform: scale(1.05);
-  border: solid 2px rgb(41, 171, 226);
+
+.add-task-button svg{
+    height: 32px;
 }
 
-.button_cancel,
-.button_delete_input_section {
-  border: solid 2px rgb(42, 54, 71);
-  border-radius: 10px;
-  color: rgb(42, 54, 71);
-  padding: 8px 16px;
-  cursor: pointer;
-  transform: scale(1);
-  font-weight: 700;
-  width: fit-content !important;
-  height: 48px;
-  font-size: 21px;
+.button_save:hover,
+.button_save_input_section:hover{
+  background-color: rgba(41, 171, 226, 1);
+  border: solid 2px rgba(41, 171, 226, 1);
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+    
+.button_save:active,
+.button_save_input_section:active{
+  background-color: rgba(9, 25, 49, 1);
+  border: solid 2px rgba(9, 25, 49, 1);
+  box-shadow: none;
 }
 
 .button_cancel,
 .button_delete_input_section:hover {
   border: solid 2px rgb(41, 171, 226);
-  transform: scale(1.05);
   color: rgb(41, 171, 226);
 }
+
+.button_cancel,
+.button_delete_input_section{
+    font-size: 20px;
+    max-height: 48px;
+    width: fit-content;
+    background-color: rgba(255, 255, 255, 1);
+    border: solid 2px  rgba(42, 54, 71, 1);
+    border-radius: 10px;
+    color: rgba(42, 54, 71, 1);
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    transition: border 100ms ease-in-out, 
+                color 100ms ease-in-out,
+                box-shadow 100ms ease-in-out;
+}
+
+  .button_cancel svg,
+  .button_delete_input_section svg{
+        height: 36px;
+    }
+
+  .button_cancel svg path,
+  .button_delete_input_section svg path{
+        transition: stroke 100ms ease-in-out;
+    }
+
+  .button_cancel:hover,
+  .button_delete_input_section:hover{
+        border: solid 2px rgba(41, 171, 226, 1);
+        color: rgba(41, 171, 226, 1);
+        box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    }
+
+  .button_cancel:hover svg path,
+  .button_delete_input_section:hover svg path{
+        stroke: rgba(41, 171, 226, 1);
+    }
+
+  .button_cancel:active,
+  .button_delete_input_section:active{
+        border: solid 2px rgba(9, 25, 49, 1);
+        color: rgba(9, 25, 49, 1);
+        box-shadow: none;
+    }
+
+  .button_cancel:active svg path,
+  .button_delete_input_section:active svg path{
+        stroke: rgba(9, 25, 49, 1);
+    }
+
+
 
 .close-btn svg {
   position: absolute;

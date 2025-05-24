@@ -131,7 +131,6 @@
 
   .button_save {
     display: block;
-    margin: 20px auto 0;
     text-align: center;
     width: fit-content;
   }
@@ -139,6 +138,7 @@
   .button_div {
     align-items: center;
     justify-content: center;
+    margin-top: 32px;
   }
 
   .contact-buttons {
