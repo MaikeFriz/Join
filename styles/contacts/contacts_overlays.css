@@ -2,24 +2,29 @@ html,
 body {
   overflow: hidden;
   background-color: rgba(0, 0, 0, 0); 
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 .content {
   display: flex;
   justify-content: center;
   align-items: center;
+  min-height: 100vh;
   height: 100%;
   width: 100%;
+  padding-right: -1px;
+  box-sizing: border-box;
   gap: 20px;
   background-color: rgba(0, 0, 0, 0);
 }
 
 #overlay {
   overflow: hidden;
-  position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
+  width: 90%;
   height: 100vh;
 }
 
@@ -30,7 +35,9 @@ body {
   border-radius: 50px 30px 30px 50px;
   position: relative;
   width: 100%;
+  min-height: 100vh;
   height: 100%;
+  box-sizing: border-box;
 }
 
 .left-column {
@@ -284,6 +291,10 @@ h3 {
   transition: opacity 300ms ease, transform 300ms ease, box-shadow 600ms cubic-bezier(0.4,0,0.2,1);
   pointer-events: none;
   box-shadow: none;
+  min-height: 100vh;
+  height: 100%;
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .contact-overlay.active {
@@ -295,12 +306,14 @@ h3 {
 .overlay-iframe {
   border-radius: 30px;
   transition: box-shadow 300ms ease;
+  height: 85%;
+  width: 90%;
 }
 
 .overlay-iframe.active {
   box-shadow: 0px 0px 16px 2px rgba(0, 0, 0, 0.3);
   border: 1px solid rgba(0, 0, 0, 0.4);
-  height: 100vh;
+  
 }
 
 a {

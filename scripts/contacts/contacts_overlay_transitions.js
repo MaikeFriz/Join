@@ -27,13 +27,7 @@ function createOverlayIframe(url) {
   iframe.classList.add("overlay-iframe");
 
   function setIframeSize() {
-    if (window.matchMedia("(max-width: 768px)").matches) {
-      iframe.style.width = "95%";
-      iframe.style.height = "95%";
-    } else {
-      iframe.style.width = "90%";
-      iframe.style.height = "85%";
-    }
+    
     iframe.style.border = "none";
     iframe.style.borderRadius = "30px";
   }

@@ -9,17 +9,15 @@
     display: flex;
     flex-direction: column;
     height: 100vh;
-    width: 100vw;
-  }
+    }
 
   .card {
     position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 100vw;
+    width: 100%;
     height: 100vh;
-    max-width: 600px;
     margin: 0 auto;
     box-sizing: border-box;
   }
@@ -60,24 +58,34 @@
 
   .profile-container {
     z-index: 10;
-    padding: 0;
-    position: absolute;
-    left: 50%;
-    top: 40%; 
-    transform: translate(-50%, -50%);
+    position: absolute;  
     margin: 0;
   }
 
   .profile-icon {
+    position: absolute;
+    left: 50%;
+    top: 40%;
+    transform: translate(-50%, -50%);
     height: 120px;
     width: 120px;
     box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.2);
-  }
+}
 
   .profile-icon img {
     height: 64px;
     width: 64px;
     border-radius: 50%;
+  }
+
+  .contact-initials{
+    position: absolute;
+    left: 50%;
+    top: 40%;
+    transform: translate(-50%, -50%);
+    height: 120px;
+    width: 120px;
+    box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.2);
   }
 
   .input_div {
@@ -144,6 +152,16 @@
 
   .overlay-iframe {
     height: 95% !important;
+    display: block;
+    margin: auto;
+    border-radius: 30px;
+    border: none;
+    box-sizing: border-box;
+  }
+}
+
+@media (max-width: 550px) {
+.overlay-iframe {
     width: 95% !important;
     display: block;
     margin: auto;
@@ -151,17 +169,6 @@
     border: none;
     box-sizing: border-box;
   }
-  
-}
-
-.overlay-iframe {
-  width: 95%;
-  height: 95%;
-  border: none;
-  border-radius: 30px;
-  display: block;
-  margin: auto;
-  box-sizing: border-box;
 }
 
 
