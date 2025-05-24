@@ -30,19 +30,18 @@ function contactDetailsTemplate(contact, initials, initialClass) {
     <div class="contact-details-info">
       <h3>Contact Information</h3>
       <p>
-        <strong>Email:</strong><br><br>
+        <strong>Email:</strong><br>
         <a href="mailto:${contact.email}">${contact.email}</a>
       </p>
-      <br>
       <p>
-        <strong>Phone:</strong><br><br>
+        <strong>Phone:</strong><br>
         <span>${contact.phone}</span>
       </p>
     </div>
     ${
       window.innerWidth <= 768
         ? `<button id="reload-page-button" style="margin-top: 20px; display: flex; align-items: center; gap: 5px; background: none; border: none; cursor: pointer; color: #007bff; font-size: 16px;">
-             <img src="./assets/img/arrow-left-line.svg" alt="Back" style="width: 16px; height: 16px;">
+             <img src="./assets/img/arrow-left-line.svg" alt="Back" style="width: 32px; height: 32px;">
            </button>`
         : ""
     }

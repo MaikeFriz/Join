@@ -15,14 +15,13 @@
   }
 
   .contacts-list {
-    position: fixed;
     width: 100vw;
     max-width: 100%;
     height: 100%;
     box-sizing: border-box;
     overflow: hidden;
-    margin-top: -56px;
-    padding-bottom: 100px;
+    
+    
   }
 
   .contacts-list #add-contact-button {

@@ -11,8 +11,14 @@
   color: #333333;
 }
 
-.contact-details 
-.contact-initials {
+.contact-details h3 {
+  font-size: 20px;
+  margin-bottom: 21px;
+  color: #333333;
+}
+
+.contact-details
+.contact-initials-position{
   min-width: 120px;
   min-height: 120px;
   border-radius: 50%;
@@ -31,6 +37,7 @@
   margin: 10px 0;
   font-size: 16px;
   color: #555555;
+  line-height: 160%;
 }
 
 .contact-details a {
@@ -87,6 +94,15 @@
   display: flex;
   align-items: center;
   gap: 15px;
+  margin-bottom: 40px;
+}
+
+.contact-header
+.contact-initials{
+  height: 120px;
+  min-width: 120px;
+  font-size: 47px;
+  margin-left: 0px;
 }
 
 .contact-name {
@@ -99,6 +115,7 @@
   margin: 0;
   font-size: 47px;
   color: #333333;
+  line-height: 110%;
 }
 
 .contact-headline {
@@ -107,14 +124,14 @@
   gap: 30px;
   font-size: 61px;
   margin-top: 0px;
-  margin-bottom: 20px;
+  margin-bottom: 32px;
   color: #333;
 }
 
 .contact-headline 
 .vertical-line {
   display: inline-block;
-  width: 2px;
+  min-width: 2px;
   height: 59px;
   background-color: #29ABE2;
 }
