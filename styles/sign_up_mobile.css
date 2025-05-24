@@ -1,3 +1,8 @@
+@font-face {
+    font-family: 'Inter';
+    src: url('../fonts/inter/Inter-VariableFont_opsz,wght.ttf');
+}
+
 @media(max-width:640px) {
     .input_label {
         width: 260px;

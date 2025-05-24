@@ -20,7 +20,7 @@ body {
 
 @font-face {
     font-family: 'Inter';
-    src: url('fonts/inter/Inter-VariableFont_opsz,wght.ttf');
+    src: url('../fonts/inter/Inter-VariableFont_opsz,wght.ttf');
 }
 
 h1,
