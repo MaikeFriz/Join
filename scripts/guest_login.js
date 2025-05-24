@@ -15,7 +15,11 @@ function extractTaskIds(guestData) {
   const taskIds = [];
   if (guestData.assignedTasks) {
     const categories = Object.values(guestData.assignedTasks);
-    for (let categoryIndex = 0; categoryIndex < categories.length; categoryIndex++) {
+    for (
+      let categoryIndex = 0;
+      categoryIndex < categories.length;
+      categoryIndex++
+    ) {
       const category = categories[categoryIndex];
       for (const taskId in category) {
         if (category[taskId]) {
@@ -87,14 +91,19 @@ async function fetchAllUserContactData() {
 }
 
 // Saves structured guest data, tasks, and subtasks to LocalStorage
-function saveGuestDataToLocalStorage(guestData, tasksData, subtasksData, allUserContactData) {
+function saveGuestDataToLocalStorage(
+  guestData,
+  tasksData,
+  subtasksData,
+  allUserContactData
+) {
   const structuredData = {
     users: {
       guest: guestData,
-      ...allUserContactData
+      ...allUserContactData,
     },
     tasks: tasksData,
-    subtasks: subtasksData
+    subtasks: subtasksData,
   };
   localStorage.setItem("guestKanbanData", JSON.stringify(structuredData));
 }
@@ -109,7 +118,12 @@ async function fetchGuestKanbanData() {
     const subtaskIds = extractSubtaskIds(Object.values(tasksData));
     const subtasksData = await fetchSubtasks(subtaskIds);
     const allUserContactData = await fetchAllUserContactData();
-    saveGuestDataToLocalStorage(guestData, tasksData, subtasksData, allUserContactData);
+    saveGuestDataToLocalStorage(
+      guestData,
+      tasksData,
+      subtasksData,
+      allUserContactData
+    );
     return guestData;
   } catch (error) {
     console.error("Error fetching Guest Kanban data:", error);
