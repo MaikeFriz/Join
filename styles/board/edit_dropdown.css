@@ -55,7 +55,9 @@
 
 .dropdown-edit-assignee-initials{
     min-width: 42px;
+    padding-top: 2px;
 }
+
 .dropdown-edit-assignee-name {
     display: flex;
     align-items: center;

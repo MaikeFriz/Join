@@ -54,9 +54,6 @@ function addEditSubtask() {
         const newSubtaskHTML = editSubtaskTemplate(tempId, { title: subtaskValue });
         subtaskContainer.innerHTML += newSubtaskHTML;
         inputField.value = "";
-        alertCurrentSubtaskIds();
-    } else {
-        alert("Please enter a subtask before adding.");
     }
 }
 
@@ -71,7 +68,6 @@ function removeEditSubtask(subtaskId, subtaskTitle, event) {
         const subtaskElement = subtaskElements[subtaskIndex];
         if (subtaskElement.innerHTML.includes(subtaskId)) {
             subtaskContainer.removeChild(subtaskElement);
-            alertCurrentSubtaskIds();
             return;
         }
     }
@@ -102,12 +98,4 @@ function fetchFromDatabase(url, method, body = null) {
         headers: { "Content-Type": "application/json" },
         body: body ? JSON.stringify(body) : null,
     });
-}
-
-// Generates the HTML for a single subtask item in the edit task modal.
-function alertCurrentSubtaskIds() {
-    const subtaskContainer = document.getElementById("display_subtasks");
-    const allIds = Array.from(subtaskContainer.querySelectorAll('.edit-subtask-item'))
-        .map(el => el.getAttribute('data-id'));
-    alert("Aktuelle Subtask-IDs im DOM:\n" + allIds.join('\n'));
 }

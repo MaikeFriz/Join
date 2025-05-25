@@ -111,11 +111,12 @@
 
 .right-side-content-contacts {
   position: fixed;
+  width: 100vw;
   height: 100%;
   display: flex;
   flex-direction: row;
   flex-grow: 1;
-  padding: 0px 96px 0px 251px;
+  padding: 0px 2.5% 0px 251px;
   box-sizing: border-box;
 }
 

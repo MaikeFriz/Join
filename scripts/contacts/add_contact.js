@@ -26,15 +26,15 @@ document.addEventListener("DOMContentLoaded", function () {
 window.addEventListener("resize", handleResponsiveContactDetails);
 
 function handleResponsiveContactDetails() {
-  const isMobile = window.innerWidth <= 768;
+  const isMobile = window.innerWidth <= 980;
   const rightSideContent = document.querySelector(".right-side-content-contacts");
-  const contactsList = document.querySelector(".contacts-list");
   const contactDetails = document.querySelector(".contact-details");
 
   if (isMobile && contactDetails && rightSideContent.contains(contactDetails)) {
+    const contactsList = document.querySelector(".contacts-list");
     if (contactsList) contactsList.style.display = "none";
   } else {
-    if (contactsList) contactsList.style.display = "";
+    renderContacts();
   }
 }
 
@@ -59,7 +59,7 @@ function displayGuestContactDetails(contactId) {
   addGuestContactDetailListeners(contactId);
   highlightSelectedContact(contactId);
 
-  if (window.innerWidth <= 768) {
+  if (window.innerWidth <= 980) {
     const addBtn = document.querySelector('.add-contact-floating-button');
     if (addBtn) addBtn.style.display = 'none';
 
@@ -103,7 +103,7 @@ function createContactDetailsDiv(contact, initials, initialClass) {
 
 // Renders the contact details div in the appropriate container.
 function renderContactDetailsDiv(newDiv) {
-  const isMobileView = window.innerWidth <= 768;
+  const isMobileView = window.innerWidth <= 980;
   const rightSideContent = document.querySelector(
     ".right-side-content-contacts"
   );
