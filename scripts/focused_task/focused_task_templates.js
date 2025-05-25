@@ -117,7 +117,6 @@ function getFocusedTask(taskContent) {
     `;
   }
   
-// Aktualisierung des Delete-Buttons
 function confirmDialogTemplate(taskId) {
     return /*html*/`
         <div class="confirm-dialog-window">

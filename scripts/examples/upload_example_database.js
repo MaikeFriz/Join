@@ -3,7 +3,7 @@ const BASE_URL = "https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.
 
 async function uploadExampleDatabase() {
         await fetch(BASE_URL, {
-          method: "PUT", // Ersetzt die gesamte Datenbank
+          method: "PUT", 
           headers: {
             "Content-Type": "application/json",
           },
