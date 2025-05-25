@@ -186,6 +186,11 @@ h3 {
   color: rgb(209, 209, 209);
 }
 
+.input_label input:hover,
+.input_label:hover{
+  background-color: #f0f0f0;
+}
+
 .input_icon {
   position: absolute;
   right: 10px;

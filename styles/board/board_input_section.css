@@ -30,6 +30,11 @@
     fill: rgba(41, 171, 226, 1);
 }
 
+.input-with-svg input:hover,
+.input-with-svg:hover{
+  background-color: #f0f0f0;
+}
+
 input {
     border: 1px solid rgba(209, 209, 209, 1);
     border-radius: 10px;

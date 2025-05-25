@@ -120,6 +120,14 @@
     color: rgba(209, 209, 209, 1);
 }
 
+.textarea-with-icon:hover,
+.textarea-with-icon:hover svg,
+.textarea-container:hover .resize-icon{
+  background-color: #f0f0f0;
+}
+
+
+
 .resize-icon {
     position: absolute;
     bottom: 5px;
@@ -127,7 +135,6 @@
     width: 26px;
     padding: 1px;
     height: 26px;
-    border: 1px solid rgba(255, 255, 255, 1);
     border-bottom-right-radius: 10px;
     pointer-events: none;
     z-index: 2;
