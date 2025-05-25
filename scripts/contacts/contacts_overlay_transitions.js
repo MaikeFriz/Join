@@ -56,9 +56,9 @@ function addOverlayCloseListener(overlay) {
 // Opens an overlay with the given URL loaded in an iframe.
 function openOverlay(url) {
   const overlay = createOverlay();
-  overlay.classList.add('overlay-fade-in'); // Startzustand: opacity 0
+  overlay.classList.add('overlay-fade-in'); 
   const iframe = createOverlayIframe(url);
-  iframe.classList.add('overlay-iframe-fade-in'); // Startzustand: opacity 0, scale 0.95
+  iframe.classList.add('overlay-iframe-fade-in');
   overlay.appendChild(iframe);
   document.body.appendChild(overlay);
   addOverlayCloseListener(overlay);
@@ -190,15 +190,14 @@ window.addEventListener("message", function(event) {
   }
 });
 
-// Nur nach Signal aus dem Iframe:
-window.addEventListener("message", function(event) {
+
+window.addEventListener("message", function (event) {
   if (event.data.type === "iframeContentReady") {
     const iframe = document.querySelector('.overlay-iframe');
     if (iframe) iframe.classList.add('active');
   }
 });
 
-// Listener: iframe signalisiert, dass Content fertig animiert ist
 window.addEventListener("message", function(event) {
   if (event.data.type === "iframeContentReady") {
     const overlay = document.getElementById("overlay");
@@ -211,10 +210,10 @@ window.addEventListener("message", function(event) {
 // 5. Overlay open animation on DOMContentLoaded (for iframe overlays)
 document.addEventListener("DOMContentLoaded", function () {
   const overlay = document.querySelector('.contact-overlay');
-  if (overlay) overlay.classList.add('active'); // Content-Animation sofort starten
+  if (overlay) overlay.classList.add('active');
   setTimeout(() => {
     window.parent.postMessage({ type: "iframeContentReady" }, "*");
-  }, 400); // 400ms = Dauer der Content-Animation
+  }, 400); 
 });
 
 

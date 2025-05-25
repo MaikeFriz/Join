@@ -153,6 +153,7 @@
 
   .overlay-iframe {
     height: 95% !important;
+    max-height: 95% !important;
     display: block;
     margin: auto;
     border-radius: 30px;
