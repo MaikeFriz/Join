@@ -1,3 +1,5 @@
+let newSubtaskCounter = 1;
+
 // Displays the subtasks in the edit task modal and updates their completed status.
 async function displayEditSubtasks(subtasks) {
     const subtaskContainer = document.getElementById("display_subtasks");
@@ -48,17 +50,20 @@ function addEditSubtask() {
 
     if (subtaskValue) {
         let subtaskContainer = document.getElementById("display_subtasks");
-        const nextSubtaskId = generateNextSubtaskId();
-        const newSubtaskHTML = editSubtaskTemplate(nextSubtaskId, { title: subtaskValue });
+        const tempId = `new_subtask_${newSubtaskCounter++}`;
+        const newSubtaskHTML = editSubtaskTemplate(tempId, { title: subtaskValue });
         subtaskContainer.innerHTML += newSubtaskHTML;
         inputField.value = "";
+        alertCurrentSubtaskIds();
     } else {
         alert("Please enter a subtask before adding.");
     }
 }
 
 // Removes a specific subtask from the edit task modal based on its ID.
-function removeEditSubtask(subtaskId, subtaskTitle) {
+function removeEditSubtask(subtaskId, subtaskTitle, event) {
+    if (event) event.stopPropagation();
+
     const subtaskContainer = document.getElementById("display_subtasks");
     const subtaskElements = subtaskContainer.getElementsByClassName("edit-subtask-item");
 
@@ -66,6 +71,7 @@ function removeEditSubtask(subtaskId, subtaskTitle) {
         const subtaskElement = subtaskElements[subtaskIndex];
         if (subtaskElement.innerHTML.includes(subtaskId)) {
             subtaskContainer.removeChild(subtaskElement);
+            alertCurrentSubtaskIds();
             return;
         }
     }
@@ -96,4 +102,12 @@ function fetchFromDatabase(url, method, body = null) {
         headers: { "Content-Type": "application/json" },
         body: body ? JSON.stringify(body) : null,
     });
+}
+
+// Generates the HTML for a single subtask item in the edit task modal.
+function alertCurrentSubtaskIds() {
+    const subtaskContainer = document.getElementById("display_subtasks");
+    const allIds = Array.from(subtaskContainer.querySelectorAll('.edit-subtask-item'))
+        .map(el => el.getAttribute('data-id'));
+    alert("Aktuelle Subtask-IDs im DOM:\n" + allIds.join('\n'));
 }

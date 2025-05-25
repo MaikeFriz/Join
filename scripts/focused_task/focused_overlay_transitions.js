@@ -34,7 +34,6 @@ async function fromFocusedTaskToBoard() {
   setTimeout(() => {
     focusedContent.classList.add('d-none');
     focusedContent.innerHTML = '';
-    // Nur die vier Spalten ausblenden
     [
       'toDoCardsColumn',
       'awaitFeedbackCardsColumn',
@@ -58,8 +57,6 @@ function fromFocusedToEditTask(taskId) {
     focusedContent.classList.add('d-none');
     editContent.classList.remove('d-none');
     editContent.innerHTML = getEditTaskData(taskId);
-
-    // Klick außerhalb der Karte schließt das Overlay
     editContent.onclick = function(event) {
       const card = editContent.querySelector('.edit-task');
       if (card && !card.contains(event.target)) {
@@ -78,13 +75,11 @@ function fromFocusedToEditTask(taskId) {
 async function fromEditToFocusedTask() {
   let focusedContent = document.getElementById('focusedTask');
   let editContent = document.getElementById('editTask');
-  // Edit-Karte ausblenden
   const editCard = editContent.querySelector('.edit-task');
   if (editCard) editCard.classList.remove('active');
   setTimeout(() => {
     editContent.classList.add('d-none');
     focusedContent.classList.remove('d-none');
-    // Focused-Karte einblenden
     setTimeout(() => {
       const focusedCard = focusedContent.querySelector('.focused-task');
       if (focusedCard) focusedCard.classList.add('active');
@@ -101,7 +96,6 @@ async function fromEditTaskToBoard() {
   setTimeout(() => {
     editContent.classList.add('d-none');
     editContent.innerHTML = '';
-    // Nur die vier Spalten ausblenden
     [
       'toDoCardsColumn',
       'awaitFeedbackCardsColumn',
@@ -113,4 +107,10 @@ async function fromEditTaskToBoard() {
     });
     location.reload();
   }, 300);
+}
+
+async function onSaveEditTask(taskId) {
+  await saveEditedTask(taskId); // wartet auf alle Save- und Lösch-Operationen
+  // Jetzt ist alles sicher gespeichert!
+  fromEditTaskToBoard(); // Modal schließen oder Board neu rendern
 }

@@ -32,10 +32,8 @@ function handleResponsiveContactDetails() {
   const contactDetails = document.querySelector(".contact-details");
 
   if (isMobile && contactDetails && rightSideContent.contains(contactDetails)) {
-    // Details sind offen, wir sind jetzt mobil: Liste ausblenden
     if (contactsList) contactsList.style.display = "none";
   } else {
-    // Desktop oder keine Details offen: Liste einblenden
     if (contactsList) contactsList.style.display = "";
   }
 }
@@ -165,12 +163,10 @@ function handleUserContactDetails(contact, contactId) {
   addUserContactDetailListeners(contactId);
   highlightSelectedContact(contactId);
 
-  // --- NEU: Floating Add-Button ausblenden, Action-Button anzeigen ---
   if (window.innerWidth <= 768) {
     const addBtn = document.querySelector('.add-contact-floating-button');
     if (addBtn) addBtn.style.display = 'none';
 
-    // Vorherigen Action-Button entfernen, falls vorhanden
     const oldActionBtn = document.getElementById('action-button');
     if (oldActionBtn) oldActionBtn.remove();
 
@@ -213,7 +209,6 @@ function createMobileActionButton() {
 
 // Shows the mobile action menu for a contact.
 function showMobileActionMenu(contactId, actionButton) {
-  // Entferne ggf. altes Menü
   const oldMenu = document.getElementById("mobile-action-menu");
   if (oldMenu) oldMenu.remove();
 
@@ -221,7 +216,6 @@ function showMobileActionMenu(contactId, actionButton) {
   actionMenu.id = "mobile-action-menu";
   document.body.appendChild(actionMenu);
 
-  // Listener erst nach dem Einfügen setzen!
   setTimeout(() => {
     addMobileActionMenuListeners(actionMenu, contactId, actionButton);
   }, 0);
@@ -247,7 +241,6 @@ function addMobileActionMenuListeners(actionMenu, contactId, actionButton) {
   actionMenu
     .querySelector("#mobile-delete-contact-button")
     .addEventListener("click", () => {
-      // Prüfe, ob Gast oder User
       const isGuest = JSON.parse(localStorage.getItem("isGuest"));
       if (isGuest) {
         deleteGuestContact(contactId);
