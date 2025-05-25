@@ -125,11 +125,6 @@ function addGuestContactDetailListeners(contactId) {
   document
     .getElementById("delete-contact-button")
     .addEventListener("click", () => deleteGuestContact(contactId));
-  if (window.innerWidth <= 768) {
-    document
-      .getElementById("reload-page-button")
-      .addEventListener("click", () => location.reload());
-  }
 }
 
 // Highlights the selected contact in the contact list.
@@ -193,9 +188,6 @@ function addMobileActionMenu(contactId) {
   actionButton.addEventListener("click", () =>
     showMobileActionMenu(contactId, actionButton)
   );
-  document
-    .getElementById("reload-page-button")
-    .addEventListener("click", () => location.reload());
 }
 
 // Creates the floating action button for mobile actions.

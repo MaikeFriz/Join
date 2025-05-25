@@ -12,10 +12,6 @@
   margin-top: 96px;
 }
 
-#reload-page-button {
-  display: none !important;
-}
-
 .contacts-list ul {
   flex-grow: 1;
   overflow-y: auto;

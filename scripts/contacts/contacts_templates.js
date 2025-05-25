@@ -38,7 +38,7 @@ function contactDetailsTemplate(contact, initials, initialClass) {
       </p>
     </div>
     
-        <button id="reload-page-button" class="reload-page-button" style="margin-top: 20px; display: flex; align-items: center; gap: 5px; background: none; border: none; cursor: pointer; color: #007bff; font-size: 16px;">
+        <button id="reload-page-button" class="reload-page-button" onclick="location.reload()">
           <img src="./assets/img/arrow-left-line.svg" alt="Back" style="width: 32px; height: 32px;">
         </button>
   `;

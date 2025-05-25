@@ -47,26 +47,15 @@
     position: absolute;
     top: 100px;
     right: 12px;
-    z-index: 1200;
-    background-color: #2A3647;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    padding: 8px 12px;
     cursor: pointer;
-    font-size: 14px;
+    transform: scale(1);
+    transition: transform 100ms ease-in-out;
+    background: none; 
+    border: none; 
   }
 
-  #reload-page-button:hover {
-    background-color: #1f2d3d;
-    transition: background-color 100ms ease;
-  }
-
-  .input_div input,
-  .input_label {
-    max-width: 352px;
-    width: 100%;
-    margin: 0 auto;
+  #reload-page-button:hover{
+    transform: scale(1.12);
   }
 }
 
