@@ -43,13 +43,12 @@ function fillForm(contact) {
   setProfileInitials(contact.name);
 }
 
-// Sets the profile initials in the UI.
 function setProfileInitials(name) {
-  const initials = getInitials(name);
+  const { initials, initialClass } = getInitialsAndClass(name);
   const profileInitials = document.getElementById("profileInitials");
   if (profileInitials) {
     profileInitials.textContent = initials;
-    profileInitials.className = "contact-initials " + initials[0].toLowerCase();
+    profileInitials.className = "contact-initials " + initialClass;
   }
 }
 
@@ -110,28 +109,11 @@ function updateUserContact(userId, contactId) {
     .catch(() => {});
 }
 
-// Returns the initials from a contact's name.
-function getInitials(name) {
-  if (!name) return "";
-  const parts = name.trim().split(" ");
-  if (parts.length === 1) return parts[0][0].toUpperCase();
-  return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
-}
-
-function updateProfileInitials(name) {
-  const initials = getInitials(name);
-  const profileInitials = document.getElementById("profileInitials");
-  if (profileInitials) {
-    profileInitials.textContent = initials;
-    profileInitials.className = "contact-initials " + initials[0].toLowerCase();
-  }
-}
-
 // Beim Laden:
 const nameInput = document.getElementById('input_name');
-updateProfileInitials(nameInput.value);
+setProfileInitials(nameInput.value);
 
 // Beim Tippen:
 nameInput.addEventListener('input', (e) => {
-  updateProfileInitials(e.target.value);
+  setProfileInitials(e.target.value);
 });

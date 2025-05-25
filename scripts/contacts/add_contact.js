@@ -83,16 +83,6 @@ function removeExistingContactDetails() {
   if (contactDetailsDiv) contactDetailsDiv.remove();
 }
 
-// Returns initials and CSS class for a contact name.
-function getInitialsAndClass(name) {
-  const initials = name
-    .split(" ")
-    .map((n) => n[0])
-    .join("")
-    .toUpperCase();
-  return { initials, initialClass: initials[0].toLowerCase() };
-}
-
 // Creates a div element for contact details.
 function createContactDetailsDiv(contact, initials, initialClass) {
   const div = document.createElement("div");

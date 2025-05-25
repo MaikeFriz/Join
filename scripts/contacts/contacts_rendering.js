@@ -79,8 +79,7 @@ function renderContactSection(contactsList, initial, contacts, isGuest) {
 
 // Creates a list item element for a single contact.
 function createContactListItem(contact, isGuest) {
-  const initials = getInitials(contact.name);
-  const initialClass = initials[0].toLowerCase();
+  const { initials, initialClass } = getInitialsAndClass(contact.name);
   const listItem = document.createElement("li");
   listItem.innerHTML = `
     <div class="contact-initials ${initialClass}">${initials}</div>
@@ -92,13 +91,4 @@ function createContactListItem(contact, isGuest) {
   listItem.dataset.contactId = contact.id;
   listItem.addEventListener("click", () => displayContactDetails(contact.id));
   return listItem;
-}
-
-// Returns the initials from a contact's name.
-function getInitials(name) {
-  return name
-    .split(" ")
-    .map((n) => n[0])
-    .join("")
-    .toUpperCase();
 }
