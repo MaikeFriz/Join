@@ -123,7 +123,7 @@ function editAssignedToTemplate(kanbanData) {
 // Generates the HTML for individual assignee options in the dropdown.
 function editAssignedToDropdownTemplate(name, initials, cssClass, userId) {
   return /*html*/`    
-    <div class="dropdown-edit-assignee">
+    <div class="dropdown-edit-assignee" onclick="if(event.target.tagName !== 'INPUT'){document.getElementById('assignee_${userId}').click();}">
       <div class="dropdown-edit-assignee-initials ${cssClass} initials-circle">${initials}</div>
       <div class="dropdown-edit-assignee-name">${name}</div>
       <label class="svg-edit-checkbox">
