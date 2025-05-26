@@ -2,6 +2,12 @@
 
 **Join** ist eine moderne Web-App zur Visualisierung und Verwaltung von Aufgaben in Projektteams. Sie wurde mit **HTML**, **CSS**, **JavaScript**, **Git** und **Firebase** entwickelt. Die App bietet eine übersichtliche Benutzeroberfläche zur Verwaltung von Aufgaben, Verantwortlichkeiten und Fortschritt im Team – ideal für kleine bis mittlere Projekte.
 
+
+## Live-Demo
+
+[Zur Anwendung](https://join-437.developerakademie.net/Join/index.html)
+
+
 ## Funktionen
 
 - Aufgaben erstellen, bearbeiten und löschen
