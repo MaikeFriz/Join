@@ -30,9 +30,26 @@ function handleGuestEdit(contactId) {
   addCloseListeners();
 }
 
+// Handles editing a contact for a logged-in user.
+function handleUserEdit(contactId) {
+  const userId = JSON.parse(localStorage.getItem("loggedInUser")).userId;
+  fetchContact(userId, contactId).then((contact) => fillForm(contact));
+  document.querySelector("form").addEventListener("submit", function (event) {
+    event.preventDefault();
+    updateUserContact(userId, contactId);
+  });
+  addCloseListeners();
+}
+
 // Retrieves guest kanban data from localStorage or returns a default object.
 function getGuestKanbanData() {
   return JSON.parse(localStorage.getItem("guestKanbanData")) || { users: { guest: { contacts: {} } } };
+}
+
+// Fetches a contact from Firebase for a logged-in user.
+function fetchContact(userId, contactId) {
+  const url = `https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData/users/${userId}/contacts/${contactId}.json`;
+  return fetch(url).then((response) => response.json());
 }
 
 // Fills the edit form with the contact's data.
@@ -43,6 +60,7 @@ function fillForm(contact) {
   setProfileInitials(contact.name);
 }
 
+// Sets the initials and class for the profile avatar.
 function setProfileInitials(name) {
   const { initials, initialClass } = getInitialsAndClass(name);
   const profileInitials = document.getElementById("profileInitials");
@@ -60,29 +78,6 @@ function updateGuestContact(contact, contactId, guestKanbanData) {
   guestKanbanData.users.guest.contacts[contactId] = contact;
   localStorage.setItem("guestKanbanData", JSON.stringify(guestKanbanData));
   window.parent.postMessage({ type: "editContact", contact: { ...contact, id: contactId } }, "*");
-}
-
-// Adds event listeners to close the overlay.
-function addCloseListeners() {
-  document.querySelector(".close-btn").addEventListener("click", closeEditContactOverlay);
-  document.querySelector(".button_cancel").addEventListener("click", closeEditContactOverlay);
-}
-
-// Handles editing a contact for a logged-in user.
-function handleUserEdit(contactId) {
-  const userId = JSON.parse(localStorage.getItem("loggedInUser")).userId;
-  fetchContact(userId, contactId).then((contact) => fillForm(contact));
-  document.querySelector("form").addEventListener("submit", function (event) {
-    event.preventDefault();
-    updateUserContact(userId, contactId);
-  });
-  addCloseListeners();
-}
-
-// Fetches a contact from Firebase for a logged-in user.
-function fetchContact(userId, contactId) {
-  const url = `https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData/users/${userId}/contacts/${contactId}.json`;
-  return fetch(url).then((response) => response.json());
 }
 
 // Updates a contact in Firebase and notifies the parent window.
@@ -109,11 +104,17 @@ function updateUserContact(userId, contactId) {
     .catch(() => {});
 }
 
-// Beim Laden:
+// Adds event listeners to close the overlay.
+function addCloseListeners() {
+  document.querySelector(".close-btn").addEventListener("click", closeEditContactOverlay);
+  document.querySelector(".button_cancel").addEventListener("click", closeEditContactOverlay);
+}
+
+// On load: set initials for the current name value.
 const nameInput = document.getElementById('input_name');
 setProfileInitials(nameInput.value);
 
-// Beim Tippen:
+// On typing: update initials live.
 nameInput.addEventListener('input', (e) => {
   setProfileInitials(e.target.value);
 });

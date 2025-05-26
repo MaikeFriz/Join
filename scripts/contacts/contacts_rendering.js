@@ -39,16 +39,6 @@ function fetchContactsFromServer(userId) {
   return fetch(BASE_URL).then((response) => response.json());
 }
 
-// Renders the sorted and grouped contacts into the contact list.
-function renderContactsList(contactsList, contacts, isGuest) {
-  if (!contacts || Object.keys(contacts).length === 0) return;
-  const sortedContacts = sortContactsByName(contacts);
-  const groupedContacts = groupContactsByInitial(sortedContacts);
-  Object.keys(groupedContacts).forEach((initial) => {
-    renderContactSection(contactsList, initial, groupedContacts[initial], isGuest);
-  });
-}
-
 // Sorts contacts alphabetically by name.
 function sortContactsByName(contacts) {
   return Object.keys(contacts)
@@ -64,6 +54,16 @@ function groupContactsByInitial(sortedContacts) {
     acc[initial].push(contact);
     return acc;
   }, {});
+}
+
+// Renders the sorted and grouped contacts into the contact list.
+function renderContactsList(contactsList, contacts, isGuest) {
+  if (!contacts || Object.keys(contacts).length === 0) return;
+  const sortedContacts = sortContactsByName(contacts);
+  const groupedContacts = groupContactsByInitial(sortedContacts);
+  Object.keys(groupedContacts).forEach((initial) => {
+    renderContactSection(contactsList, initial, groupedContacts[initial], isGuest);
+  });
 }
 
 // Renders a section for each initial and its contacts.
@@ -91,4 +91,34 @@ function createContactListItem(contact, isGuest) {
   listItem.dataset.contactId = contact.id;
   listItem.addEventListener("click", () => displayContactDetails(contact.id));
   return listItem;
+}
+
+// Creates a div element for contact details.
+function createContactDetailsDiv(contact, initials, initialClass) {
+  const div = document.createElement("div");
+  div.className = "contact-details";
+  div.innerHTML = contactDetailsTemplate(contact, initials, initialClass);
+  return div;
+}
+
+// Renders the contact details div in the appropriate container.
+function renderContactDetailsDiv(newDiv) {
+  const isMobileView = window.innerWidth <= 980;
+  const rightSideContent = document.querySelector(".right-side-content-contacts");
+  if (isMobileView) {
+    rightSideContent.innerHTML = "";
+    rightSideContent.appendChild(newDiv);
+  } else {
+    rightSideContent.appendChild(newDiv);
+  }
+}
+
+// Renders the headline in the contact details area.
+function renderHeadline() {
+  const headlineContainer = document.querySelector(
+    ".right-side-content-contacts"
+  );
+  if (!headlineContainer) return;
+
+  headlineContainer.innerHTML = contactHeadlineTemplate();
 }

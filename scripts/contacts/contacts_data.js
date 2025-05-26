@@ -78,7 +78,7 @@ function putContact(BASE_URL, contact) {
     })
     .then(() => {
       renderContacts();
-      displayContactDetails(contact.id); // <--- Detailansicht aktualisieren
+      displayContactDetails(contact.id);
     })
     .catch(() => {});
 }
@@ -113,4 +113,60 @@ function deleteGuestContact(contactId) {
     localStorage.setItem("guestKanbanData", JSON.stringify(guestKanbanData));
     location.reload();
   }
+}
+
+// Fetches and displays user contact details from Firebase.
+function displayUserContactDetails(contactId) {
+  const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+  if (!loggedInUser || !loggedInUser.userId) return;
+  const userId = loggedInUser.userId;
+  const BASE_URL = `https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData/users/${userId}/contacts/${contactId}.json`;
+  fetch(BASE_URL)
+    .then((response) => response.json())
+    .then((contact) => handleUserContactDetails(contact, contactId))
+    .catch(() => {});
+}
+
+// Handles rendering and listeners for user contact details.
+function handleUserContactDetails(contact, contactId) {
+  removeExistingContactDetails();
+  const { initials, initialClass } = getInitialsAndClass(contact.name);
+  const newDiv = createContactDetailsDiv(contact, initials, initialClass);
+  renderContactDetailsDiv(newDiv);
+  addUserContactDetailListeners(contactId);
+  highlightSelectedContact(contactId);
+
+  if (window.innerWidth <= 768) {
+    const addBtn = document.querySelector('.add-contact-floating-button');
+    if (addBtn) addBtn.style.display = 'none';
+
+    const oldActionBtn = document.getElementById('action-button');
+    if (oldActionBtn) oldActionBtn.remove();
+
+    addMobileActionMenu(contactId);
+  }
+}
+
+// Adds event listeners for editing and deleting a guest contact.
+function addGuestContactDetailListeners(contactId) {
+  document
+    .getElementById("edit-contact-button")
+    .addEventListener("click", () =>
+      openOverlay(`./edit_contact.html?contactId=${contactId}`)
+    );
+  document
+    .getElementById("delete-contact-button")
+    .addEventListener("click", () => deleteGuestContact(contactId));
+}
+
+// Adds event listeners for editing and deleting a user contact.
+function addUserContactDetailListeners(contactId) {
+  document
+    .getElementById("edit-contact-button")
+    .addEventListener("click", () =>
+      openOverlay(`./edit_contact.html?contactId=${contactId}`)
+    );
+  document
+    .getElementById("delete-contact-button")
+    .addEventListener("click", () => deleteContact(contactId));
 }
