@@ -321,6 +321,8 @@ function clearAllInputs() {
   priorityButtons.forEach((button) => button.classList.remove("active"));
   const showAssignees = document.getElementById("show-assignees");
   showAssignees.innerHTML = "";
+    const mediumButton = document.getElementById("medium_button");
+  setActiveButton(mediumButton);
 }
 
 
