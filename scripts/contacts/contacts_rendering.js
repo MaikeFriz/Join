@@ -1,42 +1,36 @@
 // Renders the contact list for guest or logged-in user.
 function renderContacts() {
   return new Promise((resolve) => {
-    const isGuest = JSON.parse(localStorage.getItem("isGuest"));
-    const contactsList = document.querySelector(".contacts-list ul");
-    contactsList.innerHTML = "";
-    if (isGuest) {
-      const contacts = getGuestContacts();
-      renderContactsList(contactsList, contacts, true);
-      resolve();
-      return;
-    }
-    const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
-    if (!loggedInUser || !loggedInUser.userId) {
-      resolve();
-      return;
-    }
-    const userId = loggedInUser.userId;
-    const BASE_URL = `https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData/users/${userId}/contacts.json`;
-    fetch(BASE_URL)
-      .then((response) => response.json())
-      .then((contacts) => {
-        renderContactsList(contactsList, contacts, false);
+    getContactsData()
+      .then(({ contacts, isGuest }) => {
+        const contactsList = document.querySelector(".contacts-list ul");
+        contactsList.innerHTML = "";
+        renderContactsList(contactsList, contacts, isGuest);
         resolve();
       })
       .catch(() => resolve());
   });
 }
 
-// Retrieves guest contacts from localStorage.
-function getGuestContacts() {
-  const guestKanbanData = JSON.parse(localStorage.getItem("guestKanbanData"));
-  return guestKanbanData?.users?.guest?.contacts || {};
-}
-
-// Fetches contacts from Firebase for the logged-in user.
-function fetchContactsFromServer(userId) {
-  const BASE_URL = `https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData/users/${userId}/contacts.json`;
-  return fetch(BASE_URL).then((response) => response.json());
+// Fetches contacts for a logged-in user from Firebase.
+function getContactsData() {
+  return new Promise((resolve, reject) => {
+    const isGuest = JSON.parse(localStorage.getItem("isGuest"));
+    if (isGuest) {
+      const contacts = fetchGuestContactsList();
+      resolve({ contacts, isGuest: true });
+      return;
+    }
+    const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+    if (!loggedInUser || !loggedInUser.userId) {
+      resolve({ contacts: {}, isGuest: false });
+      return;
+    }
+    const userId = loggedInUser.userId;
+    fetchContactsList(userId)
+      .then((contacts) => resolve({ contacts, isGuest: false }))
+      .catch(reject);
+  });
 }
 
 // Sorts contacts alphabetically by name.
@@ -122,3 +116,4 @@ function renderHeadline() {
 
   headlineContainer.innerHTML = contactHeadlineTemplate();
 }
+

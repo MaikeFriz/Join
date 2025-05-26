@@ -56,7 +56,7 @@ function displayContactDetails(contactId) {
 
 // Displays guest contact details in the UI.
 function displayGuestContactDetails(contactId) {
-  const contact = getGuestContactById(contactId);
+  const contact = fetchGuestContactById(contactId);
   if (!contact) return;
   removeExistingContactDetails();
   const { initials, initialClass } = getInitialsAndClass(contact.name);

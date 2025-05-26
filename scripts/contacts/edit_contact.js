@@ -20,12 +20,11 @@ function getContactIdFromUrl() {
 
 // Handles editing a contact for a guest user.
 function handleGuestEdit(contactId) {
-  let guestKanbanData = getGuestKanbanData();
-  let contact = guestKanbanData?.users?.guest?.contacts?.[contactId];
+  const contact = fetchGuestContactById(contactId);
   if (contact) fillForm(contact);
   document.querySelector("form").addEventListener("submit", function (event) {
     event.preventDefault();
-    updateGuestContact(contact, contactId, guestKanbanData);
+    updateGuestContact(contact, contactId);
   });
   addCloseListeners();
 }
@@ -33,23 +32,12 @@ function handleGuestEdit(contactId) {
 // Handles editing a contact for a logged-in user.
 function handleUserEdit(contactId) {
   const userId = JSON.parse(localStorage.getItem("loggedInUser")).userId;
-  fetchContact(userId, contactId).then((contact) => fillForm(contact));
+  fetchContactById(userId, contactId).then((contact) => fillForm(contact));
   document.querySelector("form").addEventListener("submit", function (event) {
     event.preventDefault();
     updateUserContact(userId, contactId);
   });
   addCloseListeners();
-}
-
-// Retrieves guest kanban data from localStorage or returns a default object.
-function getGuestKanbanData() {
-  return JSON.parse(localStorage.getItem("guestKanbanData")) || { users: { guest: { contacts: {} } } };
-}
-
-// Fetches a contact from Firebase for a logged-in user.
-function fetchContact(userId, contactId) {
-  const url = `https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData/users/${userId}/contacts/${contactId}.json`;
-  return fetch(url).then((response) => response.json());
 }
 
 // Fills the edit form with the contact's data.
@@ -71,10 +59,11 @@ function setProfileInitials(name) {
 }
 
 // Updates a guest contact in localStorage and notifies the parent window.
-function updateGuestContact(contact, contactId, guestKanbanData) {
+function updateGuestContact(contact, contactId) {
   contact.name = document.getElementById("input_name").value;
   contact.email = document.querySelector("input[type='email']").value;
   contact.phone = document.querySelector("input[type='tel']").value;
+  const guestKanbanData = JSON.parse(localStorage.getItem("guestKanbanData"));
   guestKanbanData.users.guest.contacts[contactId] = contact;
   localStorage.setItem("guestKanbanData", JSON.stringify(guestKanbanData));
   window.parent.postMessage({ type: "editContact", contact: { ...contact, id: contactId } }, "*");
