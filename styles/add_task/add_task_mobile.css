@@ -26,7 +26,7 @@
         height: 96px;
     }
 
-    .add-task-overlay{
+    .add-task-overlay {
         align-items: start;
         padding-top: 32px;
         padding-bottom: 32px;
@@ -36,16 +36,18 @@
 
 @media(max-width:770px) {
     .right-side-content {
-        padding: 64px 96px 64px 96px !important;
+        padding: 40px 96px 16px 96px !important;
         height: auto;
     }
 
     .info_and_button_div {
-        margin-bottom: 120px;
+        margin-bottom: 0;
+        margin-top: 0;
     }
 
     footer {
-        height: 160px;
+        height: 40px;
+        max-height: 64px;
     }
 
     .add-task-frame {
@@ -54,11 +56,12 @@
 }
 
 @media(max-width:620px) {
-    .add-task-overlay{
+    .add-task-overlay {
         padding-top: 2.5vh !important;
     }
-    
+
 }
+
 @media(max-width:520px) {
 
     .urgent_button,
@@ -78,7 +81,7 @@
     }
 
     .right-side-content {
-        padding: 64px 20px 64px 20px !important;
+        padding: 16px 20px 0px 20px !important;
     }
 
     .add-task-frame {
