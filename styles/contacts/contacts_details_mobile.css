@@ -92,4 +92,8 @@
   .contact-details {
     font-size: 20px;
   }
+
+  .reload-page-button {
+    right:16px !important; }
+
 }

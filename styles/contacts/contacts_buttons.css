@@ -121,6 +121,15 @@
   box-shadow: none;
 }
 
+.button_save:disabled {
+  opacity: 1;
+  pointer-events: none;
+  background-color: #d1d1d1 !important;
+  border-color: #d1d1d1 !important;
+  color: #fff !important;
+  cursor: not-allowed;
+}
+
 .button_cancel,
 .button_delete_input_section:hover {
   border: solid 2px rgb(41, 171, 226);
@@ -260,6 +269,10 @@
 
 .create-contact-short {
   display: none;
+}
+
+.create-contact-inline {
+  display: inline;
 }
 
 a {

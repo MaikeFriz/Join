@@ -111,7 +111,6 @@ body {
   font-weight: 500;
   border:2px solid white;
   box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.1);
-
 }
 
 .logo {
@@ -120,69 +119,10 @@ body {
   margin-bottom: 10px;
 }
 
-.input_div {
+.error-massage {
   display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  flex-direction: column;
-  gap: 20px;
-  width: 100%;
-  margin-right: 48px;
 }
 
-.input_div input {
-  width: auto;
-  height: 48px;
-  border: rgb(209, 209, 209) solid 1px;
-  border-radius: 10px;
-  padding-left: 16px;
-}
-
-.input_label {
-  position: relative;
-  display: flex;
-  align-items: center;
-  width: 100%;
-  padding-right: 40px;
-  font-size: 16px;
-  outline: none;
-  border: 1px solid rgb(209, 209, 209);
-  border-radius: 10px;
-}
-
-.input_label input {
-  width: 100%;
-  height: 48px;
-  border: none;
-  outline: none;
-  padding-left: 16px;
-  font-size: 18px;
-}
-
-.input_label:focus-within {
-  border: 1px solid rgb(41, 171, 226);
-}
-
-.input_label input::placeholder {
-  font-size: 18px;
-  color: rgb(209, 209, 209);
-}
-
-.input_label input:hover,
-.input_label:hover{
-  background-color: #f0f0f0;
-}
-
-.input_icon {
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 20px;
-  height: 20px;
-}
-
-.input_icon img {
-  width: 100%;
-  height: 100%;
+.error-massage-height{
+  height: 32px;
 }

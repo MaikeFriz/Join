@@ -18,8 +18,6 @@ function handleLoadingScreen() {
   }
 }
 
-
-
 // Handles logo animation end event to reset logo styles
 function setupLogoAnimationReset() {
   const logoHeader = document.querySelector(".logo_header");

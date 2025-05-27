@@ -1,0 +1,113 @@
+/* --- Inputfeld- und Validierungs-Styles nach unten sortiert --- */
+
+.input_div {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  flex-direction: column;
+  width: 100%;
+  margin-right: 48px;
+}
+
+.input_div input {
+  width: auto;
+  height: 48px;
+  border: rgb(209, 209, 209) solid 1px;
+  border-radius: 10px;
+  padding-left: 16px;
+}
+
+.input_label {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.input_label input {
+  width: 100%;
+  height: 48px;
+  border: none;
+  outline: none;
+  padding-left: 16px;
+  font-size: 18px;
+}
+
+.input_label input::placeholder {
+  font-size: 18px;
+  color: rgb(209, 209, 209);
+}
+
+.input_icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+}
+
+.input_icon img {
+  width: 100%;
+  height: 100%;
+}
+
+.input_wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  border: 1px solid rgb(209, 209, 209);
+  border-radius: 10px;
+  background: #fff;
+  transition: border 0.2s;
+}
+
+.input_wrapper:focus-within {
+  border: 1px solid rgb(41, 171, 226);
+}
+
+.input_wrapper input {
+  width: 100%;
+  height: 48px;
+  border: none;
+  outline: none;
+  padding-left: 16px;
+  font-size: 18px;
+  background: transparent;
+}
+
+.input_wrapper:hover,
+.input_wrapper input:hover {
+  background-color: #f0f0f0;
+}
+
+/* --- Input Validation Styles --- */
+
+.input-error,
+.email-input-error,
+.phone-input-error,
+.name-input-error {
+  display: block;
+  min-height: 0.9em;
+  visibility: hidden;
+  color: rgba(255, 129, 144, 1);
+  font-size: 0.9em;
+  margin-top: 4px;
+  padding-left: 4px;
+  margin-bottom: 0;
+  line-height: 1.1;
+}
+
+.input_label:has(input:invalid:not(:focus):not(:placeholder-shown)) .input-error,
+.input_label:has(input:invalid:not(:focus):not(:placeholder-shown)) .email-input-error,
+.input_label:has(input:invalid:not(:focus):not(:placeholder-shown)) .phone-input-error,
+.input_label:has(input:invalid:not(:focus):not(:placeholder-shown)) .name-input-error {
+  visibility: visible;
+}
+
+.input_label:has(input:invalid:not(:focus):not(:placeholder-shown)) .input_wrapper {
+  border: 1px solid rgba(255, 129, 144, 1) !important;
+}
