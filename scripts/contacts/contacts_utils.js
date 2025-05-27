@@ -25,13 +25,18 @@ function fetchGuestContactById(contactId) {
 
 // Returns initials and CSS class for a contact name.
 function getInitialsAndClass(name) {
+  if (!name || typeof name !== "string" || !name.trim()) {
+    return { initials: "", initialClass: "" };
+  }
   const initials = name
     .split(" ")
     .map((n) => n[0])
     .join("")
     .toUpperCase();
-  let initialClass;
-  if (/^\d$/.test(initials[0])) {
+  let initialClass = "";
+  if (initials.length === 0) {
+    initialClass = "";
+  } else if (/^\d$/.test(initials[0])) {
     initialClass = "number";
   } else {
     initialClass = initials[0].toLowerCase();

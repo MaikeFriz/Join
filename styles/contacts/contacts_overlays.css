@@ -8,39 +8,23 @@ body {
 }
 
 .content {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  height: 100%;
-  width: 100%;
-  box-sizing: border-box;
-  gap: 20px;
-  background-color: rgba(0, 0, 0, 0);
-}
-
-#overlay {
-  overflow: hidden;
-  top: 0;
-  left: 0;
-  width: 90%;
   height: 100vh;
+  width: 100vw; 
 }
 
 .card {
   display: flex;
   flex-direction: row;
-  background: white;
-  border-radius: 50px 30px 30px 50px;
+  justify-content: space-between;
   position: relative;
-  width: 100%;
+  width: 90%;
   min-height: 100vh;
   height: 100%;
   box-sizing: border-box;
 }
 
 .left-column {
-  padding: 32px;
+  padding-left: 48px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -48,34 +32,37 @@ body {
   gap: 16px;
   background-color: #2a3647;
   color: white;
-  min-width: 42%;
+  width: 40%;
+  border-radius: 30px 0 0 30px;
 }
 
-.right-column {
-  text-align: center;
-  display: flex;
-  justify-content: end;
-  align-items: center;
-  flex-direction: row;
-  height: 100%;
-  width: 100%;
-  margin-right: 32px;
-  border-radius: 0 30px 30px 0;
-  background-color: rgba(255, 255, 255, 1);
-}
-
-h2 {
-  font-size: 61px;
+.left-column h2 {
+  font-size: clamp(32px, 5vw, 61px);
   font-weight: 700;
   margin-block-start: 0;
   margin-block-end: 0;
 }
 
-h3 {
-  font-size: 27px;
+.left-column h3 {
+  font-size: clamp(18px, 2vw, 27px);
   font-weight: 400;
   margin-block-start: 0;
   margin-block-end: 0;
+}
+
+.bottom-space-left-column{
+  height: 67px;
+}
+
+.right-column {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  height: 100%;
+  width: 40%;
+  border-radius: 0 30px 30px 0;
+  background-color: rgba(255, 255, 255, 1);
+  padding-top: 3%;
 }
 
 .separator {
@@ -86,19 +73,20 @@ h3 {
 }
 
 .profile-container {
-  min-width: 16%;
+  width: 20%;
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 2%;
+  background-color: rgba(255, 255, 255, 1);
 }
 
 .profile-icon {
   min-width: 120px;
   max-width: 120px;
   aspect-ratio: 1/1;
-  background: #f0f0f0;
+  background: rgba(217, 217, 217, 1);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -135,11 +123,11 @@ h3 {
 .input_div {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-end;
   flex-direction: column;
   gap: 20px;
-  height: 326px;
   width: 100%;
+  margin-right: 48px;
 }
 
 .input_div input {
@@ -154,12 +142,6 @@ h3 {
   position: relative;
   display: flex;
   align-items: center;
-  width: 100%;
-  outline: none;
-  border-radius: 10px;
-}
-
-.input_label {
   width: 100%;
   padding-right: 40px;
   font-size: 16px;
@@ -207,11 +189,12 @@ h3 {
 
 .button_div {
   display: flex;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
   flex-direction: row;
   gap: 32px;
   width: 100% !important;
+  margin-top: 24px;
 }
 
 .button_save,
@@ -319,12 +302,10 @@ h3 {
         stroke: rgba(9, 25, 49, 1);
     }
 
-
-
 .close-btn svg {
   position: absolute;
-  top: 48px;
-  right: 48px;
+  top: 40px;
+  right: 40px;
   height: 32px;
   width: 32px;
   padding: 8px;
@@ -366,7 +347,6 @@ h3 {
   pointer-events: auto;
 }
 
-
 .overlay-fade-in {
   opacity: 0;
   transition: opacity 0.3s;
@@ -377,10 +357,11 @@ h3 {
 
 .overlay-iframe {
   border-radius: 30px;
-  height: 65%;
+  width: 90vw;
+  max-width: 1190px;
+  aspect-ratio: 2 / 1;
   max-height: 768px;
-  width: 90%;
-  max-width: 1024px;
+  height: auto;
   opacity: 0;
   box-shadow: 0px 0px 16px 2px rgba(0, 0, 0, 0);
   transform: scale(0.5);
@@ -395,6 +376,10 @@ h3 {
   box-shadow: 0px 0px 16px 2px rgba(0, 0, 0, 0);
   border: none
   
+}
+
+.create-contact-short {
+  display: none;
 }
 
 a {

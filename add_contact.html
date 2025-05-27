@@ -11,11 +11,12 @@
 
     <link rel="stylesheet" href="./styles/responsive.css" />
 
-    <script src="./scripts/contacts/contacts_utils.js"></script>
-    <script src="./scripts/contacts/contacts_overlay_transitions.js"></script>
-    <script src="./scripts/contacts/contacts_templates.js"></script>
-    <script src="./scripts/contacts/add_contact.js"></script>
-    <script src="./scripts/contacts/add_contact_script.js"></script>
+    <script src="./scripts/contacts/contacts_utils.js" defer></script>
+    <script src="./scripts/contacts/contacts_overlay_transitions.js" defer></script>
+    <script src="./scripts/contacts/contacts_templates.js" defer></script>
+    <script src="./scripts/contacts/contacts_rendering.js" defer></script>
+    <script src="./scripts/contacts/add_contact.js" defer></script>
+    <script src="./scripts/contacts/add_contact_script.js" defer></script>
   </head>
 
   <body>
@@ -29,18 +30,18 @@
         
         <div class="left-column">
           <div class="logo_left">
-            <img
-              src="./assets/img/join_logo_bright.svg"
-              alt="Join Logo"
-              class="logo"
-            />
+            <img src="./assets/img/join_logo_bright.svg" alt="Join Logo" class="logo"/>
           </div>
           <div>
             <h2>Add Contact</h2>
             <h3>Tasks are better with a team!</h3>
           </div>
           <div class="separator"></div>
+          <div>
+            <div class="bottom-space-left-column"></div>
+          </div>
         </div>
+
         <div class="profile-container">
           <div class="profile-icon">
             <img src="./assets/img/person_placeholder.svg" alt="Profile" />
@@ -76,7 +77,9 @@
                 </svg>
               </button>
               <button type="submit" form="addContactForm" class="button_save">
-                Create <img src="./assets/img/check.svg" />
+                <span class="create-contact-full">Create contact</span>
+                <span class="create-contact-short">Create</span>
+                <img src="./assets/img/check.svg" />
               </button>
             </div>
           </form>
