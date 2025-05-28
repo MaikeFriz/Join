@@ -4,19 +4,7 @@
 function createOverlay() {
   const overlay = document.createElement("div");
   overlay.id = "overlay";
-  Object.assign(overlay.style, {
-    position: "fixed",
-    top: "0",
-    left: "0",
-    width: "100%",
-    height: "100%",
-    background: "rgba(0, 0, 0, 0.3)",
-    backdropFilter: "blur(10px)",
-    zIndex: "1000",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  });
+  overlay.classList.add("overlay");
   return overlay;
 }
 
@@ -147,6 +135,12 @@ function closeEditContactOverlay() {
   }
 }
 
+// Adds event listeners to close the overlay (for close/cancel buttons in iframe).
+function addCloseListeners() {
+  document.querySelector(".close-btn").addEventListener("click", closeEditContactOverlay);
+  document.querySelector(".button_cancel").addEventListener("click", closeEditContactOverlay);
+}
+
 // 4. Message event listeners
 
 // Handles messages from the overlay iframe or parent window
@@ -169,6 +163,7 @@ window.addEventListener("message", function (event) {
   }
 });
 
+// Handles overlay close animation and removal on message
 window.addEventListener("message", function (event) {
   if (event.data.type === "closeOverlay") {
     const overlay = document.getElementById("overlay");
@@ -183,13 +178,14 @@ window.addEventListener("message", function (event) {
   }
 });
 
-// Listener for parent message (in the iframe)
+// Handles start close animation in iframe
 window.addEventListener("message", function(event) {
   if (event.data.type === "startCloseAnimation") {
     window.closeContactOverlay();
   }
 });
 
+// Handles iframe content ready (parent and iframe)
 window.addEventListener("message", function (event) {
   if (event.data.type === "iframeContentReady") {
     const iframe = document.querySelector('.overlay-iframe');
@@ -214,7 +210,6 @@ document.addEventListener("DOMContentLoaded", function () {
     window.parent.postMessage({ type: "iframeContentReady" }, "*");
   }, 400); 
 });
-
 
 
 

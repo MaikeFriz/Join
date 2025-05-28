@@ -1,5 +1,3 @@
-/* --- Inputfeld- und Validierungs-Styles nach unten sortiert --- */
-
 .input_div {
   display: flex;
   justify-content: center;
@@ -7,6 +5,11 @@
   flex-direction: column;
   width: 100%;
   margin-right: 48px;
+}
+
+.contact-input-fields,
+#contact-input-fields {
+  width: 100% !important;
 }
 
 .input_div input {
@@ -96,8 +99,8 @@
   color: rgba(255, 129, 144, 1);
   font-size: 0.9em;
   margin-top: 4px;
-  padding-left: 4px;
-  margin-bottom: 0;
+  padding-left: 4px !important;
+  margin-bottom: 4px;
   line-height: 1.1;
 }
 
@@ -110,4 +113,12 @@
 
 .input_label:has(input:invalid:not(:focus):not(:placeholder-shown)) .input_wrapper {
   border: 1px solid rgba(255, 129, 144, 1) !important;
+}
+
+.error-massage {
+  display: flex;
+}
+
+.error-massage-height {
+  height: 32px;
 }

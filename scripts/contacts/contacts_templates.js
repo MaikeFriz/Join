@@ -72,3 +72,64 @@ function mobileActionMenuTemplate() {
     </button>
   `;
 }
+
+function contactInputFieldsTemplate() {
+  return `
+    <label class="input_label">
+      <div class="input_wrapper">
+        <input
+          id="input_name"
+          type="text"
+          required
+          placeholder="Name"
+          pattern="^.*\\S+.*\\s+.*\\S+.*$"
+        />
+        <div class="input_icon">
+          <img src="./assets/img/placeholder_mail_input.svg" alt="Name" />
+        </div>
+      </div>
+      <span class="name-input-error input-error">
+        Please enter first and last name.
+      </span>
+    </label>
+
+    <label class="input_label">
+      <div class="input_wrapper">
+        <input
+          id="input_email"
+          type="email"
+          required
+          placeholder="Email"
+          pattern="^[^@\\s]+@[^@\\s]+\\.[a-zA-Z]{2,}$"
+        />
+        <div class="input_icon">
+          <img src="./assets/img/placeholder_lock_input_field.svg" alt="Email" />
+        </div>
+      </div>
+      <div class="error-message">
+        <span class="email-input-error input-error" id="email_error">
+          Please enter a valid email address.
+        </span>
+      </div>
+    </label>
+
+    <label class="input_label">
+      <div class="input_wrapper">
+        <input
+          id="input_phone"
+          type="tel"
+          required
+          placeholder="Phone"
+          pattern="^\\+?\\s?[0-9][0-9 ]*$"
+        />
+        <div class="input_icon">
+          <img src="./assets/img/call.svg" alt="Phone" />
+        </div>
+      </div>
+      <span class="phone-input-error input-error">
+        Please enter a valid phone number.
+      </span>
+    </label>
+  `;
+}
+

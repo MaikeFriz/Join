@@ -239,6 +239,21 @@
   .input_div{
     gap: 0 !important;
   }
+
+  .input-error,
+  .email-input-error,
+  .phone-input-error,
+  .name-input-error {
+    display: block;
+    min-height: 0.9em;
+    visibility: hidden;
+    color: rgba(255, 129, 144, 1);
+    font-size: 0.9em;
+    margin-top: 2px;
+    padding-left: 4px;
+    margin-bottom: 2px;
+    line-height: 1.1;
+  }
 }
 
 

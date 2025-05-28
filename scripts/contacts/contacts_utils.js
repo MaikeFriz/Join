@@ -59,3 +59,75 @@ function highlightSelectedContact(contactId) {
   );
   if (selectedContact) selectedContact.classList.add("contact-highlight");
 }
+
+// Activates the overlay with a short delay.
+function activateOverlay() {
+  setTimeout(() => {
+    const overlay = document.querySelector('.contact-overlay');
+    if (overlay) overlay.classList.add('active');
+  }, 30);
+}
+
+// Sets up the button state handler to enable/disable the save button based on form validity.
+function setupButtonStateHandler(form, saveBtn) {
+  function updateButtonState() {
+    if (!form.checkValidity()) {
+      saveBtn.setAttribute('aria-disabled', 'true');
+    } else {
+      saveBtn.removeAttribute('aria-disabled');
+    }
+  }
+  form.addEventListener("input", updateButtonState);
+  updateButtonState();
+}
+
+// Sets up the form submission handler to validate and call the onSubmit function.
+function setupFormSubmitHandler(form, onSubmit) {
+  form.addEventListener("submit", function (event) {
+    if (!form.checkValidity()) {
+      event.preventDefault();
+      form.querySelectorAll("input").forEach(input => {
+        input.dispatchEvent(new Event("input"));
+      });
+      return false;
+    }
+    onSubmit();
+    event.preventDefault();
+  });
+}
+
+// Sets up event listeners for the close buttons to close the overlay.
+function setupCloseHandlers(closeOverlayFn) {
+  document.querySelector(".close-btn").addEventListener("click", closeOverlayFn);
+  document.querySelector(".button_cancel").addEventListener("click", closeOverlayFn);
+}
+
+// Renders the input fields for the contact form if not already rendered.
+function renderInputFields(inputFieldsId, inputFieldsTemplate) {
+  if (inputFieldsId && inputFieldsTemplate) {
+    const container = document.getElementById(inputFieldsId);
+    if (container && container.children.length === 0) {
+      container.innerHTML = inputFieldsTemplate();
+    }
+  }
+}
+
+// Initializes the contact form setup with validation, event listeners, and rendering input fields.
+function setupContactForm({
+  formId,
+  saveBtnId,
+  onSubmit,
+  closeOverlayFn,
+  inputFieldsId,
+  inputFieldsTemplate
+}) {
+  activateOverlay();
+
+  const form = document.getElementById(formId);
+  const saveBtn = document.getElementById(saveBtnId);
+
+  setupButtonStateHandler(form, saveBtn);
+  setupFormSubmitHandler(form, onSubmit);
+  setupCloseHandlers(closeOverlayFn);
+  renderInputFields(inputFieldsId, inputFieldsTemplate);
+}

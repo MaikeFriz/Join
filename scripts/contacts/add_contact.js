@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", initContactsPage);
 window.addEventListener("resize", handleResponsiveContactDetails);
+document.addEventListener("DOMContentLoaded", initAddContactForm);
 
 // Initializes the contacts page and checks login state.
 function initContactsPage() {
@@ -161,4 +162,32 @@ function addOutsideClickListener(actionMenu, actionButton) {
       { once: true }
     );
   }, 0);
+}
+
+// Initializes the add contact form: sets up validation, events, and handles submit.
+function initAddContactForm() {
+  if (!document.getElementById("addContactForm")) return;
+  setupContactForm({
+    formId: "addContactForm",
+    saveBtnId: "createBtn",
+    onSubmit: function() {
+      const contact = {
+        name: document.getElementById("input_name").value,
+        email: document.getElementById("input_email").value,
+        phone: document.getElementById("input_phone").value,
+      };
+      window.parent.postMessage({ type: "createContact", contact: contact }, "*");
+    },
+    closeOverlayFn: closeAddContactOverlay,
+    inputFieldsId: "add_contact_input_fields",
+    inputFieldsTemplate: contactInputFieldsTemplate
+  });
+
+  // Live update initials when name input changes
+  const nameInput = document.getElementById("input_name");
+  if (nameInput) {
+    nameInput.addEventListener('input', (e) => {
+      setProfileInitials(e.target.value);
+    });
+  }
 }

@@ -1,61 +1,13 @@
-// Initializes the edit contact process on DOMContentLoaded.
-document.addEventListener("DOMContentLoaded", initEditContact);
-
-// Determines user type and starts the appropriate edit process.
-function initEditContact() {
-  const contactId = getContactIdFromUrl();
-  const isGuest = JSON.parse(localStorage.getItem("isGuest"));
-  if (isGuest) {
-    handleGuestEdit(contactId);
-    return;
-  }
-  handleUserEdit(contactId);
-}
-
-// Extracts the contactId from the URL parameters.
+// Returns the contactId from the URL parameters.
 function getContactIdFromUrl() {
   const urlParams = new URLSearchParams(window.location.search);
   return urlParams.get("contactId");
 }
 
-// Handles editing a contact for a guest user.
-function handleGuestEdit(contactId) {
-  const contact = fetchGuestContactById(contactId);
-  if (contact) fillForm(contact);
-  document.querySelector("form").addEventListener("submit", function (event) {
-    event.preventDefault();
-    updateGuestContact(contact, contactId);
-  });
-  addCloseListeners();
-}
-
-// Handles editing a contact for a logged-in user.
-function handleUserEdit(contactId) {
-  const userId = JSON.parse(localStorage.getItem("loggedInUser")).userId;
-  fetchContactById(userId, contactId).then((contact) => fillForm(contact));
-  document.querySelector("form").addEventListener("submit", function (event) {
-    event.preventDefault();
-    updateUserContact(userId, contactId);
-  });
-  addCloseListeners();
-}
-
-// Fills the edit form with the contact's data.
-function fillForm(contact) {
-  document.getElementById("input_name").value = contact.name;
-  document.querySelector("input[type='email']").value = contact.email;
-  document.querySelector("input[type='tel']").value = contact.phone;
-  setProfileInitials(contact.name);
-}
-
-// Sets the initials and class for the profile avatar.
-function setProfileInitials(name) {
-  const { initials, initialClass } = getInitialsAndClass(name);
-  const profileInitials = document.getElementById("profileInitials");
-  if (profileInitials) {
-    profileInitials.textContent = initials;
-    profileInitials.className = "contact-initials " + initialClass;
-  }
+// Fetches a guest contact by its ID from localStorage.
+function fetchGuestContactById(contactId) {
+  const guestKanbanData = JSON.parse(localStorage.getItem("guestKanbanData"));
+  return guestKanbanData?.users?.guest?.contacts?.[contactId] || null;
 }
 
 // Updates a guest contact in localStorage and notifies the parent window.
@@ -69,7 +21,7 @@ function updateGuestContact(contact, contactId) {
   window.parent.postMessage({ type: "editContact", contact: { ...contact, id: contactId } }, "*");
 }
 
-// Updates a contact in Firebase and notifies the parent window.
+// Updates a user contact in the remote database and notifies the parent window.
 function updateUserContact(userId, contactId) {
   const contact = {
     id: contactId,
@@ -93,55 +45,103 @@ function updateUserContact(userId, contactId) {
     .catch(() => {});
 }
 
+// Sets the profile initials and class for the initials badge.
+function setProfileInitials(name) {
+  const { initials, initialClass } = getInitialsAndClass(name);
+  const profileInitials = document.getElementById("profileInitials");
+  if (profileInitials) {
+    profileInitials.textContent = initials;
+    profileInitials.className = "contact-initials " + initialClass;
+  }
+}
+
+// Set fields if contact data is available.
+function fillEditContactFormFields(contact) {
+  if (contact) {
+    document.getElementById("input_name").value = contact.name;
+    document.querySelector("input[type='email']").value = contact.email;
+    document.querySelector("input[type='tel']").value = contact.phone;
+    setProfileInitials(contact.name);
+  }
+}
+
+// Initializes the edit contact form: sets up validation, events, and fills fields.
+function initEditContactForm() {
+  setupContactForm({
+    formId: "editContactForm",
+    saveBtnId: "saveBtn",
+    onSubmit: function() {
+      const isGuest = JSON.parse(localStorage.getItem("isGuest"));
+      const contactId = getContactIdFromUrl();
+      if (isGuest) {
+        const contact = fetchGuestContactById(contactId);
+        updateGuestContact(contact, contactId);
+      } else {
+        const userId = JSON.parse(localStorage.getItem("loggedInUser")).userId;
+        updateUserContact(userId, contactId);
+      }
+    },
+    closeOverlayFn: closeEditContactOverlay,
+    inputFieldsId: "edit_contact_input_fields",
+    inputFieldsTemplate: contactInputFieldsTemplate
+  });
+
+  // After rendering the fields, fill them with contact data
+  const contactId = getContactIdFromUrl();
+  const isGuest = JSON.parse(localStorage.getItem("isGuest"));
+  if (isGuest) {
+    const contact = fetchGuestContactById(contactId);
+    fillEditContactFormFields(contact);
+  } else {
+    const userId = JSON.parse(localStorage.getItem("loggedInUser")).userId;
+    fetchContactById(userId, contactId).then((contact) => fillEditContactFormFields(contact));
+  }
+
+  // Live update initials when name input changes
+  const nameInput = document.getElementById("input_name");
+  if (nameInput) {
+    nameInput.addEventListener('input', (e) => {
+      setProfileInitials(e.target.value);
+    });
+  }
+}
+
+document.addEventListener("DOMContentLoaded", initEditContactForm);
+
 // Adds event listeners to close the overlay.
 function addCloseListeners() {
   document.querySelector(".close-btn").addEventListener("click", closeEditContactOverlay);
   document.querySelector(".button_cancel").addEventListener("click", closeEditContactOverlay);
 }
 
-// On load: set initials for the current name value.
-const nameInput = document.getElementById('input_name');
-setProfileInitials(nameInput.value);
+// Renders the edit contact input fields and fills them with contact data.
+function renderEditContactFields(contact) {
+  document.getElementById('edit_contact_input_fields').innerHTML = contactInputFieldsTemplate();
+  document.getElementById("input_name").value = contact.name;
+  document.querySelector("input[type='email']").value = contact.email;
+  document.querySelector("input[type='tel']").value = contact.phone;
+  setProfileInitials(contact.name);
+}
 
-// On typing: update initials live.
-nameInput.addEventListener('input', (e) => {
-  setProfileInitials(e.target.value);
-});
-
-document.addEventListener("DOMContentLoaded", function () {
-  setTimeout(() => {
-    const overlay = document.querySelector('.contact-overlay');
-    if (overlay) overlay.classList.add('active');
-  }, 30);
-
+// Initializes validation and button state for the edit contact form.
+function initEditContactValidation() {
   const form = document.getElementById("editContactForm");
   const saveBtn = document.getElementById("saveBtn");
+  const nameInput = document.getElementById("input_name");
 
   function updateButtonState() {
-    saveBtn.disabled = !form.checkValidity();
+    if (!form.checkValidity()) {
+      saveBtn.setAttribute('aria-disabled', 'true');
+    } else {
+      saveBtn.removeAttribute('aria-disabled');
+    }
   }
 
   updateButtonState();
   form.addEventListener("input", updateButtonState);
 
-  form.addEventListener("submit", function (event) {
-    event.preventDefault();
-
-    const contact = {
-      name: document.getElementById("input_name").value,
-      email: document.getElementById("input_email").value,
-      phone: document.getElementById("input_phone").value,
-    };
-
-    window.parent.postMessage({ type: "editContact", contact: contact }, "*");
+  // Live update initials when name input changes
+  nameInput.addEventListener('input', (e) => {
+    setProfileInitials(e.target.value);
   });
-
-  document.querySelector(".close-btn").addEventListener("click", closeEditContactOverlay);
-  document.querySelector(".button_cancel").addEventListener("click", closeEditContactOverlay);
-
-  window.addEventListener("message", function(event) {
-    if (event.data.type === "startCloseAnimation") {
-      closeEditContactOverlay();
-    }
-  });
-});
+}
