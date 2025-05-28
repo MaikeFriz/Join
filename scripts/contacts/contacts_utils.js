@@ -73,12 +73,14 @@ function setupButtonStateHandler(form, saveBtn) {
   function updateButtonState() {
     if (!form.checkValidity()) {
       saveBtn.setAttribute('aria-disabled', 'true');
+      saveBtn.disabled = true;
     } else {
       saveBtn.removeAttribute('aria-disabled');
+      saveBtn.disabled = false;
     }
   }
-  form.addEventListener("input", updateButtonState);
   updateButtonState();
+  form.addEventListener("input", updateButtonState);
 }
 
 // Sets up the form submission handler to validate and call the onSubmit function.

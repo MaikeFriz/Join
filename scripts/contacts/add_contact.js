@@ -183,11 +183,10 @@ function initAddContactForm() {
     inputFieldsTemplate: contactInputFieldsTemplate
   });
 
-  // Live update initials when name input changes
-  const nameInput = document.getElementById("input_name");
-  if (nameInput) {
-    nameInput.addEventListener('input', (e) => {
-      setProfileInitials(e.target.value);
-    });
+  // Disable the save button at start
+  const saveBtn = document.getElementById("createBtn");
+  if (saveBtn) {
+    saveBtn.setAttribute('aria-disabled', 'true');
+    saveBtn.disabled = true;
   }
 }
