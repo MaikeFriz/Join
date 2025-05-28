@@ -179,6 +179,15 @@
   .card {
     width: 95%;
   }
+
+  .contact-toast {
+    bottom: 100px;
+    height: 58px;
+    width: fit-content;
+    padding-left: 16px;
+    padding-right: 16px;
+    white-space: nowrap;
+  }
 }
 
 @media (max-width: 550px) {

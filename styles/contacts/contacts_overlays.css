@@ -183,3 +183,51 @@ body {
   width: auto;
   margin-bottom: 10px;
 }
+
+.contact-toast {
+  position: fixed;
+  bottom: 150px;
+  right: -400px;
+  display: flex;
+  align-items: center;
+  z-index: 2000;
+  height: 74px;
+  width: fit-content;
+  padding-left: 32px;
+  padding-right: 32px;
+  background: rgba(42, 54, 71, 1);
+  color: rgba(255, 255, 255, 1);
+  font-size: clamp(14px, 2.5vw, 20px);;
+  border-radius: 20px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  opacity: 0;
+  pointer-events: none;
+  animation: none;
+}
+
+.contact-toast.active {
+  animation: toast-fly-in-out 2.6s cubic-bezier(.68,-0.55,.27,1.55) forwards;
+  pointer-events: auto;
+}
+
+@keyframes toast-fly-in-out {
+  0% {
+    right: -400px;
+    opacity: 0;
+  }
+  30% {
+    right: 50%;
+    transform: translateX(50%);
+    opacity: 1;
+  }
+  70% {
+    right: 50%;
+    transform: translateX(50%);
+    opacity: 1;
+  }
+  100% {
+    right: -400px;
+    opacity: 0;
+    transform: none;
+  }
+}

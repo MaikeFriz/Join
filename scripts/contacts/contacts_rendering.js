@@ -1,3 +1,19 @@
+document.addEventListener("DOMContentLoaded", function() {
+  if (localStorage.getItem('showContactSavedToast') === '1') {
+    showContactSavedToast();
+    localStorage.removeItem('showContactSavedToast');
+  }
+});
+
+function showContactSavedToast() {
+  const toast = document.getElementById('contact-toast');
+  if (!toast) return;
+  toast.classList.add('active');
+  setTimeout(() => {
+    toast.classList.remove('active');
+  }, 1800);
+}
+
 // Renders the contact list for guest or logged-in user.
 function renderContacts() {
   return new Promise((resolve) => {
@@ -116,4 +132,19 @@ function renderHeadline() {
 
   headlineContainer.innerHTML = contactHeadlineTemplate();
 }
+
+window.addEventListener("message", async function(event) {
+  if (event.data && event.data.type === "createContact") {
+    const contact = event.data.contact;
+    await renderContacts();
+    displayContactDetails(contact.id);
+
+    if (window.innerWidth <= 980) {
+      const contactsList = document.querySelector(".contacts-list");
+      if (contactsList) contactsList.style.display = "none";
+    }
+    showContactSavedToast();
+    closeAddContactOverlay();
+  }
+});
 

@@ -177,6 +177,7 @@ function initAddContactForm() {
         phone: document.getElementById("input_phone").value,
       };
       window.parent.postMessage({ type: "createContact", contact: contact }, "*");
+      // Das Overlay wird danach automatisch geschlossen (z.B. per closeOverlayFn)
     },
     closeOverlayFn: closeAddContactOverlay,
     inputFieldsId: "add_contact_input_fields",
@@ -189,4 +190,14 @@ function initAddContactForm() {
     saveBtn.setAttribute('aria-disabled', 'true');
     saveBtn.disabled = true;
   }
+}
+
+// Shows a toast notification when a contact is saved
+function showContactSavedToast() {
+  const toast = document.getElementById('contact-toast');
+  if (!toast) return;
+  toast.classList.add('active');
+  setTimeout(() => {
+    toast.classList.remove('active');
+  }, 2600);
 }
