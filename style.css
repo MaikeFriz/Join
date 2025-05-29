@@ -34,7 +34,7 @@ a {
   padding: 4px;
 }
 
-footer{
+footer {
   min-height: 16px;
   width: auto;
 }
@@ -80,14 +80,21 @@ footer a:hover {
   display: none !important;
 }
 
-@media(max-width:768px) {
+/* Füge dies zu style.css hinzu */
+#add_task_frame {
+  max-width: 1440px;
+  margin: 0 auto; /* Zentrieren */
+  width: 100%;
+}
+
+@media (max-width: 768px) {
   .right-side-content {
     width: 100vw;
     padding: 64px 64px 64px 64px;
   }
 }
 
-@media(max-width:620px) {
+@media (max-width: 620px) {
   .right-side-content {
     width: 100vw;
     padding: 40px 24px 40px 24px;
