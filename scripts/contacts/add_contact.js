@@ -36,12 +36,29 @@ function handleResponsiveContactDetails() {
   const isMobile = window.innerWidth <= 980;
   const rightSideContent = document.querySelector(".right-side-content-contacts");
   const contactDetails = document.querySelector(".contact-details");
+  const contactsList = document.querySelector(".contacts-list");
+  const addBtn = document.querySelector('.add-contact-floating-button');
+  const actionBtn = document.getElementById('action-button');
 
   if (isMobile && contactDetails && rightSideContent.contains(contactDetails)) {
-    const contactsList = document.querySelector(".contacts-list");
-    if (contactsList) contactsList.style.display = "none";
+    // Liste ausblenden
+    if (contactsList) contactsList.classList.add("hide-on-mobile");
+    // Add-Button ausblenden
+    if (addBtn) addBtn.style.display = 'none';
+    // Edit-Floating-Button anzeigen (falls nicht vorhanden)
+    if (!actionBtn) {
+      // Hole die aktuelle contactId aus dem markierten Listeneintrag
+      const selected = document.querySelector('.contacts-list ul li.contact-highlight');
+      const contactId = selected ? selected.getAttribute('data-contact-id') : null;
+      if (contactId) addMobileActionMenu(contactId);
+    }
   } else {
-    renderContacts();
+    // Liste einblenden
+    if (contactsList) contactsList.classList.remove("hide-on-mobile");
+    // Add-Button anzeigen
+    if (addBtn) addBtn.style.display = '';
+    // Edit-Floating-Button ausblenden
+    if (actionBtn) actionBtn.remove();
   }
 }
 
