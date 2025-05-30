@@ -43,7 +43,12 @@ document.addEventListener("DOMContentLoaded", async function () {
 function addTaskFormListener() {
   taskForm.addEventListener("submit", async function (event) {
     event.preventDefault();
-    showLoadingSpinner(); 
+    if (!validateTaskForm()) {
+      hideLoadingSpinner();
+      return;
+    }
+
+    showLoadingSpinner();
     try {
       const taskData = getTaskDetails();
       const newTaskId = await getNewTaskId();
@@ -51,7 +56,7 @@ function addTaskFormListener() {
       const userId = isGuest ? "guest" : user.userId;
       await saveTaskToDatabase(newTaskId, taskData, userId);
     } finally {
-      hideLoadingSpinner(); 
+      hideLoadingSpinner();
     }
   });
 }
