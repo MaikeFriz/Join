@@ -39,7 +39,7 @@ body {
 
 .overlay-iframe {
   border-radius: 30px;
-  width: 90vw;
+  width: 100vw;
   max-width: 1190px;
   aspect-ratio: 2 / 1;
   max-height: 768px;
