@@ -37,28 +37,17 @@ function handleResponsiveContactDetails() {
   const rightSideContent = document.querySelector(".right-side-content-contacts");
   const contactDetails = document.querySelector(".contact-details");
   const contactsList = document.querySelector(".contacts-list");
-  const addBtn = document.querySelector('.add-contact-floating-button');
-  const actionBtn = document.getElementById('action-button');
 
-  if (isMobile && contactDetails && rightSideContent.contains(contactDetails)) {
-    // Liste ausblenden
+  const contactDetailsVisible = contactDetails && rightSideContent && rightSideContent.contains(contactDetails);
+
+  if (isMobile && contactDetailsVisible) {
     if (contactsList) contactsList.classList.add("hide-on-mobile");
-    // Add-Button ausblenden
-    if (addBtn) addBtn.style.display = 'none';
-    // Edit-Floating-Button anzeigen (falls nicht vorhanden)
-    if (!actionBtn) {
-      // Hole die aktuelle contactId aus dem markierten Listeneintrag
-      const selected = document.querySelector('.contacts-list ul li.contact-highlight');
-      const contactId = selected ? selected.getAttribute('data-contact-id') : null;
-      if (contactId) addMobileActionMenu(contactId);
-    }
+    const selected = document.querySelector('.contacts-list ul li.contact-highlight');
+    const contactId = selected ? selected.getAttribute('data-contact-id') : null;
+    showActionButton(contactId);
   } else {
-    // Liste einblenden
     if (contactsList) contactsList.classList.remove("hide-on-mobile");
-    // Add-Button anzeigen
-    if (addBtn) addBtn.style.display = '';
-    // Edit-Floating-Button ausblenden
-    if (actionBtn) actionBtn.remove();
+    showAddButton();
   }
 }
 
@@ -84,13 +73,7 @@ function displayGuestContactDetails(contactId) {
   highlightSelectedContact(contactId);
 
   if (window.innerWidth <= 980) {
-    const addBtn = document.querySelector('.add-contact-floating-button');
-    if (addBtn) addBtn.style.display = 'none';
-
-    const oldActionBtn = document.getElementById('action-button');
-    if (oldActionBtn) oldActionBtn.remove();
-
-    addMobileActionMenu(contactId);
+    showActionButton(contactId);
   }
 }
 
@@ -217,4 +200,18 @@ function showContactSavedToast() {
   setTimeout(() => {
     toast.classList.remove('active');
   }, 2600);
+}
+
+function showAddButton() {
+  const addBtn = document.querySelector('.add-contact-floating-button');
+  const actionBtn = document.getElementById('action-button');
+  if (addBtn) addBtn.style.display = '';
+  if (actionBtn) actionBtn.remove();
+}
+
+function showActionButton(contactId) {
+  const addBtn = document.querySelector('.add-contact-floating-button');
+  const actionBtn = document.getElementById('action-button');
+  if (addBtn) addBtn.style.display = 'none';
+  if (!actionBtn && contactId) addMobileActionMenu(contactId);
 }
