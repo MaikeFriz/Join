@@ -136,14 +136,11 @@ function handleUserContactDetails(contact, contactId) {
   addUserContactDetailListeners(contactId);
   highlightSelectedContact(contactId);
 
-  if (window.innerWidth <= 768) {
-    const addBtn = document.querySelector('.add-contact-floating-button');
-    if (addBtn) addBtn.style.display = 'none';
-
-    const oldActionBtn = document.getElementById('action-button');
-    if (oldActionBtn) oldActionBtn.remove();
-
-    addMobileActionMenu(contactId);
+  // Anpassung: gleiche Logik wie bei Gast, Schwelle auf 980 setzen
+  if (window.innerWidth <= 980) {
+    showActionButton(contactId);
+  } else {
+    showAddButton();
   }
 }
 
