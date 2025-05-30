@@ -272,24 +272,14 @@ function validateTaskForm() {
   const categoryInput = document.getElementById("category");
 
   const title = titleInput.value.trim();
-  const description = descriptionInput.value.trim();
   const dueDate = dueDateInput.value;
   const category = categoryInput.value;
-  const assignees = Object.keys(assigneesObject).length;
 
-  // Title prüfen
   if (!title) {
     alert("Title is required and cannot be empty or only spaces!");
     titleInput.focus();
     return false;
   }
-  // Description prüfen
-  if (!description) {
-    alert("Description is required and cannot be empty or only spaces!");
-    descriptionInput.focus();
-    return false;
-  }
-  // Datum prüfen
   if (!dueDate) {
     alert("Due date is required!");
     dueDateInput.focus();
@@ -303,20 +293,15 @@ function validateTaskForm() {
     dueDateInput.focus();
     return false;
   }
-  // Kategorie prüfen
   if (!category) {
     alert("Category is required!");
     categoryInput.focus();
     return false;
   }
-  // Assignees prüfen
-  if (assignees === 0) {
-    alert("At least one assignee is required!");
-    return false;
-  }
-
   return true;
 }
+
+
 // Sets the clicked priority button as active
 function setActiveButton(clickedButton) {
   clickedButton.classList.add("active");
