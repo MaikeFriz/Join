@@ -25,7 +25,7 @@
 .display_subtasks {
   list-style-type: disc !important;
   margin-top: 0;
-  padding-left: 20px;
+  padding-left: 0px;
   height: 100px;
   overflow-y: auto;
   overflow-x: hidden;
@@ -37,7 +37,9 @@
   gap: 8px;
   margin-bottom: 5px;
   padding-bottom: 10px;
+  border-radius: 8px;
   transition: all 0.2s ease;
+  padding-left: 20px!important;
 }
 
 .subtask-item::before {
@@ -150,12 +152,10 @@ ul {
 
 .subtask-text {
   cursor: pointer;
-  padding: 8px 12px;
+  padding: 8px 0 8px 0;
   background-color: #ffffff;
-  border-radius: 8px;
-  margin-left: 8px;
   flex-grow: 1;
-  max-width: fit-content !important;
+  width:100%;
   word-break: break-word;
   transition: all 0.2s ease;
 }
@@ -165,16 +165,44 @@ ul {
   border-color: #c0c0c0;
 }
 
-.subtask-item.editing .subtask-text {
+.subtask-item.editing .subtask-input {
   border-color: #29abe2;
+  width: 100%;
   box-shadow: 0px 0px 0px 2px rgba(41, 171, 226, 0.2);
 }
 
-.edit-subtask-input {
+.subtask-item.editing::before {
+  display: none !important;
+}
+
+.subtask-item.editing {
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}
+
+.subtask-item.editing .subtask-text{
+ margin-left: 0 !important;
+}
+
+.subtask-item.editing .subtask-item{
+display: flex;
+justify-content: space-between;}
+
+
+.edit-subtask-container {
+  display: flex;
+  align-items: center;
   width: 100%;
+  border-radius: 8px;
+  background-color: #f8f8f8;
+  transition: background-color 0.2s ease;
+}
+
+.edit-subtask-input {
+  width: 100% !important;
   font-size: 16px;
-  border: none;
-  border-bottom: 1px solid rgb(41, 171, 226);
+  border: none !important;
+  border-bottom: 1px solid rgb(41, 171, 226)!important;
   border-radius: 0 !important;
   padding: 6px;
   outline: none;
@@ -183,7 +211,7 @@ ul {
   transition: border-color 0.2s ease;
   flex-grow: 1;
   flex: 1;
-  padding-right: 80px;
+  
 }
 
 .edit-subtask-input:focus {
@@ -223,10 +251,16 @@ ul {
 .hover_button_div {
   display: none !important;
   padding-right: 16px;
+  padding-top: 2px;
 }
 
 .subtask-item:hover .hover_button_div {
   display: flex !important;
+}
+
+.subtask-item:hover,
+.subtask-item:hover .subtask-text {
+  background-color: rgba(219, 219, 219, 1);
 }
 
 .subtask-item.editing:hover .hover_button_div {

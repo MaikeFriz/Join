@@ -20,9 +20,10 @@ function initializeSubtaskListeners() {
   inputSubtask.addEventListener("blur", () =>
     resetIcons(inputSubtask, addIcon, inputIcons)
   );
-  clearIcon.addEventListener("click", () =>
-    clearInput(inputSubtask, addIcon, inputIcons)
-  );
+  clearIcon.addEventListener("click", (e) => {
+    e.stopPropagation();
+    onCancel();
+  });
   checkIcon.addEventListener("click", () => addSubtask(inputSubtask));
 }
 
@@ -130,8 +131,8 @@ function createEditIcons(input, onSave, onCancel) {
   iconsContainer.innerHTML = getEditIconsHTML();
   iconsContainer
     .querySelector(".clear_icon_show_subtask")
-    .addEventListener("click", (e) => {
-      e.preventDefault();
+    .addEventListener("mousedown", (e) => {
+      e.preventDefault(); // Verhindert, dass das Input das Focus verliert!
       e.stopPropagation();
       input.value = "";
     });
