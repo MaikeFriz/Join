@@ -40,8 +40,7 @@
   }
 
   .info_and_button_div {
-    margin-bottom: 0;
-    margin-top: 0;
+    margin-bottom: 96px;
   }
 
   footer {
@@ -57,6 +56,10 @@
 @media (max-width: 620px) {
   .add-task-overlay {
     padding-top: 2.5vh !important;
+  }
+
+  .info_and_button_div {
+    margin-bottom: 16px;
   }
 }
 
@@ -93,6 +96,7 @@
   .info_and_button_div {
     display: flex;
     flex-direction: column;
+    margin-bottom: 16px;
   }
 
   .h1_div h1 {
