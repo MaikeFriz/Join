@@ -96,7 +96,7 @@ body {
     justify-content: space-between;
     align-items: center;
     flex-direction: row;
-    margin-top: 80px;
+    margin-top: 32px;
     margin-bottom: 40px;
 }
 
@@ -211,9 +211,9 @@ body {
 }
 
 .add-task-frame {
-    width: 85%;
+    width: 85% !important;
     min-height: fit-content;
-    height: 85%;
+    height: 85% !important;
     border-radius: 30px;
     background-color: rgba(255, 255, 255, 1);
     padding: 48px;
