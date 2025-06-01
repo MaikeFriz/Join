@@ -265,34 +265,110 @@ function removeActiveClassFromOtherButtons(clickedButton) {
   });
 }
 
+// ...existing code...
+
 function validateTaskForm() {
   const titleInput = document.getElementById("input_title");
-  const descriptionInput = document.getElementById("input_description");
   const dueDateInput = document.querySelector('input[type="date"]');
   const categoryInput = document.getElementById("category");
 
-  const title = titleInput.value.trim();
-  const dueDate = dueDateInput.value;
-  const category = categoryInput.value;
+  if (!validateTitle(titleInput)) return false;
+  if (!validateDueDate(dueDateInput)) return false;
+  if (!validateCategory(categoryInput)) return false;
 
+  return true;
+}
+
+function validateTitle(titleInput) {
+  const title = titleInput.value.trim();
   if (!title) {
     alert("Title is required and cannot be empty or only spaces!");
     titleInput.focus();
     return false;
   }
+  return true;
+}
+
+function validateDueDate(dueDateInput) {
+  const dueDate = dueDateInput.value;
   if (!dueDate) {
     alert("Due date is required!");
     dueDateInput.focus();
     return false;
   }
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const selectedDate = new Date(dueDate);
-  if (selectedDate < today) {
+  if (isDateInPast(dueDate)) {
     alert("Due date cannot be in the past!");
     dueDateInput.focus();
     return false;
   }
+  return true;
+}
+
+function isDateInPast(dateString) {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const selectedDate = new Date(dateString);
+  return selectedDate < today;
+}
+
+function validateCategory(categoryInput) {
+  const category = categoryInput.value;
+  if (!category) {
+    alert("Category is required!");
+    categoryInput.focus();
+    return false;
+  }
+  return true;
+}
+
+
+function validateTaskForm() {
+  const titleInput = document.getElementById("input_title");
+  const dueDateInput = document.querySelector('input[type="date"]');
+  const categoryInput = document.getElementById("category");
+
+  if (!validateTitle(titleInput)) return false;
+  if (!validateDueDate(dueDateInput)) return false;
+  if (!validateCategory(categoryInput)) return false;
+
+  return true;
+}
+
+
+function validateTitle(titleInput) {
+  const title = titleInput.value.trim();
+  if (!title) {
+    alert("Title is required and cannot be empty or only spaces!");
+    titleInput.focus();
+    return false;
+  }
+  return true;
+}
+
+function validateDueDate(dueDateInput) {
+  const dueDate = dueDateInput.value;
+  if (!dueDate) {
+    alert("Due date is required!");
+    dueDateInput.focus();
+    return false;
+  }
+  if (isDateInPast(dueDate)) {
+    alert("Due date cannot be in the past!");
+    dueDateInput.focus();
+    return false;
+  }
+  return true;
+}
+
+function isDateInPast(dateString) {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const selectedDate = new Date(dateString);
+  return selectedDate < today;
+}
+
+function validateCategory(categoryInput) {
+  const category = categoryInput.value;
   if (!category) {
     alert("Category is required!");
     categoryInput.focus();

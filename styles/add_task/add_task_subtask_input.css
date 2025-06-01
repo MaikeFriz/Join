@@ -153,7 +153,7 @@ ul {
 .subtask-text {
   cursor: pointer;
   padding: 8px 0 8px 0;
-  background-color: #ffffff;
+  background-color: #f6f7f8;
   flex-grow: 1;
   width:100%;
   word-break: break-word;
