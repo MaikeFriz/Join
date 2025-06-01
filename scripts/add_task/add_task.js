@@ -267,46 +267,52 @@ function removeActiveClassFromOtherButtons(clickedButton) {
 
 
 function validateTaskForm() {
-  let isValid = true;
+  const titleValid = validateTitleField();
+  const dateValid = validateDateField();
+  const categoryValid = validateCategoryField();
+  return titleValid && dateValid && categoryValid;
+}
 
+
+function validateTitleField() {
   const titleInput = document.getElementById("input_title");
   const errorTitle = document.getElementById("error_message_title");
-  const dateInput = document.querySelector('input[type="date"]');
-  const errorDate = document.getElementById("error_message_date");
-  const categoryInput = document.getElementById("category");
-  const errorCategory = document.getElementById("error_message_category");
-
-
-  titleInput.style.border = "";
-  errorTitle.querySelector('span').classList.add("d_none_error_message_title");
-
-  dateInput.style.border = "";
-  errorDate.querySelector('span').classList.add("d_none_error_message_date");
-
-  const dropdownCategory = document.getElementById("dropdown_category");
-  dropdownCategory.style.border = "";
-  errorCategory.querySelector('span').classList.add("d_none_error_message_category");
-
+  resetTitleInputError();
   if (!titleInput.value.trim()) {
     titleInput.style.border = "1px solid red";
     errorTitle.querySelector('span').classList.remove("d_none_error_message_title");
-    isValid = false;
+    return false;
   }
+  return true;
+}
 
+
+function validateDateField() {
+  const dateInput = document.querySelector('input[type="date"]');
+  const errorDate = document.getElementById("error_message_date");
+  resetDateInputError();
   if (!dateInput.value || isDateInPast(dateInput.value)) {
     dateInput.style.border = "1px solid red";
     errorDate.querySelector('span').classList.remove("d_none_error_message_date");
-    isValid = false;
+    return false;
   }
+  return true;
+}
 
+
+function validateCategoryField() {
+  const categoryInput = document.getElementById("category");
+  const errorCategory = document.getElementById("error_message_category");
+  const dropdownCategory = document.getElementById("dropdown_category");
+  resetCategoryInputError();
   if (!categoryInput.value) {
     dropdownCategory.style.border = "1px solid red";
     errorCategory.querySelector('span').classList.remove("d_none_error_message_category");
-    isValid = false;
+    return false;
   }
-
-  return isValid;
+  return true;
 }
+
 
 function validateTitle(titleInput) {
   const title = titleInput.value.trim();
@@ -317,6 +323,7 @@ function validateTitle(titleInput) {
   return true;
 }
 
+
 function resetTitleInputError() {
   const titleInput = document.getElementById("input_title");
   const errorTitle = document.getElementById("error_message_title");
@@ -326,6 +333,7 @@ function resetTitleInputError() {
   }
 }
 
+
 function resetDateInputError() {
   const dateInput = document.querySelector('input[type="date"]');
   const errorDate = document.getElementById("error_message_date");
@@ -334,6 +342,7 @@ function resetDateInputError() {
     errorDate.querySelector('span').classList.add("d_none_error_message_date");
   }
 }
+
 
 function resetCategoryInputError() {
   const dropdownCategory = document.getElementById("dropdown_category");
