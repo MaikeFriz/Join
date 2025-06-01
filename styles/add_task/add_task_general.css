@@ -3,7 +3,7 @@ body {
 }
 
 
-.h1_div{
+.h1_div {
     display: flex;
     align-items: start !important;
 }
@@ -20,6 +20,10 @@ body {
     /* width: 100%; */
     align-items: start;
     flex-direction: column;
+    /*margin-bottom: 24px;*/
+}
+
+.margin_bottom_24 {
     margin-bottom: 24px;
 }
 
@@ -56,7 +60,7 @@ body {
 .input_label:hover input,
 .input_label:hover textarea,
 .input_label:hover .resize-icon {
-  background-color: #f0f0f0;
+    background-color: #f0f0f0;
 }
 
 
@@ -193,11 +197,11 @@ body {
     outline: none;
 }
 
-.add-task-overlay{
+.add-task-overlay {
     position: fixed;
     top: 0;
     left: 0;
-    display: flex;  
+    display: flex;
     justify-content: center;
     align-items: center;
     width: 100vw;
@@ -229,7 +233,7 @@ body {
     transform: scale(1);
 }
 
-.h1_div svg{
+.h1_div svg {
     height: 32px;
     width: 32px;
     padding: 8px;
@@ -245,11 +249,11 @@ body {
     border-radius: 56px;
 }
 
-.h1_div svg path{
+.h1_div svg path {
     transition: fill 100ms ease-in-out;
 }
 
-.h1_div svg:hover path{
+.h1_div svg:hover path {
     fill: rgba(255, 255, 255, 1);
 }
 
@@ -282,4 +286,26 @@ body {
     to {
         transform: rotate(360deg);
     }
+}
+
+.error_message_title {
+    margin-bottom: 24px;
+}
+
+
+.d_none_error_message_category,
+.d_none_error_message_date,
+.d_none_error_message_title {
+    display: none !important;
+}
+
+.error_message_category,
+.error_message_date,
+.error_message_title {
+    height: 32px !important;
+    min-height: 32px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px; 
+    transition: color 0.2s;
 }

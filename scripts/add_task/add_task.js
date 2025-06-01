@@ -265,39 +265,92 @@ function removeActiveClassFromOtherButtons(clickedButton) {
   });
 }
 
-// ...existing code...
 
 function validateTaskForm() {
+  let isValid = true;
+
   const titleInput = document.getElementById("input_title");
-  const dueDateInput = document.querySelector('input[type="date"]');
+  const errorTitle = document.getElementById("error_message_title");
+  const dateInput = document.querySelector('input[type="date"]');
+  const errorDate = document.getElementById("error_message_date");
   const categoryInput = document.getElementById("category");
+  const errorCategory = document.getElementById("error_message_category");
 
-  if (!validateTitle(titleInput)) return false;
-  if (!validateDueDate(dueDateInput)) return false;
-  if (!validateCategory(categoryInput)) return false;
 
-  return true;
+  titleInput.style.border = "";
+  errorTitle.querySelector('span').classList.add("d_none_error_message_title");
+
+  dateInput.style.border = "";
+  errorDate.querySelector('span').classList.add("d_none_error_message_date");
+
+  const dropdownCategory = document.getElementById("dropdown_category");
+  dropdownCategory.style.border = "";
+  errorCategory.querySelector('span').classList.add("d_none_error_message_category");
+
+  if (!titleInput.value.trim()) {
+    titleInput.style.border = "1px solid red";
+    errorTitle.querySelector('span').classList.remove("d_none_error_message_title");
+    isValid = false;
+  }
+
+  if (!dateInput.value || isDateInPast(dateInput.value)) {
+    dateInput.style.border = "1px solid red";
+    errorDate.querySelector('span').classList.remove("d_none_error_message_date");
+    isValid = false;
+  }
+
+  if (!categoryInput.value) {
+    dropdownCategory.style.border = "1px solid red";
+    errorCategory.querySelector('span').classList.remove("d_none_error_message_category");
+    isValid = false;
+  }
+
+  return isValid;
 }
 
 function validateTitle(titleInput) {
   const title = titleInput.value.trim();
   if (!title) {
-    alert("Title is required and cannot be empty or only spaces!");
     titleInput.focus();
     return false;
   }
   return true;
 }
 
+function resetTitleInputError() {
+  const titleInput = document.getElementById("input_title");
+  const errorTitle = document.getElementById("error_message_title");
+  if (titleInput && errorTitle) {
+    titleInput.style.border = "";
+    errorTitle.querySelector('span').classList.add("d_none_error_message_title");
+  }
+}
+
+function resetDateInputError() {
+  const dateInput = document.querySelector('input[type="date"]');
+  const errorDate = document.getElementById("error_message_date");
+  if (dateInput && errorDate) {
+    dateInput.style.border = "";
+    errorDate.querySelector('span').classList.add("d_none_error_message_date");
+  }
+}
+
+function resetCategoryInputError() {
+  const dropdownCategory = document.getElementById("dropdown_category");
+  const errorCategory = document.getElementById("error_message_category");
+  if (dropdownCategory && errorCategory) {
+    dropdownCategory.style.border = "";
+    errorCategory.querySelector('span').classList.add("d_none_error_message_category");
+  }
+}
+
 function validateDueDate(dueDateInput) {
   const dueDate = dueDateInput.value;
   if (!dueDate) {
-    alert("Due date is required!");
     dueDateInput.focus();
     return false;
   }
   if (isDateInPast(dueDate)) {
-    alert("Due date cannot be in the past!");
     dueDateInput.focus();
     return false;
   }
@@ -314,7 +367,6 @@ function isDateInPast(dateString) {
 function validateCategory(categoryInput) {
   const category = categoryInput.value;
   if (!category) {
-    alert("Category is required!");
     categoryInput.focus();
     return false;
   }
@@ -322,23 +374,9 @@ function validateCategory(categoryInput) {
 }
 
 
-function validateTaskForm() {
-  const titleInput = document.getElementById("input_title");
-  const dueDateInput = document.querySelector('input[type="date"]');
-  const categoryInput = document.getElementById("category");
-
-  if (!validateTitle(titleInput)) return false;
-  if (!validateDueDate(dueDateInput)) return false;
-  if (!validateCategory(categoryInput)) return false;
-
-  return true;
-}
-
-
 function validateTitle(titleInput) {
   const title = titleInput.value.trim();
   if (!title) {
-    alert("Title is required and cannot be empty or only spaces!");
     titleInput.focus();
     return false;
   }
@@ -348,12 +386,10 @@ function validateTitle(titleInput) {
 function validateDueDate(dueDateInput) {
   const dueDate = dueDateInput.value;
   if (!dueDate) {
-    alert("Due date is required!");
     dueDateInput.focus();
     return false;
   }
   if (isDateInPast(dueDate)) {
-    alert("Due date cannot be in the past!");
     dueDateInput.focus();
     return false;
   }
@@ -370,7 +406,6 @@ function isDateInPast(dateString) {
 function validateCategory(categoryInput) {
   const category = categoryInput.value;
   if (!category) {
-    alert("Category is required!");
     categoryInput.focus();
     return false;
   }

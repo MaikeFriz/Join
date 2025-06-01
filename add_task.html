@@ -82,12 +82,13 @@
                     <input
                       id="input_title"
                       type="text"
-                      required
                       placeholder="Enter a title"
+                      oninput="resetTitleInputError()"
                     />
                   </label>
+                  <div id="error_message_title" class="error_message_title "><span class="d_none_error_message_title" style="color: red; font-size: 12px;">This field is required!</span></div>
                   <p>Description</p>
-                  <label class="input_label">
+                  <label class="input_label margin_bottom_24">
                     <textarea
                       id="input_description"
                       class="textarea-with-icon"
@@ -118,8 +119,9 @@
                   </label>
                   <p>Due Date<span class="red_color">*</span></p>
                   <label class="input_label input_label_calender">
-                    <input type="date" required />
+                    <input type="date" oninput="resetDateInputError()"/>
                   </label>
+                  <div id="error_message_date" class="error_message_date "><span class="d_none_error_message_date" style="color: red; font-size: 12px;">This field is required!</span></div>
                 </div>
                 <div class="separator"></div>
                 <div class="input_div_right">
@@ -199,7 +201,6 @@
                       type="hidden"
                       id="assigned_to"
                       name="assigned_to"
-                      required
                     />
                   </div>
                   <div class="show-assignees" id="show-assignees"></div>
@@ -211,6 +212,7 @@
                       class="dropdown-category"
                       id="dropdown_category"
                       tabindex="0"
+                      onclick="resetCategoryInputError()"
                     >
                       <span id="dropdown_selected">Select task category</span>
                       <img
@@ -250,9 +252,9 @@
                       type="hidden"
                       id="category"
                       name="category"
-                      required
                     />
                   </div>
+                  <div id="error_message_category" class="error_message_category "><span class="d_none_error_message_category" style="color: red; font-size: 12px;">This field is required!</span></div>
                   <p class="right_side_inputfield_titles">Subtasks</p>
                   <label class="input_label focus_blue_border">
                     <input
