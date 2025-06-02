@@ -129,19 +129,76 @@ function createEditIcons(input, onSave, onCancel) {
   const iconsContainer = document.createElement("div");
   iconsContainer.className = "icons-container";
   iconsContainer.innerHTML = getEditIconsHTML();
-  iconsContainer
-    .querySelector(".clear_icon_show_subtask")
-    .addEventListener("mousedown", (e) => {
-      e.preventDefault(); // Verhindert, dass das Input das Focus verliert!
+
+  let clearIcon = iconsContainer.querySelector(".clear_icon_show_subtask");
+
+  function switchToDeleteIcon() {
+    const deleteImg = document.createElement("img");
+    deleteImg.className = "delete_icon_show_subtask";
+    deleteImg.src = "./assets/img/delete.svg";
+    deleteImg.alt = "Delete";
+    clearIcon.replaceWith(deleteImg);
+
+    deleteImg.addEventListener("mousedown", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const subtaskItem = input.closest(".subtask-item");
+      if (subtaskItem) {
+        const subtaskId = subtaskItem.id;
+        removeSubtask(subtaskId, subtaskItem);
+      }
+    });
+
+    input.addEventListener("input", handleInputChange);
+    clearIcon = deleteImg;
+  }
+
+  function switchToClearIcon() {
+    const newClearIcon = document.createElement("img");
+    newClearIcon.className = "clear_icon_show_subtask";
+    newClearIcon.src = "./assets/img/cancel.svg";
+    newClearIcon.alt = "Clear";
+    clearIcon.replaceWith(newClearIcon);
+
+    newClearIcon.addEventListener("mousedown", (e) => {
+      e.preventDefault();
       e.stopPropagation();
       input.value = "";
+      switchToDeleteIcon();
     });
+
+    input.removeEventListener("input", handleInputChange);
+    clearIcon = newClearIcon;
+  }
+
+  function handleInputChange() {
+    if (input.value.trim() === "") {
+      switchToDeleteIcon();
+    }
+  }
+
+  clearIcon.addEventListener("mousedown", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    input.value = "";
+    switchToDeleteIcon();
+  });
+
+  input.addEventListener("input", () => {
+    if (input.value.trim() === "" && !clearIcon.classList.contains("delete_icon_show_subtask")) {
+      switchToDeleteIcon();
+    } else if (input.value.trim() !== "" && clearIcon.classList.contains("delete_icon_show_subtask")) {
+      switchToClearIcon();
+    }
+  });
+
   input.addEventListener("keydown", (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
       onSave();
     }
   });
+
   return iconsContainer;
 }
 
@@ -151,29 +208,19 @@ function saveEdit(input, span, subtaskId, inputContainer, deleteButton) {
   const subtaskItem = inputContainer.closest(".subtask-item");
 
   if (newText !== "") {
-    // Text im span aktualisieren
     span.textContent = newText;
-
-    // Subtask im Objekt aktualisieren
     subtasksObject[subtaskId].title = newText;
-
-    // Edit-Container durch das ursprüngliche Span-Element ersetzen
     inputContainer.replaceWith(span);
-
-    // Entferne den Bearbeitungsmodus-Style
     subtaskItem.classList.remove("editing");
-
-    // Löschen-Icon wieder anzeigen
-    deleteButton.style.display = "inline"; // oder "" – je nach Standard
+    deleteButton.style.display = "inline";
   }
 }
 
 // Cancels editing and restores the original subtask text
 function cancelEdit(inputContainer, span, deleteButton) {
-  // Statt span.closest(".subtask-item") nimm inputContainer.closest(".subtask-item")
   const subtaskItem = inputContainer.closest(".subtask-item");
   const subtaskId = subtaskItem ? subtaskItem.id : null;
-  if (!subtaskId) return; // Fehlerfall abfangen
+  if (!subtaskId) return;
 
   const originalText = subtasksObject[subtaskId].title;
   const updatedElement = createSubtaskElement(subtaskId, originalText);

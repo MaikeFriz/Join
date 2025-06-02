@@ -317,3 +317,7 @@ justify-content: space-between;}
 .subtask-item.editing .hover_button_div {
   display: none !important;
 }
+
+.delete_icon_show_subtask {
+  cursor: pointer;
+}
