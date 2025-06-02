@@ -1,11 +1,11 @@
 // Renders the subtasks for a given task by generating HTML based on their data
 function renderSubtasks(subtaskRefs, allSubtasks) {
   if (!subtaskRefs || !allSubtasks) return "<div>No Subtasks</div>";
-  const titles = Object.keys(subtaskRefs).map(subtaskId => {
+  const titles = Object.keys(subtaskRefs).map((subtaskId) => {
     const subtask = allSubtasks[subtaskId];
     if (!subtask) return "";
     const isChecked = subtask.completed ? "checked" : "";
-    return focusedSubtaskTemplate(subtask, isChecked, subtaskId); 
+    return focusedSubtaskTemplate(subtask, isChecked, subtaskId);
   });
 
   return titles.join("");
@@ -28,19 +28,19 @@ function updateSubtaskForGuest(subtaskId, isChecked) {
 function updateSubtaskInDatabase(subtaskId, isChecked) {
   const url = `${BASE_URL}subtasks/${subtaskId}/completed.json`;
   fetch(url, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(isChecked)
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(isChecked),
   })
-  .then(response => {
-    if (!response.ok) {
-      throw new Error('Error updating subtask');
-    }
-    return response.json();
-  })
-  .catch(error => {
-    console.error('Update error:', error);
-  });
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Error updating subtask");
+      }
+      return response.json();
+    })
+    .catch((error) => {
+      console.error("Update error:", error);
+    });
 }
 
 // Toggles the completion status of a subtask and delegates to the appropriate function
@@ -52,7 +52,59 @@ function toggleSubtaskCompletion(subtaskId, isChecked) {
   } else {
     updateSubtaskInDatabase(subtaskId, isChecked);
   }
+
+  // Only update the progress bar and text, not the whole overlay
+  updateSubtaskProgressBarOnly(subtaskId);
 }
 
+// Updates only the subtask progress bar and text in the overlay and board after a subtask is toggled
+function updateSubtaskProgressBarOnly(subtaskId) {
+  // Find the taskId this subtask belongs to
+  let taskId = null;
+  for (const tId in kanbanData.tasks) {
+    const task = kanbanData.tasks[tId];
+    if (task.subtasks && task.subtasks[subtaskId]) {
+      taskId = tId;
+      break;
+    }
+  }
+  if (!taskId) return;
 
+  // Update overlay subtask bar (progress bar and text only)
+  const focusedContent = document.getElementById("focusedTask");
+  if (focusedContent && !focusedContent.classList.contains("d-none")) {
+    // Get updated subtask progress data
+    const taskContent = getTaskContent(taskId, kanbanData);
+    const {
+      totalSubtasks,
+      completedSubtasks,
+      progressPercentage,
+      showProgress,
+    } = getTaskData(taskContent);
+    // Update progress bar width
+    const progressBar = focusedContent.querySelector(
+      ".subtask-inner-progress-bar"
+    );
+    if (progressBar) progressBar.style.width = `${progressPercentage}%`;
+    // Update progress text
+    const progressText = focusedContent.querySelector(
+      ".subtask-progress-text span"
+    );
+    if (progressText)
+      progressText.textContent = `${completedSubtasks}/${totalSubtasks}`;
+    // Optionally show/hide progress bar
+    const progressContainer = focusedContent.querySelector(
+      ".subtask-progress-container"
+    );
+    if (progressContainer)
+      progressContainer.style.display = showProgress ? "flex" : "none";
+  }
 
+  // Update board preview subtask bar (if visible)
+  const boardTask = document.querySelector(`[data-task-id='${taskId}']`);
+  if (boardTask) {
+    if (typeof refreshBoardSilent === "function") {
+      refreshBoardSilent();
+    }
+  }
+}
