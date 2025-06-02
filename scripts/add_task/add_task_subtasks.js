@@ -132,41 +132,52 @@ function createEditIcons(input, onSave, onCancel) {
 
   let clearIcon = iconsContainer.querySelector(".clear_icon_show_subtask");
 
-  function switchToDeleteIcon() {
+  function createDeleteIcon() {
     const deleteImg = document.createElement("img");
     deleteImg.className = "delete_icon_show_subtask";
     deleteImg.src = "./assets/img/delete.svg";
     deleteImg.alt = "Delete";
+    deleteImg.style.cursor = "pointer";
+    deleteImg.addEventListener("mousedown", handleDeleteClick);
+    return deleteImg;
+  }
+
+  function createClearIcon() {
+    const newClearIcon = document.createElement("img");
+    newClearIcon.className = "clear_icon_show_subtask";
+    newClearIcon.src = "./assets/img/cancel.svg";
+    newClearIcon.alt = "Clear";
+    newClearIcon.addEventListener("mousedown", handleClearClick);
+    return newClearIcon;
+  }
+
+  function handleDeleteClick(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    const subtaskItem = input.closest(".subtask-item");
+    if (subtaskItem) {
+      const subtaskId = subtaskItem.id;
+      removeSubtask(subtaskId, subtaskItem);
+    }
+  }
+
+  function handleClearClick(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    input.value = "";
+    switchToDeleteIcon();
+  }
+
+  function switchToDeleteIcon() {
+    const deleteImg = createDeleteIcon();
     clearIcon.replaceWith(deleteImg);
-
-    deleteImg.addEventListener("mousedown", (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      const subtaskItem = input.closest(".subtask-item");
-      if (subtaskItem) {
-        const subtaskId = subtaskItem.id;
-        removeSubtask(subtaskId, subtaskItem);
-      }
-    });
-
     input.addEventListener("input", handleInputChange);
     clearIcon = deleteImg;
   }
 
   function switchToClearIcon() {
-    const newClearIcon = document.createElement("img");
-    newClearIcon.className = "clear_icon_show_subtask";
-    newClearIcon.src = "./assets/img/cancel.svg";
-    newClearIcon.alt = "Clear";
+    const newClearIcon = createClearIcon();
     clearIcon.replaceWith(newClearIcon);
-
-    newClearIcon.addEventListener("mousedown", (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      input.value = "";
-      switchToDeleteIcon();
-    });
-
     input.removeEventListener("input", handleInputChange);
     clearIcon = newClearIcon;
   }
@@ -177,12 +188,7 @@ function createEditIcons(input, onSave, onCancel) {
     }
   }
 
-  clearIcon.addEventListener("mousedown", (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    input.value = "";
-    switchToDeleteIcon();
-  });
+  clearIcon.addEventListener("mousedown", handleClearClick);
 
   input.addEventListener("input", () => {
     if (input.value.trim() === "" && !clearIcon.classList.contains("delete_icon_show_subtask")) {
