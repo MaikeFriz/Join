@@ -1,4 +1,3 @@
-
 .board-preview-task{
     width: 100%;
     min-width: 180px;
@@ -61,6 +60,21 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.assignee-initials.more-assignees-indicator {
+    background: #2a3647 !important;
+    color: #fff !important;
+    border: 1px solid #fff !important;
+    font-weight: bold;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-left: -8px;
 }
 
 .board-preview-task h3{
