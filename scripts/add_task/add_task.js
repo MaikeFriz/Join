@@ -265,7 +265,6 @@ function removeActiveClassFromOtherButtons(clickedButton) {
   });
 }
 
-
 function validateTaskForm() {
   const titleValid = validateTitleField();
   const dateValid = validateDateField();
@@ -273,19 +272,19 @@ function validateTaskForm() {
   return titleValid && dateValid && categoryValid;
 }
 
-
 function validateTitleField() {
   const titleInput = document.getElementById("input_title");
   const errorTitle = document.getElementById("error_message_title");
   resetTitleInputError();
   if (!titleInput.value.trim()) {
     titleInput.style.border = "1px solid red";
-    errorTitle.querySelector('span').classList.remove("d_none_error_message_title");
+    errorTitle
+      .querySelector("span")
+      .classList.remove("d_none_error_message_title");
     return false;
   }
   return true;
 }
-
 
 function validateDateField() {
   const dateInput = document.querySelector('input[type="date"]');
@@ -293,12 +292,13 @@ function validateDateField() {
   resetDateInputError();
   if (!dateInput.value || isDateInPast(dateInput.value)) {
     dateInput.style.border = "1px solid red";
-    errorDate.querySelector('span').classList.remove("d_none_error_message_date");
+    errorDate
+      .querySelector("span")
+      .classList.remove("d_none_error_message_date");
     return false;
   }
   return true;
 }
-
 
 function validateCategoryField() {
   const categoryInput = document.getElementById("category");
@@ -307,12 +307,13 @@ function validateCategoryField() {
   resetCategoryInputError();
   if (!categoryInput.value) {
     dropdownCategory.style.border = "1px solid red";
-    errorCategory.querySelector('span').classList.remove("d_none_error_message_category");
+    errorCategory
+      .querySelector("span")
+      .classList.remove("d_none_error_message_category");
     return false;
   }
   return true;
 }
-
 
 function validateTitle(titleInput) {
   const title = titleInput.value.trim();
@@ -322,34 +323,35 @@ function validateTitle(titleInput) {
   }
   return true;
 }
-
 
 function resetTitleInputError() {
   const titleInput = document.getElementById("input_title");
   const errorTitle = document.getElementById("error_message_title");
   if (titleInput && errorTitle) {
     titleInput.style.border = "";
-    errorTitle.querySelector('span').classList.add("d_none_error_message_title");
+    errorTitle
+      .querySelector("span")
+      .classList.add("d_none_error_message_title");
   }
 }
-
 
 function resetDateInputError() {
   const dateInput = document.querySelector('input[type="date"]');
   const errorDate = document.getElementById("error_message_date");
   if (dateInput && errorDate) {
     dateInput.style.border = "";
-    errorDate.querySelector('span').classList.add("d_none_error_message_date");
+    errorDate.querySelector("span").classList.add("d_none_error_message_date");
   }
 }
-
 
 function resetCategoryInputError() {
   const dropdownCategory = document.getElementById("dropdown_category");
   const errorCategory = document.getElementById("error_message_category");
   if (dropdownCategory && errorCategory) {
     dropdownCategory.style.border = "";
-    errorCategory.querySelector('span').classList.add("d_none_error_message_category");
+    errorCategory
+      .querySelector("span")
+      .classList.add("d_none_error_message_category");
   }
 }
 
@@ -381,7 +383,6 @@ function validateCategory(categoryInput) {
   }
   return true;
 }
-
 
 function validateTitle(titleInput) {
   const title = titleInput.value.trim();
@@ -420,7 +421,6 @@ function validateCategory(categoryInput) {
   }
   return true;
 }
-
 
 // Sets the clicked priority button as active
 function setActiveButton(clickedButton) {
@@ -469,6 +469,18 @@ function clearAllInputs() {
   showAssignees.innerHTML = "";
   const mediumButton = document.getElementById("medium_button");
   setActiveButton(mediumButton);
+
+  // Clear assigned persons in the dropdown menu
+  assigneesObject = {};
+  const dropdownOptions = document.querySelectorAll(".custom-dropdown-option");
+  dropdownOptions.forEach((option) => {
+    option.classList.remove("selected");
+    const checkboxImg = option.querySelector(".checkbox-img");
+    if (checkboxImg) {
+      checkboxImg.src = "./assets/img/checkbox_unchecked.svg";
+      checkboxImg.classList.remove("checkbox-scale");
+    }
+  });
 }
 
 // Gets the category from the URL query parameters
