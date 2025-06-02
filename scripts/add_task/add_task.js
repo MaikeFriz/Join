@@ -152,9 +152,19 @@ function toggleAssignee(userId, userName, optionElement) {
 // Adds the selected assignee to the UI
 function addAssigneeElement(userId, userName) {
   const showAssigneesDiv = document.getElementById("show-assignees");
-  if (document.getElementById(`assignee-${userId}`)) return;
-  const assigneeTemplate = createAssigneeTemplate(userId, userName);
-  showAssigneesDiv.innerHTML += assigneeTemplate;
+  // Collect all assigned users
+  const assignedUsers = Object.values(assigneesObject);
+  // Only show the first 8, and a +N icon if more
+  let html = "";
+  for (let i = 0; i < Math.min(8, assignedUsers.length); i++) {
+    const user = assignedUsers[i];
+    html += createAssigneeTemplate(user.id, user.name);
+  }
+  if (assignedUsers.length > 8) {
+    const moreCount = assignedUsers.length - 8;
+    html += `<div class="assignee-item more-assignees-indicator"><span class="initials-circle more">+${moreCount}</span></div>`;
+  }
+  showAssigneesDiv.innerHTML = html;
 }
 
 // Removes the assignee from the selection and UI

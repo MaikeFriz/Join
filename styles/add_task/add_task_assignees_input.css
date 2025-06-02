@@ -137,3 +137,18 @@
   margin-right: 3px;
   line-height: 120%;
 }
+
+.more-assignees-indicator .initials-circle.more {
+  background: #2a3647;
+  color: #fff;
+  border: 2px solid #fff;
+  font-weight: bold;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  margin-left: 3px;
+}
