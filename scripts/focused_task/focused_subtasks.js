@@ -25,7 +25,7 @@ function updateSubtaskForGuest(subtaskId, isChecked) {
 }
 
 // Updates the completion status of a subtask in the database
-function updateSubtaskInDatabase(subtaskId, isChecked) {
+function updateSubtaskInDatabase(subtaskId, isChecked, callback) {
   const url = `${BASE_URL}subtasks/${subtaskId}/completed.json`;
   fetch(url, {
     method: "PUT",
@@ -38,6 +38,15 @@ function updateSubtaskInDatabase(subtaskId, isChecked) {
       }
       return response.json();
     })
+    .then(() => {
+      // Update in-memory kanbanData for existing users, just like for guests
+      if (kanbanData.subtasks && kanbanData.subtasks[subtaskId]) {
+        kanbanData.subtasks[subtaskId].completed = isChecked;
+      }
+      if (typeof callback === "function") {
+        callback();
+      }
+    })
     .catch((error) => {
       console.error("Update error:", error);
     });
@@ -49,12 +58,14 @@ function toggleSubtaskCompletion(subtaskId, isChecked) {
 
   if (isGuest) {
     updateSubtaskForGuest(subtaskId, isChecked);
+    // For guests, update progress bar immediately
+    updateSubtaskProgressBarOnly(subtaskId);
   } else {
-    updateSubtaskInDatabase(subtaskId, isChecked);
+    // For logged-in users, update progress bar after DB and in-memory update
+    updateSubtaskInDatabase(subtaskId, isChecked, () => {
+      updateSubtaskProgressBarOnly(subtaskId);
+    });
   }
-
-  // Only update the progress bar and text, not the whole overlay
-  updateSubtaskProgressBarOnly(subtaskId);
 }
 
 // Updates only the subtask progress bar and text in the overlay and board after a subtask is toggled
