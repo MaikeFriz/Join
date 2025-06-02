@@ -52,8 +52,9 @@
 
   .contact-details {
     padding-top: 120px;
-    overflow: hidden;
-    height: 100vh;
+    overflow-y: auto;
+    min-height: 100vh;
+    height: auto;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -61,10 +62,9 @@
     margin: 0;
     width: 100vw !important;
     box-sizing: border-box;
-    position: fixed;
-    left: 0;
     padding-left: 32px !important;
     font-size: 20px;
+    padding-bottom: 80px;
   }
 }
 
