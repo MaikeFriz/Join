@@ -29,7 +29,7 @@
 @media(max-width:620px){
     .focused-task {
         width: 95%;
-         min-height: 95%;  
+          height: 95%;
     }
 }
 
