@@ -16,13 +16,16 @@ function initializeDragAndDrop(taskContainers) {
 
 // Sets up the dragstart event for a task container
 function setupDragStartListener(container) {
-  container.addEventListener("dragstart", (event) =>
+  container.addEventListener("dragstart", (event) => {
+    // Sucht das nächste Elternelement mit draggable="true"
+    const task = event.target.closest('[draggable="true"]');
+    if (!task) return;
     handleDragStart(event, (task, clone) => {
       draggedTask = task;
       taskClone = clone;
       draggedTaskId = task.dataset.taskId;
-    })
-  );
+    });
+  });
 }
 
 // Sets up the dragend event for a task container
@@ -41,37 +44,44 @@ function setupDragEndListener(container) {
 
 // Sets up the dragover event for a task container
 function setupDragOverListener(container) {
-  container.addEventListener("dragover", (event) => {
-    event.preventDefault();
-    const taskContainer = getTargetTaskContainer(container);
+  container.addEventListener("dragover", (event) => handleContainerDragOver(event, container));
+  container.addEventListener("dragleave", handleContainerDragLeave);
+}
 
-    const SCROLL_ZONE = 60; 
-    const SCROLL_SPEED = 15;
+function handleContainerDragOver(event, container) {
+  event.preventDefault();
+  handleContainerAutoScroll(event, container);
+  handleDropPlaceholder(event, container);
+  handleDragOver(event, taskClone);
+}
 
-    const rect = container.getBoundingClientRect();
-    if (event.clientY < rect.top + SCROLL_ZONE) {
-      container.scrollTop -= SCROLL_SPEED;
-    } else if (event.clientY > rect.bottom - SCROLL_ZONE) {
-      container.scrollTop += SCROLL_SPEED;
-    }
+function handleContainerAutoScroll(event, container) {
+  const SCROLL_ZONE = 60;
+  const SCROLL_SPEED = 15;
+  const rect = container.getBoundingClientRect();
+  if (event.clientY < rect.top + SCROLL_ZONE) {
+    container.scrollTop -= SCROLL_SPEED;
+  } else if (event.clientY > rect.bottom - SCROLL_ZONE) {
+    container.scrollTop += SCROLL_SPEED;
+  }
+}
 
-    if (event.target === dropPlaceholder) return;
-    if (!dropPlaceholder && taskContainer) {
-      dropPlaceholder = document.createElement("div");
-      dropPlaceholder.className = "drop-placeholder";
-      dropPlaceholder.style.pointerEvents = "none";
-      taskContainer.appendChild(dropPlaceholder);
-    }
+function handleDropPlaceholder(event, container) {
+  const taskContainer = getTargetTaskContainer(container);
+  if (event.target === dropPlaceholder) return;
+  if (!dropPlaceholder && taskContainer) {
+    dropPlaceholder = document.createElement("div");
+    dropPlaceholder.className = "drop-placeholder";
+    dropPlaceholder.style.pointerEvents = "none";
+    taskContainer.appendChild(dropPlaceholder);
+  }
+}
 
-    handleDragOver(event, taskClone);
-  });
-
-  container.addEventListener("dragleave", (event) => {
-    if (dropPlaceholder && dropPlaceholder.parentNode) {
-      dropPlaceholder.parentNode.removeChild(dropPlaceholder);
-      dropPlaceholder = null;
-    }
-  });
+function handleContainerDragLeave(event) {
+  if (dropPlaceholder && dropPlaceholder.parentNode) {
+    dropPlaceholder.parentNode.removeChild(dropPlaceholder);
+    dropPlaceholder = null;
+  }
 }
 
 // Sets up the drop event for a task container

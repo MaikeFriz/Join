@@ -52,6 +52,7 @@
 
   <script src="./scripts/board/board_no_tasks_placeholder.js"></script>
   <script src="./scripts/board/board_drag_drop.js"></script>
+  <script src="./scripts/board/board_drag_drop_mobile.js"></script>
   <script src="./scripts/board/board_search_functions.js"></script>
   <script src="./scripts/board/board_add_task.js"></script>
 
@@ -118,7 +119,7 @@
           </div>
         </div>
 
-        <div class="board-table">
+        <div id="board_table" class="board-table">
           <div class="board-table-columns">
             <span class="kanban-header">To do <button onclick="openAddTaskWithCategory(this)" class="add-task-column"
                 data-target="toDoCardsColumn">+</button></span>
