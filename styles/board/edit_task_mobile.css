@@ -2,7 +2,6 @@
 @media(max-width:768px) {
     .edit-task{ 
         min-height: 90%;
-        max-height: fit-content;
     }
 
     .triangle-top,

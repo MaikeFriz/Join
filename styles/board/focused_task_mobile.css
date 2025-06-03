@@ -1,7 +1,6 @@
 
 @media(max-width:768px) {
     .focused-task{  
-        max-height: fit-content;
         width: 95% !important;
     }
 
