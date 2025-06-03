@@ -7,7 +7,6 @@ function showLoadingSpinner() {
   document.getElementById("loading-spinner").style.display = "flex";
 }
 
-
 function hideLoadingSpinner() {
   document.getElementById("loading-spinner").style.display = "none";
 }
@@ -21,7 +20,6 @@ function isStrongPassword(password) {
   );
 }
 
-
 // Checks if the email already exists in the database
 async function emailAlreadyExists(email) {
   const response = await fetch(
@@ -32,7 +30,6 @@ async function emailAlreadyExists(email) {
   return Object.values(users).some((user) => user.email === email);
 }
 
-
 // Initializes the sign-up form and its event listeners
 function initForm() {
   const form = document.getElementById("sign-up-form");
@@ -41,7 +38,6 @@ function initForm() {
   form.addEventListener("submit", handleFormSubmit);
 }
 
-
 // Creates an error message element for the form
 function createErrorMessage() {
   const errorMessage = document.createElement("p");
@@ -49,7 +45,6 @@ function createErrorMessage() {
   errorMessage.style.color = "red";
   return errorMessage;
 }
-
 
 // Creates the overlay for the success message after sign-up
 function createOverlay() {
@@ -62,7 +57,6 @@ function createOverlay() {
   overlay.style.display = "none";
   return overlay;
 }
-
 
 //Handles the form submit event, validates input, and registers the user
 async function handleFormSubmit(event) {
@@ -80,7 +74,6 @@ async function handleFormSubmit(event) {
   await registerUser(name, email, password);
 }
 
-
 // Retrieves all form field values
 function getFormData() {
   return {
@@ -93,7 +86,6 @@ function getFormData() {
   };
 }
 
-
 // Displays an error message in the form
 function showErrorMessage(message) {
   const errorMessageDiv = document.getElementById("error_message_sign_up");
@@ -102,7 +94,6 @@ function showErrorMessage(message) {
   errorMessageDiv.style.color = "red";
 }
 
-
 // Hides the error message in the form
 function hideErrorMessage() {
   const errorMessageDiv = document.getElementById("error_message_sign_up");
@@ -110,18 +101,15 @@ function hideErrorMessage() {
   errorMessageDiv.style.display = "none";
 }
 
-
 // Checks if both passwords match
 function passwordsMatch(password, confirmPassword) {
   return password === confirmPassword;
 }
 
-
 // Checks if the privacy policy checkbox is checked
 function privacyAccepted(checkbox) {
   return checkbox.checked;
 }
-
 
 // Validates the password fields and shows an error if they don't match
 function validateInputs(password, confirmPassword) {
@@ -134,7 +122,6 @@ function validateInputs(password, confirmPassword) {
   hideErrorMessage();
   return true;
 }
-
 
 // Shows or hides the password mismatch error and highlights fields
 function checkIfPasswordErrorMessageNeeded() {
@@ -158,7 +145,6 @@ function checkIfPasswordErrorMessageNeeded() {
   }
 }
 
-
 // Retrieves and trims all input values from the form
 function getInputValues() {
   return {
@@ -171,12 +157,10 @@ function getInputValues() {
   };
 }
 
-
 // Checks if any required field is empty
 function anyFieldIsEmpty({ name, email, password, confirmPassword }) {
   return !name || !email || !password || !confirmPassword;
 }
-
 
 // Shows an error message if a required field is empty
 function showFieldErrorMessage(message) {
@@ -186,14 +170,12 @@ function showFieldErrorMessage(message) {
   errorMessageDiv.style.display = "block";
 }
 
-
 // Hides the error message for empty fields
 function hideFieldErrorMessage() {
   const errorMessageDiv = document.getElementById("error_message_sign_up");
   errorMessageDiv.textContent = "";
   errorMessageDiv.style.display = "none";
 }
-
 
 // Checks if all required fields are filled and shows an error if not
 function checkIfAllFieldsFilled() {
@@ -205,7 +187,6 @@ function checkIfAllFieldsFilled() {
   hideFieldErrorMessage();
   return true;
 }
-
 
 // Registers the user, checks for duplicate email, saves user, and shows success
 async function registerUser(name, email, password) {
@@ -239,7 +220,6 @@ async function registerUser(name, email, password) {
   }
 }
 
-
 // Adds the new user to their own contacts list in the database
 async function addUserToContacts(userId, user) {
   const BASE_URL = `https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData/users/${userId}/contacts.json`;
@@ -257,12 +237,10 @@ async function addUserToContacts(userId, user) {
       },
       body: JSON.stringify(contact),
     });
-    console.log("User added to their own contacts list.");
   } catch (error) {
-    console.error("Error adding user to contacts:", error);
+    // Error handling for adding user to contacts
   }
 }
-
 
 // Generates a new unique user ID
 async function generateUserId() {
@@ -274,14 +252,13 @@ async function generateUserId() {
   const maxUserId =
     existingUserIds.length > 0
       ? Math.max(
-        ...existingUserIds.map(
-          (id) => parseInt(id.replace("user", ""), 10) || 0
+          ...existingUserIds.map(
+            (id) => parseInt(id.replace("user", ""), 10) || 0
+          )
         )
-      )
       : 0;
   return `user${maxUserId + 1}`;
 }
-
 
 // Creates a user object with all required properties
 function createUserObject(name, email, password) {
@@ -292,7 +269,6 @@ function createUserObject(name, email, password) {
     assignedTasks: { toDo: {}, inProgress: {}, awaitingFeedback: {}, done: {} },
   };
 }
-
 
 // Saves the user object to the database
 async function saveUserToDatabase(userId, user) {
@@ -305,7 +281,6 @@ async function saveUserToDatabase(userId, user) {
     }
   );
 }
-
 
 // Shows the success overlay and redirects to the login page after 1 second
 function showSuccessMessage() {

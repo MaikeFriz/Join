@@ -11,7 +11,7 @@ async function initDropdown() {
     createDropdownOptions(users);
     setupDropdownEvents();
   } catch (error) {
-    console.error("Error loading users:", error);
+    // Error loading users
   }
 }
 
@@ -480,8 +480,10 @@ function resetFormFields() {
 }
 
 function resetDropdowns() {
-  document.getElementById("dropdown_selected").textContent = "Select task category";
-  document.getElementById("dropdown_selected_assignee").textContent = "Select a person";
+  document.getElementById("dropdown_selected").textContent =
+    "Select task category";
+  document.getElementById("dropdown_selected_assignee").textContent =
+    "Select a person";
 }
 
 function resetSubtasksUI() {
@@ -489,7 +491,9 @@ function resetSubtasksUI() {
 }
 
 function resetPriorityButtons() {
-  const priorityButtons = document.querySelectorAll(".priority-buttons-div > div");
+  const priorityButtons = document.querySelectorAll(
+    ".priority-buttons-div > div"
+  );
   priorityButtons.forEach((button) => button.classList.remove("active"));
   const mediumButton = document.getElementById("medium_button");
   setActiveButton(mediumButton);

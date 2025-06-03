@@ -48,7 +48,7 @@ function updateSubtaskInDatabase(subtaskId, isChecked, callback) {
       }
     })
     .catch((error) => {
-      console.error("Update error:", error);
+      // Removed console.error statement
     });
 }
 

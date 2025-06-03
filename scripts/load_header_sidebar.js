@@ -10,7 +10,6 @@ function fetchComponent(file) {
 function insertComponent(content, elementId) {
   const container = document.getElementById(elementId);
   if (!container) {
-    console.error(`Element with ID "${elementId}" not found.`);
     return;
   }
   container.innerHTML = content;
@@ -29,7 +28,9 @@ function initializeHeaderUserDropdown() {
     if (loggedInUser) {
       userName = loggedInUser.name;
     } else if (guest) {
-      const guestKanbanData = JSON.parse(localStorage.getItem("guestKanbanData"));
+      const guestKanbanData = JSON.parse(
+        localStorage.getItem("guestKanbanData")
+      );
       userName = guestKanbanData?.users?.guest?.name || "Guest";
     }
     if (userName) {
@@ -85,7 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const guest = JSON.parse(localStorage.getItem("isGuest"));
 
   if (loggedInUser || guest) {
-    loadHeaderAndSidebar(); 
+    loadHeaderAndSidebar();
   } else {
     loadHeaderAndSidebarLoggedOut();
   }

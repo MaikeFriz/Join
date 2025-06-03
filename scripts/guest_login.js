@@ -126,7 +126,6 @@ async function fetchGuestKanbanData() {
     );
     return guestData;
   } catch (error) {
-    console.error("Error fetching Guest Kanban data:", error);
     return null;
   }
 }
