@@ -1,4 +1,7 @@
 let isDragging = false;
+let longPressTimer = null;
+let longPressTriggered = false;
+const LONG_PRESS_DELAY = 250; // ms
 
 // Initializes touch drag-and-drop for all task containers
 function initializeTouchDragAndDrop(taskContainers) {
@@ -14,16 +17,24 @@ function onTouchStart(event) {
   const task = event.target.closest('[draggable="true"]');
   if (!task) return;
   const touch = event.touches[0];
-  handleDragStart(
-    { target: task, dataTransfer: { setData: () => {}, setDragImage: () => {} }, clientX: touch.clientX, clientY: touch.clientY, pageX: touch.pageX, pageY: touch.pageY },
-    (task, clone) => {
-      draggedTask = task;
-      taskClone = clone;
-      draggedTaskId = task.dataset.taskId;
-      isDragging = true;
-    }
-  );
-  document.body.style.userSelect = "none";
+  longPressTriggered = false;
+
+  longPressTimer = setTimeout(() => {
+    longPressTriggered = true;
+    handleDragStart(
+      { target: task, dataTransfer: { setData: () => {}, setDragImage: () => {} }, clientX: touch.clientX, clientY: touch.clientY, pageX: touch.pageX, pageY: touch.pageY },
+      (task, clone) => {
+        draggedTask = task;
+        taskClone = clone;
+        draggedTaskId = task.dataset.taskId;
+        isDragging = true;
+        // Disable scrolling while dragging
+        document.body.style.overflow = "hidden";
+        document.body.style.touchAction = "none";
+      }
+    );
+    document.body.style.userSelect = "none";
+  }, LONG_PRESS_DELAY);
 }
 
 // Handles the touchmove event, moves the task clone, manages placeholder and board scrolling
@@ -31,13 +42,11 @@ function onTouchMove(event) {
   if (!taskClone || !isDragging) return;
   const touch = event.touches[0];
 
-  // Find the container under the finger
   let container = document.elementFromPoint(touch.clientX, touch.clientY);
   while (container && !['drag_drop_todo_container','drag_drop_progress_container','drag_drop_in_await_container','drag_drop_in_done_container'].includes(container.id)) {
     container = container.parentElement;
   }
 
-  // Find the original container of the dragged card
   let originContainer = draggedTask?.parentElement;
   while (originContainer && !['drag_drop_todo_container','drag_drop_progress_container','drag_drop_in_await_container','drag_drop_in_done_container'].includes(originContainer.id)) {
     originContainer = originContainer.parentElement;
@@ -46,7 +55,7 @@ function onTouchMove(event) {
   handleMobileDropPlaceholder(container, originContainer);
   handleMobileTaskCloneMove(touch);
   handleMobileBoardScroll(touch);
-  event.preventDefault();
+  if (event.cancelable) event.preventDefault();
 }
 
 // Shows or removes the drop placeholder depending on the drag position
@@ -120,6 +129,14 @@ function handleMobileBoardScroll(touch) {
 
 // Handles the touchend event, drops the task and finalizes the drag operation
 function onTouchEnd(event) {
+  clearTimeout(longPressTimer);
+  if (!longPressTriggered) {
+    const task = event.target.closest('[draggable="true"]');
+    if (task && task.dataset.taskId) {
+      renderFocusedTask(task.dataset.taskId);
+    }
+    return;
+  }
   if (!isDragging) return;
   isDragging = false;
   document.body.style.userSelect = "";
@@ -170,6 +187,9 @@ function finalizeMobileDrag() {
       }
       draggedTask = null;
       draggedTaskId = null;
+      // Re-enable scrolling after dragging
+      document.body.style.overflow = "";
+      document.body.style.touchAction = "";
     }
   );
 }
