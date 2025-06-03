@@ -2,6 +2,9 @@
 function renderFocusedTask(taskId) {
   let taskContent = getTaskContent(taskId, kanbanData);
   if (!taskContent) return;
+
+  taskContent.assigneesNames = getAssigneesNames(taskContent.assignees, kanbanData);
+
   let boardContent = document.getElementById("boardContent");
   let focusedContent = document.getElementById("focusedTask");
   document.body.style.overflow = "hidden";

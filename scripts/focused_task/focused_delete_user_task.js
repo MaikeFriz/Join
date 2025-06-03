@@ -14,7 +14,7 @@ function hideLoadingSpinner() {
     document.getElementById("loading_spinner_delete_task").style.display = "none";
 }
 
-// Deletes a task and its related data, then navigates back to the board
+// Deletes a task and its related data, then updates the DOM and navigates back to the board
 async function deleteTask(taskId) {
     showLoadingSpinner();
     try {
@@ -23,6 +23,7 @@ async function deleteTask(taskId) {
             await deleteTaskForGuest(taskId);
         } else {
             await deleteTaskForUser(taskId);
+            removeUserTaskFromDOM(taskId); // Instantly remove from DOM for user
         }
         await waitForDatabaseOperations(taskId);
         closeConfirmDialog();
@@ -57,15 +58,6 @@ async function deleteUserTaskSubtasks(taskId) {
     if (taskData && taskData.subtasks) {
         await deleteSubtasks(taskData.subtasks);
     }
-}
-
-// Fetches task data from the database
-async function fetchTaskData(taskId) {
-    const taskResponse = await fetch(`${BASE_URL}tasks/${taskId}.json`);
-    if (!taskResponse.ok) {
-        throw new Error('Task could not be fetched.');
-    }
-    return await taskResponse.json();
 }
 
 // Removes a user task from all categories in the database
@@ -189,6 +181,21 @@ async function deleteSubtasks(subtasks) {
             }
         } catch (error) {
         }
+    }
+}
+
+// Instantly removes the task from the board and focused overlay in the DOM for user
+function removeUserTaskFromDOM(taskId) {
+    // Remove from board
+    const boardTask = document.querySelector(`[data-task-id='${taskId}']`);
+    if (boardTask) boardTask.remove();
+
+    // Close focused overlay if open
+    const focusedContent = document.getElementById("focusedTask");
+    if (focusedContent && !focusedContent.classList.contains("d-none")) {
+        focusedContent.classList.add("d-none");
+        focusedContent.innerHTML = "";
+        document.body.style.overflow = "";
     }
 }
 

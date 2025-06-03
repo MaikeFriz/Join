@@ -203,22 +203,18 @@ function updateTaskStatus(taskId, newStatusColumnId) {
     localStorage.setItem("guestKanbanData", JSON.stringify(kanbanData));
     return Promise.resolve();
   } else {
-    // Update kanbanData in memory after DB update
     return updateTaskInFirebase(taskId, newStatus)
       .then(() => {
         if (kanbanData.tasks && kanbanData.tasks[taskId]) {
           kanbanData.tasks[taskId].status = newStatus;
         }
-        // Auch die assignedTasks des Users im kanbanData aktualisieren:
         const user = JSON.parse(localStorage.getItem("loggedInUser"));
         if (user && kanbanData.users && kanbanData.users[user.userId]) {
-          // Entferne Task aus allen Status
           ["toDo", "inProgress", "awaitingFeedback", "done"].forEach(status => {
             if (kanbanData.users[user.userId].assignedTasks[status]?.[taskId]) {
               delete kanbanData.users[user.userId].assignedTasks[status][taskId];
             }
           });
-          // Füge Task zum neuen Status hinzu
           if (!kanbanData.users[user.userId].assignedTasks[newStatus]) {
             kanbanData.users[user.userId].assignedTasks[newStatus] = {};
           }
@@ -226,7 +222,6 @@ function updateTaskStatus(taskId, newStatusColumnId) {
         }
       })
       .catch((error) => {
-        // ...existing error handling...
       });
   }
 }
