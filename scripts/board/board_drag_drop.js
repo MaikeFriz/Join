@@ -247,6 +247,7 @@ function updateTaskInLocalStorage(taskId, newStatus) {
 
   if (data.tasks?.[taskId]) {
     data.tasks[taskId].status = newStatus;
+    data.tasks[taskId].taskId = taskId;
   }
 
   kanbanData = data;
