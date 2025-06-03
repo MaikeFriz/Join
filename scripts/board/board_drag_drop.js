@@ -199,30 +199,46 @@ function updateTaskStatus(taskId, newStatusColumnId) {
   const isGuest = JSON.parse(localStorage.getItem("isGuest"));
   const newStatus = mapColumnIdToStatus(newStatusColumnId);
   if (isGuest) {
-    updateTaskInLocalStorage(taskId, newStatus);
-    localStorage.setItem("guestKanbanData", JSON.stringify(kanbanData));
+    updateTaskStatusForGuest(taskId, newStatus);
     return Promise.resolve();
   } else {
-    return updateTaskInFirebase(taskId, newStatus)
-      .then(() => {
-        if (kanbanData.tasks && kanbanData.tasks[taskId]) {
-          kanbanData.tasks[taskId].status = newStatus;
-        }
-        const user = JSON.parse(localStorage.getItem("loggedInUser"));
-        if (user && kanbanData.users && kanbanData.users[user.userId]) {
-          ["toDo", "inProgress", "awaitingFeedback", "done"].forEach(status => {
-            if (kanbanData.users[user.userId].assignedTasks[status]?.[taskId]) {
-              delete kanbanData.users[user.userId].assignedTasks[status][taskId];
-            }
-          });
-          if (!kanbanData.users[user.userId].assignedTasks[newStatus]) {
-            kanbanData.users[user.userId].assignedTasks[newStatus] = {};
-          }
-          kanbanData.users[user.userId].assignedTasks[newStatus][taskId] = true;
-        }
-      })
-      .catch((error) => {
-      });
+    return updateTaskStatusForUser(taskId, newStatus);
+  }
+}
+
+// Handles status update for guest users
+function updateTaskStatusForGuest(taskId, newStatus) {
+  updateTaskInLocalStorage(taskId, newStatus);
+  localStorage.setItem("guestKanbanData", JSON.stringify(kanbanData));
+}
+
+// Handles status update for logged-in users
+function updateTaskStatusForUser(taskId, newStatus) {
+  return updateTaskInFirebase(taskId, newStatus)
+    .then(() => {
+      updateKanbanDataForUser(taskId, newStatus);
+    })
+    .catch((error) => {
+      // Optional: handle error
+    });
+}
+
+// Updates kanbanData for the logged-in user after Firebase update
+function updateKanbanDataForUser(taskId, newStatus) {
+  if (kanbanData.tasks && kanbanData.tasks[taskId]) {
+    kanbanData.tasks[taskId].status = newStatus;
+  }
+  const user = JSON.parse(localStorage.getItem("loggedInUser"));
+  if (user && kanbanData.users && kanbanData.users[user.userId]) {
+    ["toDo", "inProgress", "awaitingFeedback", "done"].forEach(status => {
+      if (kanbanData.users[user.userId].assignedTasks[status]?.[taskId]) {
+        delete kanbanData.users[user.userId].assignedTasks[status][taskId];
+      }
+    });
+    if (!kanbanData.users[user.userId].assignedTasks[newStatus]) {
+      kanbanData.users[user.userId].assignedTasks[newStatus] = {};
+    }
+    kanbanData.users[user.userId].assignedTasks[newStatus][taskId] = true;
   }
 }
 
@@ -251,6 +267,7 @@ function updateTaskInLocalStorage(taskId, newStatus) {
   }
 
   kanbanData = data;
+  ensureTaskIdsInKanbanData();
   localStorage.setItem("guestKanbanData", JSON.stringify(kanbanData));
 }
 
@@ -312,4 +329,14 @@ function getTargetTaskContainer(container) {
     'drag_drop_in_done_container': 'doneCardsColumn'
   };
   return document.getElementById(map[container.id]);
+}
+
+// Ensures that all tasks in kanbanData have a taskId property
+function ensureTaskIdsInKanbanData() {
+    if (!kanbanData.tasks) return;
+    for (const id in kanbanData.tasks) {
+        if (kanbanData.tasks[id] && !kanbanData.tasks[id].taskId) {
+            kanbanData.tasks[id].taskId = id;
+        }
+    }
 }

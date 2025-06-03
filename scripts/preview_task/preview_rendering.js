@@ -1,35 +1,43 @@
-// Updates the board preview columns in the background using the latest kanban data or guest data.
+// Main entry point to refresh the board preview columns
 async function refreshBoardSilent() {
   const isGuest = JSON.parse(localStorage.getItem("isGuest"));
-  let data = kanbanData;
-  let assignedTasks;
+  let data = getCurrentKanbanData(isGuest);
+  let assignedTasks = getAssignedTasks(data, isGuest);
+
+  if (!assignedTasks) return;
+
+  const statusHTMLMap = await processAssignedStatuses(assignedTasks, data);
+  assignStatusHTMLToContainers(statusHTMLMap);
+  if (typeof loadNoTasksFunctions === "function") loadNoTasksFunctions();
+}
+
+// Returns the current kanban data object (for guest or user)
+function getCurrentKanbanData(isGuest) {
   if (isGuest) {
-    // Guest user: use guestKanbanData from localStorage
-    data = JSON.parse(localStorage.getItem("guestKanbanData"));
-    if (
-      !data ||
-      !data.users ||
-      !data.users.guest ||
-      !data.users.guest.assignedTasks
-    ) {
-      return;
-    }
-    assignedTasks = data.users.guest.assignedTasks;
+    const data = JSON.parse(localStorage.getItem("guestKanbanData"));
+    kanbanData = data;
+    ensureTaskIdsInKanbanData();
+    return data;
+  }
+  return kanbanData;
+}
+
+// Returns the assigned tasks object for the current user or guest
+function getAssignedTasks(data, isGuest) {
+  if (!data || !data.users) return null;
+
+  if (isGuest) {
+    if (!data.users.guest || !data.users.guest.assignedTasks) return null;
+    return data.users.guest.assignedTasks;
   } else {
-    // Registered user: use loggedInUser from localStorage
     const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
     if (
-      !data ||
-      !data.users ||
       !loggedInUser ||
       !data.users[loggedInUser.userId] ||
       !data.users[loggedInUser.userId].assignedTasks
     ) {
-      return;
+      return null;
     }
-    assignedTasks = data.users[loggedInUser.userId].assignedTasks;
+    return data.users[loggedInUser.userId].assignedTasks;
   }
-  const statusHTMLMap = await processAssignedStatuses(assignedTasks, data);
-  assignStatusHTMLToContainers(statusHTMLMap);
-  if (typeof loadNoTasksFunctions === "function") loadNoTasksFunctions();
 }

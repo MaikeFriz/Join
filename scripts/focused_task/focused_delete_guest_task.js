@@ -26,6 +26,7 @@ function deleteTaskFromLocalStorage(taskId) {
     if (kanbanData && kanbanData.tasks) {
         delete kanbanData.tasks[taskId];
     }
+    ensureTaskIdsInKanbanData();
     localStorage.setItem("guestKanbanData", JSON.stringify(kanbanData));
 }
 
@@ -58,11 +59,9 @@ function deleteTaskFromAssigneesForGuest(taskId) {
 
 // Instantly removes the task from the board and focused overlay in the DOM
 function removeGuestTaskFromDOM(taskId) {
-    // Remove from board
     const boardTask = document.querySelector(`[data-task-id='${taskId}']`);
     if (boardTask) boardTask.remove();
 
-    // Close focused overlay if open
     const focusedContent = document.getElementById("focusedTask");
     if (focusedContent && !focusedContent.classList.contains("d-none")) {
         focusedContent.classList.add("d-none");
