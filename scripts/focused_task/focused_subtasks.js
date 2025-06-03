@@ -48,7 +48,6 @@ function updateSubtaskInDatabase(subtaskId, isChecked, callback) {
       }
     })
     .catch((error) => {
-      // Removed console.error statement
     });
 }
 
@@ -58,64 +57,62 @@ function toggleSubtaskCompletion(subtaskId, isChecked) {
 
   if (isGuest) {
     updateSubtaskForGuest(subtaskId, isChecked);
-    // For guests, update progress bar immediately
     updateSubtaskProgressBarOnly(subtaskId);
   } else {
-    // For logged-in users, update progress bar after DB and in-memory update
     updateSubtaskInDatabase(subtaskId, isChecked, () => {
       updateSubtaskProgressBarOnly(subtaskId);
     });
   }
 }
 
-// Updates only the subtask progress bar and text in the overlay and board after a subtask is toggled
-function updateSubtaskProgressBarOnly(subtaskId) {
-  // Find the taskId this subtask belongs to
-  let taskId = null;
+// Finds the taskId that a given subtask belongs to
+function findTaskIdBySubtask(subtaskId) {
   for (const tId in kanbanData.tasks) {
     const task = kanbanData.tasks[tId];
     if (task.subtasks && task.subtasks[subtaskId]) {
-      taskId = tId;
-      break;
+      return tId;
     }
   }
-  if (!taskId) return;
+  return null;
+}
 
-  // Update overlay subtask bar (progress bar and text only)
+// Sets the progress bar width, text, and visibility in the overlay based on progress data
+function setOverlaySubtaskProgress(focusedContent, progressData) {
+  const { totalSubtasks, completedSubtasks, progressPercentage, showProgress } = progressData;
+
+  const progressBar = focusedContent.querySelector(".subtask-inner-progress-bar");
+  if (progressBar) progressBar.style.width = `${progressPercentage}%`;
+
+  const progressText = focusedContent.querySelector(".subtask-progress-text span");
+  if (progressText) progressText.textContent = `${completedSubtasks}/${totalSubtasks}`;
+
+  const progressContainer = focusedContent.querySelector(".subtask-progress-container");
+  if (progressContainer) progressContainer.style.display = showProgress ? "flex" : "none";
+}
+
+// Updates the subtask progress bar and text in the overlay for a given task
+function updateOverlaySubtaskProgress(taskId) {
   const focusedContent = document.getElementById("focusedTask");
   if (focusedContent && !focusedContent.classList.contains("d-none")) {
-    // Get updated subtask progress data
     const taskContent = getTaskContent(taskId, kanbanData);
-    const {
-      totalSubtasks,
-      completedSubtasks,
-      progressPercentage,
-      showProgress,
-    } = getTaskData(taskContent);
-    // Update progress bar width
-    const progressBar = focusedContent.querySelector(
-      ".subtask-inner-progress-bar"
-    );
-    if (progressBar) progressBar.style.width = `${progressPercentage}%`;
-    // Update progress text
-    const progressText = focusedContent.querySelector(
-      ".subtask-progress-text span"
-    );
-    if (progressText)
-      progressText.textContent = `${completedSubtasks}/${totalSubtasks}`;
-    // Optionally show/hide progress bar
-    const progressContainer = focusedContent.querySelector(
-      ".subtask-progress-container"
-    );
-    if (progressContainer)
-      progressContainer.style.display = showProgress ? "flex" : "none";
+    const progressData = getTaskData(taskContent);
+    setOverlaySubtaskProgress(focusedContent, progressData);
   }
+}
 
-  // Update board preview subtask bar (if visible)
+// Updates the board preview subtask bar for a given task if visible
+function updateBoardPreviewSubtaskBar(taskId) {
   const boardTask = document.querySelector(`[data-task-id='${taskId}']`);
-  if (boardTask) {
-    if (typeof refreshBoardSilent === "function") {
-      refreshBoardSilent();
-    }
+  if (boardTask && typeof refreshBoardSilent === "function") {
+    refreshBoardSilent();
   }
+}
+
+// Updates only the subtask progress bar and text in the overlay and board after a subtask is toggled
+function updateSubtaskProgressBarOnly(subtaskId) {
+  const taskId = findTaskIdBySubtask(subtaskId);
+  if (!taskId) return;
+
+  updateOverlaySubtaskProgress(taskId);
+  updateBoardPreviewSubtaskBar(taskId);
 }

@@ -67,6 +67,6 @@ function createSubtaskData(
     totalSubtasks: taskSubtasks.length,
     completedSubtasks: completedSubtasks,
     progressPercentage: progressPercentage,
-    showProgress: taskSubtasks.length > 0 && completedSubtasks > 0,
+    showProgress: taskSubtasks.length > 0,
   };
 }
