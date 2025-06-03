@@ -464,24 +464,47 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // Clears all input fields and resets the add task form
 function clearAllInputs() {
+  resetFormFields();
+  resetDropdowns();
+  resetSubtasksUI();
+  resetPriorityButtons();
+  resetAssigneesUI();
+  resetAssigneesObject();
+  resetDropdownOptions();
+  resetAllErrorMessages();
+}
+
+function resetFormFields() {
   const form = document.getElementById("task_form");
   form.reset();
-  document.getElementById("dropdown_selected").textContent =
-    "Select task category";
-  document.getElementById("dropdown_selected_assignee").textContent =
-    "Select a person";
+}
+
+function resetDropdowns() {
+  document.getElementById("dropdown_selected").textContent = "Select task category";
+  document.getElementById("dropdown_selected_assignee").textContent = "Select a person";
+}
+
+function resetSubtasksUI() {
   document.getElementById("display_subtasks").innerHTML = "";
-  const priorityButtons = document.querySelectorAll(
-    ".priority-buttons-div > div"
-  );
+}
+
+function resetPriorityButtons() {
+  const priorityButtons = document.querySelectorAll(".priority-buttons-div > div");
   priorityButtons.forEach((button) => button.classList.remove("active"));
-  const showAssignees = document.getElementById("show-assignees");
-  showAssignees.innerHTML = "";
   const mediumButton = document.getElementById("medium_button");
   setActiveButton(mediumButton);
+}
 
-  // Clear assigned persons in the dropdown menu
+function resetAssigneesUI() {
+  const showAssignees = document.getElementById("show-assignees");
+  showAssignees.innerHTML = "";
+}
+
+function resetAssigneesObject() {
   assigneesObject = {};
+}
+
+function resetDropdownOptions() {
   const dropdownOptions = document.querySelectorAll(".custom-dropdown-option");
   dropdownOptions.forEach((option) => {
     option.classList.remove("selected");
@@ -491,6 +514,12 @@ function clearAllInputs() {
       checkboxImg.classList.remove("checkbox-scale");
     }
   });
+}
+
+function resetAllErrorMessages() {
+  resetTitleInputError();
+  resetDateInputError();
+  resetCategoryInputError();
 }
 
 // Gets the category from the URL query parameters
