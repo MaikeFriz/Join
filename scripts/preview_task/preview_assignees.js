@@ -3,7 +3,9 @@ function getAssignees(taskContent, displayContext) {
   let assigneesHTML = "";
   const names = taskContent.assigneesNames || [];
   const maxToShow = 4;
-  for (let i = 0; i < Math.min(maxToShow, names.length); i++) {
+  const showCount = displayContext === "focused" ? names.length : Math.min(maxToShow, names.length);
+
+  for (let i = 0; i < showCount; i++) {
     let assignee = names[i];
     if (typeof assignee !== "string") {
       console.warn("Invalid assignee name:", assignee);
@@ -15,7 +17,8 @@ function getAssignees(taskContent, displayContext) {
       assigneesHTML
     );
   }
-  if (names.length > maxToShow) {
+
+  if (displayContext !== "focused" && names.length > maxToShow) {
     const moreCount = names.length - maxToShow;
     assigneesHTML += `<div class='assignee-initials more-assignees-indicator' style='background:#2a3647;color:#fff;border:1px solid #fff;font-weight:bold;font-size:12px;display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;margin-left:-8px;'>+${moreCount}</div>`;
   }
