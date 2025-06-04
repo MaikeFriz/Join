@@ -41,13 +41,19 @@
     width: 100%;
     min-height: auto;
     margin-bottom: 24px;
+    padding-right: 24px;
   }
 
   .back_arrow_sign_in {
+    padding-top: 8px;
     height: 24px;
     width: 24px;
-    transform: none;
+    transform: translateX(-40px) scale(1);
     position: static;
+  }
+
+  .back_arrow_sign_in:hover {
+    transform: translateX(-40px) scale(1.1);
   }
 
   .h1_box {
