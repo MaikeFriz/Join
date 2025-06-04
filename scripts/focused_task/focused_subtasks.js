@@ -47,8 +47,7 @@ function updateSubtaskInDatabase(subtaskId, isChecked, callback) {
         callback();
       }
     })
-    .catch((error) => {
-    });
+    .catch((error) => {});
 }
 
 // Toggles the completion status of a subtask and delegates to the appropriate function
@@ -69,7 +68,7 @@ function toggleSubtaskCompletion(subtaskId, isChecked) {
 function findTaskIdBySubtask(subtaskId) {
   for (const tId in kanbanData.tasks) {
     const task = kanbanData.tasks[tId];
-    if (task.subtasks && task.subtasks[subtaskId]) {
+    if (task && task.subtasks && task.subtasks[subtaskId]) {
       return tId;
     }
   }
@@ -78,16 +77,25 @@ function findTaskIdBySubtask(subtaskId) {
 
 // Sets the progress bar width, text, and visibility in the overlay based on progress data
 function setOverlaySubtaskProgress(focusedContent, progressData) {
-  const { totalSubtasks, completedSubtasks, progressPercentage, showProgress } = progressData;
+  const { totalSubtasks, completedSubtasks, progressPercentage, showProgress } =
+    progressData;
 
-  const progressBar = focusedContent.querySelector(".subtask-inner-progress-bar");
+  const progressBar = focusedContent.querySelector(
+    ".subtask-inner-progress-bar"
+  );
   if (progressBar) progressBar.style.width = `${progressPercentage}%`;
 
-  const progressText = focusedContent.querySelector(".subtask-progress-text span");
-  if (progressText) progressText.textContent = `${completedSubtasks}/${totalSubtasks}`;
+  const progressText = focusedContent.querySelector(
+    ".subtask-progress-text span"
+  );
+  if (progressText)
+    progressText.textContent = `${completedSubtasks}/${totalSubtasks}`;
 
-  const progressContainer = focusedContent.querySelector(".subtask-progress-container");
-  if (progressContainer) progressContainer.style.display = showProgress ? "flex" : "none";
+  const progressContainer = focusedContent.querySelector(
+    ".subtask-progress-container"
+  );
+  if (progressContainer)
+    progressContainer.style.display = showProgress ? "flex" : "none";
 }
 
 // Updates the subtask progress bar and text in the overlay for a given task
