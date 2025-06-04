@@ -3,7 +3,10 @@ function renderFocusedTask(taskId) {
   let taskContent = getTaskContent(taskId, kanbanData);
   if (!taskContent) return;
 
-  taskContent.assigneesNames = getAssigneesNames(taskContent.assignees, kanbanData);
+  taskContent.assigneesNames = getAssigneesNames(
+    taskContent.assignees,
+    kanbanData
+  );
 
   let boardContent = document.getElementById("boardContent");
   let focusedContent = document.getElementById("focusedTask");
@@ -97,9 +100,10 @@ async function fromEditTaskToBoard() {
   const editCard = editContent.querySelector(".edit-task");
   if (editCard) editCard.classList.remove("active");
 
-  setTimeout(() => {
+  setTimeout(async () => {
     editContent.classList.add("d-none");
     editContent.innerHTML = "";
+    // Show board columns again
     [
       "toDoCardsColumn",
       "awaitFeedbackCardsColumn",
@@ -107,10 +111,15 @@ async function fromEditTaskToBoard() {
       "inProgressCardsColumn",
     ].forEach((id) => {
       const col = document.getElementById(id);
-      if (col) col.classList.add("d-none");
+      if (col) col.classList.remove("d-none");
     });
-    location.reload();
-  }, 300);
+    // Fetch latest kanban data for logged-in users before re-rendering
+    const isGuest = JSON.parse(localStorage.getItem("isGuest"));
+    if (!isGuest && typeof getKanbanData === "function") {
+      await getKanbanData();
+    }
+    refreshBoardSilent();
+  }, 300); // <-- Add missing delay for animation
 }
 
 async function onSaveEditTask(taskId) {
