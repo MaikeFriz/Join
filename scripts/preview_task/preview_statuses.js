@@ -27,7 +27,7 @@ async function processTasksByStatus(taskIds, status, kanbanData) {
 
   for (let taskId of taskIds) {
     const processedTask = await processTasks(taskId, kanbanData);
-
+    if (!processedTask) continue; // Skip if task is missing (e.g., deleted)
     const taskHTML = previewTaskTemplate(processedTask);
     statusHTML += taskHTML;
   }
