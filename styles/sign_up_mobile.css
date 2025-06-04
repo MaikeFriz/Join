@@ -1,61 +1,139 @@
-@font-face {
-    font-family: 'Inter';
-    src: url('../fonts/inter/Inter-VariableFont_opsz,wght.ttf');
-}
+/* sign_up_mobile.css */
+@media (max-width: 640px) {
+  /* Reset der Desktop-Styles */
+  body {
+    background-color: #f6f7f8;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
 
-@media(max-width:640px) {
-    .input_label {
-        width: 260px;
-    }
+  header {
+    height: auto;
+    padding: 16px;
+    justify-content: flex-start;
+  }
 
-    .sign_up_box {
-        height: fit-content;
-        max-height: fit-content;
-        width: 280px;
-        overflow-x: none !important;
-        overflow-y: none !important;
-        display: flex;
-        justify-content: center;
-        margin-bottom: 8px;
+  .logo_header {
+    height: 54px;
+    width: auto;
+  }
 
-    }
+  /* Hauptcontainer */
+  .sign_up_box {
+    width: 80%;
+    min-height: auto;
+    height: auto;
+    max-width: 396px;
+    margin: 20px auto;
+    padding: 24px;
+    border-radius: 30px;
+    box-shadow: 0px 0px 14px 3px rgba(0, 0, 0, 0.04);
+    overflow: visible;
+    flex-direction: column;
+  }
 
-    .input_div input {
-        height: 32px;
-    }
+  /* Header-Zeile (Pfeil + Titel) */
+  .h1_div_sign_up_field {
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    min-height: auto;
+    margin-bottom: 24px;
+  }
 
-    .h1_box {
-        font-size: 40px;
-        font-weight: 500;
-    }
+  .back_arrow_sign_in {
+    height: 24px;
+    width: 24px;
+    transform: none;
+    position: static;
+  }
 
-    .back_arrow_sign_in {
-        transform: translateX(-16px);
-    }
+  .h1_box {
+    font-size: 32px;
+    margin: 0;
+    text-align: left;
+  }
 
-    .logo_header {
-        height: 56px;
-        width: auto;
-    }
+  /* Formular */
+  .input_div {
+    width: 100%;
+    gap: 16px;
+    height: auto;
+  }
 
-    header {
-        height: auto;
-    }
+  .input_label {
+    width: 100%;
+    max-width: 100%;
+  }
 
-    .main_content {
-        padding: 0 0;
-    }
+  .input_label input {
+    height: 38px;
+    width: 100%;
+    padding-left: 38px;
+    font-size: 16px;
+  }
 
-    .input_div {
-        gap: 8px;
-    }
+  .input_icon {
+    right: 16px;
+  }
 
-    .h1_div_sign_up_field {
-        min-height: fit-content;
-        max-height: fit-content;
-    }
+  /* Checkbox & Button */
+  .checkbox_div {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 16px 0;
+    cursor: pointer;
+  }
 
-    footer{
-        max-height: fit-content;
-    }
+  .checkbox_div input[type="checkbox"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid #2a3647;
+    border-radius: 4px;
+    cursor: pointer;
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .checkbox_div input[type="checkbox"]:checked {
+    background-color: #2a3647;
+  }
+
+  .checkbox_div input[type="checkbox"]:checked::after {
+    content: "✓";
+    color: white;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 12px;
+    font-weight: bold;
+  }
+
+  .checkbox_div label {
+    color: #2a3647;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .button_sign_up_input_section {
+    height: 48px;
+    font-size: 16px;
+  }
+
+  /* Footer */
+  footer {
+    height: auto;
+    padding: 16px;
+    flex-direction: row;
+    gap: 16px;
+  }
 }
