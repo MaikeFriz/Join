@@ -57,11 +57,6 @@ footer a:hover {
   width: auto;
 }
 
-.sign_up_button_header:hover {
-  background-color: rgb(41, 171, 226);
-  transform: scale(1.05);
-}
-
 header {
   height: 130px;
   max-width: 100%;

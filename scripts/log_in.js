@@ -5,7 +5,6 @@ function handleLoadingScreen() {
 
   if (window.innerWidth <= 450) {
     pageContent.style.display = "none";
-
     setTimeout(() => {
       loadingScreen.style.display = "none";
       pageContent.style.display = "";
@@ -21,14 +20,16 @@ function handleLoadingScreen() {
 // Handles logo animation end event to reset logo styles
 function setupLogoAnimationReset() {
   const logoHeader = document.querySelector(".logo_header");
-  logoHeader.addEventListener("animationend", () => {
-    logoHeader.style.position = "relative";
-    logoHeader.style.transform = "none";
-    logoHeader.style.top = "auto";
-    logoHeader.style.left = "auto";
-    logoHeader.style.marginTop = "0";
-    logoHeader.style.marginLeft = "0";
-  });
+  if (logoHeader) {
+    logoHeader.addEventListener("animationend", () => {
+      logoHeader.style.position = "relative";
+      logoHeader.style.transform = "none";
+      logoHeader.style.top = "auto";
+      logoHeader.style.left = "auto";
+      logoHeader.style.marginTop = "0";
+      logoHeader.style.marginLeft = "0";
+    });
+  }
 }
 
 // Handles DOMContentLoaded: sets up form, error message, and event listeners for login and guest login
@@ -36,20 +37,25 @@ function setupLoginForm() {
   const form = document.getElementById("log-in-form");
   const emailInput = document.getElementById("input_email");
   const passwordInput = document.getElementById("input_password");
-  const errorMessage = document.createElement("p");
-  errorMessage.style.color = "red";
-  form.appendChild(errorMessage);
+  const forgotPasswordDiv = document.getElementById("forgot_password_div");
+
   document
     .getElementById("guestButton")
     .addEventListener("click", function (event) {
       event.preventDefault();
       guestLogin();
     });
+
   form.addEventListener("submit", function (event) {
     event.preventDefault();
     showLoadingSpinner();
-    handleFormSubmit(event, emailInput, passwordInput, errorMessage);
+    handleFormSubmit(event, emailInput, passwordInput);
   });
+
+  // Initial hide forgot password
+  if (forgotPasswordDiv) {
+    forgotPasswordDiv.classList.add("d_none_forgot_password-div");
+  }
 }
 
 // Loading Spinner functions
@@ -74,19 +80,16 @@ async function guestLogin() {
   localStorage.removeItem("loggedInUser");
   localStorage.setItem("isGuest", "true");
   const guestData = await fetchGuestKanbanData();
-  if (guestData) {
-    hideLoadingSpinner();
-  } else {
-    hideLoadingSpinner();
-  }
+  hideLoadingSpinner();
   window.location.href = "./summary.html";
 }
 
 // Handles the login form submission: validates input and authenticates user
-function handleFormSubmit(event, emailInput, passwordInput, errorMessage) {
+function handleFormSubmit(event, emailInput, passwordInput) {
   const email = emailInput.value.trim();
   const password = passwordInput.value.trim();
-  if (!isInputValid(email, password, errorMessage)) {
+  const errorMessage = document.getElementById("login-error-message");
+  if (!isInputValid(email, password)) {
     hideLoadingSpinner();
     return;
   }
@@ -103,8 +106,11 @@ function isUserLoggedIn() {
 function clearInputStyles(emailInput, passwordInput, errorMessage) {
   emailInput.style.border = "";
   passwordInput.style.border = "";
-  errorMessage.style.display = "none";
   errorMessage.textContent = "";
+  const forgotPasswordDiv = document.getElementById("forgot_password_div");
+  if (forgotPasswordDiv) {
+    forgotPasswordDiv.classList.add("d_none_forgot_password-div");
+  }
 }
 
 // Shows an error message and marks input fields as invalid
@@ -113,6 +119,10 @@ function showError(emailInput, passwordInput, errorMessage, message) {
   errorMessage.style.display = "block";
   emailInput.style.border = "1px solid #ff8190";
   passwordInput.style.border = "1px solid #ff8190";
+  const forgotPasswordDiv = document.getElementById("forgot_password_div");
+  if (forgotPasswordDiv) {
+    forgotPasswordDiv.classList.remove("d_none_forgot_password-div");
+  }
 }
 
 // Validates the email format using a regex
@@ -126,7 +136,6 @@ function isInputValid(email, password) {
   const emailInput = document.getElementById("input_email");
   const passwordInput = document.getElementById("input_password");
   const errorMessage = document.getElementById("login-error-message");
-  const forgotPasswordDiv = document.getElementById("forgot_password_div");
   clearInputStyles(emailInput, passwordInput, errorMessage);
   if (!email || !password) {
     showError(
@@ -135,7 +144,6 @@ function isInputValid(email, password) {
       errorMessage,
       "Wrong email or password."
     );
-    forgotPasswordDiv.style.display = "block";
     return false;
   }
   if (!isEmailFormatValid(email)) {
@@ -145,7 +153,6 @@ function isInputValid(email, password) {
       errorMessage,
       "Wrong email or password."
     );
-    forgotPasswordDiv.style.display = "block";
     return false;
   }
   return true;
@@ -164,7 +171,7 @@ function authenticateUser(email, password, errorMessage) {
 }
 
 // Handles the authentication response: logs in user or shows error
-function handleAuthenticationResponse(data, email, password) {
+function handleAuthenticationResponse(data, email, password, errorMessage) {
   const userKey = findUserKey(data, email, password);
   if (userKey) {
     handleSuccessfulLogin(data, userKey);
@@ -187,7 +194,9 @@ function handleFailedLogin() {
   showLoginError("Check your email and password. Please try again.");
   markInputsAsInvalid();
   const forgotPasswordDiv = document.getElementById("forgot_password_div");
-  forgotPasswordDiv.style.display = "block";
+  if (forgotPasswordDiv) {
+    forgotPasswordDiv.classList.remove("d_none_forgot_password-div");
+  }
   document.getElementById("input_email").value = "";
   document.getElementById("input_password").value = "";
   hideLoadingSpinner();
@@ -204,7 +213,6 @@ function showLoginError(message) {
 function hideLoginError() {
   const errorDiv = document.getElementById("login-error-message");
   errorDiv.textContent = "";
-  errorDiv.style.display = "none";
 }
 
 // Marks the email and password input fields as invalid
