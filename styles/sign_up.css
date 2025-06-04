@@ -327,3 +327,8 @@ a:hover {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     text-align: center;
 }
+
+#error_message_sign_up {
+  font-size: 12px;
+
+}

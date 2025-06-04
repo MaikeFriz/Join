@@ -112,15 +112,32 @@ function privacyAccepted(checkbox) {
 }
 
 // Validates the password fields and shows an error if they don't match
-function validateInputs(password, confirmPassword) {
+function validateInputs(password, confirmPassword, privacyCheckbox) {
+  const email = document.getElementById("input_email").value.trim();
+  if (!isValidEmail(email)) {
+    showErrorMessage("Please enter a valid email address.");
+    document.getElementById("input_email").style.border = "2px solid red";
+    return false;
+  }
   if (!passwordsMatch(password, confirmPassword)) {
     showErrorMessage("Your passwords don't match. Please try again.");
     document.getElementById("input_password_sign_up").value = "";
     document.getElementById("input_confirm_password_sign_up").value = "";
     return false;
   }
+  if (!privacyCheckbox.checked) {
+    showErrorMessage("You must accept the Privacy Policy to sign up.");
+    document.getElementById("privacy").focus();
+    return false;
+  }
   hideErrorMessage();
+  document.getElementById("input_email").style.border = "";
   return true;
+}
+
+
+function isValidEmail(email) {
+  return /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/.test(email);
 }
 
 // Shows or hides the password mismatch error and highlights fields
