@@ -59,7 +59,6 @@
   /* Formular */
   .input_div {
     width: 100%;
-    gap: 16px;
     height: auto;
   }
 
@@ -69,17 +68,16 @@
   }
 
   .input_label input {
-    height: 38px;
-    width: 100%;
-    padding-left: 38px;
     font-size: 16px;
   }
 
   .input_icon {
     right: 16px;
+    height: 16px;
+    width: 16px;
   }
 
-  /* Checkbox & Button */
+    /* Checkbox & Button */
   .checkbox_div {
     display: flex;
     align-items: center;

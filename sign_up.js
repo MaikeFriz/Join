@@ -11,15 +11,6 @@ function hideLoadingSpinner() {
   document.getElementById("loading-spinner").style.display = "none";
 }
 
-// Checks if the password is strong
-function isStrongPassword(password) {
-  const minLength = 8;
-  const specialChars = password.match(/[!@#$%^&*()_\-+=\[\]{};':"\\|,.<>/?]/g);
-  return (
-    password.length >= minLength && specialChars && specialChars.length >= 3
-  );
-}
-
 // Checks if the email already exists in the database
 async function emailAlreadyExists(email) {
   const response = await fetch(
@@ -36,13 +27,31 @@ function initForm() {
   form.appendChild(createErrorMessage());
   document.body.appendChild(createOverlay());
   form.addEventListener("submit", handleFormSubmit);
+
+  // Button-Enable/Disable wie bei Add Contact
+  const submitBtn = document.getElementById('button_sign_up_input_section');
+  form.addEventListener('input', () => {
+    if (!form.checkValidity()) {
+      submitBtn.disabled = true;
+      submitBtn.setAttribute('aria-disabled', 'true');
+    } else {
+      submitBtn.disabled = false;
+      submitBtn.removeAttribute('aria-disabled');
+    }
+  });
+  // Initial state
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.setAttribute('aria-disabled', 'true');
+  }
 }
 
 // Creates an error message element for the form
 function createErrorMessage() {
   const errorMessage = document.createElement("p");
-  errorMessage.id = "error-message";
+  errorMessage.id = "error_message_sign_up";
   errorMessage.style.color = "red";
+  errorMessage.style.display = "none";
   return errorMessage;
 }
 
@@ -62,12 +71,14 @@ function createOverlay() {
 async function handleFormSubmit(event) {
   event.preventDefault();
   showLoadingSpinner();
-  const { name, email, password, confirmPassword, privacyCheckbox } =
-    getFormData();
-  if (
-    !checkIfAllFieldsFilled() ||
-    !validateInputs(password, confirmPassword, privacyCheckbox)
-  ) {
+  const { name, email, password, confirmPassword, privacyCheckbox } = getFormData();
+
+  // HTML5-Validation übernimmt die Feldprüfung, hier nur noch Spezialfälle:
+  if (!checkIfAllFieldsFilled()) {
+    hideLoadingSpinner();
+    return;
+  }
+  if (!validateInputs(password, confirmPassword, privacyCheckbox)) {
     hideLoadingSpinner();
     return;
   }
@@ -80,13 +91,12 @@ function getFormData() {
     name: document.getElementById("input_name").value,
     email: document.getElementById("input_email").value,
     password: document.getElementById("input_password_sign_up").value,
-    confirmPassword: document.getElementById("input_confirm_password_sign_up")
-      .value,
+    confirmPassword: document.getElementById("input_confirm_password_sign_up").value,
     privacyCheckbox: document.getElementById("privacy"),
   };
 }
 
-// Displays an error message in the form
+// Displays an error message in the form (nur für globale Fehler)
 function showErrorMessage(message) {
   const errorMessageDiv = document.getElementById("error_message_sign_up");
   errorMessageDiv.textContent = message;
@@ -106,23 +116,13 @@ function passwordsMatch(password, confirmPassword) {
   return password === confirmPassword;
 }
 
-// Checks if the privacy policy checkbox is checked
-function privacyAccepted(checkbox) {
-  return checkbox.checked;
-}
-
 // Validates the password fields and shows an error if they don't match
 function validateInputs(password, confirmPassword, privacyCheckbox) {
-  const email = document.getElementById("input_email").value.trim();
-  if (!isValidEmail(email)) {
-    showErrorMessage("Please enter a valid email address.");
-    document.getElementById("input_email").style.border = "2px solid red";
-    return false;
-  }
   if (!passwordsMatch(password, confirmPassword)) {
     showErrorMessage("Your passwords don't match. Please try again.");
     document.getElementById("input_password_sign_up").value = "";
     document.getElementById("input_confirm_password_sign_up").value = "";
+    document.getElementById("input_password_sign_up").focus();
     return false;
   }
   if (!privacyCheckbox.checked) {
@@ -131,35 +131,18 @@ function validateInputs(password, confirmPassword, privacyCheckbox) {
     return false;
   }
   hideErrorMessage();
-  document.getElementById("input_email").style.border = "";
   return true;
 }
 
-
-function isValidEmail(email) {
-  return /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/.test(email);
-}
-
-// Shows or hides the password mismatch error and highlights fields
-function checkIfPasswordErrorMessageNeeded() {
-  const passwordInput = document.getElementById("input_password_sign_up");
-  const confirmPasswordInput = document.getElementById(
-    "input_confirm_password_sign_up"
-  );
-  const errorMessageDiv = document.getElementById("error_message_sign_up");
-  if (passwordInput.value !== confirmPasswordInput.value) {
-    errorMessageDiv.textContent =
-      "Your passwords don't match. Please try again.";
-    errorMessageDiv.style.color = "red";
-    errorMessageDiv.style.display = "block";
-    passwordInput.style.border = "2px solid red";
-    confirmPasswordInput.style.border = "2px solid red";
-  } else {
-    errorMessageDiv.textContent = "";
-    errorMessageDiv.style.display = "none";
-    passwordInput.style.border = "";
-    confirmPasswordInput.style.border = "";
+// Checks if all required fields are filled and shows an error if not
+function checkIfAllFieldsFilled() {
+  const values = getInputValues();
+  if (anyFieldIsEmpty(values)) {
+    showFieldErrorMessage("Please fill in all input fields.");
+    return false;
   }
+  hideFieldErrorMessage();
+  return true;
 }
 
 // Retrieves and trims all input values from the form
@@ -168,9 +151,7 @@ function getInputValues() {
     name: document.getElementById("input_name").value.trim(),
     email: document.getElementById("input_email").value.trim(),
     password: document.getElementById("input_password_sign_up").value.trim(),
-    confirmPassword: document
-      .getElementById("input_confirm_password_sign_up")
-      .value.trim(),
+    confirmPassword: document.getElementById("input_confirm_password_sign_up").value.trim(),
   };
 }
 
@@ -194,17 +175,6 @@ function hideFieldErrorMessage() {
   errorMessageDiv.style.display = "none";
 }
 
-// Checks if all required fields are filled and shows an error if not
-function checkIfAllFieldsFilled() {
-  const values = getInputValues();
-  if (anyFieldIsEmpty(values)) {
-    showFieldErrorMessage("Please fill in all input fields.");
-    return false;
-  }
-  hideFieldErrorMessage();
-  return true;
-}
-
 // Registers the user, checks for duplicate email, saves user, and shows success
 async function registerUser(name, email, password) {
   try {
@@ -212,7 +182,7 @@ async function registerUser(name, email, password) {
       showErrorMessage("This email address is already registered.");
       const emailInput = document.getElementById("input_email");
       emailInput.value = "";
-      emailInput.style.border = "2px solid red";
+      emailInput.focus();
       hideLoadingSpinner();
       return;
     }
@@ -231,7 +201,7 @@ async function registerUser(name, email, password) {
     showSuccessMessage();
   } catch (error) {
     document.getElementById(
-      "error-message"
+      "error_message_sign_up"
     ).textContent = `Error: ${error.message}`;
     hideLoadingSpinner();
   }
@@ -255,7 +225,6 @@ async function addUserToContacts(userId, user) {
       body: JSON.stringify(contact),
     });
   } catch (error) {
-    // Error handling for adding user to contacts
   }
 }
 
@@ -304,4 +273,17 @@ function showSuccessMessage() {
   const overlay = document.querySelector(".overlay");
   overlay.style.display = "flex";
   setTimeout(() => (window.location.href = "./index.html"), 1000);
+}
+
+function checkPasswordMatch() {
+  const pw1 = document.getElementById('input_password_sign_up');
+  const pw2 = document.getElementById('input_confirm_password_sign_up');
+  const errorSpan = pw2.closest('.input_wrapper').querySelector('.confirm-password-input-error');
+  if (pw2.value && pw1.value !== pw2.value) {
+    pw2.setCustomValidity("Passwords do not match");
+    errorSpan.style.visibility = "visible";
+  } else {
+    pw2.setCustomValidity("");
+    errorSpan.style.visibility = "hidden";
+  }
 }
