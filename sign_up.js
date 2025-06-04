@@ -1,5 +1,21 @@
 document.addEventListener("DOMContentLoaded", () => {
-  initForm();
+  const form = document.getElementById("sign-up-form");
+  const submitBtn = document.getElementById("button_sign_up_input_section");
+
+  function updateButtonState() {
+    if (!form.checkValidity()) {
+      submitBtn.disabled = true;
+      submitBtn.setAttribute('aria-disabled', 'true');
+      submitBtn.classList.add('button-disabled');
+    } else {
+      submitBtn.disabled = false;
+      submitBtn.removeAttribute('aria-disabled');
+      submitBtn.classList.remove('button-disabled');
+    }
+  }
+
+  updateButtonState();
+  form.addEventListener("input", updateButtonState);
 });
 
 //Loading spinner

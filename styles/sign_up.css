@@ -160,6 +160,7 @@ header {
   font-weight: 700;
   font-size: 21px;
   margin-top: 16px;
+  transition: background 0.2s, border 0.2s, color 0.2s, box-shadow 0.2s, opacity 0.2s;
 }
 
 .button_sign_up_input_section:hover {
@@ -172,6 +173,24 @@ header {
     background-color: rgba(9, 25, 49, 1);
     border: solid 2px rgba(9, 25, 49, 1);
     box-shadow: none;
+}
+
+.button_sign_up_input_section:disabled,
+.button_sign_up_input_section[aria-disabled="true"] {
+  background-color: #2a3647;
+  border-color: #2a3647;
+  color: rgba(255,255,255,0.4);
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.button_sign_up_input_section:disabled:hover,
+.button_sign_up_input_section[aria-disabled="true"]:hover {
+  background-color: #29abe2;
+  border-color: #29abe2;
+  color: rgba(255,255,255,0.4);
+  cursor: not-allowed;
+  opacity: 0.5;
 }
 
 .checkbox_div {
