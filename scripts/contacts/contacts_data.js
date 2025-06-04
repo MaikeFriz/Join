@@ -12,7 +12,10 @@ function addContact(contact) {
 function addGuestContact(contact) {
   let guestKanbanData = getGuestKanbanData();
   const contactId = Date.now().toString();
-  guestKanbanData.users.guest.contacts[contactId] = { ...contact, id: contactId };
+  guestKanbanData.users.guest.contacts[contactId] = {
+    ...contact,
+    id: contactId,
+  };
   localStorage.setItem("guestKanbanData", JSON.stringify(guestKanbanData));
   renderContacts();
   displayContactDetails(contactId);
@@ -95,7 +98,12 @@ function deleteContact(contactId) {
     method: "DELETE",
   })
     .then(() => {
-      location.reload();
+      renderContacts();
+      // Optionally clear details if the deleted contact was open
+      const detailsDiv = document.querySelector(".contact-details");
+      if (detailsDiv && detailsDiv.querySelector("#delete-contact-button")) {
+        detailsDiv.remove();
+      }
     })
     .catch((error) => {});
 }
@@ -111,7 +119,12 @@ function deleteGuestContact(contactId) {
   ) {
     delete guestKanbanData.users.guest.contacts[contactId];
     localStorage.setItem("guestKanbanData", JSON.stringify(guestKanbanData));
-    location.reload();
+    renderContacts();
+    // Optionally clear details if the deleted contact was open
+    const detailsDiv = document.querySelector(".contact-details");
+    if (detailsDiv && detailsDiv.querySelector("#delete-contact-button")) {
+      detailsDiv.remove();
+    }
   }
 }
 
