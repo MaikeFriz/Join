@@ -1,9 +1,10 @@
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("sign-up-form");
   const submitBtn = document.getElementById("button_sign_up_input_section");
+  const privacyCheckbox = document.getElementById("privacy");
 
   function updateButtonState() {
-    if (!form.checkValidity()) {
+    if (!form.checkValidity() || !privacyCheckbox.checked) {
       submitBtn.disabled = true;
       submitBtn.setAttribute('aria-disabled', 'true');
       submitBtn.classList.add('button-disabled');
@@ -16,6 +17,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   updateButtonState();
   form.addEventListener("input", updateButtonState);
+  privacyCheckbox.addEventListener("change", updateButtonState);
+
+  initForm();
 });
 
 //Loading spinner
@@ -43,23 +47,7 @@ function initForm() {
   form.appendChild(createErrorMessage());
   document.body.appendChild(createOverlay());
   form.addEventListener("submit", handleFormSubmit);
-
-  // Button-Enable/Disable wie bei Add Contact
-  const submitBtn = document.getElementById('button_sign_up_input_section');
-  form.addEventListener('input', () => {
-    if (!form.checkValidity()) {
-      submitBtn.disabled = true;
-      submitBtn.setAttribute('aria-disabled', 'true');
-    } else {
-      submitBtn.disabled = false;
-      submitBtn.removeAttribute('aria-disabled');
-    }
-  });
-  // Initial state
-  if (submitBtn) {
-    submitBtn.disabled = true;
-    submitBtn.setAttribute('aria-disabled', 'true');
-  }
+  // Entferne hier die Button-Enable/Disable-Logik!
 }
 
 // Creates an error message element for the form
