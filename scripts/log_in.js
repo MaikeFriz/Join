@@ -111,8 +111,8 @@ function clearInputStyles(emailInput, passwordInput, errorMessage) {
 function showError(emailInput, passwordInput, errorMessage, message) {
   errorMessage.textContent = message;
   errorMessage.style.display = "block";
-  emailInput.style.border = "2px solid red";
-  passwordInput.style.border = "2px solid red";
+  emailInput.style.border = "1px solid #ff8190";
+  passwordInput.style.border = "1px solid #ff8190";
 }
 
 // Validates the email format using a regex
@@ -211,8 +211,8 @@ function hideLoginError() {
 function markInputsAsInvalid() {
   const emailInput = document.getElementById("input_email");
   const passwordInput = document.getElementById("input_password");
-  emailInput.style.border = "2px solid red";
-  passwordInput.style.border = "2px solid red";
+  emailInput.style.border = "1px solid red";
+  passwordInput.style.border = "1px solid red";
 }
 
 // Resets the input field borders to default

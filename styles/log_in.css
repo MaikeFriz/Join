@@ -145,7 +145,7 @@ header {
     width: 652px;
     max-height: 449px;
     background-color: white;
-    border-radius: 10px;
+    border-radius: 30px;
     box-shadow: 0px 0px 4px 2px rgba(42, 54, 71, 0.1);
     display: flex;
     justify-content: center;
@@ -239,13 +239,23 @@ header {
     height: 48px;
     font-size: 21px;
     font-weight: 700;
+    transition: background-color 100ms ease-in-out,
+                border 100ms ease-in-out,
+                box-shadow 100ms ease-in-out;
 }
 
 .button_log_in_input_section:hover {
-    background-color: rgb(41, 171, 226);
-    transform: scale(1.05);
-    border: solid 2px rgb(41, 171, 226);
+    background-color: rgba(41, 171, 226, 1);
+    border: solid 2px rgba(41, 171, 226, 1);
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
+
+.button_log_in_input_section:active{
+    background-color: rgba(9, 25, 49, 1);
+    border: solid 2px rgba(9, 25, 49, 1);
+    box-shadow: none;
+}
+
 
 .button_sign_up_input_section {
     border: solid 2px rgb(42, 54, 71);
@@ -257,13 +267,22 @@ header {
     transform: scale(1);
     font-size: 21px;
     font-weight: 700;
+    transition: border 100ms ease-in-out,
+                color 100ms ease-in-out,
+                box-shadow 100ms ease-in-out;
 }
 
 .button_sign_up_input_section:hover {
-    border: solid 2px rgb(41, 171, 226);
-    transform: scale(1.05);
-    color: rgb(41, 171, 226);
+    border: solid 2px rgba(41, 171, 226, 1);
+    color: rgba(41, 171, 226, 1);
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
+
+.button_sign_up_input_section:active{
+    border: solid 2px rgba(9, 25, 49, 1);
+    color: rgba(9, 25, 49, 1);
+    box-shadow: none;
+    }
 
 a {
     text-decoration: none;
@@ -302,7 +321,7 @@ a {
 .input_label input:focus,
 .input_label input:not(:placeholder-shown) {
     border-color: rgb(41, 171, 226);
-    border: 2px solid rgb(41, 171, 226);
+    border: 1px solid rgb(41, 171, 226);
     outline: none;
 }
 
@@ -382,4 +401,8 @@ a {
 
 .d_none_blue_loading_screen{
     display: none;
+}
+
+.error-message{
+    height:20px;
 }
