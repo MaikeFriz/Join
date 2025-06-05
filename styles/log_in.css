@@ -318,6 +318,7 @@ a {
     width: 100%;
     padding-right: 40px;
     font-size: 16px;
+    height: 48px;
 }
 
 .input_label input::placeholder {

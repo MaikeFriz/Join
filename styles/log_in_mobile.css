@@ -4,6 +4,7 @@
 }
 
 @media(max-width:720px) {
+
     .button_div {
         flex-direction: column;
         gap: 16px
@@ -11,20 +12,58 @@
 
     .log_in_box {
         height: auto;
-        width: 400px;
+        width: 95%;
         max-height: none;
         padding: 16px 0;
     }
 
-    .input_label {
-        width: 350px;
+    .button_log_in_input_section {
+        width: 60%;
+        height: 48px !important;
     }
+
+    .button_sign_up_input_section {
+        width: 60%;
+        height: 48px !important;
+    }
+
 }
 
 @media(max-width:450px) {
+
+    html,
+    body {
+        overflow-y: auto;
+    }
+    .main_content{
+        height: calc(100vh - 200px);
+        justify-content: center;
+        align-items: center;
+    }
+
+    .input_div {
+        width: 90% !important;
+        height: auto;
+    }
+
+    .input_label {
+        width: 100% !important;
+        max-width: 100%;
+    }
+
+    .input_label input {
+        font-size: 16px;
+        max-height: 44px;
+    }
+
+    .input_icon {
+        right: 16px;
+        height: 16px;
+        width: 16px;
+    }
+
     .log_in_box {
         height: auto;
-        width: 280px;
         max-height: auto;
         padding: 16px 0;
         overflow-x: hidden !important;
@@ -63,25 +102,18 @@
         padding: 24px 0 0 24px;
     }
 
-    .input_div input,
-    .input_label input {
-        height: 30px !important;
-    }
-
     .h1_box {
         font-size: 32px !important;
     }
 
     .button_log_in_input_section {
         padding: 8px 8px;
-        width: 120px;
         height: auto;
         font-size: 16px;
     }
 
     .button_sign_up_input_section {
         padding: 8px 8px;
-        width: 120px;
         height: auto;
         font-size: 16px;
     }
@@ -89,11 +121,19 @@
     .input_div {
         height: fit-content;
         max-height: fit-content;
-        gap: 8px;
+        gap: 16px;
     }
 
     .separation_line_h1 {
         margin-bottom: 8px;
+    }
+
+    .legal_privacy_div{
+        display: flex;
+        justify-content: center;
+        gap: 16px;
+        margin-top: 32px;
+        width: 100%;
     }
 
     .legal_privacy_div a {
@@ -132,5 +172,103 @@
         display: flex;
         justify-content: center;
         align-items: center;
+    }
+
+    .button_div {
+        gap: 10px;
+        padding-bottom: 8px;
+    }
+
+    .h1_div_log_in_field{
+        margin-bottom: 5%;
+        margin-top: 3%;
+    }
+
+    .error-message,
+    .forgot_password_div a{
+        font-size: 14px;
+        margin-bottom: -4px;
+    }
+
+    .sign_up_div_footer_mobile p{
+        height: 24px;
+        width: auto;
+        white-space: nowrap; 
+        min-width: 70px; 
+    }
+
+    .sign_up_div_footer_mobile{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap:35px; 
+    }
+}
+
+@media(max-width:320px) {
+
+    .main_content {
+        height: calc(100vh - 90px);
+        justify-content: center;
+        align-items: center;
+    }  
+    
+    header{
+        display: none;
+    }
+
+    .log_in_box{
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+
+    .error-message,
+    .forgot_password_div a{
+        font-size: 12px;
+        margin-bottom: -8px;
+        margin-top: -8px;
+    }
+
+    .button_log_in_input_section,
+    .button_sign_up_input_section {
+        height: 38px !important;
+        font-size: 14px !important;
+    }
+
+    .input_div{
+        gap: 10px;
+    }
+
+    .input_label input {
+        font-size: 14px;
+        height: 38px;
+    }
+    
+    .input_label input::placeholder {
+        font-size: 14px;
+    }
+
+    .input_icon{
+        height: 14px;
+        width: 14px;
+    }
+
+    .h1_div_log_in_field{
+        margin-bottom: 8px;
+    }
+
+    .sign_up_div_footer_mobile{
+        margin-top: 0;
+        gap:16px; 
+    }
+
+    .sign_up_div_footer_mobile p{
+        height: 20px;
+        margin-top: -20px;
+    }
+
+    .legal_privacy_div{
+        margin-top: 8px;
     }
 }
