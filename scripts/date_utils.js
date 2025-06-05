@@ -1,4 +1,7 @@
-// Handles the change event for a date input and formats the selected date.
+/**
+ * Handles the change event for a date input and formats the selected date.
+ * @param {Event} event - The change event from the date input.
+ */
 function handleDateChange(event) {
     const inputDate = event.target;
     const isoDate = inputDate.value;
@@ -8,8 +11,11 @@ function handleDateChange(event) {
     const formattedDate = formatDate(isoDate);
 }
 
-
-// Formats an ISO date string to "DD/MM/YYYY".
+/**
+ * Formats an ISO date string to "DD/MM/YYYY".
+ * @param {string} isoDate - The ISO date string.
+ * @returns {string} The formatted date string.
+ */
 function formatDate(isoDate) {
     if (!isoDate) return "";
     const date = new Date(isoDate);
@@ -19,8 +25,11 @@ function formatDate(isoDate) {
     return `${day}/${month}/${year}`;
 }
 
-
-// Formats an ISO date string to "YYYY-MM-DD" for input fields.
+/**
+ * Formats an ISO date string to "YYYY-MM-DD" for input fields.
+ * @param {string} isoDate - The ISO date string.
+ * @returns {string} The formatted date string for input fields.
+ */
 function formatDateForInput(isoDate) {
     if (!isoDate) return '';
     const date = new Date(isoDate);

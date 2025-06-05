@@ -1,4 +1,6 @@
-// Determines whether the user is a guest or logged-in and updates the UI accordingly
+/**
+ * Determines whether the user is a guest or logged-in and updates the UI accordingly.
+ */
 function getSummaryCount() {
   const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
   const isGuest = JSON.parse(localStorage.getItem("isGuest"));
@@ -10,8 +12,9 @@ function getSummaryCount() {
   }
 }
 
-
-// Updates the UI and data for the guest user
+/**
+ * Updates the UI and data for the guest user.
+ */
 function updateGuestUser() {
   const data = JSON.parse(localStorage.getItem("guestKanbanData"));
   if (data && data.users && data.users.guest) {
@@ -28,8 +31,10 @@ function updateGuestUser() {
   }
 }
 
-
-// Updates the UI and data for logged-in users
+/**
+ * Updates the UI and data for logged-in users.
+ * @param {Object} loggedInUser - The logged-in user object.
+ */
 function updateLoggedInUser(loggedInUser) {
   const userId = loggedInUser.userId;
   const BASE_URL = `https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData/users/${userId}/assignedTasks.json`;
@@ -41,8 +46,11 @@ function updateLoggedInUser(loggedInUser) {
   getLoggedUsername(loggedInUser);
 }
 
-
-// Starts an interval to update the task counters for a given user
+/**
+ * Starts an interval to update the task counters for a given user.
+ * @param {Object} user - The user object.
+ * @param {Function} fetchDataCallback - Callback to fetch assigned tasks data.
+ */
 function startUpdateInterval(user, fetchDataCallback) {
   setInterval(() => {
     fetchDataCallback().then((updatedData) => {
@@ -52,8 +60,10 @@ function startUpdateInterval(user, fetchDataCallback) {
   }, 1000);
 }
 
-
-// Helper function to update the counts for various task categories
+/**
+ * Updates the counts for various task categories in the summary.
+ * @param {Object} user - The user object.
+ */
 function updateSummaryCounts(user) {
   getToDoCount(user);
   getDoneCount(user);
@@ -63,8 +73,10 @@ function updateSummaryCounts(user) {
   getAwaitingCount(user);
 }
 
-
-// Function to update the count of "To Do" tasks for the logged-in user
+/**
+ * Updates the count of "To Do" tasks for the user.
+ * @param {Object} loggedInUser - The user object.
+ */
 function getToDoCount(loggedInUser) {
   const toDoCountHTML = document.getElementById("toDo-tasks-count");
   toDoCountHTML.innerHTML =
@@ -73,8 +85,10 @@ function getToDoCount(loggedInUser) {
       : 0;
 }
 
-
-// Function to update the count of "Done" tasks for the logged-in user
+/**
+ * Updates the count of "Done" tasks for the user.
+ * @param {Object} loggedInUser - The user object.
+ */
 function getDoneCount(loggedInUser) {
   const doneCountHTML = document.getElementById("done-tasks-count");
   doneCountHTML.innerHTML =
@@ -83,8 +97,10 @@ function getDoneCount(loggedInUser) {
       : 0;
 }
 
-
-// Function to update the count of "Urgent" tasks for the logged-in user
+/**
+ * Updates the count of "Urgent" tasks for the user.
+ * @param {Object} loggedInUser - The user object.
+ */
 function getUrgentCount(loggedInUser) {
   const urgentCountHTML = document.getElementById("urgent-tasks-count");
   urgentCountHTML.innerHTML = loggedInUser.assignedTasks
@@ -99,8 +115,10 @@ function getUrgentCount(loggedInUser) {
     : 0;
 }
 
-
-// Function to update the total count of all tasks assigned to the logged-in user
+/**
+ * Updates the total count of all tasks assigned to the user.
+ * @param {Object} loggedInUser - The user object.
+ */
 function getAllTasksCount(loggedInUser) {
   const allTasksCountHTML = document.getElementById("all-tasks-count");
   allTasksCountHTML.innerHTML = loggedInUser.assignedTasks
@@ -112,8 +130,10 @@ function getAllTasksCount(loggedInUser) {
     : 0;
 }
 
-
-// Function to update the count of "In Progress" tasks for the logged-in user
+/**
+ * Updates the count of "In Progress" tasks for the user.
+ * @param {Object} loggedInUser - The user object.
+ */
 function getInprocessCount(loggedInUser) {
   const inprocessCountHTML = document.getElementById("inprocess-tasks-count");
   inprocessCountHTML.innerHTML =
@@ -122,8 +142,10 @@ function getInprocessCount(loggedInUser) {
       : 0;
 }
 
-
-// Function to update the count of "Awaiting Feedback" tasks for the logged-in user
+/**
+ * Updates the count of "Awaiting Feedback" tasks for the user.
+ * @param {Object} loggedInUser - The user object.
+ */
 function getAwaitingCount(loggedInUser) {
   const awaitingCountHTML = document.getElementById("awaiting-tasks-count");
   awaitingCountHTML.innerHTML =
@@ -132,8 +154,10 @@ function getAwaitingCount(loggedInUser) {
       : 0;
 }
 
-
-// Function to display the username of the logged-in user in the UI
+/**
+ * Displays the username of the logged-in user in the UI.
+ * @param {Object} loggedInUser - The user object.
+ */
 function getLoggedUsername(loggedInUser) {
   const loggedUsernameHTML = document.getElementById("logged-username");
   loggedUsernameHTML.innerHTML = loggedInUser.name || "null";

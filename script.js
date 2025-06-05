@@ -1,4 +1,7 @@
-// Checks if a user or guest is logged in; redirects to login page if not authenticated and not on an excluded page
+/**
+ * Checks if a user or guest is logged in; redirects to login page if not authenticated and not on an excluded page.
+ * @returns {Object|undefined} The logged-in user object or undefined if not authenticated.
+ */
 function checkUserLogin() {
   const user = JSON.parse(localStorage.getItem("loggedInUser"));
   const guest = JSON.parse(localStorage.getItem("isGuest"));
@@ -11,8 +14,10 @@ function checkUserLogin() {
   return user;
 }
 
-
-// Checks if the current page is excluded from authentication
+/**
+ * Checks if the current page is excluded from authentication.
+ * @returns {boolean} True if the page is excluded, otherwise false.
+ */
 function isExcludedPage() {
   const excludedPages = [
     "log_in.html",
@@ -31,8 +36,9 @@ function isExcludedPage() {
   return excludedPages.includes(currentPage);
 }
 
-
-// Sets the user initials in the header based on the logged-in user or guest
+/**
+ * Sets the user initials in the header based on the logged-in user or guest.
+ */
 function getUserName() {
   const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
   const guest = JSON.parse(localStorage.getItem("isGuest"));
@@ -46,8 +52,10 @@ function getUserName() {
   }
 }
 
-
-// Sets the user's initials in the header
+/**
+ * Sets the user's initials in the header.
+ * @param {string} userName - The user's name.
+ */
 function setUserInitialsInHeader(userName) {
   let [firstName, lastName] = userName.split(" ");
   let firstLetter = firstName.charAt(0).toUpperCase();
@@ -60,8 +68,9 @@ function setUserInitialsInHeader(userName) {
   headerInitials.textContent = initials;
 }
 
-
-// Sets up the dropdown toggle for the user initials in the header
+/**
+ * Sets up the dropdown toggle for the user initials in the header.
+ */
 function setupUserDropdownToggle() {
   const headerInitials = document.getElementById("user-initials-header");
   if (!headerInitials) return;
@@ -79,8 +88,9 @@ function setupUserDropdownToggle() {
   });
 }
 
-
-// Sets up the logout button event listener
+/**
+ * Sets up the logout button event listener.
+ */
 function setupLogoutButton() {
   const logoutBtn = document.getElementById("logoutButton");
   if (logoutBtn) {
@@ -91,16 +101,19 @@ function setupLogoutButton() {
   }
 }
 
-
-// Combines all header setup functions for user initials, dropdown, and logout
+/**
+ * Combines all header setup functions for user initials, dropdown, and logout.
+ * @param {string} userName - The user's name.
+ */
 function getUserInitialForHeader(userName) {
   setUserInitialsInHeader(userName);
   setupUserDropdownToggle();
   setupLogoutButton();
 }
 
-
-// Initializes the user initials header on DOMContentLoaded if the element exists
+/**
+ * Initializes the user initials header on DOMContentLoaded if the element exists.
+ */
 document.addEventListener("DOMContentLoaded", () => {
   const userInitialsHeader = document.getElementById("user-initials-header");
   if (!userInitialsHeader) {

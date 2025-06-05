@@ -1,8 +1,11 @@
 let kanbanData = {};
 const BASE_URL = `https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData/`;
 
-
-// Fetches Kanban data for logged-in users from Firebase
+/**
+ * Fetches Kanban data for logged-in users from Firebase.
+ * @param {string} BASE_URL - The base URL for the Kanban data.
+ * @returns {Promise<Object|null>} The Kanban data object or null if an error occurs.
+ */
 async function fetchKanbanData(BASE_URL) {
   try {
     let response = await fetch(BASE_URL + ".json");
@@ -14,8 +17,10 @@ async function fetchKanbanData(BASE_URL) {
   }
 }
 
-
-// Fetches guest user data from Firebase
+/**
+ * Fetches guest user data from Firebase.
+ * @returns {Promise<Object|null>} The guest user data or null if not found.
+ */
 async function fetchGuestData() {
   const response = await fetch(`${BASE_URL}users/guest.json`);
   const guestData = await response.json();
@@ -23,14 +28,16 @@ async function fetchGuestData() {
   return guestData;
 }
 
-
-// Extracts task IDs from guest data
+/**
+ * Extracts task IDs from guest data.
+ * @param {Object} guestData - The guest user data.
+ * @returns {Array<string>} Array of task IDs.
+ */
 function extractTaskIds(guestData) {
   const taskIds = [];
   if (guestData.assignedTasks) {
     const categories = Object.values(guestData.assignedTasks);
-    for (let categoryIndex = 0; categoryIndex < categories.length; categoryIndex++) 
-      {
+    for (let categoryIndex = 0; categoryIndex < categories.length; categoryIndex++) {
       const category = categories[categoryIndex];
       for (const taskId in category) {
         if (category[taskId]) {
@@ -42,8 +49,11 @@ function extractTaskIds(guestData) {
   return taskIds;
 }
 
-
-// Fetches tasks based on the provided task IDs
+/**
+ * Fetches tasks based on the provided task IDs.
+ * @param {Array<string>} taskIds - Array of task IDs.
+ * @returns {Promise<Object>} Object containing tasks keyed by their IDs.
+ */
 async function fetchTasks(taskIds) {
   const tasksArray = [];
   for (let taskIndex = 0; taskIndex < taskIds.length; taskIndex++) {
@@ -59,8 +69,11 @@ async function fetchTasks(taskIds) {
   return tasksObject;
 }
 
-
-// Extracts subtask IDs from the provided tasks
+/**
+ * Extracts subtask IDs from the provided tasks.
+ * @param {Array<Object>} tasksArray - Array of task objects.
+ * @returns {Array<string>} Array of subtask IDs.
+ */
 function extractSubtaskIds(tasksArray) {
   const subtaskIds = [];
   for (let taskIndex = 0; taskIndex < tasksArray.length; taskIndex++) {
@@ -74,8 +87,11 @@ function extractSubtaskIds(tasksArray) {
   return subtaskIds;
 }
 
-
-// Fetches subtasks based on the provided subtask IDs
+/**
+ * Fetches subtasks based on the provided subtask IDs.
+ * @param {Array<string>} subtaskIds - Array of subtask IDs.
+ * @returns {Promise<Object>} Object containing subtasks keyed by their IDs.
+ */
 async function fetchSubtasks(subtaskIds) {
   const subtasksArray = [];
   for (let subtaskIndex = 0; subtaskIndex < subtaskIds.length; subtaskIndex++) {
@@ -91,8 +107,10 @@ async function fetchSubtasks(subtaskIds) {
   return subtasksObject;
 }
 
-
-// Fetches all users' contact data (name, email, phone)
+/**
+ * Fetches all users' contact data (name, email, phone).
+ * @returns {Promise<Object>} Object containing user contact data.
+ */
 async function fetchAllUserContactData() {
   const response = await fetch(`${BASE_URL}users.json`);
   const users = await response.json();
@@ -105,11 +123,16 @@ async function fetchAllUserContactData() {
   return contactData;
 }
 
-
-// Saves structured guest data, tasks, and subtasks to LocalStorage
+/**
+ * Saves structured guest data, tasks, and subtasks to LocalStorage.
+ * @param {Object} guestData - The guest user data.
+ * @param {Object} tasksData - The tasks data.
+ * @param {Object} subtasksData - The subtasks data.
+ * @param {Object} allUserContactData - All user contact data.
+ */
 function saveGuestDataToLocalStorage(
-  guestData, tasksData, subtasksData, allUserContactData) 
-  {
+  guestData, tasksData, subtasksData, allUserContactData
+) {
   const structuredData = {
     users: {
       guest: guestData,
@@ -121,8 +144,10 @@ function saveGuestDataToLocalStorage(
   localStorage.setItem("guestKanbanData", JSON.stringify(structuredData));
 }
 
-
-// Fetches and processes Kanban data for guest users
+/**
+ * Fetches and processes Kanban data for guest users.
+ * @returns {Promise<Object|null>} The guest data or null if an error occurs.
+ */
 async function fetchGuestKanbanData() {
   try {
     const guestData = await fetchGuestData();
@@ -131,7 +156,7 @@ async function fetchGuestKanbanData() {
     const tasksData = await fetchTasks(taskIds);
     const subtaskIds = extractSubtaskIds(Object.values(tasksData));
     const subtasksData = await fetchSubtasks(subtaskIds);
-    const allUserContactData = await fetchAllUserContactData(); // <-- neu
+    const allUserContactData = await fetchAllUserContactData();
     saveGuestDataToLocalStorage(guestData, tasksData, subtasksData, allUserContactData);
     return guestData;
   } catch (error) {
@@ -140,20 +165,24 @@ async function fetchGuestKanbanData() {
   }
 }
 
-
-// Retrieves the task data for editing and generates the corresponding HTML
+/**
+ * Retrieves the task data for editing and generates the corresponding HTML.
+ * @param {string} taskId - The ID of the task to edit.
+ * @returns {string} The HTML for editing the task.
+ */
 function getEditTaskData(taskId) {
   let taskContent = getTaskContent(taskId, kanbanData);
   if (!taskContent) {
     return `<div>Error: Task not found</div>`;
   }
-
   const editTaskHTML = renderEditTask(taskContent, taskId);
   return editTaskHTML;
 }
 
-
-// Fetches Kanban data for guest users and stores it in LocalStorage
+/**
+ * Fetches Kanban data for guest users and stores it in LocalStorage.
+ * @returns {Promise<Object>} The guest Kanban data object.
+ */
 async function getKanbanData() {
   try {
     if (localStorage.getItem("isGuest") === "true") {
@@ -170,8 +199,10 @@ async function getKanbanData() {
   }
 }
 
-
-// Fetches guest Kanban data from LocalStorage or Firebase
+/**
+ * Fetches guest Kanban data from LocalStorage or Firebase.
+ * @returns {Promise<Object>} The guest Kanban data object.
+ */
 async function getGuestKanbanData() {
   let guestKanbanData = localStorage.getItem("guestKanbanData");
   if (!guestKanbanData) {
@@ -181,8 +212,9 @@ async function getGuestKanbanData() {
   return JSON.parse(guestKanbanData);
 }
 
-
-// Executes the main logic when the page is loaded
+/**
+ * Executes the main logic when the page is loaded.
+ */
 document.addEventListener("DOMContentLoaded", async () => {
   await getKanbanData();
   const guest = JSON.parse(localStorage.getItem("isGuest"));
@@ -199,8 +231,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 });
 
-
-// Processes the Kanban data and assigns it to the user
+/**
+ * Processes the Kanban data and assigns it to the user.
+ * @param {Object} data - The Kanban data object.
+ * @param {Object|string} user - The user object or "guest".
+ */
 function processKanbanData(data, user) {
   if (!data) return;
   if (!user && user !== "guest") return;
@@ -217,8 +252,11 @@ function processKanbanData(data, user) {
   }
 }
 
-
-// Checks if the `assignedTasks` object is valid
+/**
+ * Checks if the `assignedTasks` object is valid.
+ * @param {Object} assignedTasks - The assignedTasks object.
+ * @returns {boolean} True if valid, otherwise false.
+ */
 function isValidAssignedTasks(assignedTasks) {
   return assignedTasks && typeof assignedTasks === "object";
 }

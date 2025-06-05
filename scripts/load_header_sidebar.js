@@ -1,4 +1,8 @@
-// Fetches an HTML component file and returns its content as text.
+/**
+ * Fetches an HTML component file and returns its content as text.
+ * @param {string} file - The path to the HTML component file.
+ * @returns {Promise<string>} The content of the component as text.
+ */
 function fetchComponent(file) {
   return fetch(file).then((response) => {
     if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
@@ -6,8 +10,11 @@ function fetchComponent(file) {
   });
 }
 
-
-// Inserts the loaded component HTML into the specified container.
+/**
+ * Inserts the loaded component HTML into the specified container.
+ * @param {string} content - The HTML content to insert.
+ * @param {string} elementId - The ID of the container element.
+ */
 function insertComponent(content, elementId) {
   const container = document.getElementById(elementId);
   if (!container) {
@@ -20,8 +27,9 @@ function insertComponent(content, elementId) {
   }
 }
 
-
-// Initializes the user dropdown in the header after rendering.
+/**
+ * Initializes the user dropdown in the header after rendering.
+ */
 function initializeHeaderUserDropdown() {
   setTimeout(() => {
     const loggedInUser = checkUserLogin();
@@ -42,8 +50,10 @@ function initializeHeaderUserDropdown() {
   }, 0);
 }
 
-
-// Sets up the user initials in the header
+/**
+ * Sets up the user initials in the header.
+ * @param {string} userName - The user's name.
+ */
 function setUserInitialsInHeader(userName) {
   const headerInitials = document.getElementById("user-initials-header");
   if (!headerInitials) return;
@@ -54,8 +64,9 @@ function setUserInitialsInHeader(userName) {
     (last?.charAt(0)?.toUpperCase() || "");
 }
 
-
-// Handles dropdown menu interactions for the user menu
+/**
+ * Handles dropdown menu interactions for the user menu.
+ */
 function setupUserDropdownInteractions() {
   const headerInitials = document.getElementById("user-initials-header");
   if (!headerInitials) return;
@@ -72,30 +83,36 @@ function setupUserDropdownInteractions() {
   };
 }
 
-
-// Loads an HTML component and inserts it into the specified element.
+/**
+ * Loads an HTML component and inserts it into the specified element.
+ * @param {string} file - The path to the HTML component file.
+ * @param {string} elementId - The ID of the container element.
+ */
 function loadComponent(file, elementId) {
   fetchComponent(file)
     .then((content) => insertComponent(content, elementId))
     .catch((error) => console.error("Error loading component:", error));
 }
 
-
-// Loads the header and sidebar components for logged-in or guest users.
+/**
+ * Loads the header and sidebar components for logged-in or guest users.
+ */
 function loadHeaderAndSidebar() {
   loadComponent("header.html", "header-container");
   loadComponent("sidebar.html", "sidebar-container");
 }
 
-
-// Loads the header and sidebar components for logged-out users.
+/**
+ * Loads the header and sidebar components for logged-out users.
+ */
 function loadHeaderAndSidebarLoggedOut() {
   loadComponent("header.html", "header-container");
   loadComponent("sidebar_logged_out.html", "sidebar-container");
 }
 
-
-// Initializes the header and sidebar based on the user's login status when the DOM is ready.
+/**
+ * Initializes the header and sidebar based on the user's login status when the DOM is ready.
+ */
 document.addEventListener("DOMContentLoaded", () => {
   const loggedInUser = checkUserLogin();
   const guest = JSON.parse(localStorage.getItem("isGuest"));
