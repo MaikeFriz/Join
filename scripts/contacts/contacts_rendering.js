@@ -1,3 +1,4 @@
+// This script handles the rendering of contacts in the application.
 document.addEventListener("DOMContentLoaded", function() {
   if (localStorage.getItem('showContactSavedToast') === '1') {
     showContactSavedToast();
@@ -5,6 +6,8 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 });
 
+
+// Displays the contact details for a given contactId, either for a guest or logged-in user.
 function showContactSavedToast() {
   const toast = document.getElementById('contact-toast');
   if (!toast) return;
@@ -13,6 +16,7 @@ function showContactSavedToast() {
     toast.classList.remove('active');
   }, 1800);
 }
+
 
 // Renders the contact list for guest or logged-in user.
 function renderContacts() {
@@ -27,6 +31,7 @@ function renderContacts() {
       .catch(() => resolve());
   });
 }
+
 
 // Fetches contacts for a logged-in user from Firebase.
 function getContactsData() {
@@ -49,12 +54,14 @@ function getContactsData() {
   });
 }
 
+
 // Sorts contacts alphabetically by name.
 function sortContactsByName(contacts) {
   return Object.keys(contacts)
     .map((key) => ({ id: key, ...contacts[key] }))
     .sort((a, b) => a.name.localeCompare(b.name));
 }
+
 
 // Groups sorted contacts by their initial letter.
 function groupContactsByInitial(sortedContacts) {
@@ -76,6 +83,7 @@ function renderContactsList(contactsList, contacts, isGuest) {
   });
 }
 
+
 // Renders a section for each initial and its contacts.
 function renderContactSection(contactsList, initial, contacts, isGuest) {
   const section = document.createElement("li");
@@ -86,6 +94,7 @@ function renderContactSection(contactsList, initial, contacts, isGuest) {
     contactsList.appendChild(listItem);
   });
 }
+
 
 // Creates a list item element for a single contact.
 function createContactListItem(contact, isGuest) {
@@ -103,6 +112,7 @@ function createContactListItem(contact, isGuest) {
   return listItem;
 }
 
+
 // Creates a div element for contact details.
 function createContactDetailsDiv(contact, initials, initialClass) {
   const div = document.createElement("div");
@@ -110,6 +120,7 @@ function createContactDetailsDiv(contact, initials, initialClass) {
   div.innerHTML = contactDetailsTemplate(contact, initials, initialClass);
   return div;
 }
+
 
 // Renders the contact details div in the appropriate container.
 function renderContactDetailsDiv(newDiv) {
@@ -123,6 +134,7 @@ function renderContactDetailsDiv(newDiv) {
   }
 }
 
+
 // Renders the headline in the contact details area.
 function renderHeadline() {
   const headlineContainer = document.querySelector(
@@ -133,6 +145,8 @@ function renderHeadline() {
   headlineContainer.innerHTML = contactHeadlineTemplate();
 }
 
+
+// Highlights the selected contact in the list.
 window.addEventListener("message", async function(event) {
   if (event.data && event.data.type === "createContact") {
     const contact = event.data.contact;

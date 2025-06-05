@@ -44,6 +44,7 @@ function contactDetailsTemplate(contact, initials, initialClass) {
   `;
 }
 
+
 // Returns the HTML template for the contact headline.
 function contactHeadlineTemplate() {
   return `
@@ -54,6 +55,7 @@ function contactHeadlineTemplate() {
     </h1>
   `;
 }
+
 
 // Returns the HTML template for the mobile action menu.
 function mobileActionMenuTemplate() {
@@ -73,6 +75,7 @@ function mobileActionMenuTemplate() {
   `;
 }
 
+// Returns the HTML template for the contact input fields.
 function contactInputFieldsTemplate() {
   return `
     <label class="input_label">

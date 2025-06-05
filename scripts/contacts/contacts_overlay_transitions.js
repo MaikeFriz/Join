@@ -1,5 +1,3 @@
-// 1. Overlay creation functions
-
 // Creates and styles the overlay div element.
 function createOverlay() {
   const overlay = document.createElement("div");
@@ -7,6 +5,7 @@ function createOverlay() {
   overlay.classList.add("overlay");
   return overlay;
 }
+
 
 // Creates and styles the iframe for the overlay.
 function createOverlayIframe(url) {
@@ -25,6 +24,7 @@ function createOverlayIframe(url) {
   return iframe;
 }
 
+
 // Adds a click listener to close the overlay when clicking outside the iframe.
 function addOverlayCloseListener(overlay) {
   overlay.addEventListener("click", function (event) {
@@ -39,7 +39,6 @@ function addOverlayCloseListener(overlay) {
   });
 }
 
-// 2. Overlay open/close functions (parent)
 
 // Opens an overlay with the given URL loaded in an iframe.
 function openOverlay(url) {
@@ -52,6 +51,7 @@ function openOverlay(url) {
   addOverlayCloseListener(overlay);
 }
 
+
 // Removes the overlay from the DOM.
 function closeOverlay() {
   const overlay = document.getElementById("overlay");
@@ -60,13 +60,13 @@ function closeOverlay() {
   }
 }
 
+
 // Removes the overlay iframe from the DOM.
 function removeOverlayIframe() {
   const iframe = document.getElementById("dein-iframe-id"); // Adjust the ID if needed!
   if (iframe) iframe.remove();
 }
 
-// 3. Overlay open/close functions (animation, parent & iframe)
 
 // Opens the overlay iframe in the parent (animation)
 window.openOverlayIframe = function(iframe) {
@@ -74,6 +74,7 @@ window.openOverlayIframe = function(iframe) {
     iframe.classList.add("active");
   }, 30);
 };
+
 
 // Closes the overlay iframe in the parent (with animation)
 window.closeOverlayIframe = function(iframe, overlay) {
@@ -88,6 +89,7 @@ window.closeOverlayIframe = function(iframe, overlay) {
   }
 };
 
+
 // Opens the overlay in the iframe (animation)
 window.openContactOverlay = function() {
   const overlay = document.querySelector('.contact-overlay');
@@ -95,6 +97,7 @@ window.openContactOverlay = function() {
     overlay.classList.add('active');
   }
 };
+
 
 // Closes the overlay in the iframe (animation + notify parent)
 window.closeContactOverlay = function() {
@@ -109,6 +112,7 @@ window.closeContactOverlay = function() {
   }
 }
 
+
 // Closes the add contact overlay and notifies the parent window.
 function closeAddContactOverlay() {
   const overlay = document.querySelector('.contact-overlay');
@@ -121,6 +125,7 @@ function closeAddContactOverlay() {
     window.parent.postMessage({ type: "closeOverlay" }, "*");
   }
 }
+
 
 // Closes the edit contact overlay and notifies the parent window.
 function closeEditContactOverlay() {
@@ -135,13 +140,13 @@ function closeEditContactOverlay() {
   }
 }
 
+
 // Adds event listeners to close the overlay (for close/cancel buttons in iframe).
 function addCloseListeners() {
   document.querySelector(".close-btn").addEventListener("click", closeEditContactOverlay);
   document.querySelector(".button_cancel").addEventListener("click", closeEditContactOverlay);
 }
 
-// 4. Message event listeners
 
 // Handles messages from the overlay iframe or parent window
 window.addEventListener("message", function (event) {
@@ -163,6 +168,7 @@ window.addEventListener("message", function (event) {
   }
 });
 
+
 // Handles overlay close animation and removal on message
 window.addEventListener("message", function (event) {
   if (event.data.type === "closeOverlay") {
@@ -178,12 +184,14 @@ window.addEventListener("message", function (event) {
   }
 });
 
+
 // Handles start close animation in iframe
 window.addEventListener("message", function(event) {
   if (event.data.type === "startCloseAnimation") {
     window.closeContactOverlay();
   }
 });
+
 
 // Handles iframe content ready (parent and iframe)
 window.addEventListener("message", function (event) {
@@ -193,6 +201,8 @@ window.addEventListener("message", function (event) {
   }
 });
 
+
+// Handles iframe content ready for the contact overlay
 window.addEventListener("message", function(event) {
   if (event.data.type === "iframeContentReady") {
     const overlay = document.getElementById("overlay");
@@ -202,7 +212,8 @@ window.addEventListener("message", function(event) {
   }
 });
 
-// 5. Overlay open animation on DOMContentLoaded (for iframe overlays)
+
+// Handles DOMContentLoaded to add the contact overlay class
 document.addEventListener("DOMContentLoaded", function () {
   const overlay = document.querySelector('.contact-overlay');
   if (overlay) overlay.classList.add('active');

@@ -8,6 +8,7 @@ function addContact(contact) {
   addUserContact(contact);
 }
 
+
 // Adds a new contact to guest data in localStorage.
 function addGuestContact(contact) {
   let guestKanbanData = getGuestKanbanData();
@@ -21,6 +22,7 @@ function addGuestContact(contact) {
   displayContactDetails(contactId);
 }
 
+
 // Retrieves guest kanban data from localStorage or returns a default object.
 function getGuestKanbanData() {
   return (
@@ -30,6 +32,7 @@ function getGuestKanbanData() {
   );
 }
 
+
 // Adds a new contact to the logged-in user's Firebase data.
 function addUserContact(contact) {
   const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
@@ -38,6 +41,7 @@ function addUserContact(contact) {
   const BASE_URL = `https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData/users/${userId}/contacts.json`;
   postContact(BASE_URL, contact);
 }
+
 
 // Sends a POST request to add a contact to Firebase.
 function postContact(BASE_URL, contact) {
@@ -51,6 +55,7 @@ function postContact(BASE_URL, contact) {
     .catch((error) => {});
 }
 
+
 // Handles UI updates after a contact is added.
 function handleContactAdded(data) {
   renderContacts();
@@ -58,6 +63,7 @@ function handleContactAdded(data) {
     displayContactDetails(data.name);
   }
 }
+
 
 // Updates an existing contact for the logged-in user.
 function updateContact(contact) {
@@ -67,6 +73,7 @@ function updateContact(contact) {
   const BASE_URL = `https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData/users/${userId}/contacts/${contact.id}.json`;
   putContact(BASE_URL, contact);
 }
+
 
 // Sends a PUT request to update a contact in Firebase.
 function putContact(BASE_URL, contact) {
@@ -85,6 +92,7 @@ function putContact(BASE_URL, contact) {
     })
     .catch(() => {});
 }
+
 
 // Deletes a contact for the logged-in user from Firebase.
 function deleteContact(contactId) {
@@ -108,6 +116,7 @@ function deleteContact(contactId) {
     .catch((error) => {});
 }
 
+
 // Deletes a contact from the guest user's localStorage data.
 function deleteGuestContact(contactId) {
   const guestKanbanData = JSON.parse(localStorage.getItem("guestKanbanData"));
@@ -128,6 +137,7 @@ function deleteGuestContact(contactId) {
   }
 }
 
+
 // Fetches and displays user contact details from Firebase.
 function displayUserContactDetails(contactId) {
   const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
@@ -140,6 +150,7 @@ function displayUserContactDetails(contactId) {
     .catch(() => {});
 }
 
+
 // Handles rendering and listeners for user contact details.
 function handleUserContactDetails(contact, contactId) {
   removeExistingContactDetails();
@@ -149,13 +160,13 @@ function handleUserContactDetails(contact, contactId) {
   addUserContactDetailListeners(contactId);
   highlightSelectedContact(contactId);
 
-  // Anpassung: gleiche Logik wie bei Gast, Schwelle auf 980 setzen
   if (window.innerWidth <= 980) {
     showActionButton(contactId);
   } else {
     showAddButton();
   }
 }
+
 
 // Adds event listeners for editing and deleting a guest contact.
 function addGuestContactDetailListeners(contactId) {
@@ -168,6 +179,7 @@ function addGuestContactDetailListeners(contactId) {
     .getElementById("delete-contact-button")
     .addEventListener("click", () => deleteGuestContact(contactId));
 }
+
 
 // Adds event listeners for editing and deleting a user contact.
 function addUserContactDetailListeners(contactId) {

@@ -4,11 +4,13 @@ function fetchContactsList(userId) {
   return fetch(BASE_URL).then((response) => response.json());
 }
 
+
 // Fetches all contacts for a guest user from localStorage.
 function fetchGuestContactsList() {
   const guestKanbanData = JSON.parse(localStorage.getItem("guestKanbanData"));
   return guestKanbanData?.users?.guest?.contacts || {};
 }
+
 
 // Fetches a single contact for a logged-in user from Firebase.
 function fetchContactById(userId, contactId) {
@@ -16,12 +18,14 @@ function fetchContactById(userId, contactId) {
   return fetch(url).then((response) => response.json());
 }
 
+
 // Fetches a single contact for a guest user from localStorage.
 function fetchGuestContactById(contactId) {
   const guestKanbanData = JSON.parse(localStorage.getItem("guestKanbanData"));
   const contacts = guestKanbanData?.users?.guest?.contacts || {};
   return contacts[contactId];
 }
+
 
 // Returns initials and CSS class for a contact name.
 function getInitialsAndClass(name) {
@@ -44,11 +48,13 @@ function getInitialsAndClass(name) {
   return { initials, initialClass };
 }
 
+
 // Removes the currently displayed contact details from the UI.
 function removeExistingContactDetails() {
   const contactDetailsDiv = document.querySelector(".contact-details");
   if (contactDetailsDiv) contactDetailsDiv.remove();
 }
+
 
 // Highlights the selected contact in the contact list.
 function highlightSelectedContact(contactId) {
@@ -60,6 +66,7 @@ function highlightSelectedContact(contactId) {
   if (selectedContact) selectedContact.classList.add("contact-highlight");
 }
 
+
 // Activates the overlay with a short delay.
 function activateOverlay() {
   setTimeout(() => {
@@ -67,6 +74,7 @@ function activateOverlay() {
     if (overlay) overlay.classList.add('active');
   }, 30);
 }
+
 
 // Sets up the button state handler to enable/disable the save button based on form validity.
 function setupButtonStateHandler(form, saveBtn) {
@@ -83,6 +91,7 @@ function setupButtonStateHandler(form, saveBtn) {
   form.addEventListener("input", updateButtonState);
 }
 
+
 // Sets up the form submission handler to validate and call the onSubmit function.
 function setupFormSubmitHandler(form, onSubmit) {
   form.addEventListener("submit", function (event) {
@@ -98,11 +107,13 @@ function setupFormSubmitHandler(form, onSubmit) {
   });
 }
 
+
 // Sets up event listeners for the close buttons to close the overlay.
 function setupCloseHandlers(closeOverlayFn) {
   document.querySelector(".close-btn").addEventListener("click", closeOverlayFn);
   document.querySelector(".button_cancel").addEventListener("click", closeOverlayFn);
 }
+
 
 // Renders the input fields for the contact form if not already rendered.
 function renderInputFields(inputFieldsId, inputFieldsTemplate) {
@@ -113,6 +124,7 @@ function renderInputFields(inputFieldsId, inputFieldsTemplate) {
     }
   }
 }
+
 
 // Initializes the contact form setup with validation, event listeners, and rendering input fields.
 function setupContactForm({
