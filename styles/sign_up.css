@@ -262,13 +262,16 @@ a:hover {
 }
 
 .link_accept_privacy_policy {
-  transform: scale(1);
   text-decoration: none;
+  transition: text-decoration 100ms ease-in-out,
+              transform 100ms ease-in-out;
+  display: inline-block; 
+  text-align: left; 
 }
 
 .link_accept_privacy_policy:hover {
   text-decoration: underline;
-  transform: scale(1.1);
+  transform: scaleX(1.02);
 }
 
 .input_label {
@@ -416,4 +419,56 @@ a:hover {
 
 #error_message_sign_up {
   font-size: 12px;
+}
+
+.svg-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+}
+
+.svg-checkbox input[type="checkbox"] {
+  opacity: 0;
+  width: 18px;
+  height: 18px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  margin: 0;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.svg-checkbox .checkbox-icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+  position: relative;
+  display: none;
+  pointer-events: none;
+}
+
+.svg-checkbox .unchecked {
+  display: inline-block;
+}
+
+.svg-checkbox input[type="checkbox"]:checked ~ .unchecked {
+  display: none;
+}
+
+.svg-checkbox input[type="checkbox"]:checked ~ .checked {
+  display: inline-block;
+}
+
+.svg-checkbox .checked {
+  display: none;
+}
+
+.svg-checkbox:hover .checkbox-icon.unchecked,
+.svg-checkbox:hover .checkbox-icon.checked{
+    border-radius: 50px;
+    background-color: rgba(209, 209, 209, 1);
 }

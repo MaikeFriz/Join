@@ -1,6 +1,11 @@
-/* sign_up_mobile.css */
+@media (max-width: 768px) {
+  .logo_header {
+    height: 54px;
+    width: auto;
+  }
+}
+
 @media (max-width: 640px) {
-  /* Reset der Desktop-Styles */
   body {
     background-color: #f6f7f8;
     display: flex;
@@ -14,12 +19,6 @@
     justify-content: flex-start;
   }
 
-  .logo_header {
-    height: 54px;
-    width: auto;
-  }
-
-  /* Hauptcontainer */
   .sign_up_box {
     width: 80%;
     min-height: auto;
@@ -33,7 +32,6 @@
     flex-direction: column;
   }
 
-  /* Header-Zeile (Pfeil + Titel) */
   .h1_div_sign_up_field {
     flex-direction: row;
     align-items: center;
@@ -62,7 +60,6 @@
     text-align: left;
   }
 
-  /* Formular */
   .input_div {
     width: 100%;
     height: auto;
@@ -75,6 +72,7 @@
 
   .input_label input {
     font-size: 16px;
+    height: 48px;
   }
 
   .input_icon {
@@ -83,7 +81,6 @@
     width: 16px;
   }
 
-    /* Checkbox & Button */
   .checkbox_div {
     display: flex;
     align-items: center;
@@ -133,7 +130,6 @@
     font-size: 16px;
   }
 
-  /* Footer */
   footer {
     height: auto;
     padding: 16px;
