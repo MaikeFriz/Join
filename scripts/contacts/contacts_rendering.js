@@ -1,4 +1,6 @@
-// This script handles the rendering of contacts in the application.
+/**
+ * Handles the DOMContentLoaded event to show the contact saved toast if needed.
+ */
 document.addEventListener("DOMContentLoaded", function() {
   if (localStorage.getItem('showContactSavedToast') === '1') {
     showContactSavedToast();
@@ -6,8 +8,9 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 });
 
-
-// Displays the contact details for a given contactId, either for a guest or logged-in user.
+/**
+ * Displays the contact saved toast notification.
+ */
 function showContactSavedToast() {
   const toast = document.getElementById('contact-toast');
   if (!toast) return;
@@ -17,8 +20,10 @@ function showContactSavedToast() {
   }, 1800);
 }
 
-
-// Renders the contact list for guest or logged-in user.
+/**
+ * Renders the contact list for guest or logged-in user.
+ * @returns {Promise<void>} A promise that resolves when rendering is complete.
+ */
 function renderContacts() {
   return new Promise((resolve) => {
     getContactsData()
@@ -32,8 +37,10 @@ function renderContacts() {
   });
 }
 
-
-// Fetches contacts for a logged-in user from Firebase.
+/**
+ * Fetches contacts for the current user or guest from storage or Firebase.
+ * @returns {Promise<Object>} A promise that resolves to an object with contacts and isGuest flag.
+ */
 function getContactsData() {
   return new Promise((resolve, reject) => {
     const isGuest = JSON.parse(localStorage.getItem("isGuest"));
@@ -54,16 +61,22 @@ function getContactsData() {
   });
 }
 
-
-// Sorts contacts alphabetically by name.
+/**
+ * Sorts contacts alphabetically by name.
+ * @param {Object} contacts - The contacts object.
+ * @returns {Array<Object>} Sorted array of contact objects.
+ */
 function sortContactsByName(contacts) {
   return Object.keys(contacts)
     .map((key) => ({ id: key, ...contacts[key] }))
     .sort((a, b) => a.name.localeCompare(b.name));
 }
 
-
-// Groups sorted contacts by their initial letter.
+/**
+ * Groups sorted contacts by their initial letter.
+ * @param {Array<Object>} sortedContacts - Array of sorted contact objects.
+ * @returns {Object} An object grouping contacts by initial letter.
+ */
 function groupContactsByInitial(sortedContacts) {
   return sortedContacts.reduce((acc, contact) => {
     const initial = contact.name[0].toUpperCase();
@@ -73,7 +86,12 @@ function groupContactsByInitial(sortedContacts) {
   }, {});
 }
 
-// Renders the sorted and grouped contacts into the contact list.
+/**
+ * Renders the sorted and grouped contacts into the contact list.
+ * @param {HTMLElement} contactsList - The container element for the contact list.
+ * @param {Object} contacts - The contacts object.
+ * @param {boolean} isGuest - Whether the user is a guest.
+ */
 function renderContactsList(contactsList, contacts, isGuest) {
   if (!contacts || Object.keys(contacts).length === 0) return;
   const sortedContacts = sortContactsByName(contacts);
@@ -83,8 +101,13 @@ function renderContactsList(contactsList, contacts, isGuest) {
   });
 }
 
-
-// Renders a section for each initial and its contacts.
+/**
+ * Renders a section for each initial and its contacts.
+ * @param {HTMLElement} contactsList - The container element for the contact list.
+ * @param {string} initial - The initial letter.
+ * @param {Array<Object>} contacts - Array of contact objects for the initial.
+ * @param {boolean} isGuest - Whether the user is a guest.
+ */
 function renderContactSection(contactsList, initial, contacts, isGuest) {
   const section = document.createElement("li");
   section.innerHTML = `<h3>${initial}</h3>`;
@@ -95,8 +118,12 @@ function renderContactSection(contactsList, initial, contacts, isGuest) {
   });
 }
 
-
-// Creates a list item element for a single contact.
+/**
+ * Creates a list item element for a single contact.
+ * @param {Object} contact - The contact object.
+ * @param {boolean} isGuest - Whether the user is a guest.
+ * @returns {HTMLElement} The list item element.
+ */
 function createContactListItem(contact, isGuest) {
   const { initials, initialClass } = getInitialsAndClass(contact.name);
   const listItem = document.createElement("li");
@@ -112,8 +139,13 @@ function createContactListItem(contact, isGuest) {
   return listItem;
 }
 
-
-// Creates a div element for contact details.
+/**
+ * Creates a div element for contact details.
+ * @param {Object} contact - The contact object.
+ * @param {string} initials - The initials of the contact.
+ * @param {string} initialClass - The CSS class for the initials badge.
+ * @returns {HTMLDivElement} The div element containing contact details.
+ */
 function createContactDetailsDiv(contact, initials, initialClass) {
   const div = document.createElement("div");
   div.className = "contact-details";
@@ -121,8 +153,10 @@ function createContactDetailsDiv(contact, initials, initialClass) {
   return div;
 }
 
-
-// Renders the contact details div in the appropriate container.
+/**
+ * Renders the contact details div in the appropriate container.
+ * @param {HTMLDivElement} newDiv - The div element containing contact details.
+ */
 function renderContactDetailsDiv(newDiv) {
   const isMobileView = window.innerWidth <= 980;
   const rightSideContent = document.querySelector(".right-side-content-contacts");
@@ -134,8 +168,9 @@ function renderContactDetailsDiv(newDiv) {
   }
 }
 
-
-// Renders the headline in the contact details area.
+/**
+ * Renders the headline in the contact details area.
+ */
 function renderHeadline() {
   const headlineContainer = document.querySelector(
     ".right-side-content-contacts"
@@ -145,8 +180,9 @@ function renderHeadline() {
   headlineContainer.innerHTML = contactHeadlineTemplate();
 }
 
-
-// Highlights the selected contact in the list.
+/**
+ * Handles the message event to update the contact list and details after creating a contact.
+ */
 window.addEventListener("message", async function(event) {
   if (event.data && event.data.type === "createContact") {
     const contact = event.data.contact;

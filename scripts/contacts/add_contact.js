@@ -1,9 +1,15 @@
+/**
+ * Initializes the contacts page and checks login state.
+ */
 document.addEventListener("DOMContentLoaded", initContactsPage);
+
 window.addEventListener("resize", handleResponsiveContactDetails);
+
 document.addEventListener("DOMContentLoaded", initAddContactForm);
 
-
-// Initializes the contacts page and checks login state.
+/**
+ * Initializes the contacts page and redirects if not logged in or guest.
+ */
 function initContactsPage() {
   if (!isUserLoggedInOrGuest()) {
     window.location.href = "./log_in.html";
@@ -13,16 +19,19 @@ function initContactsPage() {
   setupAddContactButtons();
 }
 
-
-// Checks if a user or guest is logged in.
+/**
+ * Checks if a user or guest is logged in.
+ * @returns {boolean} True if user or guest is logged in, otherwise false.
+ */
 function isUserLoggedInOrGuest() {
   const user = JSON.parse(localStorage.getItem("loggedInUser"));
   const isGuest = JSON.parse(localStorage.getItem("isGuest"));
   return user || isGuest;
 }
 
-
-// Adds event listeners to add contact buttons.
+/**
+ * Adds event listeners to add contact buttons.
+ */
 function setupAddContactButtons() {
   const addContactBtn = document.getElementById("add-contact-button");
   if (addContactBtn) {
@@ -34,8 +43,9 @@ function setupAddContactButtons() {
   }
 }
 
-
-// Handles responsive UI for contact details on window resize.
+/**
+ * Handles responsive UI for contact details on window resize.
+ */
 function handleResponsiveContactDetails() {
   const isMobile = window.innerWidth <= 980;
   const rightSideContent = document.querySelector(".right-side-content-contacts");
@@ -55,8 +65,10 @@ function handleResponsiveContactDetails() {
   }
 }
 
-
-// Displays the contact details for the given contactId, for guest or user.
+/**
+ * Displays the contact details for the given contactId, for guest or user.
+ * @param {string} contactId - The contact ID.
+ */
 function displayContactDetails(contactId) {
   const isGuest = JSON.parse(localStorage.getItem("isGuest"));
   if (isGuest) {
@@ -66,8 +78,10 @@ function displayContactDetails(contactId) {
   displayUserContactDetails(contactId);
 }
 
-
-// Displays guest contact details in the UI.
+/**
+ * Displays guest contact details in the UI.
+ * @param {string} contactId - The contact ID.
+ */
 function displayGuestContactDetails(contactId) {
   const contact = fetchGuestContactById(contactId);
   if (!contact) return;
@@ -83,8 +97,10 @@ function displayGuestContactDetails(contactId) {
   }
 }
 
-
-// Adds the mobile action menu button for user contacts.
+/**
+ * Adds the mobile action menu button for user contacts.
+ * @param {string} contactId - The contact ID.
+ */
 function addMobileActionMenu(contactId) {
   const actionButton = createMobileActionButton();
   document.body.appendChild(actionButton);
@@ -93,8 +109,10 @@ function addMobileActionMenu(contactId) {
   );
 }
 
-
-// Creates the floating action button for mobile actions.
+/**
+ * Creates the floating action button for mobile actions.
+ * @returns {HTMLButtonElement} The action button element.
+ */
 function createMobileActionButton() {
   const btn = document.createElement("button");
   btn.id = "action-button";
@@ -103,8 +121,11 @@ function createMobileActionButton() {
   return btn;
 }
 
-
-// Shows the mobile action menu for a contact.
+/**
+ * Shows the mobile action menu for a contact.
+ * @param {string} contactId - The contact ID.
+ * @param {HTMLElement} actionButton - The action button element.
+ */
 function showMobileActionMenu(contactId, actionButton) {
   const oldMenu = document.getElementById("mobile-action-menu");
   if (oldMenu) oldMenu.remove();
@@ -118,8 +139,10 @@ function showMobileActionMenu(contactId, actionButton) {
   }, 0);
 }
 
-
-// Creates the mobile action menu element.
+/**
+ * Creates the mobile action menu element.
+ * @returns {HTMLDivElement} The action menu element.
+ */
 function createMobileActionMenu() {
   const actionMenu = document.createElement("div");
   actionMenu.className = "mobile-action-menu";
@@ -127,8 +150,12 @@ function createMobileActionMenu() {
   return actionMenu;
 }
 
-
-// Adds event listeners to the mobile action menu buttons and closes the menu on outside click.
+/**
+ * Adds event listeners to the mobile action menu buttons and closes the menu on outside click.
+ * @param {HTMLElement} actionMenu - The action menu element.
+ * @param {string} contactId - The contact ID.
+ * @param {HTMLElement} actionButton - The action button element.
+ */
 function addMobileActionMenuListeners(actionMenu, contactId, actionButton) {
   actionMenu
     .querySelector("#mobile-edit-contact-button")
@@ -141,15 +168,21 @@ function addMobileActionMenuListeners(actionMenu, contactId, actionButton) {
   addOutsideClickListener(actionMenu, actionButton);
 }
 
-
-// Handles the edit action in the mobile action menu.
+/**
+ * Handles the edit action in the mobile action menu.
+ * @param {HTMLElement} actionMenu - The action menu element.
+ * @param {string} contactId - The contact ID.
+ */
 function handleMobileEditContact(actionMenu, contactId) {
   openOverlay(`./edit_contact.html?contactId=${contactId}`);
   document.body.removeChild(actionMenu);
 }
 
-
-// Handles the delete action in the mobile action menu.
+/**
+ * Handles the delete action in the mobile action menu.
+ * @param {HTMLElement} actionMenu - The action menu element.
+ * @param {string} contactId - The contact ID.
+ */
 function handleMobileDeleteContact(actionMenu, contactId) {
   const isGuest = JSON.parse(localStorage.getItem("isGuest"));
   if (isGuest) {
@@ -160,8 +193,11 @@ function handleMobileDeleteContact(actionMenu, contactId) {
   document.body.removeChild(actionMenu);
 }
 
-
-// Adds an outside click listener to close the mobile action menu.
+/**
+ * Adds an outside click listener to close the mobile action menu.
+ * @param {HTMLElement} actionMenu - The action menu element.
+ * @param {HTMLElement} actionButton - The action button element.
+ */
 function addOutsideClickListener(actionMenu, actionButton) {
   setTimeout(() => {
     document.addEventListener(
@@ -178,16 +214,18 @@ function addOutsideClickListener(actionMenu, actionButton) {
   }, 0);
 }
 
-
-// Initializes the add contact form: sets up validation, events, and disables the save button initially
+/**
+ * Initializes the add contact form: sets up validation, events, and disables the save button initially.
+ */
 function initAddContactForm() {
   if (!document.getElementById("addContactForm")) return;
   setupAddContactForm();
   disableCreateButton();
 }
 
-
-// Sets up the add contact form with handlers and templates
+/**
+ * Sets up the add contact form with handlers and templates.
+ */
 function setupAddContactForm() {
   setupContactForm({
     formId: "addContactForm",
@@ -206,8 +244,9 @@ function setupAddContactForm() {
   });
 }
 
-
-// Disables the create button initially for validation purposes
+/**
+ * Disables the create button initially for validation purposes.
+ */
 function disableCreateButton() {
   const saveBtn = document.getElementById("createBtn");
   if (saveBtn) {
@@ -216,8 +255,9 @@ function disableCreateButton() {
   }
 }
 
-
-// Shows a toast notification when a contact is saved
+/**
+ * Shows a toast notification when a contact is saved.
+ */
 function showContactSavedToast() {
   const toast = document.getElementById('contact-toast');
   if (!toast) return;
@@ -227,8 +267,9 @@ function showContactSavedToast() {
   }, 2600);
 }
 
-
-// Shows the add contact button and removes the action button if it exists.
+/**
+ * Shows the add contact button and removes the action button if it exists.
+ */
 function showAddButton() {
   const addBtn = document.querySelector('.add-contact-floating-button');
   const actionBtn = document.getElementById('action-button');
@@ -236,8 +277,10 @@ function showAddButton() {
   if (actionBtn) actionBtn.remove();
 }
 
-
-// Shows the action button for mobile view when a contact is selected.
+/**
+ * Shows the action button for mobile view when a contact is selected.
+ * @param {string} contactId - The contact ID.
+ */
 function showActionButton(contactId) {
   const addBtn = document.querySelector('.add-contact-floating-button');
   const actionBtn = document.getElementById('action-button');

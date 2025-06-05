@@ -1,4 +1,7 @@
-// Creates and styles the overlay div element.
+/**
+ * Creates and styles the overlay div element.
+ * @returns {HTMLDivElement} The overlay div element.
+ */
 function createOverlay() {
   const overlay = document.createElement("div");
   overlay.id = "overlay";
@@ -6,8 +9,11 @@ function createOverlay() {
   return overlay;
 }
 
-
-// Creates and styles the iframe for the overlay.
+/**
+ * Creates and styles the iframe for the overlay.
+ * @param {string} url - The URL to load in the iframe.
+ * @returns {HTMLIFrameElement} The overlay iframe element.
+ */
 function createOverlayIframe(url) {
   const iframe = document.createElement("iframe");
   iframe.src = url;
@@ -24,8 +30,10 @@ function createOverlayIframe(url) {
   return iframe;
 }
 
-
-// Adds a click listener to close the overlay when clicking outside the iframe.
+/**
+ * Adds a click listener to close the overlay when clicking outside the iframe.
+ * @param {HTMLDivElement} overlay - The overlay div element.
+ */
 function addOverlayCloseListener(overlay) {
   overlay.addEventListener("click", function (event) {
     if (event.target === overlay) {
@@ -39,8 +47,10 @@ function addOverlayCloseListener(overlay) {
   });
 }
 
-
-// Opens an overlay with the given URL loaded in an iframe.
+/**
+ * Opens an overlay with the given URL loaded in an iframe.
+ * @param {string} url - The URL to load in the overlay iframe.
+ */
 function openOverlay(url) {
   const overlay = createOverlay();
   overlay.classList.add('overlay-fade-in'); 
@@ -51,8 +61,9 @@ function openOverlay(url) {
   addOverlayCloseListener(overlay);
 }
 
-
-// Removes the overlay from the DOM.
+/**
+ * Removes the overlay from the DOM.
+ */
 function closeOverlay() {
   const overlay = document.getElementById("overlay");
   if (overlay) {
@@ -60,23 +71,29 @@ function closeOverlay() {
   }
 }
 
-
-// Removes the overlay iframe from the DOM.
+/**
+ * Removes the overlay iframe from the DOM.
+ */
 function removeOverlayIframe() {
   const iframe = document.getElementById("dein-iframe-id"); // Adjust the ID if needed!
   if (iframe) iframe.remove();
 }
 
-
-// Opens the overlay iframe in the parent (animation)
+/**
+ * Opens the overlay iframe in the parent with animation.
+ * @param {HTMLIFrameElement} iframe - The overlay iframe element.
+ */
 window.openOverlayIframe = function(iframe) {
   setTimeout(() => {
     iframe.classList.add("active");
   }, 30);
 };
 
-
-// Closes the overlay iframe in the parent (with animation)
+/**
+ * Closes the overlay iframe in the parent with animation.
+ * @param {HTMLIFrameElement} iframe - The overlay iframe element.
+ * @param {HTMLDivElement} overlay - The overlay div element.
+ */
 window.closeOverlayIframe = function(iframe, overlay) {
   if (iframe) {
     iframe.classList.remove('active');
@@ -89,8 +106,9 @@ window.closeOverlayIframe = function(iframe, overlay) {
   }
 };
 
-
-// Opens the overlay in the iframe (animation)
+/**
+ * Opens the overlay in the iframe with animation.
+ */
 window.openContactOverlay = function() {
   const overlay = document.querySelector('.contact-overlay');
   if (overlay) {
@@ -98,8 +116,9 @@ window.openContactOverlay = function() {
   }
 };
 
-
-// Closes the overlay in the iframe (animation + notify parent)
+/**
+ * Closes the overlay in the iframe with animation and notifies the parent.
+ */
 window.closeContactOverlay = function() {
   const overlay = document.querySelector('.contact-overlay');
   if (overlay) {
@@ -112,8 +131,9 @@ window.closeContactOverlay = function() {
   }
 }
 
-
-// Closes the add contact overlay and notifies the parent window.
+/**
+ * Closes the add contact overlay and notifies the parent window.
+ */
 function closeAddContactOverlay() {
   const overlay = document.querySelector('.contact-overlay');
   if (overlay) {
@@ -126,8 +146,9 @@ function closeAddContactOverlay() {
   }
 }
 
-
-// Closes the edit contact overlay and notifies the parent window.
+/**
+ * Closes the edit contact overlay and notifies the parent window.
+ */
 function closeEditContactOverlay() {
   const overlay = document.querySelector('.contact-overlay');
   if (overlay) {
@@ -140,15 +161,17 @@ function closeEditContactOverlay() {
   }
 }
 
-
-// Adds event listeners to close the overlay (for close/cancel buttons in iframe).
+/**
+ * Adds event listeners to close the overlay for close/cancel buttons in iframe.
+ */
 function addCloseListeners() {
   document.querySelector(".close-btn").addEventListener("click", closeEditContactOverlay);
   document.querySelector(".button_cancel").addEventListener("click", closeEditContactOverlay);
 }
 
-
-// Handles messages from the overlay iframe or parent window
+/**
+ * Handles messages from the overlay iframe or parent window.
+ */
 window.addEventListener("message", function (event) {
   if (event.data.type === "createContact") {
     const newContact = event.data.contact;
@@ -168,8 +191,9 @@ window.addEventListener("message", function (event) {
   }
 });
 
-
-// Handles overlay close animation and removal on message
+/**
+ * Handles overlay close animation and removal on message.
+ */
 window.addEventListener("message", function (event) {
   if (event.data.type === "closeOverlay") {
     const overlay = document.getElementById("overlay");
@@ -184,16 +208,18 @@ window.addEventListener("message", function (event) {
   }
 });
 
-
-// Handles start close animation in iframe
+/**
+ * Handles start close animation in iframe.
+ */
 window.addEventListener("message", function(event) {
   if (event.data.type === "startCloseAnimation") {
     window.closeContactOverlay();
   }
 });
 
-
-// Handles iframe content ready (parent and iframe)
+/**
+ * Handles iframe content ready (parent and iframe).
+ */
 window.addEventListener("message", function (event) {
   if (event.data.type === "iframeContentReady") {
     const iframe = document.querySelector('.overlay-iframe');
@@ -201,8 +227,9 @@ window.addEventListener("message", function (event) {
   }
 });
 
-
-// Handles iframe content ready for the contact overlay
+/**
+ * Handles iframe content ready for the contact overlay.
+ */
 window.addEventListener("message", function(event) {
   if (event.data.type === "iframeContentReady") {
     const overlay = document.getElementById("overlay");
@@ -212,8 +239,9 @@ window.addEventListener("message", function(event) {
   }
 });
 
-
-// Handles DOMContentLoaded to add the contact overlay class
+/**
+ * Handles DOMContentLoaded to add the contact overlay class and notify parent.
+ */
 document.addEventListener("DOMContentLoaded", function () {
   const overlay = document.querySelector('.contact-overlay');
   if (overlay) overlay.classList.add('active');

@@ -1,4 +1,10 @@
-// Returns the HTML template for displaying contact details.
+/**
+ * Returns the HTML template for displaying contact details.
+ * @param {Object} contact - The contact object.
+ * @param {string} initials - The initials of the contact.
+ * @param {string} initialClass - The CSS class for the initials badge.
+ * @returns {string} The HTML string for the contact details.
+ */
 function contactDetailsTemplate(contact, initials, initialClass) {
   return `
     <h1 class="contact-headline">
@@ -44,8 +50,10 @@ function contactDetailsTemplate(contact, initials, initialClass) {
   `;
 }
 
-
-// Returns the HTML template for the contact headline.
+/**
+ * Returns the HTML template for the contact headline.
+ * @returns {string} The HTML string for the contact headline.
+ */
 function contactHeadlineTemplate() {
   return `
     <h1 class="contact-headline">
@@ -56,8 +64,10 @@ function contactHeadlineTemplate() {
   `;
 }
 
-
-// Returns the HTML template for the mobile action menu.
+/**
+ * Returns the HTML template for the mobile action menu.
+ * @returns {string} The HTML string for the mobile action menu.
+ */
 function mobileActionMenuTemplate() {
   return `
     <button id="mobile-edit-contact-button" class="mobile-edit-contact-button">
@@ -75,7 +85,10 @@ function mobileActionMenuTemplate() {
   `;
 }
 
-// Returns the HTML template for the contact input fields.
+/**
+ * Returns the HTML template for the contact input fields.
+ * @returns {string} The HTML string for the contact input fields.
+ */
 function contactInputFieldsTemplate() {
   return `
     <label class="input_label">
