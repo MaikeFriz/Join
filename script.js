@@ -3,25 +3,30 @@ function checkUserLogin() {
   const user = JSON.parse(localStorage.getItem("loggedInUser"));
   const guest = JSON.parse(localStorage.getItem("isGuest"));
   if (!user && !guest) {
-    const excludedPages = [
-      "log_in.html",
-      "sign_up.html",
-      "forgot_password.html",
-      "privacy.html",
-      "legal.html",
-    ];
-    const currentPage = window.location.pathname
-      .split("/")
-      .pop()
-      .split("?")[0]
-      .split("#")[0];
-    if (excludedPages.includes(currentPage)) {
-      return;
-    } else {
+    if (!isExcludedPage()) {
       window.location.href = "./log_in.html";
     }
+    return;
   }
   return user;
+}
+
+
+// Checks if the current page is excluded from authentication
+function isExcludedPage() {
+  const excludedPages = [
+    "log_in.html",
+    "sign_up.html",
+    "forgot_password.html",
+    "privacy.html",
+    "legal.html",
+  ];
+  const currentPage = window.location.pathname
+    .split("/")
+    .pop()
+    .split("?")[0]
+    .split("#")[0];
+  return excludedPages.includes(currentPage);
 }
 
 
@@ -40,8 +45,8 @@ function getUserName() {
 }
 
 
-// Displays the user's initials in the header and sets up dropdown and logout event listeners
-function getUserInitialForHeader(userName) {
+// Sets the user's initials in the header
+function setUserInitialsInHeader(userName) {
   let [firstName, lastName] = userName.split(" ");
   let firstLetter = firstName.charAt(0).toUpperCase();
   let lastNameFirstLetter = lastName ? lastName.charAt(0).toUpperCase() : "";
@@ -51,9 +56,17 @@ function getUserInitialForHeader(userName) {
     return;
   }
   headerInitials.textContent = initials;
+}
+
+
+// Sets up the dropdown toggle for the user initials in the header
+function setupUserDropdownToggle() {
+  const headerInitials = document.getElementById("user-initials-header");
+  if (!headerInitials) return;
   headerInitials.addEventListener("click", function (event) {
     event.stopPropagation();
     const dropdown = document.querySelector(".user-dropdown");
+    if (!dropdown) return;
     dropdown.style.opacity = dropdown.style.opacity === "1" ? "0" : "1";
     dropdown.style.visibility =
       dropdown.style.visibility === "visible" ? "hidden" : "visible";
@@ -62,6 +75,11 @@ function getUserInitialForHeader(userName) {
         ? "translateY(-10px)"
         : "translateY(0px)";
   });
+}
+
+
+// Sets up the logout button event listener
+function setupLogoutButton() {
   const logoutBtn = document.getElementById("logoutButton");
   if (logoutBtn) {
     logoutBtn.addEventListener("click", function (e) {
@@ -69,6 +87,14 @@ function getUserInitialForHeader(userName) {
       logoutUser();
     });
   }
+}
+
+
+// Combines all header setup functions for user initials, dropdown, and logout
+function getUserInitialForHeader(userName) {
+  setUserInitialsInHeader(userName);
+  setupUserDropdownToggle();
+  setupLogoutButton();
 }
 
 
