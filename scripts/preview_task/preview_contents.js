@@ -1,4 +1,9 @@
-// Function to retrieve task content based on taskId
+/**
+ * Retrieves the task content based on the provided taskId.
+ * @param {string} taskId - The ID of the task.
+ * @param {Object} kanbanData - The Kanban data object.
+ * @returns {Object|null} The task content object or null if not found.
+ */
 function getTaskContent(taskId, kanbanData) {
   const taskContent = kanbanData.tasks?.[taskId];
   if (!taskContent) {
@@ -7,8 +12,11 @@ function getTaskContent(taskId, kanbanData) {
   return taskContent;
 }
 
-
-// Function to structure task data for display
+/**
+ * Structures the task data for display.
+ * @param {Object} taskContent - The task content object.
+ * @returns {Object} The structured task data.
+ */
 function getTaskData(taskContent) {
   return {
     label: getTaskLabel(taskContent),
@@ -26,26 +34,39 @@ function getTaskData(taskContent) {
   };
 }
 
-
-// Helper function to get the label or a default value
+/**
+ * Returns the label of the task or a default value.
+ * @param {Object} taskContent - The task content object.
+ * @returns {string} The label of the task.
+ */
 function getTaskLabel(taskContent) {
   return taskContent.label || "No Category";
 }
 
-
-// Helper function to get the title or a default value
+/**
+ * Returns the title of the task or a default value.
+ * @param {Object} taskContent - The task content object.
+ * @returns {string} The title of the task.
+ */
 function getTaskTitle(taskContent) {
   return taskContent.title || "No Title";
 }
 
-
-// Helper function to get the description or a default value
+/**
+ * Returns the description of the task or a default value.
+ * @param {Object} taskContent - The task content object.
+ * @returns {string} The description of the task.
+ */
 function getTaskDescription(taskContent) {
   return taskContent.description || "No Description";
 }
 
-
-// Function to process a task and fetch relevant data
+/**
+ * Processes a task and fetches relevant data, including subtasks.
+ * @param {string} taskId - The ID of the task.
+ * @param {Object} kanbanData - The Kanban data object.
+ * @returns {Promise<Object|null>} The processed task object or null if not found.
+ */
 async function processTasks(taskId, kanbanData) {
   const taskContent = getTaskContent(taskId, kanbanData);
   if (!taskContent) return null;
@@ -61,8 +82,13 @@ async function processTasks(taskId, kanbanData) {
   return processedTask;
 }
 
-
-// Function to process task details and prepare it for display
+/**
+ * Processes task details and prepares them for display.
+ * @param {Object} taskContent - The task content object.
+ * @param {string} taskId - The ID of the task.
+ * @param {Object} kanbanData - The Kanban data object.
+ * @returns {Object} The processed task content object.
+ */
 function processTaskDetails(taskContent, taskId, kanbanData) {
   taskContent.taskId = taskId;
   taskContent.assignedUserName = kanbanData.users[taskContent.assignedTo]?.name || "Unbekannter Benutzer";

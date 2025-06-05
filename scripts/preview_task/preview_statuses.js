@@ -1,4 +1,9 @@
-// Function to process tasks for each status and generate HTML strings
+/**
+ * Processes tasks for each status and generates HTML strings for each status column.
+ * @param {Object} currentAssignedStatus - The assigned tasks grouped by status.
+ * @param {Object} kanbanData - The Kanban data object.
+ * @returns {Promise<Object>} A map of status keys to their generated HTML strings.
+ */
 async function processAssignedStatuses(currentAssignedStatus, kanbanData) {
   const statusHTMLMap = initializeStatusHTMLMap();
   const statusKeys = Object.keys(currentAssignedStatus);
@@ -16,7 +21,10 @@ async function processAssignedStatuses(currentAssignedStatus, kanbanData) {
   return statusHTMLMap;
 }
 
-// Helper function to initialize the status HTML map
+/**
+ * Initializes the status HTML map with empty strings for each status.
+ * @returns {Object} An object with status keys and empty string values.
+ */
 function initializeStatusHTMLMap() {
   return {
     toDo: "",
@@ -26,7 +34,13 @@ function initializeStatusHTMLMap() {
   };
 }
 
-// Function to process tasks for a specific status and return HTML string
+/**
+ * Processes tasks for a specific status and returns the generated HTML string.
+ * @param {Array<string>} taskIds - Array of task IDs for the status.
+ * @param {string} status - The status key.
+ * @param {Object} kanbanData - The Kanban data object.
+ * @returns {Promise<string>} The generated HTML string for the status.
+ */
 async function processTasksByStatus(taskIds, status, kanbanData) {
   let statusHTML = "";
 
@@ -40,7 +54,10 @@ async function processTasksByStatus(taskIds, status, kanbanData) {
   return statusHTML;
 }
 
-// Function to assign the generated HTML strings to their respective status containers
+/**
+ * Assigns the generated HTML strings to their respective status containers in the DOM.
+ * @param {Object} statusHTMLMap - A map of status keys to their generated HTML strings.
+ */
 function assignStatusHTMLToContainers(statusHTMLMap) {
   document.getElementById("toDoCardsColumn").innerHTML = statusHTMLMap.toDo;
   document.getElementById("inProgressCardsColumn").innerHTML =
