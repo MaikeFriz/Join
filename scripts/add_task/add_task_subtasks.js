@@ -1,14 +1,16 @@
 let subtasksObject = {};
 let highestSubtaskId = 0;
 
-
-// Initializes subtask input listeners on DOMContentLoaded
+/**
+ * Initializes subtask input listeners on DOMContentLoaded.
+ */
 document.addEventListener("DOMContentLoaded", function () {
   initializeSubtaskListeners();
 });
 
-
-// Sets up event listeners for subtask input and icons
+/**
+ * Sets up event listeners for subtask input and icons.
+ */
 function initializeSubtaskListeners() {
   const inputSubtask = document.getElementById("input_subtask");
   const addIcon = document.getElementById("add_icon");
@@ -29,38 +31,57 @@ function initializeSubtaskListeners() {
   checkIcon.addEventListener("click", () => addSubtask(inputSubtask));
 }
 
-
-// Toggles visibility of add and input icons based on input value
+/**
+ * Toggles visibility of add and input icons based on input value.
+ * @param {HTMLInputElement} inputSubtask - The subtask input element.
+ * @param {HTMLElement} addIcon - The add icon element.
+ * @param {HTMLElement} inputIcons - The input icons container.
+ */
 function toggleIcons(inputSubtask, addIcon, inputIcons) {
   const isNotEmpty = inputSubtask.value.trim() !== "";
   addIcon.style.display = isNotEmpty ? "none" : "inline";
   inputIcons.style.display = isNotEmpty ? "flex" : "none";
 }
 
-
-// Resets icons to default state if input is empty
+/**
+ * Resets icons to default state if input is empty.
+ * @param {HTMLInputElement} inputSubtask - The subtask input element.
+ * @param {HTMLElement} addIcon - The add icon element.
+ * @param {HTMLElement} inputIcons - The input icons container.
+ */
 function resetIcons(inputSubtask, addIcon, inputIcons) {
   if (inputSubtask.value.trim() === "")
     toggleIcons(inputSubtask, addIcon, inputIcons);
 }
 
-
-// Clears the subtask input and resets icons
+/**
+ * Clears the subtask input and resets icons.
+ * @param {HTMLInputElement} inputSubtask - The subtask input element.
+ * @param {HTMLElement} addIcon - The add icon element.
+ * @param {HTMLElement} inputIcons - The input icons container.
+ */
 function clearInput(inputSubtask, addIcon, inputIcons) {
   inputSubtask.value = "";
   toggleIcons(inputSubtask, addIcon, inputIcons);
   inputSubtask.focus();
 }
 
-
-// Displays a subtask in the subtask list
+/**
+ * Displays a subtask in the subtask list.
+ * @param {string} subtaskId - The subtask ID.
+ * @param {string} subtaskText - The subtask text.
+ */
 function displaySubtask(subtaskId, subtaskText) {
   const subtaskElement = createSubtaskElement(subtaskId, subtaskText);
   document.getElementById("display_subtasks").appendChild(subtaskElement);
 }
 
-
-// Creates a subtask list item element with edit and delete functionality
+/**
+ * Creates a subtask list item element with edit and delete functionality.
+ * @param {string} subtaskId - The subtask ID.
+ * @param {string} subtaskText - The subtask text.
+ * @returns {HTMLElement} The subtask list item element.
+ */
 function createSubtaskElement(subtaskId, subtaskText) {
   const subtaskElement = document.createElement("li");
   subtaskElement.className = "subtask-item";
@@ -78,8 +99,12 @@ function createSubtaskElement(subtaskId, subtaskText) {
   return subtaskElement;
 }
 
-
-// Sets up double-click and edit button events for editing a subtask
+/**
+ * Sets up double-click and edit button events for editing a subtask.
+ * @param {HTMLElement} span - The subtask text span element.
+ * @param {string} subtaskId - The subtask ID.
+ * @param {HTMLElement} deleteButton - The delete button element.
+ */
 function setupEditEvents(span, subtaskId, deleteButton) {
   span.addEventListener("dblclick", () => {
     openEditMode(span, subtaskId, deleteButton);
@@ -93,8 +118,12 @@ function setupEditEvents(span, subtaskId, deleteButton) {
   });
 }
 
-
-// Opens the edit mode for a subtask
+/**
+ * Opens the edit mode for a subtask.
+ * @param {HTMLElement} span - The subtask text span element.
+ * @param {string} subtaskId - The subtask ID.
+ * @param {HTMLElement} deleteButton - The delete button element.
+ */
 function openEditMode(span, subtaskId, deleteButton) {
   const inputContainer = createEditContainer(span, subtaskId, deleteButton);
   const subtaskItem = span.closest(".subtask-item");
@@ -103,8 +132,13 @@ function openEditMode(span, subtaskId, deleteButton) {
   subtaskItem.classList.add("editing");
 }
 
-
-// Creates the input container for editing a subtask
+/**
+ * Creates the input container for editing a subtask.
+ * @param {HTMLElement} span - The subtask text span element.
+ * @param {string} subtaskId - The subtask ID.
+ * @param {HTMLElement} deleteButton - The delete button element.
+ * @returns {HTMLElement} The input container element.
+ */
 function createEditContainer(span, subtaskId, deleteButton) {
   const inputContainer = document.createElement("div");
   inputContainer.className = "edit-subtask-container";
@@ -114,8 +148,14 @@ function createEditContainer(span, subtaskId, deleteButton) {
   return inputContainer;
 }
 
-
-// Creates the input wrapper with input and icons for editing
+/**
+ * Creates the input wrapper with input and icons for editing.
+ * @param {HTMLElement} span - The subtask text span element.
+ * @param {string} subtaskId - The subtask ID.
+ * @param {HTMLElement} deleteButton - The delete button element.
+ * @param {HTMLElement} inputContainer - The input container element.
+ * @returns {HTMLElement} The input wrapper element.
+ */
 function createInputWrapper(span, subtaskId, deleteButton, inputContainer) {
   const inputWrapper = document.createElement("div");
   inputWrapper.className = "input-wrapper";
@@ -131,8 +171,11 @@ function createInputWrapper(span, subtaskId, deleteButton, inputContainer) {
   return inputWrapper;
 }
 
-
-// Creates the input element for editing a subtask
+/**
+ * Creates the input element for editing a subtask.
+ * @param {HTMLElement} span - The subtask text span element.
+ * @returns {HTMLInputElement} The input element.
+ */
 function createEditInput(span) {
   const input = document.createElement("input");
   input.type = "text";
@@ -141,8 +184,14 @@ function createEditInput(span) {
   return input;
 }
 
-
-// Adds event listeners for blur and keydown to the edit input
+/**
+ * Adds event listeners for blur and keydown to the edit input.
+ * @param {HTMLInputElement} input - The input element.
+ * @param {HTMLElement} span - The subtask text span element.
+ * @param {string} subtaskId - The subtask ID.
+ * @param {HTMLElement} inputContainer - The input container element.
+ * @param {HTMLElement} deleteButton - The delete button element.
+ */
 function addEditInputListeners(input, span, subtaskId, inputContainer, deleteButton) {
   input.addEventListener("blur", () =>
     saveEdit(input, span, subtaskId, inputContainer, deleteButton)
@@ -154,15 +203,22 @@ function addEditInputListeners(input, span, subtaskId, inputContainer, deleteBut
   });
 }
 
-
-// Focuses the input field inside the input wrapper
+/**
+ * Focuses the input field inside the input wrapper.
+ * @param {HTMLElement} inputWrapper - The input wrapper element.
+ */
 function focusEditInput(inputWrapper) {
   const input = inputWrapper.querySelector("input");
   if (input) input.focus();
 }
 
-
-// Creates the icons for editing a subtask and sets up their events
+/**
+ * Creates the icons for editing a subtask and sets up their events.
+ * @param {HTMLInputElement} input - The input element.
+ * @param {Function} onSave - The function to call on save.
+ * @param {Function} onCancel - The function to call on cancel.
+ * @returns {HTMLElement} The icons container element.
+ */
 function createEditIcons(input, onSave, onCancel) {
   const iconsContainer = document.createElement("div");
   iconsContainer.className = "icons-container";
@@ -170,8 +226,6 @@ function createEditIcons(input, onSave, onCancel) {
 
   let clearIcon = iconsContainer.querySelector(".clear_icon_show_subtask");
 
-
-  // Creates the delete icon for the subtask edit input
   function createDeleteIcon() {
     const deleteImg = document.createElement("img");
     deleteImg.className = "delete_icon_show_subtask";
@@ -182,8 +236,6 @@ function createEditIcons(input, onSave, onCancel) {
     return deleteImg;
   }
 
-
-  // Creates the clear (cancel) icon for the subtask edit input
   function createClearIcon() {
     const newClearIcon = document.createElement("img");
     newClearIcon.className = "clear_icon_show_subtask";
@@ -193,8 +245,6 @@ function createEditIcons(input, onSave, onCancel) {
     return newClearIcon;
   }
 
-
-  // Handles click on the delete icon to remove the subtask
   function handleDeleteClick(e) {
     e.preventDefault();
     e.stopPropagation();
@@ -205,8 +255,6 @@ function createEditIcons(input, onSave, onCancel) {
     }
   }
 
-
-  // Handles click on the clear icon to clear the input field
   function handleClearClick(e) {
     e.preventDefault();
     e.stopPropagation();
@@ -214,8 +262,6 @@ function createEditIcons(input, onSave, onCancel) {
     switchToDeleteIcon();
   }
 
-
-  // Switches the icon to the delete icon
   function switchToDeleteIcon() {
     const deleteImg = createDeleteIcon();
     clearIcon.replaceWith(deleteImg);
@@ -223,8 +269,6 @@ function createEditIcons(input, onSave, onCancel) {
     clearIcon = deleteImg;
   }
 
-
-  // Switches the icon to the clear icon
   function switchToClearIcon() {
     const newClearIcon = createClearIcon();
     clearIcon.replaceWith(newClearIcon);
@@ -232,19 +276,14 @@ function createEditIcons(input, onSave, onCancel) {
     clearIcon = newClearIcon;
   }
 
-
-  // Handles input changes to switch icons based on input value
   function handleInputChange() {
     if (input.value.trim() === "") {
       switchToDeleteIcon();
     }
   }
 
-
   clearIcon.addEventListener("mousedown", handleClearClick);
 
-
-  // Handles switching icons when input value changes
   input.addEventListener("input", () => {
     if (input.value.trim() === "" && !clearIcon.classList.contains("delete_icon_show_subtask")) {
       switchToDeleteIcon();
@@ -253,8 +292,6 @@ function createEditIcons(input, onSave, onCancel) {
     }
   });
 
-
-  // Handles saving the edit when Enter is pressed
   input.addEventListener("keydown", (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
@@ -265,8 +302,14 @@ function createEditIcons(input, onSave, onCancel) {
   return iconsContainer;
 }
 
-
-// Saves the edited subtask and updates the UI
+/**
+ * Saves the edited subtask and updates the UI.
+ * @param {HTMLInputElement} input - The input element.
+ * @param {HTMLElement} span - The subtask text span element.
+ * @param {string} subtaskId - The subtask ID.
+ * @param {HTMLElement} inputContainer - The input container element.
+ * @param {HTMLElement} deleteButton - The delete button element.
+ */
 function saveEdit(input, span, subtaskId, inputContainer, deleteButton) {
   const newText = input.value.trim();
   const subtaskItem = inputContainer.closest(".subtask-item");
@@ -280,8 +323,12 @@ function saveEdit(input, span, subtaskId, inputContainer, deleteButton) {
   }
 }
 
-
-// Cancels editing and restores the original subtask text
+/**
+ * Cancels editing and restores the original subtask text.
+ * @param {HTMLElement} inputContainer - The input container element.
+ * @param {HTMLElement} span - The subtask text span element.
+ * @param {HTMLElement} deleteButton - The delete button element.
+ */
 function cancelEdit(inputContainer, span, deleteButton) {
   const subtaskItem = inputContainer.closest(".subtask-item");
   const subtaskId = subtaskItem ? subtaskItem.id : null;
@@ -292,15 +339,20 @@ function cancelEdit(inputContainer, span, deleteButton) {
   subtaskItem.replaceWith(updatedElement);
 }
 
-
-// Deletes a subtask from the subtasks object and removes it from the DOM
+/**
+ * Deletes a subtask from the subtasks object and removes it from the DOM.
+ * @param {string} subtaskId - The subtask ID.
+ * @param {HTMLElement} subtaskElement - The subtask element to remove.
+ */
 function removeSubtask(subtaskId, subtaskElement) {
   delete subtasksObject[subtaskId];
   subtaskElement.remove();
 }
 
-
-// Removes a subtask from the object and UI
+/**
+ * Adds a new subtask to the object and UI.
+ * @param {HTMLInputElement} inputSubtask - The subtask input element.
+ */
 async function addSubtask(inputSubtask) {
   showLoadingSpinner();
   try {
@@ -320,57 +372,4 @@ async function addSubtask(inputSubtask) {
   } finally {
     hideLoadingSpinner();
   }
-}
-
-
-// Adds a new subtask to the object and displays it
-async function loadHighestSubtaskId() {
-  if (Object.keys(subtasksObject).length === 0) {
-    const isGuest = JSON.parse(localStorage.getItem("isGuest"));
-    if (isGuest) {
-      highestSubtaskId = getHighestSubtaskIdForGuest();
-    } else {
-      highestSubtaskId = await getHighestSubtaskIdForUser();
-    }
-  }
-}
-
-
-// Gets the highest subtask ID for a guest from localStorage
-function getHighestSubtaskIdForGuest() {
-  const guestData = JSON.parse(localStorage.getItem("guestKanbanData")) || {};
-  const guestSubtasks = guestData.subtasks || {};
-  const subtaskList = Object.keys(guestSubtasks);
-  let highestSubtask = 0;
-  for (
-    let subtaskIndex = 0;
-    subtaskIndex < subtaskList.length;
-    subtaskIndex++
-  ) {
-    const subtaskId = subtaskList[subtaskIndex];
-    const subtaskNumber = parseInt(subtaskId.replace("subtask", ""));
-    if (subtaskNumber > highestSubtask) highestSubtask = subtaskNumber;
-  }
-  return highestSubtask;
-}
-
-
-// Gets the highest subtask ID for a user from the database
-async function getHighestSubtaskIdForUser() {
-  const response = await fetch(
-    "https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData.json"
-  );
-  const data = await response.json();
-  const subtaskList = Object.keys(data.subtasks || {});
-  let highestSubtask = 0;
-  for (
-    let subtaskIndex = 0;
-    subtaskIndex < subtaskList.length;
-    subtaskIndex++
-  ) {
-    const subtaskId = subtaskList[subtaskIndex];
-    const subtaskNumber = parseInt(subtaskId.replace("subtask", ""));
-    if (subtaskNumber > highestSubtask) highestSubtask = subtaskNumber;
-  }
-  return highestSubtask;
 }

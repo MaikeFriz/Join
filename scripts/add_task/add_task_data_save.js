@@ -15,8 +15,10 @@ document.addEventListener("DOMContentLoaded", async function () {
   let BASE_URL = `https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData/`;
   let taskForm = document.getElementById("task_form");
 
-
-  // Gets all existing task IDs (from DB or localStorage)
+  /**
+   * Gets all existing task IDs from the database or localStorage.
+   * @returns {Promise<Array>} Array of task IDs.
+   */
   async function getAllTaskIds() {
     let tasks;
     if (isGuest) {
@@ -29,8 +31,10 @@ document.addEventListener("DOMContentLoaded", async function () {
     return tasks ? Object.keys(tasks) : [];
   }
 
-    
-  // Generates a new unique task ID
+  /**
+   * Generates a new unique task ID.
+   * @returns {Promise<string>} The new task ID.
+   */
   async function getNewTaskId() {
     try {
       let taskIds = await getAllTaskIds();
@@ -45,14 +49,17 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
   }
 
-    
-  // Adds the submit event listener to the task form
+  /**
+   * Adds the submit event listener to the task form.
+   */
   function addTaskFormListener() {
     taskForm.addEventListener("submit", onTaskFormSubmit);
   }
 
-    
-  // Handles validation and form submission logic
+  /**
+   * Handles validation and form submission logic.
+   * @param {Event} event - The submit event.
+   */
   async function onTaskFormSubmit(event) {
     event.preventDefault();
 
@@ -66,8 +73,9 @@ document.addEventListener("DOMContentLoaded", async function () {
     hideLoadingSpinner();
   }
 
-    
-  // Handles task creation and saving logic
+  /**
+   * Handles task creation and saving logic.
+   */
   async function handleTaskCreation() {
     try {
       const taskData = getTaskDetails();
@@ -79,8 +87,10 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
   }
 
-    
-  // Collects all task details from the form fields
+  /**
+   * Collects all task details from the form fields.
+   * @returns {Object} The task details object.
+   */
   function getTaskDetails() {
     let title = document.getElementById("input_title").value;
     let description = document.getElementById("input_description").value;
@@ -106,30 +116,12 @@ document.addEventListener("DOMContentLoaded", async function () {
     };
   }
 
-  
-  // Returns the selected assignees as an object
-  function getAssignedUsers() {
-    let assignees = {};
-    for (let assigneeId in assigneesObject) {
-      if (assigneesObject.hasOwnProperty(assigneeId)) {
-        assignees[assigneeId] = true;
-      }
-    }
-    return assignees;
-  }
-
-
-  // Returns the selected subtasks as an object
-  function getSubtaskDetails() {
-    let subtasks = {};
-    for (let subtaskId in subtasksObject) {
-      subtasks[subtaskId] = true;
-    }
-    return subtasks;
-  }
-
-
-  // Saves the task and subtasks to the database or localStorage, updates user/guest lists, and resets the form
+  /**
+   * Saves the task and subtasks to the database or localStorage, updates user/guest lists, and resets the form.
+   * @param {string} taskId - The task ID.
+   * @param {Object} taskData - The task data object.
+   * @param {string} userId - The user ID.
+   */
   async function saveTaskToDatabase(taskId, taskData, userId) {
     try {
       await saveTaskData(taskId, taskData);
@@ -147,8 +139,9 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
   }
 
-
-  // Resets all form fields to their default state
+  /**
+   * Resets all form fields to their default state.
+   */
   function resetFormFields() {
     document.getElementById("input_title").value = "";
     document.getElementById("input_description").value = "";
@@ -159,15 +152,17 @@ document.addEventListener("DOMContentLoaded", async function () {
     resetAssignees();
   }
 
-
-  // Resets assignees and subtasks objects and UI
+  /**
+   * Resets assignees and subtasks objects and UI.
+   */
   function resetAssigneesAndSubtasks() {
     resetAssignees();
     resetSubtasks();
   }
 
-
-  // Removes all selected assignees from the UI and object
+  /**
+   * Removes all selected assignees from the UI and object.
+   */
   function resetAssignees() {
     for (const userId in assigneesObject) {
       removeAssignee(userId);
@@ -176,8 +171,9 @@ document.addEventListener("DOMContentLoaded", async function () {
     showAssigneesDiv.innerHTML = "";
   }
 
-
-  // Removes all subtasks from the UI and object
+  /**
+   * Removes all subtasks from the UI and object.
+   */
   function resetSubtasks() {
     subtasksObject = {};
     const displaySubtasksDiv = document.getElementById("display_subtasks");
@@ -186,8 +182,12 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
   }
 
-
-  // Saves the task data to the database or localStorage (for guests)
+  /**
+   * Saves the task data to the database or localStorage (for guests).
+   * @param {string} taskId - The task ID.
+   * @param {Object} taskData - The task data object.
+   * @returns {Promise<Object>} The saved tasks object.
+   */
   function saveTaskData(taskId, taskData) {
     const isGuest = JSON.parse(localStorage.getItem("isGuest"));
     if (isGuest) {
@@ -206,8 +206,11 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
   }
 
-
-  // Saves the subtasks data to the database or localStorage (for guests)
+  /**
+   * Saves the subtasks data to the database or localStorage (for guests).
+   * @param {string} taskId - The task ID.
+   * @returns {Promise<Object>} The saved subtasks object.
+   */
   function saveSubtasksData(taskId) {
     const isGuest = JSON.parse(localStorage.getItem("isGuest"));
     if (isGuest) {
@@ -228,23 +231,11 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
   }
 
-
-  // Prepares the subtasks object for saving to the database or localStorage
-  function prepareSubtasksForDatabase(existingSubtasks, taskId) {
-    const newSubtasks = { ...existingSubtasks };
-    for (let subtaskId in subtasksObject) {
-      if (!newSubtasks[subtaskId]) {
-        newSubtasks[subtaskId] = {
-          ...subtasksObject[subtaskId],
-          [taskId]: true,
-        };
-      }
-    }
-    return newSubtasks;
-  }
-
-
-  // Overwrites the entire subtask collection in the database
+  /**
+   * Overwrites the entire subtask collection in the database.
+   * @param {Object} updatedSubtasks - The updated subtasks object.
+   * @returns {Promise<Response>} The fetch response.
+   */
   function overwriteSubtaskCollection(updatedSubtasks) {
     return fetch(`${BASE_URL}subtasks.json`, {
       method: "PUT",
@@ -255,8 +246,11 @@ document.addEventListener("DOMContentLoaded", async function () {
     });
   }
 
-
-  // Waits for all asynchronous save operations to complete before proceeding
+  /**
+   * Waits for all asynchronous save operations to complete before proceeding.
+   * @param {string} taskId - The task ID.
+   * @returns {Promise<void>}
+   */
   async function waitForTaskSaveOperations(taskId) {
     try {
       const response = await fetch(`${BASE_URL}tasks/${taskId}/status.json`);
@@ -272,20 +266,12 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
   }
 
-
-  // Maps the category parameter from the URL to the database category name
-  function mapCategoryParameterToDatabaseCategory(categoryParameter) {
-    const categoryMapping = {
-      toDoCardsColumn: "toDo",
-      inProgressCardsColumn: "inProgress",
-      awaitFeedbackCardsColumn: "awaitingFeedback",
-      doneCardsColumn: "done"
-    };
-    return categoryMapping[categoryParameter] || "toDo";
-  }
-
-
-  // Adds the task to the guest's assigned tasks for the selected category in localStorage
+  /**
+   * Adds the task to the guest's assigned tasks for the selected category in localStorage.
+   * @param {string} taskId - The task ID.
+   * @param {string} databaseCategory - The database category.
+   * @returns {Promise<Object>} The updated assigned tasks object.
+   */
   function addTaskToGuestCategory(taskId, databaseCategory) {
     kanbanData = JSON.parse(localStorage.getItem("guestKanbanData")) || { tasks: {}, subtasks: {}, users: {} };
     if (!kanbanData.users) kanbanData.users = {};
@@ -297,8 +283,13 @@ document.addEventListener("DOMContentLoaded", async function () {
     return Promise.resolve(kanbanData.users.guest.assignedTasks[databaseCategory]);
   }
 
-
-  // Adds the task to the user's assigned tasks for the selected category in the database
+  /**
+   * Adds the task to the user's assigned tasks for the selected category in the database.
+   * @param {string} taskId - The task ID.
+   * @param {string} userId - The user ID.
+   * @param {string} databaseCategory - The database category.
+   * @returns {Promise<void>}
+   */
   function addTaskToUserCategory(taskId, userId, databaseCategory) {
     return fetch(`${BASE_URL}users/${userId}/assignedTasks/${databaseCategory}.json`)
       .then((response) => response.json())
@@ -317,8 +308,13 @@ document.addEventListener("DOMContentLoaded", async function () {
       .catch((error) => { });
   }
 
-
-  // Adds the task to the correct category list for guest or user
+  /**
+   * Adds the task to the correct category list for guest or user.
+   * @param {string} taskId - The task ID.
+   * @param {string} userId - The user ID.
+   * @param {string} categoryParameter - The category parameter from the URL.
+   * @returns {Promise<Object|void>}
+   */
   function addTaskToUserCategoryList(taskId, userId, categoryParameter) {
     const isGuest = JSON.parse(localStorage.getItem("isGuest"));
     const databaseCategory = mapCategoryParameterToDatabaseCategory(categoryParameter);
@@ -328,5 +324,6 @@ document.addEventListener("DOMContentLoaded", async function () {
       return addTaskToUserCategory(taskId, userId, databaseCategory);
     }
   }
+
   addTaskFormListener();
 });

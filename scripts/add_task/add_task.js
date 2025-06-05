@@ -1,14 +1,14 @@
 let assigneesObject = {};
 
-
-// Initializes all DOMContentLoaded listeners in one place
+/**
+ * Initializes all DOMContentLoaded listeners and sets up dropdowns and overlays.
+ */
 document.addEventListener("DOMContentLoaded", function () {
   initDropdown();
   initializePrioritySelection();
   setupAddTaskOverlay();
   setupOverlayClickToBoard();
 
-  // Category dropdown event setup
   const dropdown = document.getElementById("dropdown_category");
   const optionsContainer = document.querySelector(".dropdown_options");
   const selectedText = document.getElementById("dropdown_selected");
@@ -32,8 +32,9 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-
-// Loads users and sets up the assignee dropdown
+/**
+ * Loads users and sets up the assignee dropdown.
+ */
 async function initDropdown() {
   try {
     const users = await fetchUsers();
@@ -42,8 +43,10 @@ async function initDropdown() {
   } catch (error) {}
 }
 
-
-// Fetches users from localStorage (guest) or database (user)
+/**
+ * Fetches users from localStorage (guest) or database (user).
+ * @returns {Promise<Array>} Array of user objects.
+ */
 async function fetchUsers() {
   const isGuest = JSON.parse(localStorage.getItem("isGuest"));
   let data;
@@ -62,16 +65,19 @@ async function fetchUsers() {
   }));
 }
 
-
-// Sets up the dropdown open/close events for the assignee dropdown
+/**
+ * Sets up the dropdown open/close events for the assignee dropdown.
+ */
 function setupDropdownEvents() {
   const dropdown = document.getElementById("dropdown_assigned_to");
   dropdown.addEventListener("click", toggleDropdown);
   document.addEventListener("click", closeDropdownOnClickOutside);
 }
 
-
-// Toggles the assignee dropdown open or closed
+/**
+ * Toggles the assignee dropdown open or closed.
+ * @param {Event} event - The click event.
+ */
 function toggleDropdown(event) {
   event.stopPropagation();
   const dropdown = document.getElementById("dropdown_assigned_to");
@@ -86,8 +92,10 @@ function toggleDropdown(event) {
   }
 }
 
-
-// Closes the dropdown if a click occurs outside of it
+/**
+ * Closes the dropdown if a click occurs outside of it.
+ * @param {Event} event - The click event.
+ */
 function closeDropdownOnClickOutside(event) {
   const dropdown = document.getElementById("dropdown_assigned_to");
   const dropdownOptions = document.getElementById("dropdown_options_assignee");
@@ -99,8 +107,9 @@ function closeDropdownOnClickOutside(event) {
   }
 }
 
-
-// Closes the assignee dropdown
+/**
+ * Closes the assignee dropdown.
+ */
 function closeDropdown() {
   document.getElementById("dropdown_options_assignee").classList.remove("show");
   document
@@ -108,8 +117,9 @@ function closeDropdown() {
     .classList.remove("dropdown_open");
 }
 
-
-// Sets up the priority selection buttons and default active state
+/**
+ * Sets up the priority selection buttons and default active state.
+ */
 function initializePrioritySelection() {
   const urgentButton = document.getElementById("urgent_button");
   const mediumButton = document.getElementById("medium_button");
@@ -118,8 +128,12 @@ function initializePrioritySelection() {
   setActiveButton(mediumButton);
 }
 
-
-// Adds click event listeners to the priority buttons
+/**
+ * Adds click event listeners to the priority buttons.
+ * @param {HTMLElement} urgentButton - The urgent priority button.
+ * @param {HTMLElement} mediumButton - The medium priority button.
+ * @param {HTMLElement} lowButton - The low priority button.
+ */
 function setupPriorityButtons(urgentButton, mediumButton, lowButton) {
   urgentButton.addEventListener("click", () =>
     handlePriorityClick(urgentButton)
@@ -130,15 +144,19 @@ function setupPriorityButtons(urgentButton, mediumButton, lowButton) {
   lowButton.addEventListener("click", () => handlePriorityClick(lowButton));
 }
 
-
-// Handles the click event for a priority button
+/**
+ * Handles the click event for a priority button.
+ * @param {HTMLElement} clickedButton - The clicked priority button.
+ */
 function handlePriorityClick(clickedButton) {
   removeActiveClassFromOtherButtons(clickedButton);
   setActiveButton(clickedButton);
 }
 
-
-// Removes the active class from all priority buttons except the clicked one
+/**
+ * Removes the active class from all priority buttons except the clicked one.
+ * @param {HTMLElement} clickedButton - The clicked priority button.
+ */
 function removeActiveClassFromOtherButtons(clickedButton) {
   const allButtons = document.querySelectorAll(
     "#urgent_button, #medium_button, #low_button"
@@ -150,8 +168,10 @@ function removeActiveClassFromOtherButtons(clickedButton) {
   });
 }
 
-
-// Sets the clicked priority button as active
+/**
+ * Sets the clicked priority button as active.
+ * @param {HTMLElement} clickedButton - The clicked priority button.
+ */
 function setActiveButton(clickedButton) {
   clickedButton.classList.add("active");
 }

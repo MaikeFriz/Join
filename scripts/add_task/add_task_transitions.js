@@ -1,4 +1,6 @@
-// Sets up the add task overlay and its styles based on the URL category
+/**
+ * Sets up the add task overlay and its styles based on the URL category.
+ */
 function setupAddTaskOverlay() {
   const addTaskFrame = document.getElementById("add_task_frame");
   const addTaskContainer = document.getElementById("add_task_container");
@@ -14,8 +16,9 @@ function setupAddTaskOverlay() {
   }
 }
 
-
-// Sets up the click event to redirect to the board page when clicking outside the overlay
+/**
+ * Sets up the click event to redirect to the board page when clicking outside the overlay.
+ */
 function setupOverlayClickToBoard() {
   const addTaskContainer = document.getElementById("add_task_container");
   const addTaskFrame = document.getElementById("add_task_frame");
@@ -32,8 +35,9 @@ function setupOverlayClickToBoard() {
   }
 }
 
-
-// Closes the add task overlay and redirects to the board page
+/**
+ * Closes the add task overlay and redirects to the board page.
+ */
 function closeAddTaskOverlay() {
   const addTaskFrame = document.getElementById("add_task_frame");
   if (addTaskFrame) {
@@ -45,13 +49,16 @@ function closeAddTaskOverlay() {
   }
 }
 
-
-//Loading spinner functions
+/**
+ * Shows the loading spinner.
+ */
 function showLoadingSpinner() {
   document.getElementById("loading_spinner").style.display = "flex";
 }
 
-
+/**
+ * Hides the loading spinner.
+ */
 function hideLoadingSpinner() {
   document.getElementById("loading_spinner").style.display = "none";
 }

@@ -1,4 +1,7 @@
-// Creates and appends dropdown options for each user
+/**
+ * Creates and appends dropdown options for each user.
+ * @param {Array} users - Array of user objects.
+ */
 function createDropdownOptions(users) {
   const dropdownOptions = document.getElementById("dropdown_options_assignee");
   dropdownOptions.innerHTML = "";
@@ -8,8 +11,11 @@ function createDropdownOptions(users) {
   });
 }
 
-
-// Creates a dropdown option element for a user
+/**
+ * Creates a dropdown option element for a user.
+ * @param {Object} user - The user object.
+ * @returns {HTMLElement} The dropdown option element.
+ */
 function createDropdownOptionTemplate(user) {
   const option = createDropdownOptionElement(user);
   setDropdownOptionState(option, user);
@@ -17,8 +23,11 @@ function createDropdownOptionTemplate(user) {
   return option;
 }
 
-
-// Builds the dropdown option HTML element for a user
+/**
+ * Builds the dropdown option HTML element for a user.
+ * @param {Object} user - The user object.
+ * @returns {HTMLElement} The dropdown option element.
+ */
 function createDropdownOptionElement(user) {
   const option = document.createElement("div");
   option.classList.add("custom-dropdown-option");
@@ -28,16 +37,22 @@ function createDropdownOptionElement(user) {
   return option;
 }
 
-
-// Sets the selected state for a dropdown option if the user is already assigned
+/**
+ * Sets the selected state for a dropdown option if the user is already assigned.
+ * @param {HTMLElement} option - The dropdown option element.
+ * @param {Object} user - The user object.
+ */
 function setDropdownOptionState(option, user) {
   if (assigneesObject[user.id]) {
     option.classList.add("selected");
   }
 }
 
-
-// Adds mouse and click event listeners to a dropdown option
+/**
+ * Adds mouse and click event listeners to a dropdown option.
+ * @param {HTMLElement} option - The dropdown option element.
+ * @param {Object} user - The user object.
+ */
 function setupDropdownOptionEvents(option, user) {
   const checkboxImg = option.querySelector(".checkbox-img");
   setupDropdownOptionMouseenter(option, checkboxImg);
@@ -45,8 +60,11 @@ function setupDropdownOptionEvents(option, user) {
   setupDropdownOptionClick(option, user, checkboxImg);
 }
 
-
-// Handles mouseenter event for a dropdown option (visual feedback)
+/**
+ * Handles mouseenter event for a dropdown option (visual feedback).
+ * @param {HTMLElement} option - The dropdown option element.
+ * @param {HTMLElement} checkboxImg - The checkbox image element.
+ */
 function setupDropdownOptionMouseenter(option, checkboxImg) {
   option.addEventListener("mouseenter", () => {
     if (option.classList.contains("selected")) {
@@ -59,7 +77,11 @@ function setupDropdownOptionMouseenter(option, checkboxImg) {
   });
 }
 
-// Handles mouseleave event for a dropdown option (visual feedback)
+/**
+ * Handles mouseleave event for a dropdown option (visual feedback).
+ * @param {HTMLElement} option - The dropdown option element.
+ * @param {HTMLElement} checkboxImg - The checkbox image element.
+ */
 function setupDropdownOptionMouseleave(option, checkboxImg) {
   option.addEventListener("mouseleave", () => {
     if (option.classList.contains("selected")) {
@@ -72,8 +94,12 @@ function setupDropdownOptionMouseleave(option, checkboxImg) {
   });
 }
 
-
-// Handles click event for a dropdown option (selects/deselects assignee)
+/**
+ * Handles click event for a dropdown option (selects/deselects assignee).
+ * @param {HTMLElement} option - The dropdown option element.
+ * @param {Object} user - The user object.
+ * @param {HTMLElement} checkboxImg - The checkbox image element.
+ */
 function setupDropdownOptionClick(option, user, checkboxImg) {
   option.addEventListener("click", () => {
     option.classList.toggle("selected");
@@ -89,8 +115,11 @@ function setupDropdownOptionClick(option, user, checkboxImg) {
   });
 }
 
-
-// Returns the initials for a given assignee name
+/**
+ * Returns the initials for a given assignee name.
+ * @param {string} assignee - The assignee's full name.
+ * @returns {string} The initials.
+ */
 function getAssigneeInitials(assignee) {
   let assigneeInitials = "";
   if (assignee) {
@@ -105,8 +134,12 @@ function getAssigneeInitials(assignee) {
   return assigneeInitials;
 }
 
-
-// Toggles the selection of an assignee and updates the UI
+/**
+ * Toggles the selection of an assignee and updates the UI.
+ * @param {string} userId - The user ID.
+ * @param {string} userName - The user name.
+ * @param {HTMLElement} optionElement - The dropdown option element.
+ */
 function toggleAssignee(userId, userName, optionElement) {
   const imgElement = optionElement.querySelector(".checkbox-img");
   if (assigneesObject[userId]) {
@@ -120,8 +153,11 @@ function toggleAssignee(userId, userName, optionElement) {
   }
 }
 
-
-// Adds the selected assignee to the UI
+/**
+ * Adds the selected assignee to the UI.
+ * @param {string} userId - The user ID.
+ * @param {string} userName - The user name.
+ */
 function addAssigneeElement(userId, userName) {
   const showAssigneesDiv = document.getElementById("show-assignees");
   const assignedUsers = Object.values(assigneesObject);
@@ -137,8 +173,10 @@ function addAssigneeElement(userId, userName) {
   showAssigneesDiv.innerHTML = html;
 }
 
-
-// Removes the assignee from the selection and UI
+/**
+ * Removes the assignee from the selection and UI.
+ * @param {string} userId - The user ID.
+ */
 function removeAssignee(userId) {
   delete assigneesObject[userId];
   const assigneeElement = document.getElementById(`assignee-${userId}`);
@@ -153,8 +191,10 @@ function removeAssignee(userId) {
   });
 }
 
-
-// Removes the assignee element from the UI
+/**
+ * Removes the assignee element from the UI.
+ * @param {string} userId - The user ID.
+ */
 function removeAssigneeElement(userId) {
   const assigneeElement = document.getElementById(`assignee-${userId}`);
   if (assigneeElement) {
