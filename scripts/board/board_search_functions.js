@@ -20,6 +20,7 @@ function searchTasks(searchTerm) {
   }
 }
 
+
 // Function to handle the search input and trigger the search
 function resetSearch() {
   const searchInput = document.getElementById('search-input');

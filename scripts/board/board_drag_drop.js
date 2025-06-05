@@ -4,6 +4,7 @@ let taskClone = null;
 let draggedTaskId = null;
 let dropPlaceholder = null;
 
+
 // Initializes drag-and-drop for all task containers
 function initializeDragAndDrop(taskContainers) {
   taskContainers.forEach((container) => {
@@ -14,10 +15,10 @@ function initializeDragAndDrop(taskContainers) {
   });
 }
 
+
 // Sets up the dragstart event for a task container
 function setupDragStartListener(container) {
   container.addEventListener("dragstart", (event) => {
-    // Sucht das nächste Elternelement mit draggable="true"
     const task = event.target.closest('[draggable="true"]');
     if (!task) return;
     handleDragStart(event, (task, clone) => {
@@ -27,6 +28,7 @@ function setupDragStartListener(container) {
     });
   });
 }
+
 
 // Sets up the dragend event for a task container
 function setupDragEndListener(container) {
@@ -42,12 +44,15 @@ function setupDragEndListener(container) {
   );
 }
 
+
 // Sets up the dragover event for a task container
 function setupDragOverListener(container) {
   container.addEventListener("dragover", (event) => handleContainerDragOver(event, container));
   container.addEventListener("dragleave", handleContainerDragLeave);
 }
 
+
+// Handles the dragover event for a task container
 function handleContainerDragOver(event, container) {
   event.preventDefault();
   handleContainerAutoScroll(event, container);
@@ -55,6 +60,8 @@ function handleContainerDragOver(event, container) {
   handleDragOver(event, taskClone);
 }
 
+
+// Handles auto-scrolling of the container when dragging near the edges
 function handleContainerAutoScroll(event, container) {
   const SCROLL_ZONE = 60;
   const SCROLL_SPEED = 15;
@@ -66,6 +73,8 @@ function handleContainerAutoScroll(event, container) {
   }
 }
 
+
+// Handles the drop placeholder logic when dragging over a container
 function handleDropPlaceholder(event, container) {
   const taskContainer = getTargetTaskContainer(container);
   if (event.target === dropPlaceholder) return;
@@ -77,12 +86,15 @@ function handleDropPlaceholder(event, container) {
   }
 }
 
+
+// Removes the drop placeholder when dragging leaves the container
 function handleContainerDragLeave(event) {
   if (dropPlaceholder && dropPlaceholder.parentNode) {
     dropPlaceholder.parentNode.removeChild(dropPlaceholder);
     dropPlaceholder = null;
   }
 }
+
 
 // Sets up the drop event for a task container
 function setupDropListener(container) {
@@ -98,6 +110,7 @@ function setupDropListener(container) {
   });
 }
 
+
 // Handles the dragstart event for a task
 function handleDragStart(event, onDragStart) {
   const task = event.target;
@@ -108,6 +121,7 @@ function handleDragStart(event, onDragStart) {
   onDragStart(task, taskClone);
   cleanUpInvisibleDragImage(invisibleElement);
 }
+
 
 // Creates a visual clone of the dragged task
 function createTaskClone(task, event) {
@@ -127,6 +141,7 @@ function createTaskClone(task, event) {
   return taskClone;
 }
 
+
 // Creates an invisible drag image to hide the default drag icon
 function createInvisibleDragImage(event) {
   const invisibleElement = document.createElement("div");
@@ -138,12 +153,14 @@ function createInvisibleDragImage(event) {
   return invisibleElement;
 }
 
+
 // Removes the invisible drag image after use
 function cleanUpInvisibleDragImage(invisibleElement) {
   setTimeout(() => {
     invisibleElement.remove();
   }, 0);
 }
+
 
 // Handles the dragend event for a task
 function handleDragEnd(event, onDragEnd) {
@@ -153,6 +170,7 @@ function handleDragEnd(event, onDragEnd) {
   loadNoTasksFunctions();
 }
 
+
 // Updates the position of the task clone during dragover
 function handleDragOver(event, taskClone) {
   event.preventDefault();
@@ -161,6 +179,7 @@ function handleDragOver(event, taskClone) {
     taskClone.style.top = `${event.pageY - taskClone.offsetHeight / 2}px`;
   }
 }
+
 
 // Handles the drop event and moves the task to the new container
 function handleDrop(event, container, draggedTask, taskId, onTaskDropped) {
@@ -182,6 +201,7 @@ function handleDrop(event, container, draggedTask, taskId, onTaskDropped) {
   }
 }
 
+
 // Initializes drag-and-drop after the DOM is loaded
 document.addEventListener("DOMContentLoaded", () => {
   const dropContainers = [
@@ -193,6 +213,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const taskContainers = document.querySelectorAll(dropContainers.join(", "));
   initializeDragAndDrop(taskContainers);
 });
+
 
 // Updates the task's status in localStorage or Firebase
 function updateTaskStatus(taskId, newStatusColumnId) {
@@ -206,11 +227,13 @@ function updateTaskStatus(taskId, newStatusColumnId) {
   }
 }
 
+
 // Handles status update for guest users
 function updateTaskStatusForGuest(taskId, newStatus) {
   updateTaskInLocalStorage(taskId, newStatus);
   localStorage.setItem("guestKanbanData", JSON.stringify(kanbanData));
 }
+
 
 // Handles status update for logged-in users
 function updateTaskStatusForUser(taskId, newStatus) {
@@ -222,6 +245,7 @@ function updateTaskStatusForUser(taskId, newStatus) {
       // Optional: handle error
     });
 }
+
 
 // Updates kanbanData for the logged-in user after Firebase update
 function updateKanbanDataForUser(taskId, newStatus) {
@@ -242,6 +266,7 @@ function updateKanbanDataForUser(taskId, newStatus) {
   }
 }
 
+
 // Maps a column ID to a status string
 function mapColumnIdToStatus(columnId) {
   const columnStatusMap = {
@@ -252,6 +277,7 @@ function mapColumnIdToStatus(columnId) {
   };
   return columnStatusMap[columnId];
 }
+
 
 // Updates the task's status in localStorage for guest users
 function updateTaskInLocalStorage(taskId, newStatus) {
@@ -271,6 +297,7 @@ function updateTaskInLocalStorage(taskId, newStatus) {
   localStorage.setItem("guestKanbanData", JSON.stringify(kanbanData));
 }
 
+
 // Removes the task from all statuses in localStorage
 function removeTaskFromAllStatuses(assignedTasks, taskId) {
   ["toDo", "inProgress", "awaitingFeedback", "done"].forEach(status => {
@@ -280,11 +307,13 @@ function removeTaskFromAllStatuses(assignedTasks, taskId) {
   });
 }
 
+
 // Adds the task to the new status in localStorage
 function addTaskToStatus(assignedTasks, taskId, status) {
   if (!assignedTasks[status]) assignedTasks[status] = {};
   assignedTasks[status][taskId] = true;
 }
+
 
 // Removes the task from all statuses in Firebase
 function removeTaskFromOtherStatuses(taskId, userId, baseUrl) {
@@ -298,6 +327,7 @@ function removeTaskFromOtherStatuses(taskId, userId, baseUrl) {
   return Promise.all(deletePromises);
 }
 
+
 // Adds the task to the new status in Firebase
 function addTaskToNewStatus(taskId, newStatus, userId, baseUrl) {
   const taskPath = `${baseUrl}users/${userId}/assignedTasks/${newStatus}/${taskId}.json`;
@@ -310,6 +340,7 @@ function addTaskToNewStatus(taskId, newStatus, userId, baseUrl) {
   });
 }
 
+
 // Updates the task's status in Firebase for logged-in users
 function updateTaskInFirebase(taskId, newStatus) {
   let user = JSON.parse(localStorage.getItem("loggedInUser"));
@@ -319,6 +350,7 @@ function updateTaskInFirebase(taskId, newStatus) {
   return removeTaskFromOtherStatuses(taskId, user.userId, BASE_URL)
     .then(() => addTaskToNewStatus(taskId, newStatus, user.userId, BASE_URL));
 }
+
 
 // Gets the target task container based on the ID of the dragged container
 function getTargetTaskContainer(container) {
@@ -330,6 +362,7 @@ function getTargetTaskContainer(container) {
   };
   return document.getElementById(map[container.id]);
 }
+
 
 // Ensures that all tasks in kanbanData have a taskId property
 function ensureTaskIdsInKanbanData() {

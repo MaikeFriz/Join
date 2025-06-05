@@ -6,6 +6,7 @@ function loadNoTasksFunctions() {
     toggleNoDonePlaceholder();
 }
 
+
 // Function to toggle visibility of the "No tasks" placeholder in the "To Do" column
 function toggleNoTasksToDoPlaceholder() {
     let toDoColumn = document.getElementById('toDoCardsColumn');
@@ -19,6 +20,7 @@ function toggleNoTasksToDoPlaceholder() {
         }
     }
 }
+
 
 // Function to toggle visibility of the "No tasks" placeholder in the "In Progress" column
 function toggleNoInProogressPlaceholder() {
@@ -34,6 +36,7 @@ function toggleNoInProogressPlaceholder() {
     }
 }
 
+
 // Function to toggle visibility of the "No tasks" placeholder in the "Awaiting Feedback" column
 function toggleNoAwaitFeedbackPlaceholder() {
     let awaitFeedbackColumn = document.getElementById('awaitFeedbackCardsColumn');
@@ -47,6 +50,7 @@ function toggleNoAwaitFeedbackPlaceholder() {
         }
     }
 }
+
 
 // Function to toggle visibility of the "No tasks" placeholder in the "Done" column
 function toggleNoDonePlaceholder() {

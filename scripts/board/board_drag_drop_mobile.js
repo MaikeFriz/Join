@@ -1,7 +1,8 @@
 let isDragging = false;
 let longPressTimer = null;
 let longPressTriggered = false;
-const LONG_PRESS_DELAY = 250; // ms
+const LONG_PRESS_DELAY = 250;
+
 
 // Initializes touch drag-and-drop for all task containers
 function initializeTouchDragAndDrop(taskContainers) {
@@ -11,6 +12,7 @@ function initializeTouchDragAndDrop(taskContainers) {
   document.addEventListener("touchmove", (event) => onTouchMove(event), { passive: false });
   document.addEventListener("touchend", (event) => onTouchEnd(event));
 }
+
 
 // Handles the touchstart event and starts dragging a task
 function onTouchStart(event) {
@@ -28,7 +30,6 @@ function onTouchStart(event) {
         taskClone = clone;
         draggedTaskId = task.dataset.taskId;
         isDragging = true;
-        // Disable scrolling while dragging
         document.body.style.overflow = "hidden";
         document.body.style.touchAction = "none";
       }
@@ -36,6 +37,7 @@ function onTouchStart(event) {
     document.body.style.userSelect = "none";
   }, LONG_PRESS_DELAY);
 }
+
 
 // Handles the touchmove event, moves the task clone, manages placeholder and board scrolling
 function onTouchMove(event) {
@@ -58,6 +60,7 @@ function onTouchMove(event) {
   if (event.cancelable) event.preventDefault();
 }
 
+
 // Shows or removes the drop placeholder depending on the drag position
 function handleMobileDropPlaceholder(container, originContainer) {
   if (container && originContainer && container.id !== originContainer.id) {
@@ -67,6 +70,7 @@ function handleMobileDropPlaceholder(container, originContainer) {
     removeMobileDropPlaceholder();
   }
 }
+
 
 // Appends the drop placeholder to the correct task container
 function showMobileDropPlaceholder(taskContainer) {
@@ -84,6 +88,7 @@ function showMobileDropPlaceholder(taskContainer) {
   }
 }
 
+
 // Removes the drop placeholder from the DOM
 function removeMobileDropPlaceholder() {
   if (dropPlaceholder && dropPlaceholder.parentNode) {
@@ -91,6 +96,7 @@ function removeMobileDropPlaceholder() {
     dropPlaceholder = null;
   }
 }
+
 
 // Moves the visual clone of the dragged task, keeping it within the board boundaries
 function handleMobileTaskCloneMove(touch) {
@@ -112,6 +118,7 @@ function handleMobileTaskCloneMove(touch) {
   taskClone.style.top = `${top}px`;
 }
 
+
 // Scrolls the board container when dragging near the top or bottom edge
 function handleMobileBoardScroll(touch) {
   const SCROLL_ZONE = 60;
@@ -126,6 +133,7 @@ function handleMobileBoardScroll(touch) {
     }
   }
 }
+
 
 // Handles the touchend event, drops the task and finalizes the drag operation
 function onTouchEnd(event) {
@@ -146,6 +154,7 @@ function onTouchEnd(event) {
   finalizeMobileDrag();
 }
 
+
 // Returns the drop container element under the touch position
 function getDropContainerFromTouch(touch) {
   let elem = document.elementFromPoint(touch.clientX, touch.clientY);
@@ -163,6 +172,7 @@ function getDropContainerFromTouch(touch) {
   return elem;
 }
 
+
 // Handles dropping the task into the correct container and updating its status
 function handleMobileDrop(event, dropContainer) {
   if (dropContainer) {
@@ -176,6 +186,7 @@ function handleMobileDrop(event, dropContainer) {
   }
 }
 
+
 // Finalizes the drag operation by cleaning up the clone and resetting state
 function finalizeMobileDrag() {
   handleDragEnd(
@@ -187,7 +198,6 @@ function finalizeMobileDrag() {
       }
       draggedTask = null;
       draggedTaskId = null;
-      // Re-enable scrolling after dragging
       document.body.style.overflow = "";
       document.body.style.touchAction = "";
     }
