@@ -106,6 +106,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     };
   }
 
+  
   // Returns the selected assignees as an object
   function getAssignedUsers() {
     let assignees = {};
@@ -329,13 +330,3 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
   addTaskFormListener();
 });
-
-
-//Loading spinner functions
-function showLoadingSpinner() {
-  document.getElementById("loading_spinner").style.display = "flex";
-}
-
-function hideLoadingSpinner() {
-  document.getElementById("loading_spinner").style.display = "none";
-}

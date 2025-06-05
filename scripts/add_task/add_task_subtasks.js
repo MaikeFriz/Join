@@ -243,6 +243,7 @@ function createEditIcons(input, onSave, onCancel) {
 
   clearIcon.addEventListener("mousedown", handleClearClick);
 
+
   // Handles switching icons when input value changes
   input.addEventListener("input", () => {
     if (input.value.trim() === "" && !clearIcon.classList.contains("delete_icon_show_subtask")) {
@@ -251,6 +252,7 @@ function createEditIcons(input, onSave, onCancel) {
       switchToClearIcon();
     }
   });
+
 
   // Handles saving the edit when Enter is pressed
   input.addEventListener("keydown", (e) => {
@@ -262,6 +264,7 @@ function createEditIcons(input, onSave, onCancel) {
 
   return iconsContainer;
 }
+
 
 // Saves the edited subtask and updates the UI
 function saveEdit(input, span, subtaskId, inputContainer, deleteButton) {
@@ -277,6 +280,7 @@ function saveEdit(input, span, subtaskId, inputContainer, deleteButton) {
   }
 }
 
+
 // Cancels editing and restores the original subtask text
 function cancelEdit(inputContainer, span, deleteButton) {
   const subtaskItem = inputContainer.closest(".subtask-item");
@@ -288,11 +292,13 @@ function cancelEdit(inputContainer, span, deleteButton) {
   subtaskItem.replaceWith(updatedElement);
 }
 
+
 // Deletes a subtask from the subtasks object and removes it from the DOM
 function removeSubtask(subtaskId, subtaskElement) {
   delete subtasksObject[subtaskId];
   subtaskElement.remove();
 }
+
 
 // Removes a subtask from the object and UI
 async function addSubtask(inputSubtask) {
@@ -316,6 +322,7 @@ async function addSubtask(inputSubtask) {
   }
 }
 
+
 // Adds a new subtask to the object and displays it
 async function loadHighestSubtaskId() {
   if (Object.keys(subtasksObject).length === 0) {
@@ -327,6 +334,7 @@ async function loadHighestSubtaskId() {
     }
   }
 }
+
 
 // Gets the highest subtask ID for a guest from localStorage
 function getHighestSubtaskIdForGuest() {
@@ -346,6 +354,7 @@ function getHighestSubtaskIdForGuest() {
   return highestSubtask;
 }
 
+
 // Gets the highest subtask ID for a user from the database
 async function getHighestSubtaskIdForUser() {
   const response = await fetch(
@@ -364,14 +373,4 @@ async function getHighestSubtaskIdForUser() {
     if (subtaskNumber > highestSubtask) highestSubtask = subtaskNumber;
   }
   return highestSubtask;
-}
-
-// Shows the loading spinner
-function showLoadingSpinner() {
-  document.getElementById("loading_spinner").style.display = "flex";
-}
-
-// Hides the loading spinner
-function hideLoadingSpinner() {
-  document.getElementById("loading_spinner").style.display = "none";
 }
