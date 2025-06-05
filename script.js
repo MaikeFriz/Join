@@ -20,6 +20,8 @@ function isExcludedPage() {
     "forgot_password.html",
     "privacy.html",
     "legal.html",
+    "privacy_policy_logged_out.html",
+    "legal_notice_logged_out.html"
   ];
   const currentPage = window.location.pathname
     .split("/")
