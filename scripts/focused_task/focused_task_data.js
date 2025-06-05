@@ -9,6 +9,7 @@ async function getUsers() {
   return userResponse.json();
 }
 
+
 // Fetches all assigned user data from the database
 async function getAssignedData() {
   const userResponse = await fetch(`${BASE_URL}users.json`);
@@ -19,6 +20,7 @@ async function getAssignedData() {
   }
   return userResponse.json();
 }
+
 
 // Retrieves and removes the task from all users' assigned tasks
 async function getUsersTasks(taskId) {
@@ -36,6 +38,7 @@ async function getUsersTasks(taskId) {
   }
 }
 
+
 // Processes each category of assigned tasks for a user and deletes the task
 async function getCategory(userId, taskId, userTasks) {
   const categories = Object.keys(userTasks);
@@ -51,6 +54,7 @@ async function getCategory(userId, taskId, userTasks) {
     }
   }
 }
+
 
 // Removes the task from all assignees' lists
 async function getAssigneesTasks(taskId) {

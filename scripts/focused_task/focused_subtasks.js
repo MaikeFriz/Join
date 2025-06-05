@@ -11,6 +11,7 @@ function renderSubtasks(subtaskRefs, allSubtasks) {
   return titles.join("");
 }
 
+
 // Updates the completion status of a subtask for guest users
 function updateSubtaskForGuest(subtaskId, isChecked) {
   const guestData = JSON.parse(localStorage.getItem("guestKanbanData"));
@@ -24,6 +25,7 @@ function updateSubtaskForGuest(subtaskId, isChecked) {
   }
 }
 
+
 // Updates the completion status of a subtask in the database
 function updateSubtaskInDatabase(subtaskId, isChecked, callback) {
   const url = `${BASE_URL}subtasks/${subtaskId}/completed.json`;
@@ -32,23 +34,28 @@ function updateSubtaskInDatabase(subtaskId, isChecked, callback) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(isChecked),
   })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("Error updating subtask");
-      }
-      return response.json();
-    })
-    .then(() => {
-      // Update in-memory kanbanData for existing users, just like for guests
+    .then(handleSubtaskUpdateResponse(subtaskId, isChecked, callback))
+    .catch((error) => {});
+}
+
+
+// Handles the fetch response and updates in-memory data and callback
+function handleSubtaskUpdateResponse(subtaskId, isChecked, callback) {
+  return (response) => {
+    if (!response.ok) {
+      throw new Error("Error updating subtask");
+    }
+    return response.json().then(() => {
       if (kanbanData.subtasks && kanbanData.subtasks[subtaskId]) {
         kanbanData.subtasks[subtaskId].completed = isChecked;
       }
       if (typeof callback === "function") {
         callback();
       }
-    })
-    .catch((error) => {});
+    });
+  };
 }
+
 
 // Toggles the completion status of a subtask and delegates to the appropriate function
 function toggleSubtaskCompletion(subtaskId, isChecked) {
@@ -64,6 +71,7 @@ function toggleSubtaskCompletion(subtaskId, isChecked) {
   }
 }
 
+
 // Finds the taskId that a given subtask belongs to
 function findTaskIdBySubtask(subtaskId) {
   for (const tId in kanbanData.tasks) {
@@ -75,28 +83,42 @@ function findTaskIdBySubtask(subtaskId) {
   return null;
 }
 
+
 // Sets the progress bar width, text, and visibility in the overlay based on progress data
 function setOverlaySubtaskProgress(focusedContent, progressData) {
-  const { totalSubtasks, completedSubtasks, progressPercentage, showProgress } =
-    progressData;
-
-  const progressBar = focusedContent.querySelector(
-    ".subtask-inner-progress-bar"
+  setOverlaySubtaskProgressBar(focusedContent, progressData.progressPercentage);
+  setOverlaySubtaskProgressTextAndVisibility(
+    focusedContent,
+    progressData.completedSubtasks,
+    progressData.totalSubtasks,
+    progressData.showProgress
   );
+}
+
+
+// Sets the progress bar width in the overlay
+function setOverlaySubtaskProgressBar(focusedContent, progressPercentage) {
+  const progressBar = focusedContent.querySelector(".subtask-inner-progress-bar");
   if (progressBar) progressBar.style.width = `${progressPercentage}%`;
+}
 
-  const progressText = focusedContent.querySelector(
-    ".subtask-progress-text span"
-  );
+
+// Sets the progress text and visibility in the overlay
+function setOverlaySubtaskProgressTextAndVisibility(
+  focusedContent,
+  completedSubtasks,
+  totalSubtasks,
+  showProgress
+) {
+  const progressText = focusedContent.querySelector(".subtask-progress-text span");
   if (progressText)
     progressText.textContent = `${completedSubtasks}/${totalSubtasks}`;
 
-  const progressContainer = focusedContent.querySelector(
-    ".subtask-progress-container"
-  );
+  const progressContainer = focusedContent.querySelector(".subtask-progress-container");
   if (progressContainer)
     progressContainer.style.display = showProgress ? "flex" : "none";
 }
+
 
 // Updates the subtask progress bar and text in the overlay for a given task
 function updateOverlaySubtaskProgress(taskId) {
@@ -108,6 +130,7 @@ function updateOverlaySubtaskProgress(taskId) {
   }
 }
 
+
 // Updates the board preview subtask bar for a given task if visible
 function updateBoardPreviewSubtaskBar(taskId) {
   const boardTask = document.querySelector(`[data-task-id='${taskId}']`);
@@ -115,6 +138,7 @@ function updateBoardPreviewSubtaskBar(taskId) {
     refreshBoardSilent();
   }
 }
+
 
 // Updates only the subtask progress bar and text in the overlay and board after a subtask is toggled
 function updateSubtaskProgressBarOnly(subtaskId) {
