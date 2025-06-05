@@ -135,12 +135,16 @@
 
           <div id="error_message_sign_up" class="error_message_sign_up"></div>
           <div class="checkbox_div">
-            <input type="checkbox" id="privacy" />
-            <label for="privacy">
-              I accept the
-              <a class="link_accept_privacy_policy" href="./privacy.html">Privacy policy</a>
-            </label>
-          </div>
+  <label class="svg-checkbox">
+    <input type="checkbox" id="privacy" />
+    <img src="./assets/img/disabled_checkbox.svg" alt="Unchecked" class="checkbox-icon unchecked" />
+    <img src="./assets/img/checked_checkbox.svg" alt="Checked" class="checkbox-icon checked" />
+    <span>
+      I accept the
+      <a class="link_accept_privacy_policy" href="./privacy.html">Privacy policy</a>
+    </span>
+  </label>
+</div>
           <button
             id="button_sign_up_input_section"
             type="submit"
