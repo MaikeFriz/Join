@@ -1,4 +1,9 @@
-// Renders the edit task modal and initializes the UI with task data.
+/**
+ * Renders the edit task modal and initializes the UI with task data.
+ * @param {Object} taskContent - The content object of the task.
+ * @param {string} taskId - The ID of the task.
+ * @returns {string} The HTML string for the edit task modal.
+ */
 function renderEditTask(taskContent, taskId) {
     const { label, fitLabelForCSS, title, description, createAt, priority, subtasks } = getTaskData(taskContent);
     const displayedDueDate = createAt ? formatDateForInput(createAt) : '';
@@ -14,8 +19,10 @@ function renderEditTask(taskContent, taskId) {
     return editTaskHTML;
 }
 
-
-// Updates the UI to display the selected categories for a task.
+/**
+ * Updates the UI to display the selected categories for a task.
+ * @param {string} taskId - The ID of the task.
+ */
 function displaySelectedCategories(taskId) {
     const selectedCategoriesDiv = document.querySelector(".edit-selected-categories");
     const taskContent = getTaskContent(taskId, kanbanData);
@@ -31,8 +38,10 @@ function displaySelectedCategories(taskId) {
     selectedCategoriesDiv.innerHTML = editCategoryLabelTemplate(label, fitLabelForCSS);
 }
 
-
-// Generates the HTML for the category options in the dropdown menu.
+/**
+ * Generates the HTML for the category options in the dropdown menu.
+ * @returns {string} The HTML string for all category options.
+ */
 function getCategoryOptions() {
     const categories = ["User Story", "Technical Task", "HTML", "Javascript", "CSS"];
     let categoryOptionsHTML = "";
@@ -45,8 +54,10 @@ function getCategoryOptions() {
     return categoryOptionsHTML;
 }
 
-
-// Handles the selection of a category and updates the dropdown and UI.
+/**
+ * Handles the selection of a category and updates the dropdown and UI.
+ * @param {string} category - The selected category.
+ */
 function selectCategory(category) {
     const selectedCategory = document.getElementById("dropdown_selected_category");
     const dropdown = document.getElementById("dropdown_options_category");

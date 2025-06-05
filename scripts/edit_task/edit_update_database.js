@@ -1,4 +1,9 @@
-// Updates the task in the database based on user type (guest or registered).
+/**
+ * Updates the task in the database based on user type (guest or registered).
+ * @param {string} taskId - The ID of the task to update.
+ * @param {Object} updatedTaskData - The updated task data.
+ * @returns {Promise} A promise that resolves when the update is complete.
+ */
 function updateTaskInDatabase(taskId, updatedTaskData) {
     const isGuest = JSON.parse(localStorage.getItem("isGuest"));
     if (isGuest) {
@@ -8,8 +13,12 @@ function updateTaskInDatabase(taskId, updatedTaskData) {
     }
 }
 
-
-// Updates the task for a guest user in localStorage.
+/**
+ * Updates the task for a guest user in localStorage.
+ * @param {string} taskId - The ID of the task to update.
+ * @param {Object} updatedTaskData - The updated task data.
+ * @returns {Promise} A promise that resolves when the update is complete.
+ */
 function updateTaskForGuest(taskId, updatedTaskData) {
     return new Promise((resolve, reject) => {
         try {
@@ -27,8 +36,11 @@ function updateTaskForGuest(taskId, updatedTaskData) {
     });
 }
 
-
-// Updates subtasks for a guest user in localStorage.
+/**
+ * Updates subtasks for a guest user in localStorage.
+ * @param {Object} data - The guest kanban data object.
+ * @param {Object} updatedTaskData - The updated task data.
+ */
 function updateGuestSubtasks(data, updatedTaskData) {
     Object.keys(updatedTaskData.subtasks).forEach((subtaskId) => {
         if (!data.subtasks[subtaskId]) {
@@ -41,8 +53,12 @@ function updateGuestSubtasks(data, updatedTaskData) {
     });
 }
 
-
-// Updates the task for a registered user in the database.
+/**
+ * Updates the task for a registered user in the database.
+ * @param {string} taskId - The ID of the task to update.
+ * @param {Object} updatedTaskData - The updated task data.
+ * @returns {Promise} A promise that resolves when the update is complete.
+ */
 function updateTaskForRegisteredUser(taskId, updatedTaskData) {
     return fetch(`${BASE_URL}tasks/${taskId}.json`, {
         method: "PUT",
@@ -57,8 +73,11 @@ function updateTaskForRegisteredUser(taskId, updatedTaskData) {
         });
 }
 
-
-// Updates subtasks for a registered user in the database.
+/**
+ * Updates subtasks for a registered user in the database.
+ * @param {Object} updatedTaskData - The updated task data.
+ * @returns {Promise} A promise that resolves when all subtasks are updated.
+ */
 function updateRegisteredSubtasks(updatedTaskData) {
     const subtaskPromises = Object.keys(updatedTaskData.subtasks).map((subtaskId) => {
         if (!kanbanData.subtasks[subtaskId]) {

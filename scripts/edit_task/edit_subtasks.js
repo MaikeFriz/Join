@@ -1,6 +1,10 @@
 let newSubtaskCounter = 1;
 
-// Displays the subtasks in the edit task modal and updates their completed status.
+/**
+ * Displays the subtasks in the edit task modal and updates their completed status.
+ * @param {Object} subtasks - The subtasks object.
+ * @returns {Promise<void>} A promise that resolves when rendering is complete.
+ */
 async function displayEditSubtasks(subtasks) {
     const subtaskContainer = document.getElementById("display_subtasks");
     subtaskContainer.innerHTML = "";
@@ -16,8 +20,11 @@ async function displayEditSubtasks(subtasks) {
     }
 }
 
-
-// Fetches the completed status of a specific subtask from the database.
+/**
+ * Fetches the completed status of a specific subtask from the database.
+ * @param {string} subtaskId - The subtask ID.
+ * @returns {Promise<Object>} A promise that resolves to an object with the completed status.
+ */
 async function fetchSubtaskStatusFromDatabase(subtaskId) {
     try {
         const response = await fetchFromDatabase(`${BASE_URL}subtasks/${subtaskId}.json`, "GET");
@@ -31,8 +38,11 @@ async function fetchSubtaskStatusFromDatabase(subtaskId) {
     }
 }
 
-
-// Generates the HTML for all subtasks to be displayed in the edit task modal.
+/**
+ * Generates the HTML for all subtasks to be displayed in the edit task modal.
+ * @param {Object} subtasks - The subtasks object.
+ * @returns {string} The HTML string for all subtasks.
+ */
 function renderEditSubtasks(subtasks) {
     let subtaskHTML = "";
     const subtaskIds = Object.keys(subtasks);
@@ -45,8 +55,9 @@ function renderEditSubtasks(subtasks) {
     return subtaskHTML;
 }
 
-
-// Adds a new subtask to the UI and clears the input field.
+/**
+ * Adds a new subtask to the UI and clears the input field.
+ */
 function addEditSubtask() {
     const inputField = document.getElementById("input_edit_subtask");
     const subtaskValue = inputField.value.trim();
@@ -60,8 +71,12 @@ function addEditSubtask() {
     }
 }
 
-
-// Removes a specific subtask from the edit task modal based on its ID.
+/**
+ * Removes a specific subtask from the edit task modal based on its ID.
+ * @param {string} subtaskId - The subtask ID.
+ * @param {string} subtaskTitle - The subtask title.
+ * @param {Event} event - The event object.
+ */
 function removeEditSubtask(subtaskId, subtaskTitle, event) {
     if (event) event.stopPropagation();
 
@@ -77,8 +92,12 @@ function removeEditSubtask(subtaskId, subtaskTitle, event) {
     }
 }
 
-
-// Uploads a subtask to the database using a PUT request.
+/**
+ * Uploads a subtask to the database using a PUT request.
+ * @param {string} subtaskId - The subtask ID.
+ * @param {Object} subtaskData - The subtask data object.
+ * @returns {Promise<Response>} The fetch promise.
+ */
 function uploadSubtaskToDatabase(subtaskId, subtaskData) {
     if (!subtaskData || typeof subtaskData !== "object") {
         return Promise.reject(new Error(`Invalid subtask data for subtaskId: ${subtaskId}`));
@@ -91,14 +110,22 @@ function uploadSubtaskToDatabase(subtaskId, subtaskData) {
     return fetchFromDatabase(`${BASE_URL}subtasks/${subtaskId}.json`, "PUT", subtaskData);
 }
 
-
-// Deletes a subtask from the database using a DELETE request.
+/**
+ * Deletes a subtask from the database using a DELETE request.
+ * @param {string} subtaskId - The subtask ID.
+ * @returns {Promise<Response>} The fetch promise.
+ */
 function deleteSubtaskFromDatabase(subtaskId) {
     return fetchFromDatabase(`${BASE_URL}subtasks/${subtaskId}.json`, "DELETE");
 }
 
-
-// Sends a fetch request to the database with the specified method and body.
+/**
+ * Sends a fetch request to the database with the specified method and body.
+ * @param {string} url - The request URL.
+ * @param {string} method - The HTTP method.
+ * @param {Object|null} body - The request body.
+ * @returns {Promise<Response>} The fetch promise.
+ */
 function fetchFromDatabase(url, method, body = null) {
     return fetch(url, {
         method,

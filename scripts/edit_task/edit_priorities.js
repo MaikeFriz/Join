@@ -1,4 +1,7 @@
-// Sets the active priority button based on the given priority.
+/**
+ * Sets the active priority button based on the given priority.
+ * @param {string} priority - The priority value ("urgent", "medium", or "low").
+ */
 function setPriorityActive(priority) {
   const priorityMap = {
     urgent: "edit_urgent_button",
@@ -15,8 +18,9 @@ function setPriorityActive(priority) {
   }
 }
 
-
-// Initializes click event listeners for priority buttons.
+/**
+ * Initializes click event listeners for priority buttons.
+ */
 function initializePriorityButtons() {
   const buttons = document.querySelectorAll(".priority-buttons-div > div");
 
@@ -26,8 +30,10 @@ function initializePriorityButtons() {
   }
 }
 
-
-// Handles the click event for priority buttons and updates the active state.
+/**
+ * Handles the click event for priority buttons and updates the active state.
+ * @param {HTMLElement} clickedButton - The button element that was clicked.
+ */
 function handleButtonClick(clickedButton) {
   const buttons = document.querySelectorAll(".priority-buttons-div > div");
 

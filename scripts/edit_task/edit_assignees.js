@@ -1,4 +1,8 @@
-// Handles the selection or deselection of an assignee and updates the UI accordingly.
+/**
+ * Handles the selection or deselection of an assignee and updates the UI accordingly.
+ * @param {string} userId - The user ID.
+ * @param {boolean} isChecked - Whether the assignee is selected.
+ */
 function handleAssigneeSelection(userId, isChecked) {
     if (isChecked) {
         addAssigneeToEditUI(userId);
@@ -7,8 +11,10 @@ function handleAssigneeSelection(userId, isChecked) {
     }
 }
 
-
-// Generates the HTML for the edit assigned to dropdown.
+/**
+ * Adds the assignee to the edit UI by their user ID.
+ * @param {string} userId - The user ID.
+ */
 function addAssigneeToEditUI(userId) {
     const assignedUsersDiv = document.querySelector(".edit-assigned-users");
     const user = kanbanData.users[userId];
@@ -19,8 +25,10 @@ function addAssigneeToEditUI(userId) {
     assignedUsersDiv.innerHTML += userHTML;
 }
 
-
-// Removes the assignee from the edit UI by their user ID.
+/**
+ * Removes the assignee from the edit UI by their user ID.
+ * @param {string} userId - The user ID.
+ */
 function removeAssigneeFromEditUI(userId) {
     const userElement = document.getElementById(`assigned_user_${userId}`);
     if (userElement) {
@@ -28,8 +36,11 @@ function removeAssigneeFromEditUI(userId) {
     }
 }
 
-
-// Generates the HTML for the list of assignees in the dropdown.
+/**
+ * Generates the HTML for the list of assignees in the dropdown.
+ * @param {Object} kanbanData - The kanban data object.
+ * @returns {string} The HTML string for all assignees.
+ */
 function getEditAssignees(kanbanData) {
     if (!kanbanData || !kanbanData.users) {
         return '';
@@ -47,8 +58,10 @@ function getEditAssignees(kanbanData) {
     return assigneesHTML;
 }
 
-
-// Updates the "edit-assigned-users" div with the initials of the assigned users.
+/**
+ * Updates the "edit-assigned-users" div with the initials of the assigned users.
+ * @param {string} taskId - The task ID.
+ */
 function displayEditAssignees(taskId) {
     const assignedUsersDiv = document.querySelector(".edit-assigned-users");
     const taskContent = getTaskContent(taskId, kanbanData);
@@ -62,8 +75,11 @@ function displayEditAssignees(taskId) {
     updateDropdownCheckboxes(assignees);
 }
 
-
-// Renders the HTML for the assigned users.
+/**
+ * Renders the HTML for the assigned users.
+ * @param {Array<string>} assignees - Array of assignee user IDs.
+ * @returns {string} The HTML string for all assigned users.
+ */
 function renderEditAssignees(assignees) {
     let assigneeHTML = "";
     for (let assigneeIndex = 0; assigneeIndex < assignees.length; assigneeIndex++) {
@@ -80,8 +96,10 @@ function renderEditAssignees(assignees) {
     return assigneeHTML;
 }
 
-
-// Updates the state of checkboxes in the dropdown based on assigned user IDs.
+/**
+ * Updates the state of checkboxes in the dropdown based on assigned user IDs.
+ * @param {Array<string>} assignedUserIds - Array of assigned user IDs.
+ */
 function updateDropdownCheckboxes(assignedUserIds) {
     const checkboxes = document.querySelectorAll(".dropdown-edit-assigned-to input[type='checkbox']");
     checkboxes.forEach((checkbox) => {
@@ -94,8 +112,10 @@ function updateDropdownCheckboxes(assignedUserIds) {
     });
 }
 
-
-// Sets the checkbox to checked state and updates the UI.
+/**
+ * Sets the checkbox to checked state and updates the UI.
+ * @param {HTMLInputElement} checkbox - The checkbox element.
+ */
 function setCheckboxChecked(checkbox) {
     checkbox.checked = true;
     let parentLabel = checkbox.parentElement;
@@ -103,8 +123,10 @@ function setCheckboxChecked(checkbox) {
     parentLabel.querySelector(".checkbox-svg.checked").classList.remove("hidden");
 }
 
-
-// Sets the checkbox to unchecked state and updates the UI.
+/**
+ * Sets the checkbox to unchecked state and updates the UI.
+ * @param {HTMLInputElement} checkbox - The checkbox element.
+ */
 function setCheckboxUnchecked(checkbox) {
     checkbox.checked = false;
     let parentLabel = checkbox.parentElement;
@@ -112,8 +134,10 @@ function setCheckboxUnchecked(checkbox) {
     parentLabel.querySelector(".checkbox-svg.checked").classList.add("hidden");
 }
 
-
-// Helper function to collect assigned users from the edit modal
+/**
+ * Collects assigned users from the edit modal.
+ * @returns {Object} An object with user IDs as keys and true as values.
+ */
 function getAssignedUsersFromEdit() {
     const assignedUsersDiv = document.querySelectorAll(".edit-assigned-users .dropdown-edit-assignee-initials");
     const assignees = {};
@@ -125,8 +149,11 @@ function getAssignedUsersFromEdit() {
     return assignees;
 }
 
-
-// Extracts and returns the initials from a given name.
+/**
+ * Extracts and returns the initials from a given name.
+ * @param {string} name - The full name of the user.
+ * @returns {string} The initials of the user.
+ */
 function getAssigneeInitals(name) {
     if (!name || typeof name !== "string") {
         return "??";
