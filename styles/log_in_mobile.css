@@ -17,16 +17,11 @@
         padding: 16px 0;
     }
 
-    .button_log_in_input_section {
-        width: 60%;
-        height: 48px !important;
-    }
-
+    .button_log_in_input_section,
     .button_sign_up_input_section {
         width: 60%;
         height: 48px !important;
     }
-
 }
 
 @media(max-width:450px) {
@@ -70,11 +65,6 @@
         margin-bottom: 8px;
     }
 
-    .input_label {
-        width: 280px;
-        width: 260px;
-    }
-
     .right_header_section {
         display: none;
     }
@@ -106,12 +96,7 @@
         font-size: 32px !important;
     }
 
-    .button_log_in_input_section {
-        padding: 8px 8px;
-        height: auto;
-        font-size: 16px;
-    }
-
+    .button_log_in_input_section,
     .button_sign_up_input_section {
         padding: 8px 8px;
         height: auto;
@@ -146,11 +131,6 @@
 
     .main_content {
         padding: 0 0;
-    }
-
-    html,
-    body {
-        overflow: hidden;
     }
 
     .blue_loading_screen {

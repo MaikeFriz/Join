@@ -16,17 +16,24 @@ document.addEventListener("DOMContentLoaded", async function () {
   let taskForm = document.getElementById("task_form");
 
 
+  // Gets all existing task IDs (from DB or localStorage)
+  async function getAllTaskIds() {
+    let tasks;
+    if (isGuest) {
+      let data = JSON.parse(localStorage.getItem("guestKanbanData"));
+      tasks = data?.tasks || {};
+    } else {
+      let response = await fetch(`${BASE_URL}tasks.json`);
+      tasks = await response.json();
+    }
+    return tasks ? Object.keys(tasks) : [];
+  }
+
+    
   // Generates a new unique task ID
   async function getNewTaskId() {
     try {
-      let response = await fetch(`${BASE_URL}tasks.json`);
-      let tasks = await response.json();
-      if (isGuest) {
-        let data = JSON.parse(localStorage.getItem("guestKanbanData"));
-        tasks = data.tasks;
-      }
-      if (!tasks) return "task1";
-      let taskIds = Object.keys(tasks);
+      let taskIds = await getAllTaskIds();
       if (taskIds.length === 0) return "task1";
       let maxTaskId = taskIds.reduce((max, id) => {
         let numericId = parseInt(id.replace("task", ""), 10);
@@ -38,30 +45,41 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
   }
 
+    
+  // Adds the submit event listener to the task form
+  function addTaskFormListener() {
+    taskForm.addEventListener("submit", onTaskFormSubmit);
+  }
 
-  // Adds the submit event listener to the add task form and handles task creation
-function addTaskFormListener() {
-  taskForm.addEventListener("submit", async function (event) {
+    
+  // Handles validation and form submission logic
+  async function onTaskFormSubmit(event) {
     event.preventDefault();
+
     if (!validateTaskForm()) {
       hideLoadingSpinner();
       return;
     }
 
     showLoadingSpinner();
+    await handleTaskCreation();
+    hideLoadingSpinner();
+  }
+
+    
+  // Handles task creation and saving logic
+  async function handleTaskCreation() {
     try {
       const taskData = getTaskDetails();
       const newTaskId = await getNewTaskId();
       const isGuest = JSON.parse(localStorage.getItem("isGuest"));
       const userId = isGuest ? "guest" : user.userId;
       await saveTaskToDatabase(newTaskId, taskData, userId);
-    } finally {
-      hideLoadingSpinner();
+    } catch (error) {
     }
-  });
-}
+  }
 
-
+    
   // Collects all task details from the form fields
   function getTaskDetails() {
     let title = document.getElementById("input_title").value;
@@ -88,17 +106,16 @@ function addTaskFormListener() {
     };
   }
 
-
   // Returns the selected assignees as an object
-function getAssignedUsers() {
-  let assignees = {};
-  for (let assigneeId in assigneesObject) {
-    if (assigneesObject.hasOwnProperty(assigneeId)) {
-      assignees[assigneeId] = true;
+  function getAssignedUsers() {
+    let assignees = {};
+    for (let assigneeId in assigneesObject) {
+      if (assigneesObject.hasOwnProperty(assigneeId)) {
+        assignees[assigneeId] = true;
+      }
     }
+    return assignees;
   }
-  return assignees;
-}
 
 
   // Returns the selected subtasks as an object
@@ -238,37 +255,6 @@ function getAssignedUsers() {
   }
 
 
-  // Adds the task to the guest's to-do list in localStorage
-  function addTaskToUserToDoList(taskId, userId) {
-    const isGuest = JSON.parse(localStorage.getItem("isGuest"));
-    if (isGuest) {
-      let data = JSON.parse(localStorage.getItem("guestKanbanData")) || { users: { user: { assignedTasks: { toDo: {} } } } };
-      if (!data.users.user.assignedTasks.toDo) {
-        data.users.user.assignedTasks.toDo = {};
-      }
-      data.users.user.assignedTasks.toDo[taskId] = true;
-      localStorage.setItem("guestKanbanData", JSON.stringify(data));
-      return Promise.resolve(data.users.user.assignedTasks.toDo);
-    } else {
-      fetch(`${BASE_URL}users/${userId}/assignedTasks/toDo.json`)
-        .then((response) => response.json())
-        .then((existingTasks) => {
-          existingTasks = existingTasks || {};
-          existingTasks[taskId] = true;
-          return fetch(`${BASE_URL}users/${userId}/assignedTasks/toDo.json`, {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(existingTasks),
-          });
-        })
-        .then(() => { })
-        .catch((error) => { });
-    }
-  }
-
-
   // Waits for all asynchronous save operations to complete before proceeding
   async function waitForTaskSaveOperations(taskId) {
     try {
@@ -349,7 +335,6 @@ function getAssignedUsers() {
 function showLoadingSpinner() {
   document.getElementById("loading_spinner").style.display = "flex";
 }
-
 
 function hideLoadingSpinner() {
   document.getElementById("loading_spinner").style.display = "none";

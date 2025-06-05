@@ -206,7 +206,7 @@ header {
 
 .input_icon {
     position: absolute;
-    right: 10px;
+    right: 16px;
     top: 50%;
     transform: translateY(-50%);
     width: 20px;
