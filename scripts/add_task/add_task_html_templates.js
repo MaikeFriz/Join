@@ -1,3 +1,4 @@
+// Returns HTML for a single subtask element with edit and delete buttons
 function getSubtaskElementHTML(subtaskText) {
   return `
     <span class="subtask-text">${subtaskText}</span>
@@ -9,6 +10,7 @@ function getSubtaskElementHTML(subtaskText) {
 }
 
 
+// Returns HTML for the edit icons (check and cancel) in the subtask edit mode
 function getEditIconsHTML() {
   return `
     <img class="check-icon" src="./assets/img/check_dark.svg" alt="Save" />
@@ -18,6 +20,7 @@ function getEditIconsHTML() {
 }
 
 
+// Returns HTML for a dropdown option for assigning a user, including checkbox and initials
 function getDropdownOptionHTML(user) {
   const isChecked = assigneesObject[user.id] ? "checked_checkbox.svg" : "checkbox_unchecked.svg";
   const initials = getAssigneeInitials(user.name);
@@ -36,6 +39,7 @@ function getDropdownOptionHTML(user) {
 }
 
 
+// Returns HTML for an assignee item with initials
 function createAssigneeTemplate(userId, userName) {
   const initials = getAssigneeInitials(userName);
   const firstLetter = userName[0].toLowerCase();

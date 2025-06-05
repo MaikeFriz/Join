@@ -1,10 +1,12 @@
 let subtasksObject = {};
 let highestSubtaskId = 0;
 
+
 // Initializes subtask input listeners on DOMContentLoaded
 document.addEventListener("DOMContentLoaded", function () {
   initializeSubtaskListeners();
 });
+
 
 // Sets up event listeners for subtask input and icons
 function initializeSubtaskListeners() {
@@ -27,6 +29,7 @@ function initializeSubtaskListeners() {
   checkIcon.addEventListener("click", () => addSubtask(inputSubtask));
 }
 
+
 // Toggles visibility of add and input icons based on input value
 function toggleIcons(inputSubtask, addIcon, inputIcons) {
   const isNotEmpty = inputSubtask.value.trim() !== "";
@@ -34,11 +37,13 @@ function toggleIcons(inputSubtask, addIcon, inputIcons) {
   inputIcons.style.display = isNotEmpty ? "flex" : "none";
 }
 
+
 // Resets icons to default state if input is empty
 function resetIcons(inputSubtask, addIcon, inputIcons) {
   if (inputSubtask.value.trim() === "")
     toggleIcons(inputSubtask, addIcon, inputIcons);
 }
+
 
 // Clears the subtask input and resets icons
 function clearInput(inputSubtask, addIcon, inputIcons) {
@@ -47,11 +52,13 @@ function clearInput(inputSubtask, addIcon, inputIcons) {
   inputSubtask.focus();
 }
 
+
 // Displays a subtask in the subtask list
 function displaySubtask(subtaskId, subtaskText) {
   const subtaskElement = createSubtaskElement(subtaskId, subtaskText);
   document.getElementById("display_subtasks").appendChild(subtaskElement);
 }
+
 
 // Creates a subtask list item element with edit and delete functionality
 function createSubtaskElement(subtaskId, subtaskText) {
@@ -71,6 +78,7 @@ function createSubtaskElement(subtaskId, subtaskText) {
   return subtaskElement;
 }
 
+
 // Sets up double-click and edit button events for editing a subtask
 function setupEditEvents(span, subtaskId, deleteButton) {
   span.addEventListener("dblclick", () => {
@@ -85,6 +93,7 @@ function setupEditEvents(span, subtaskId, deleteButton) {
   });
 }
 
+
 // Opens the edit mode for a subtask
 function openEditMode(span, subtaskId, deleteButton) {
   const inputContainer = createEditContainer(span, subtaskId, deleteButton);
@@ -94,16 +103,23 @@ function openEditMode(span, subtaskId, deleteButton) {
   subtaskItem.classList.add("editing");
 }
 
-// Creates the input container and icons for editing a subtask
+
+// Creates the input container for editing a subtask
 function createEditContainer(span, subtaskId, deleteButton) {
   const inputContainer = document.createElement("div");
   inputContainer.className = "edit-subtask-container";
+  const inputWrapper = createInputWrapper(span, subtaskId, deleteButton, inputContainer);
+  inputContainer.appendChild(inputWrapper);
+  focusEditInput(inputWrapper);
+  return inputContainer;
+}
+
+
+// Creates the input wrapper with input and icons for editing
+function createInputWrapper(span, subtaskId, deleteButton, inputContainer) {
   const inputWrapper = document.createElement("div");
   inputWrapper.className = "input-wrapper";
-  const input = document.createElement("input");
-  input.type = "text";
-  input.value = span.textContent;
-  input.className = "edit-subtask-input";
+  const input = createEditInput(span);
   const iconsContainer = createEditIcons(
     input,
     () => saveEdit(input, span, subtaskId, inputContainer, deleteButton),
@@ -111,8 +127,23 @@ function createEditContainer(span, subtaskId, deleteButton) {
   );
   inputWrapper.appendChild(input);
   inputWrapper.appendChild(iconsContainer);
-  inputContainer.appendChild(inputWrapper);
-  input.focus();
+  addEditInputListeners(input, span, subtaskId, inputContainer, deleteButton);
+  return inputWrapper;
+}
+
+
+// Creates the input element for editing a subtask
+function createEditInput(span) {
+  const input = document.createElement("input");
+  input.type = "text";
+  input.value = span.textContent;
+  input.className = "edit-subtask-input";
+  return input;
+}
+
+
+// Adds event listeners for blur and keydown to the edit input
+function addEditInputListeners(input, span, subtaskId, inputContainer, deleteButton) {
   input.addEventListener("blur", () =>
     saveEdit(input, span, subtaskId, inputContainer, deleteButton)
   );
@@ -121,8 +152,15 @@ function createEditContainer(span, subtaskId, deleteButton) {
       saveEdit(input, span, subtaskId, inputContainer, deleteButton);
     if (e.key === "Escape") cancelEdit(inputContainer, span, deleteButton);
   });
-  return inputContainer;
 }
+
+
+// Focuses the input field inside the input wrapper
+function focusEditInput(inputWrapper) {
+  const input = inputWrapper.querySelector("input");
+  if (input) input.focus();
+}
+
 
 // Creates the icons for editing a subtask and sets up their events
 function createEditIcons(input, onSave, onCancel) {
@@ -132,6 +170,8 @@ function createEditIcons(input, onSave, onCancel) {
 
   let clearIcon = iconsContainer.querySelector(".clear_icon_show_subtask");
 
+
+  // Creates the delete icon for the subtask edit input
   function createDeleteIcon() {
     const deleteImg = document.createElement("img");
     deleteImg.className = "delete_icon_show_subtask";
@@ -142,6 +182,8 @@ function createEditIcons(input, onSave, onCancel) {
     return deleteImg;
   }
 
+
+  // Creates the clear (cancel) icon for the subtask edit input
   function createClearIcon() {
     const newClearIcon = document.createElement("img");
     newClearIcon.className = "clear_icon_show_subtask";
@@ -151,6 +193,8 @@ function createEditIcons(input, onSave, onCancel) {
     return newClearIcon;
   }
 
+
+  // Handles click on the delete icon to remove the subtask
   function handleDeleteClick(e) {
     e.preventDefault();
     e.stopPropagation();
@@ -161,6 +205,8 @@ function createEditIcons(input, onSave, onCancel) {
     }
   }
 
+
+  // Handles click on the clear icon to clear the input field
   function handleClearClick(e) {
     e.preventDefault();
     e.stopPropagation();
@@ -168,6 +214,8 @@ function createEditIcons(input, onSave, onCancel) {
     switchToDeleteIcon();
   }
 
+
+  // Switches the icon to the delete icon
   function switchToDeleteIcon() {
     const deleteImg = createDeleteIcon();
     clearIcon.replaceWith(deleteImg);
@@ -175,6 +223,8 @@ function createEditIcons(input, onSave, onCancel) {
     clearIcon = deleteImg;
   }
 
+
+  // Switches the icon to the clear icon
   function switchToClearIcon() {
     const newClearIcon = createClearIcon();
     clearIcon.replaceWith(newClearIcon);
@@ -182,14 +232,18 @@ function createEditIcons(input, onSave, onCancel) {
     clearIcon = newClearIcon;
   }
 
+
+  // Handles input changes to switch icons based on input value
   function handleInputChange() {
     if (input.value.trim() === "") {
       switchToDeleteIcon();
     }
   }
 
+
   clearIcon.addEventListener("mousedown", handleClearClick);
 
+  // Handles switching icons when input value changes
   input.addEventListener("input", () => {
     if (input.value.trim() === "" && !clearIcon.classList.contains("delete_icon_show_subtask")) {
       switchToDeleteIcon();
@@ -198,6 +252,7 @@ function createEditIcons(input, onSave, onCancel) {
     }
   });
 
+  // Handles saving the edit when Enter is pressed
   input.addEventListener("keydown", (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
@@ -233,6 +288,7 @@ function cancelEdit(inputContainer, span, deleteButton) {
   subtaskItem.replaceWith(updatedElement);
 }
 
+// Deletes a subtask from the subtasks object and removes it from the DOM
 function removeSubtask(subtaskId, subtaskElement) {
   delete subtasksObject[subtaskId];
   subtaskElement.remove();
@@ -272,7 +328,7 @@ async function loadHighestSubtaskId() {
   }
 }
 
-// Loads the highest subtask ID for guest or user to avoid ID conflicts
+// Gets the highest subtask ID for a guest from localStorage
 function getHighestSubtaskIdForGuest() {
   const guestData = JSON.parse(localStorage.getItem("guestKanbanData")) || {};
   const guestSubtasks = guestData.subtasks || {};
@@ -310,11 +366,12 @@ async function getHighestSubtaskIdForUser() {
   return highestSubtask;
 }
 
-// Loading Spinner functions
+// Shows the loading spinner
 function showLoadingSpinner() {
   document.getElementById("loading_spinner").style.display = "flex";
 }
 
+// Hides the loading spinner
 function hideLoadingSpinner() {
   document.getElementById("loading_spinner").style.display = "none";
 }
