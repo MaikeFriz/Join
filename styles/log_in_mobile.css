@@ -25,11 +25,25 @@
 }
 
 @media(max-width:450px) {
-
+    #blue_loading_screen {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
     html,
     body {
         overflow-y: auto;
     }
+
+    .logo_header_placeholder {
+        width: 30px; 
+        height: 70px; 
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+    }
+    
     .main_content{
         height: calc(100vh - 200px);
         justify-content: center;

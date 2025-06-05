@@ -2,21 +2,22 @@
 function handleLoadingScreen() {
   const loadingScreen = document.getElementById("blue_loading_screen");
   const pageContent = document.querySelector(".page_content");
-
-  if (window.innerWidth <= 450) {
-    pageContent.style.display = "none";
+  loadingScreen.classList.add("visible");
+  setTimeout(() => {
+    loadingScreen.classList.add("fade-out");
+    loadingScreen.classList.remove("visible");
     setTimeout(() => {
       loadingScreen.style.display = "none";
-      pageContent.style.display = "";
+      if (pageContent) {
+        pageContent.style.display = "block";
+        void pageContent.offsetWidth;
+        pageContent.classList.add("visible");
+      }
       setupLoginForm();
       setupLogoAnimationReset();
-    }, 1500);
-  } else {
-    setupLoginForm();
-    setupLogoAnimationReset();
-  }
+    }, 600); 
+  }, 1200);
 }
-
 
 // Handles logo animation end event to reset logo styles
 function setupLogoAnimationReset() {
@@ -321,3 +322,4 @@ function handleError(error, errorMessage) {
   hideLoadingSpinner();
   errorMessage.textContent = "Error logging in: " + error.message;
 }
+
