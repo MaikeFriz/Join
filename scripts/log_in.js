@@ -17,6 +17,7 @@ function handleLoadingScreen() {
   }
 }
 
+
 // Handles logo animation end event to reset logo styles
 function setupLogoAnimationReset() {
   const logoHeader = document.querySelector(".logo_header");
@@ -32,6 +33,7 @@ function setupLogoAnimationReset() {
   }
 }
 
+
 // Handles DOMContentLoaded: sets up form, error message, and event listeners for login and guest login
 function setupLoginForm() {
   const form = document.getElementById("log-in-form");
@@ -39,38 +41,60 @@ function setupLoginForm() {
   const passwordInput = document.getElementById("input_password");
   const forgotPasswordDiv = document.getElementById("forgot_password_div");
 
-  document
-    .getElementById("guestButton")
-    .addEventListener("click", function (event) {
+  setupGuestButton();
+  setupLoginFormSubmit(form, emailInput, passwordInput);
+  hideForgotPasswordInitially(forgotPasswordDiv);
+}
+
+
+// Sets up the guest login button event listener
+function setupGuestButton() {
+  const guestButton = document.getElementById("guestButton");
+  if (guestButton) {
+    guestButton.addEventListener("click", function (event) {
       event.preventDefault();
       guestLogin();
     });
+  }
+}
 
-  form.addEventListener("submit", function (event) {
-    event.preventDefault();
-    showLoadingSpinner();
-    handleFormSubmit(event, emailInput, passwordInput);
-  });
 
-  // Initial hide forgot password
+// Sets up the login form submit event listener
+function setupLoginFormSubmit(form, emailInput, passwordInput) {
+  if (form) {
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
+      showLoadingSpinner();
+      handleFormSubmit(event, emailInput, passwordInput);
+    });
+  }
+}
+
+
+// Hides the forgot password div initially
+function hideForgotPasswordInitially(forgotPasswordDiv) {
   if (forgotPasswordDiv) {
     forgotPasswordDiv.classList.add("d_none_forgot_password-div");
   }
 }
+
 
 // Loading Spinner functions
 function showLoadingSpinner() {
   document.getElementById("loading_spinner").style.display = "flex";
 }
 
+
 function hideLoadingSpinner() {
   document.getElementById("loading_spinner").style.display = "none";
 }
+
 
 // Loads guest data from local storage (not implemented)
 function loadGuestDataFromLocalStorage() {
   return;
 }
+
 
 // Handles guest login: sets guest state, fetches guest data, and redirects to summary
 async function guestLogin() {
@@ -84,6 +108,7 @@ async function guestLogin() {
   window.location.href = "./summary.html";
 }
 
+
 // Handles the login form submission: validates input and authenticates user
 function handleFormSubmit(event, emailInput, passwordInput) {
   const email = emailInput.value.trim();
@@ -96,11 +121,13 @@ function handleFormSubmit(event, emailInput, passwordInput) {
   authenticateUser(email, password, errorMessage);
 }
 
+
 // Checks if a user is currently logged in
 function isUserLoggedIn() {
   const loggedInUser = localStorage.getItem("loggedInUser");
   return loggedInUser !== null;
 }
+
 
 // Clears input field styles and hides error messages
 function clearInputStyles(emailInput, passwordInput, errorMessage) {
@@ -112,6 +139,7 @@ function clearInputStyles(emailInput, passwordInput, errorMessage) {
     forgotPasswordDiv.classList.add("d_none_forgot_password-div");
   }
 }
+
 
 // Shows an error message and marks input fields as invalid
 function showError(emailInput, passwordInput, errorMessage, message) {
@@ -125,11 +153,13 @@ function showError(emailInput, passwordInput, errorMessage, message) {
   }
 }
 
+
 // Validates the email format using a regex
 function isEmailFormatValid(email) {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
 }
+
 
 // Validates login input fields and shows errors if invalid
 function isInputValid(email, password) {
@@ -137,6 +167,19 @@ function isInputValid(email, password) {
   const passwordInput = document.getElementById("input_password");
   const errorMessage = document.getElementById("login-error-message");
   clearInputStyles(emailInput, passwordInput, errorMessage);
+
+  if (!areCredentialsFilled(email, password, emailInput, passwordInput, errorMessage)) {
+    return false;
+  }
+  if (!isEmailFormatValidAndShowError(email, emailInput, passwordInput, errorMessage)) {
+    return false;
+  }
+  return true;
+}
+
+
+// Checks if email and password are filled, shows error if not
+function areCredentialsFilled(email, password, emailInput, passwordInput, errorMessage) {
   if (!email || !password) {
     showError(
       emailInput,
@@ -146,6 +189,12 @@ function isInputValid(email, password) {
     );
     return false;
   }
+  return true;
+}
+
+
+// Checks if email format is valid, shows error if not
+function isEmailFormatValidAndShowError(email, emailInput, passwordInput, errorMessage) {
   if (!isEmailFormatValid(email)) {
     showError(
       emailInput,
@@ -157,6 +206,7 @@ function isInputValid(email, password) {
   }
   return true;
 }
+
 
 // Fetches user data from the database and authenticates the user
 function authenticateUser(email, password, errorMessage) {
@@ -170,6 +220,7 @@ function authenticateUser(email, password, errorMessage) {
     .catch((error) => handleError(error, errorMessage));
 }
 
+
 // Handles the authentication response: logs in user or shows error
 function handleAuthenticationResponse(data, email, password, errorMessage) {
   const userKey = findUserKey(data, email, password);
@@ -180,6 +231,7 @@ function handleAuthenticationResponse(data, email, password, errorMessage) {
   }
 }
 
+
 // Handles successful login: stores user, hides spinner, and redirects
 function handleSuccessfulLogin(data, userKey) {
   hideLoginError();
@@ -188,6 +240,7 @@ function handleSuccessfulLogin(data, userKey) {
   hideLoadingSpinner();
   redirectToSummary();
 }
+
 
 // Handles failed login: shows error, marks inputs, and resets fields
 function handleFailedLogin() {
@@ -202,6 +255,7 @@ function handleFailedLogin() {
   hideLoadingSpinner();
 }
 
+
 // Shows the login error message
 function showLoginError(message) {
   const errorDiv = document.getElementById("login-error-message");
@@ -209,11 +263,13 @@ function showLoginError(message) {
   errorDiv.style.display = "block";
 }
 
+
 // Hides the login error message
 function hideLoginError() {
   const errorDiv = document.getElementById("login-error-message");
   errorDiv.textContent = "";
 }
+
 
 // Marks the email and password input fields as invalid
 function markInputsAsInvalid() {
@@ -223,6 +279,7 @@ function markInputsAsInvalid() {
   passwordInput.style.border = "1px solid red";
 }
 
+
 // Resets the input field borders to default
 function resetInputBorders() {
   const emailInput = document.getElementById("input_email");
@@ -231,10 +288,12 @@ function resetInputBorders() {
   passwordInput.style.border = "";
 }
 
+
 // Redirects the user to the summary page after successful login
 function redirectToSummary() {
   window.location.href = "./summary.html";
 }
+
 
 // Finds the user key in the database matching the given email and password
 function findUserKey(data, email, password) {
@@ -242,6 +301,7 @@ function findUserKey(data, email, password) {
     (key) => data[key].email === email && data[key].password === password
   );
 }
+
 
 // Stores the logged-in user in localStorage and clears guest data
 function storeUserInLocalStorage(data, userKey) {
@@ -254,6 +314,7 @@ function storeUserInLocalStorage(data, userKey) {
   localStorage.removeItem("isGuest");
   localStorage.removeItem("guestKanbanData");
 }
+
 
 // Handles errors during authentication and displays an error message
 function handleError(error, errorMessage) {
