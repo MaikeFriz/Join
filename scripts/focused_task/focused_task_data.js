@@ -1,4 +1,7 @@
-// Fetches all user data from the database
+/**
+ * Fetches all user data from the database.
+ * @returns {Promise<Object>} The users data object.
+ */
 async function getUsers() {
   const userResponse = await fetch(`${BASE_URL}users.json`);
   if (!userResponse.ok) {
@@ -9,8 +12,10 @@ async function getUsers() {
   return userResponse.json();
 }
 
-
-// Fetches all assigned user data from the database
+/**
+ * Fetches all assigned user data from the database.
+ * @returns {Promise<Object>} The assigned users data object.
+ */
 async function getAssignedData() {
   const userResponse = await fetch(`${BASE_URL}users.json`);
   if (!userResponse.ok) {
@@ -21,8 +26,10 @@ async function getAssignedData() {
   return userResponse.json();
 }
 
-
-// Retrieves and removes the task from all users' assigned tasks
+/**
+ * Retrieves and removes the task from all users' assigned tasks.
+ * @param {string} taskId - The ID of the task.
+ */
 async function getUsersTasks(taskId) {
   const usersData = await getUsers().catch((error) => null);
   if (!usersData) return;
@@ -38,8 +45,12 @@ async function getUsersTasks(taskId) {
   }
 }
 
-
-// Processes each category of assigned tasks for a user and deletes the task
+/**
+ * Processes each category of assigned tasks for a user and deletes the task.
+ * @param {string} userId - The user ID.
+ * @param {string} taskId - The ID of the task.
+ * @param {Object} userTasks - The user's assigned tasks object.
+ */
 async function getCategory(userId, taskId, userTasks) {
   const categories = Object.keys(userTasks);
 
@@ -55,8 +66,10 @@ async function getCategory(userId, taskId, userTasks) {
   }
 }
 
-
-// Removes the task from all assignees' lists
+/**
+ * Removes the task from all assignees' lists.
+ * @param {string} taskId - The ID of the task.
+ */
 async function getAssigneesTasks(taskId) {
   const usersData = await getAssignedData().catch((error) => null);
 

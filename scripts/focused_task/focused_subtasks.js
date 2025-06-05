@@ -1,4 +1,9 @@
-// Renders the subtasks for a given task by generating HTML based on their data
+/**
+ * Renders the subtasks for a given task by generating HTML based on their data.
+ * @param {Object} subtaskRefs - The references to the subtasks for the task.
+ * @param {Object} allSubtasks - All available subtasks data.
+ * @returns {string} The HTML string for all subtasks.
+ */
 function renderSubtasks(subtaskRefs, allSubtasks) {
   if (!subtaskRefs || !allSubtasks) return "<div>No Subtasks</div>";
   const titles = Object.keys(subtaskRefs).map((subtaskId) => {
@@ -11,8 +16,11 @@ function renderSubtasks(subtaskRefs, allSubtasks) {
   return titles.join("");
 }
 
-
-// Updates the completion status of a subtask for guest users
+/**
+ * Updates the completion status of a subtask for guest users.
+ * @param {string} subtaskId - The subtask ID.
+ * @param {boolean} isChecked - The completion status.
+ */
 function updateSubtaskForGuest(subtaskId, isChecked) {
   const guestData = JSON.parse(localStorage.getItem("guestKanbanData"));
   if (guestData && guestData.subtasks && guestData.subtasks[subtaskId]) {
@@ -25,8 +33,12 @@ function updateSubtaskForGuest(subtaskId, isChecked) {
   }
 }
 
-
-// Updates the completion status of a subtask in the database
+/**
+ * Updates the completion status of a subtask in the database.
+ * @param {string} subtaskId - The subtask ID.
+ * @param {boolean} isChecked - The completion status.
+ * @param {Function} callback - Callback to execute after update.
+ */
 function updateSubtaskInDatabase(subtaskId, isChecked, callback) {
   const url = `${BASE_URL}subtasks/${subtaskId}/completed.json`;
   fetch(url, {
@@ -38,8 +50,13 @@ function updateSubtaskInDatabase(subtaskId, isChecked, callback) {
     .catch((error) => {});
 }
 
-
-// Handles the fetch response and updates in-memory data and callback
+/**
+ * Handles the fetch response and updates in-memory data and callback.
+ * @param {string} subtaskId - The subtask ID.
+ * @param {boolean} isChecked - The completion status.
+ * @param {Function} callback - Callback to execute after update.
+ * @returns {Function} A function to handle the fetch response.
+ */
 function handleSubtaskUpdateResponse(subtaskId, isChecked, callback) {
   return (response) => {
     if (!response.ok) {
@@ -56,8 +73,11 @@ function handleSubtaskUpdateResponse(subtaskId, isChecked, callback) {
   };
 }
 
-
-// Toggles the completion status of a subtask and delegates to the appropriate function
+/**
+ * Toggles the completion status of a subtask and delegates to the appropriate function.
+ * @param {string} subtaskId - The subtask ID.
+ * @param {boolean} isChecked - The completion status.
+ */
 function toggleSubtaskCompletion(subtaskId, isChecked) {
   const isGuest = JSON.parse(localStorage.getItem("isGuest"));
 
@@ -71,8 +91,11 @@ function toggleSubtaskCompletion(subtaskId, isChecked) {
   }
 }
 
-
-// Finds the taskId that a given subtask belongs to
+/**
+ * Finds the taskId that a given subtask belongs to.
+ * @param {string} subtaskId - The subtask ID.
+ * @returns {string|null} The task ID or null if not found.
+ */
 function findTaskIdBySubtask(subtaskId) {
   for (const tId in kanbanData.tasks) {
     const task = kanbanData.tasks[tId];
@@ -83,8 +106,11 @@ function findTaskIdBySubtask(subtaskId) {
   return null;
 }
 
-
-// Sets the progress bar width, text, and visibility in the overlay based on progress data
+/**
+ * Sets the progress bar width, text, and visibility in the overlay based on progress data.
+ * @param {HTMLElement} focusedContent - The focused task container element.
+ * @param {Object} progressData - The progress data object.
+ */
 function setOverlaySubtaskProgress(focusedContent, progressData) {
   setOverlaySubtaskProgressBar(focusedContent, progressData.progressPercentage);
   setOverlaySubtaskProgressTextAndVisibility(
@@ -95,15 +121,23 @@ function setOverlaySubtaskProgress(focusedContent, progressData) {
   );
 }
 
-
-// Sets the progress bar width in the overlay
+/**
+ * Sets the progress bar width in the overlay.
+ * @param {HTMLElement} focusedContent - The focused task container element.
+ * @param {number} progressPercentage - The progress percentage.
+ */
 function setOverlaySubtaskProgressBar(focusedContent, progressPercentage) {
   const progressBar = focusedContent.querySelector(".subtask-inner-progress-bar");
   if (progressBar) progressBar.style.width = `${progressPercentage}%`;
 }
 
-
-// Sets the progress text and visibility in the overlay
+/**
+ * Sets the progress text and visibility in the overlay.
+ * @param {HTMLElement} focusedContent - The focused task container element.
+ * @param {number} completedSubtasks - Number of completed subtasks.
+ * @param {number} totalSubtasks - Total number of subtasks.
+ * @param {boolean} showProgress - Whether to show the progress bar.
+ */
 function setOverlaySubtaskProgressTextAndVisibility(
   focusedContent,
   completedSubtasks,
@@ -119,8 +153,10 @@ function setOverlaySubtaskProgressTextAndVisibility(
     progressContainer.style.display = showProgress ? "flex" : "none";
 }
 
-
-// Updates the subtask progress bar and text in the overlay for a given task
+/**
+ * Updates the subtask progress bar and text in the overlay for a given task.
+ * @param {string} taskId - The task ID.
+ */
 function updateOverlaySubtaskProgress(taskId) {
   const focusedContent = document.getElementById("focusedTask");
   if (focusedContent && !focusedContent.classList.contains("d-none")) {
@@ -130,8 +166,10 @@ function updateOverlaySubtaskProgress(taskId) {
   }
 }
 
-
-// Updates the board preview subtask bar for a given task if visible
+/**
+ * Updates the board preview subtask bar for a given task if visible.
+ * @param {string} taskId - The task ID.
+ */
 function updateBoardPreviewSubtaskBar(taskId) {
   const boardTask = document.querySelector(`[data-task-id='${taskId}']`);
   if (boardTask && typeof refreshBoardSilent === "function") {
@@ -139,8 +177,10 @@ function updateBoardPreviewSubtaskBar(taskId) {
   }
 }
 
-
-// Updates only the subtask progress bar and text in the overlay and board after a subtask is toggled
+/**
+ * Updates only the subtask progress bar and text in the overlay and board after a subtask is toggled.
+ * @param {string} subtaskId - The subtask ID.
+ */
 function updateSubtaskProgressBarOnly(subtaskId) {
   const taskId = findTaskIdBySubtask(subtaskId);
   if (!taskId) return;

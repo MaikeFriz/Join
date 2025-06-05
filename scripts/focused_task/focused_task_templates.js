@@ -1,4 +1,8 @@
-// Returns the HTML template for the focused task view
+/**
+ * Returns the HTML template for the focused task view.
+ * @param {Object} taskContent - The content object of the task.
+ * @returns {string} The HTML string for the focused task view.
+ */
 function getFocusedTask(taskContent) {
     let { label, fitLabelForCSS, title, description, createAt } = getTaskData(taskContent);
   
@@ -88,10 +92,13 @@ function getFocusedTask(taskContent) {
         </div>
       </div>
     `;
-  }
+}
 
-  
-// Returns the HTML template for the confirm dialog to delete a task
+/**
+ * Returns the HTML template for the confirm dialog to delete a task.
+ * @param {string} taskId - The ID of the task.
+ * @returns {string} The HTML string for the confirm dialog.
+ */
 function confirmDialogTemplate(taskId) {
     return /*html*/`
         <div class="confirm-dialog-window">
@@ -118,7 +125,13 @@ function confirmDialogTemplate(taskId) {
     `;
 }
 
-// Returns the HTML template for a single subtask line in the focused task view
+/**
+ * Returns the HTML template for a single subtask line in the focused task view.
+ * @param {Object} subtask - The subtask object.
+ * @param {string} isChecked - The checked attribute for the checkbox.
+ * @param {string} subtaskId - The subtask ID.
+ * @returns {string} The HTML string for the subtask line.
+ */
 function focusedSubtaskTemplate(subtask, isChecked, subtaskId) {
     return /*html*/`
       <div class="focused-subtask-line">
@@ -134,8 +147,13 @@ function focusedSubtaskTemplate(subtask, isChecked, subtaskId) {
     `;
 }
 
-
-// Returns the HTML template for a single assignee in the focused task view
+/**
+ * Returns the HTML template for a single assignee in the focused task view.
+ * @param {string} initials - The initials of the assignee.
+ * @param {string} cssClass - The CSS class for the initials.
+ * @param {string} fullName - The full name of the assignee.
+ * @returns {string} The HTML string for the assignee entry.
+ */
 function focusedAssigneeTemplate(initials, cssClass, fullName) {
     return /*html*/`
       <div class="focused-assignee-entry">

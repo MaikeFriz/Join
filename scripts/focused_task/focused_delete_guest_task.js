@@ -1,4 +1,7 @@
-// Deletes a task and all related guest data from localStorage and updates the DOM
+/**
+ * Deletes a task and all related guest data from localStorage and updates the DOM.
+ * @param {string} taskId - The ID of the task to delete.
+ */
 function deleteTaskForGuest(taskId) {
     deleteSubtasksForGuest(taskId);
     deleteTaskFromLocalStorage(taskId);
@@ -7,8 +10,10 @@ function deleteTaskForGuest(taskId) {
     removeGuestTaskFromDOM(taskId);
 }
 
-
-// Deletes all subtasks for a guest task from localStorage
+/**
+ * Deletes all subtasks for a guest task from localStorage.
+ * @param {string} taskId - The ID of the task.
+ */
 function deleteSubtasksForGuest(taskId) {
     if (kanbanData && kanbanData.tasks && kanbanData.tasks[taskId] && kanbanData.tasks[taskId].subtasks) {
         const subtaskRefs = kanbanData.tasks[taskId].subtasks;
@@ -22,8 +27,10 @@ function deleteSubtasksForGuest(taskId) {
     localStorage.setItem("guestKanbanData", JSON.stringify(kanbanData));
 }
 
-
-// Removes the task from localStorage for guest users
+/**
+ * Removes the task from localStorage for guest users.
+ * @param {string} taskId - The ID of the task.
+ */
 function deleteTaskFromLocalStorage(taskId) {
     if (kanbanData && kanbanData.tasks) {
         delete kanbanData.tasks[taskId];
@@ -32,8 +39,10 @@ function deleteTaskFromLocalStorage(taskId) {
     localStorage.setItem("guestKanbanData", JSON.stringify(kanbanData));
 }
 
-
-// Removes a guest task from all categories in localStorage
+/**
+ * Removes a guest task from all categories in localStorage.
+ * @param {string} taskId - The ID of the task.
+ */
 function deleteTaskFromCategoriesForGuest(taskId) {
     if (kanbanData && kanbanData.users && kanbanData.users.guest && kanbanData.users.guest.assignedTasks) {
         const assignedTasks = kanbanData.users.guest.assignedTasks;
@@ -46,8 +55,10 @@ function deleteTaskFromCategoriesForGuest(taskId) {
     localStorage.setItem("guestKanbanData", JSON.stringify(kanbanData));
 }
 
-
-// Removes a guest task from all assignees in localStorage
+/**
+ * Removes a guest task from all assignees in localStorage.
+ * @param {string} taskId - The ID of the task.
+ */
 function deleteTaskFromAssigneesForGuest(taskId) {
     if (!kanbanData || !kanbanData.tasks || !kanbanData.tasks[taskId] || !kanbanData.tasks[taskId].assignees) {
         return;
@@ -61,8 +72,10 @@ function deleteTaskFromAssigneesForGuest(taskId) {
     localStorage.setItem("guestKanbanData", JSON.stringify(kanbanData));
 }
 
-
-// Instantly removes the task from the board and focused overlay in the DOM
+/**
+ * Instantly removes the task from the board and focused overlay in the DOM.
+ * @param {string} taskId - The ID of the task.
+ */
 function removeGuestTaskFromDOM(taskId) {
     const boardTask = document.querySelector(`[data-task-id='${taskId}']`);
     if (boardTask) boardTask.remove();

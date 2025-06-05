@@ -1,4 +1,8 @@
-// Fetches task data from the database
+/**
+ * Fetches task data from the database.
+ * @param {string} taskId - The ID of the task.
+ * @returns {Promise<Object>} The task data object.
+ */
 async function fetchTaskData(taskId) {
   const taskResponse = await fetch(`${BASE_URL}tasks/${taskId}.json`);
   if (!taskResponse.ok) {
@@ -7,20 +11,24 @@ async function fetchTaskData(taskId) {
   return await taskResponse.json();
 }
 
-
-// Displays a loading spinner while the task is being deleted
+/**
+ * Displays a loading spinner while the task is being deleted.
+ */
 function showLoadingSpinner() {
   document.getElementById("loading_spinner_delete_task").style.display = "flex";
 }
 
-
-// Hides the loading spinner after the task deletion is complete
+/**
+ * Hides the loading spinner after the task deletion is complete.
+ */
 function hideLoadingSpinner() {
   document.getElementById("loading_spinner_delete_task").style.display = "none";
 }
 
-
-// Main function to delete a task, delegates to guest or user specific function
+/**
+ * Main function to delete a task, delegates to guest or user specific function.
+ * @param {string} taskId - The ID of the task to delete.
+ */
 async function deleteTask(taskId) {
   showLoadingSpinner();
   try {
@@ -37,8 +45,10 @@ async function deleteTask(taskId) {
   }
 }
 
-
-// Handles the deletion flow for guest users
+/**
+ * Handles the deletion flow for guest users.
+ * @param {string} taskId - The ID of the task.
+ */
 async function deleteTaskForGuestFlow(taskId) {
   await deleteTaskForGuest(taskId);
   closeConfirmDialog();
@@ -48,8 +58,10 @@ async function deleteTaskForGuestFlow(taskId) {
   }
 }
 
-
-// Handles the deletion flow for registered users
+/**
+ * Handles the deletion flow for registered users.
+ * @param {string} taskId - The ID of the task.
+ */
 async function deleteTaskForUserFlow(taskId) {
   await deleteTaskForUser(taskId);
   removeUserTaskFromDOM(taskId);
@@ -64,7 +76,10 @@ async function deleteTaskForUserFlow(taskId) {
   }
 }
 
-// Deletes a task and all related user data from the database
+/**
+ * Deletes a task and all related user data from the database.
+ * @param {string} taskId - The ID of the task.
+ */
 async function deleteTaskForUser(taskId) {
   await waitForDatabaseOperations(taskId);
   await deleteUserTaskAssignments(taskId);
@@ -73,8 +88,10 @@ async function deleteTaskForUser(taskId) {
   await deleteTaskFromDatabase(taskId);
 }
 
-
-// Removes the task from the user's assigned tasks
+/**
+ * Removes the task from the user's assigned tasks.
+ * @param {string} taskId - The ID of the task.
+ */
 async function deleteUserTaskAssignments(taskId) {
   const category = await getTaskCategoryForUser(taskId);
   if (category) {
@@ -83,8 +100,10 @@ async function deleteUserTaskAssignments(taskId) {
   await deleteTaskFromAssigneesForUser(taskId);
 }
 
-
-// Deletes all subtasks related to a user task from the database
+/**
+ * Deletes all subtasks related to a user task from the database.
+ * @param {string} taskId - The ID of the task.
+ */
 async function deleteUserTaskSubtasks(taskId) {
   const taskData = await fetchTaskData(taskId);
   if (taskData && taskData.subtasks) {
@@ -92,8 +111,10 @@ async function deleteUserTaskSubtasks(taskId) {
   }
 }
 
-
-// Removes a user task from all categories in the database
+/**
+ * Removes a user task from all categories in the database.
+ * @param {string} taskId - The ID of the task.
+ */
 async function deleteTaskFromCategoriesForUser(taskId) {
   const response = await fetch(`${BASE_URL}categories.json`);
   const categories = await response.json();
@@ -106,8 +127,10 @@ async function deleteTaskFromCategoriesForUser(taskId) {
   }
 }
 
-
-// Removes a user task from all assignees in the database
+/**
+ * Removes a user task from all assignees in the database.
+ * @param {string} taskId - The ID of the task.
+ */
 async function deleteTaskFromAssigneesForUser(taskId) {
   const taskResponse = await fetch(`${BASE_URL}tasks/${taskId}.json`);
   if (!taskResponse.ok) {
@@ -125,8 +148,10 @@ async function deleteTaskFromAssigneesForUser(taskId) {
   }
 }
 
-
-// Deletes a task from the database
+/**
+ * Deletes a task from the database.
+ * @param {string} taskId - The ID of the task.
+ */
 async function deleteTaskFromDatabase(taskId) {
   const deleteTaskResponse = await fetch(`${BASE_URL}tasks/${taskId}.json`, {
     method: "DELETE",
@@ -136,8 +161,10 @@ async function deleteTaskFromDatabase(taskId) {
   }
 }
 
-
-// Waits for all pending database operations for a task to complete
+/**
+ * Waits for all pending database operations for a task to complete.
+ * @param {string} taskId - The ID of the task.
+ */
 async function waitForDatabaseOperations(taskId) {
   try {
     const response = await fetch(`${BASE_URL}tasks/${taskId}/status.json`);
@@ -155,8 +182,11 @@ async function waitForDatabaseOperations(taskId) {
   }
 }
 
-
-// Removes a task from the logged-in user's assigned tasks in a specific category
+/**
+ * Removes a task from the logged-in user's assigned tasks in a specific category.
+ * @param {string} taskId - The ID of the task.
+ * @param {string} category - The category name.
+ */
 async function deleteTaskFromUserAssignedTasks(taskId, category) {
   const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
   if (!loggedInUser || !loggedInUser.userId) {
@@ -173,8 +203,11 @@ async function deleteTaskFromUserAssignedTasks(taskId, category) {
   } catch (error) {}
 }
 
-
-// Loads the assignedTasks of the user
+/**
+ * Loads the assignedTasks of the user.
+ * @param {string} userId - The user ID.
+ * @returns {Promise<Object>} The assigned tasks object.
+ */
 async function fetchAssignedTasksForUser(userId) {
   const url = `${BASE_URL}users/${userId}/assignedTasks.json`;
   const response = await fetch(url);
@@ -183,8 +216,12 @@ async function fetchAssignedTasksForUser(userId) {
   return await response.json();
 }
 
-
-// Finds the category of a task in the assignedTasks
+/**
+ * Finds the category of a task in the assignedTasks.
+ * @param {Object} assignedTasks - The assigned tasks object.
+ * @param {string} taskId - The ID of the task.
+ * @returns {string|null} The category name or null if not found.
+ */
 function findCategoryForTask(assignedTasks, taskId) {
   const categoryNames = Object.keys(assignedTasks);
   for (
@@ -200,8 +237,11 @@ function findCategoryForTask(assignedTasks, taskId) {
   return null;
 }
 
-
-// Gets the category of a task for the logged-in user
+/**
+ * Gets the category of a task for the logged-in user.
+ * @param {string} taskId - The ID of the task.
+ * @returns {Promise<string|null>} The category name or null if not found.
+ */
 async function getTaskCategoryForUser(taskId) {
   const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
   if (!loggedInUser?.userId) throw new Error("No logged-in user found.");
@@ -213,8 +253,10 @@ async function getTaskCategoryForUser(taskId) {
   }
 }
 
-
-// Deletes all subtasks from the database
+/**
+ * Deletes all subtasks from the database.
+ * @param {Object} subtasks - The subtasks object.
+ */
 async function deleteSubtasks(subtasks) {
   const subtaskIds = Object.keys(subtasks);
   for (let subtaskIndex = 0; subtaskIndex < subtaskIds.length; subtaskIndex++) {
@@ -231,8 +273,10 @@ async function deleteSubtasks(subtasks) {
   }
 }
 
-
-// Instantly removes the task from the board and focused overlay in the DOM for user
+/**
+ * Instantly removes the task from the board and focused overlay in the DOM for user.
+ * @param {string} taskId - The ID of the task.
+ */
 function removeUserTaskFromDOM(taskId) {
   const boardTask = document.querySelector(`[data-task-id='${taskId}']`);
   if (boardTask) boardTask.remove();
