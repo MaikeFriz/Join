@@ -35,8 +35,10 @@ function showFocusedTaskContent(focusedContent, taskContent) {
 async function fromFocusedTaskToBoard() {
   let focusedContent = document.getElementById("focusedTask");
   const card = focusedContent.querySelector(".focused-task");
-    if (card) card.classList.remove("active");
+  if (card) card.classList.remove("active");
+
   document.body.style.overflow = "";
+
   setTimeout(() => {
     hideFocusedTaskContent(focusedContent);
     showBoardColumns();
@@ -100,6 +102,7 @@ async function fromEditTaskToBoard() {
   let editContent = document.getElementById("editTask");
   const editCard = editContent.querySelector(".edit-task");
   if (editCard) editCard.classList.remove("active");
+  document.body.style.overflow = "";
 
   setTimeout(async () => {
     hideAndClearEditContent(editContent);

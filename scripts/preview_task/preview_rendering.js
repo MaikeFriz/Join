@@ -11,6 +11,7 @@ async function refreshBoardSilent() {
   if (typeof loadNoTasksFunctions === "function") loadNoTasksFunctions();
 }
 
+
 // Returns the current kanban data object (for guest or user)
 function getCurrentKanbanData(isGuest) {
   if (isGuest) {
@@ -22,22 +23,35 @@ function getCurrentKanbanData(isGuest) {
   return kanbanData;
 }
 
+
 // Returns the assigned tasks object for the current user or guest
 function getAssignedTasks(data, isGuest) {
   if (!data || !data.users) return null;
 
   if (isGuest) {
-    if (!data.users.guest || !data.users.guest.assignedTasks) return null;
-    return data.users.guest.assignedTasks;
+    return getGuestAssignedTasks(data);
   } else {
-    const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
-    if (
-      !loggedInUser ||
-      !data.users[loggedInUser.userId] ||
-      !data.users[loggedInUser.userId].assignedTasks
-    ) {
-      return null;
-    }
-    return data.users[loggedInUser.userId].assignedTasks;
+    return getUserAssignedTasks(data);
   }
+}
+
+
+// Returns the assigned tasks object for the guest user
+function getGuestAssignedTasks(data) {
+  if (!data.users.guest || !data.users.guest.assignedTasks) return null;
+  return data.users.guest.assignedTasks;
+}
+
+
+// Returns the assigned tasks object for the logged-in user
+function getUserAssignedTasks(data) {
+  const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+  if (
+    !loggedInUser ||
+    !data.users[loggedInUser.userId] ||
+    !data.users[loggedInUser.userId].assignedTasks
+  ) {
+    return null;
+  }
+  return data.users[loggedInUser.userId].assignedTasks;
 }

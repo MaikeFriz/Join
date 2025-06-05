@@ -1,10 +1,21 @@
 // Function to generate HTML for all assignees based on the provided task and display context
 function getAssignees(taskContent, displayContext) {
-  let assigneesHTML = "";
   const names = taskContent.assigneesNames || [];
   const maxToShow = 4;
   const showCount = displayContext === "focused" ? names.length : Math.min(maxToShow, names.length);
 
+  let assigneesHTML = getAssigneesHTML(names, showCount, displayContext);
+
+  if (displayContext !== "focused" && names.length > maxToShow) {
+    assigneesHTML += getMoreAssigneesIndicator(names.length, maxToShow);
+  }
+  return assigneesHTML; 
+}
+
+
+// Function to generate HTML for the visible assignees
+function getAssigneesHTML(names, showCount, displayContext) {
+  let assigneesHTML = "";
   for (let i = 0; i < showCount; i++) {
     let assignee = names[i];
     if (typeof assignee !== "string") {
@@ -17,13 +28,16 @@ function getAssignees(taskContent, displayContext) {
       assigneesHTML
     );
   }
-
-  if (displayContext !== "focused" && names.length > maxToShow) {
-    const moreCount = names.length - maxToShow;
-    assigneesHTML += `<div class='assignee-initials more-assignees-indicator' style='background:#2a3647;color:#fff;border:1px solid #fff;font-weight:bold;font-size:12px;display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;margin-left:-8px;'>+${moreCount}</div>`;
-  }
-  return assigneesHTML; 
+  return assigneesHTML;
 }
+
+
+// Function to generate the "+X" indicator for additional assignees
+function getMoreAssigneesIndicator(total, maxToShow) {
+  const moreCount = total - maxToShow;
+  return `<div class='assignee-initials more-assignees-indicator' style='background:#2a3647;color:#fff;border:1px solid #fff;font-weight:bold;font-size:12px;display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;margin-left:-8px;'>+${moreCount}</div>`;
+}
+
 
 // Function to generate the HTML for a single assignee based on the display context (focused/preview)
 function getAssigneesForTemplates(assignee, displayContext, assigneesHTML) {
@@ -43,6 +57,7 @@ function getAssigneesForTemplates(assignee, displayContext, assigneesHTML) {
   return assigneesHTML;
 }
 
+
 // Function to retrieve the names of all assignees for a task from the provided assignee IDs
 function getAssigneesNames(assignees, kanbanData) {
   let assigneesNames = [];
@@ -57,6 +72,7 @@ function getAssigneesNames(assignees, kanbanData) {
   return assigneesNames;
 }
 
+
 // Function to extract the initials of an assignee from their full name (e.g., "John Doe" -> "JD")
 function getAssigneeInitals(assignee) {
   if (!assignee || typeof assignee !== "string") {
@@ -70,6 +86,7 @@ function getAssigneeInitals(assignee) {
 
   return firstLetter + lastNameFirstLetter;
 }
+
 
 // Function to adjust assignee name for use in CSS (lowercase first letter of the name)
 function getFitAssigneesToCSS(assignee) {

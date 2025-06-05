@@ -14,6 +14,7 @@ async function validateEmail() {
   }
 }
 
+
 // Checks if the email input is not empty
 function validateEmailInput(emailInput) {
   if (!emailInput) {
@@ -23,11 +24,13 @@ function validateEmailInput(emailInput) {
   return true;
 }
 
+
 // Shows or hides the loading spinner overlay
 function showLoadingSpinner(show) {
   const loadingSpinner = document.getElementById("loading_spinner");
   loadingSpinner.style.display = show ? "flex" : "none";
 }
+
 
 // Handles the result of email validation (user found or not)
 function handleEmailValidationResult(users, emailInput) {
@@ -48,6 +51,7 @@ function handleEmailValidationResult(users, emailInput) {
   }
 }
 
+
 // Handles errors during email validation
 function handleEmailValidationError(error) {
   showValidationMessage(
@@ -57,6 +61,7 @@ function handleEmailValidationError(error) {
   showValidatedUI(false);
 }
 
+
 // Shows or hides the UI section for validated emails
 function showValidatedUI(show) {
   const showWhenMailValidatedDiv = document.getElementById(
@@ -64,6 +69,7 @@ function showValidatedUI(show) {
   );
   showWhenMailValidatedDiv.style.display = show ? "block" : "none";
 }
+
 
 // Hides the email input and validation button after successful validation
 function hideEmailInputAndButton() {
@@ -76,10 +82,12 @@ function hideEmailInputAndButton() {
     emailButton.style.setProperty("display", "none", "important");
 }
 
+
 // Gets the trimmed value of the email input field
 function getEmailInputValue() {
   return document.getElementById("email_forgot_password").value.trim();
 }
+
 
 // Resets the validation UI to its default state
 function resetValidationUI() {
@@ -94,6 +102,7 @@ function resetValidationUI() {
   showWhenMailValidatedDiv.style.display = "none";
 }
 
+
 // Shows a validation message with the specified color
 function showValidationMessage(message, color) {
   const validationMessageDiv = document.getElementById(
@@ -102,6 +111,7 @@ function showValidationMessage(message, color) {
   validationMessageDiv.textContent = message;
   validationMessageDiv.style.color = color;
 }
+
 
 // Toggles the validated email UI section and adds a CSS class
 function toggleValidatedDiv(show) {
@@ -112,6 +122,7 @@ function toggleValidatedDiv(show) {
   showWhenMailValidatedDiv.classList.add("div_d_none_style");
 }
 
+
 // Fetches all users from the database
 async function fetchUserData() {
   const response = await fetch(
@@ -120,10 +131,12 @@ async function fetchUserData() {
   return await response.json();
 }
 
+
 // Checks if a user with the given email exists in the users object
 function checkIfUserExists(users, email) {
   return Object.values(users).some((user) => user.email === email);
 }
+
 
 // Handles the password update process after email validation
 async function updatePassword() {
@@ -148,6 +161,7 @@ async function updatePassword() {
   }
 }
 
+
 // Gets the values of the email, password, and confirm password input fields
 function getInputValues() {
   return {
@@ -162,10 +176,12 @@ function getInputValues() {
   };
 }
 
+
 // Helper to get an element by its ID
 function getElement(id) {
   return document.getElementById(id);
 }
+
 
 // Resets the UI for password update (clears errors and input borders)
 function resetUI() {
@@ -178,6 +194,7 @@ function resetUI() {
     "email_forgot_password",
   ].forEach((id) => (getElement(id).style.border = ""));
 }
+
 
 // Validates the password and confirm password fields
 function validatePasswordFields(password, confirmPassword) {
@@ -198,12 +215,14 @@ function validatePasswordFields(password, confirmPassword) {
   return true;
 }
 
+
 // Sets an error message and highlights the specified input fields
 function setError(message, inputIds) {
   const errorDiv = getElement("error_new_password_message");
   errorDiv.textContent = message;
   inputIds.forEach((id) => (getElement(id).style.border = "2px solid red"));
 }
+
 
 // Fetches all users from the database (used for password update)
 async function fetchUsers() {
@@ -213,12 +232,14 @@ async function fetchUsers() {
   return await response.json();
 }
 
+
 // Finds the user key by email (case-insensitive)
 function findUserKeyByEmail(users, email) {
   return Object.keys(users).find(
     (key) => users[key].email.toLowerCase() === email
   );
 }
+
 
 // Updates the user's password in the database
 async function updateUserPassword(userKey, userObject, newPassword) {
@@ -235,6 +256,7 @@ async function updateUserPassword(userKey, userObject, newPassword) {
   );
 }
 
+
 // Shows a success message after password update and displays the login link
 function showSuccessMessage() {
   getElement("confirmation_message").textContent =
@@ -244,6 +266,7 @@ function showSuccessMessage() {
   document.querySelector("form").style.display = "none";
 }
 
+
 // Shows an error message if the user is not found
 function showUserNotFoundError() {
   setError("User not found. Please check your email.", [
@@ -251,21 +274,25 @@ function showUserNotFoundError() {
   ]);
 }
 
+
 // Shows a general error message for password update failures
 function showGeneralError(error) {
   const errorDiv = getElement("error_new_password_message");
   errorDiv.textContent = `An error occurred: ${error.message}`;
 }
 
+
 // Shows the loading spinner for password update
 function showSpinner() {
   getElement("loading_spinner").style.display = "flex";
 }
 
+
 // Hides the loading spinner for password update
 function hideSpinner() {
   getElement("loading_spinner").style.display = "none";
 }
+
 
 // Resets the confirmation message UI
 function resetConfirmationMessage() {
@@ -274,6 +301,7 @@ function resetConfirmationMessage() {
   div.style.color = "black";
 }
 
+
 // Shows a confirmation message with the specified color
 function showConfirmationMessage(message, color) {
   const div = document.getElementById("confirmation_message");
@@ -281,15 +309,18 @@ function showConfirmationMessage(message, color) {
   div.style.color = color;
 }
 
+
 // Checks if two passwords match
 function doPasswordsMatch(pw1, pw2) {
   return pw1 === pw2;
 }
 
+
 // Redirects the user to the login page
 function redirectToLogin() {
   window.location.href = "./log_in.html";
 }
+
 
 // Updates the password icon for the given input field based on its state
 function togglePasswordIcons(inputId, iconId) {
@@ -306,6 +337,7 @@ function togglePasswordIcons(inputId, iconId) {
     }
   }
 }
+
 
 // Toggles the visibility of the password input field and updates the icon
 function togglePasswordVisibility(inputId, iconId) {

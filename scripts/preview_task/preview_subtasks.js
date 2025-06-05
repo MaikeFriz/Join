@@ -9,23 +9,22 @@ async function processSubtaskDetails(taskId, kanbanData) {
   };
 }
 
+
 // Function to process subtasks related to a task
 async function processSubtasks(taskId, kanbanData) {
   const subtasks = kanbanData.subtasks || {};
   const taskSubtasks = getTaskSubtasks(taskId, subtasks);
-
   if (taskSubtasks.length === 0) {
     return createNoSubtasksData();
   }
-
   const completedSubtasks = countCompletedSubtasks(taskSubtasks, subtasks);
   const progressPercentage = calculateProgressPercentage(
     taskSubtasks,
     completedSubtasks
   );
-
   return createSubtaskData(taskSubtasks, completedSubtasks, progressPercentage);
 }
+
 
 // Function to retrieve subtasks for a task based on taskId
 function getTaskSubtasks(taskId, subtasks) {
@@ -33,6 +32,7 @@ function getTaskSubtasks(taskId, subtasks) {
     (subtaskId) => subtasks[subtaskId][taskId]
   );
 }
+
 
 // Function to handle cases where no subtasks exist and return default data
 function createNoSubtasksData() {
@@ -44,11 +44,13 @@ function createNoSubtasksData() {
   };
 }
 
+
 // Function to count the number of completed subtasks for a task
 function countCompletedSubtasks(taskSubtasks, subtasks) {
   return taskSubtasks.filter((subtaskId) => subtasks[subtaskId].completed)
     .length;
 }
+
 
 // Function to calculate the progress percentage of a task based on its subtasks
 function calculateProgressPercentage(taskSubtasks, completedSubtasks) {
@@ -56,6 +58,7 @@ function calculateProgressPercentage(taskSubtasks, completedSubtasks) {
     ? (completedSubtasks / taskSubtasks.length) * 100
     : 0;
 }
+
 
 // Function to create and return the subtask data for a task
 function createSubtaskData(

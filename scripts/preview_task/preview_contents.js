@@ -7,26 +7,43 @@ function getTaskContent(taskId, kanbanData) {
   return taskContent;
 }
 
+
 // Function to structure task data for display
 function getTaskData(taskContent) {
-  const taskData = {
-    label: taskContent.label || "Keine Kategorie",
-    fitLabelForCSS: (taskContent.label || "Keine Kategorie")
-      .toLowerCase()
-      .replace(/\s+/g, "-"),
-    title: taskContent.title || "Ohne Titel",
-    description: taskContent.description || "Keine Beschreibung",
+  return {
+    label: getTaskLabel(taskContent),
+    fitLabelForCSS: getTaskLabel(taskContent).toLowerCase().replace(/\s+/g, "-"),
+    title: getTaskTitle(taskContent),
+    description: getTaskDescription(taskContent),
     subtasks: taskContent.subtasks || {},
     totalSubtasks: taskContent.totalSubtasks || 0,
     completedSubtasks: taskContent.completedSubtasks || 0,
     progressPercentage: taskContent.subtaskProgress || 0,
     showProgress: taskContent.showProgress || false,
-    priority: taskContent.priority || "keine-priorität",
+    priority: taskContent.priority || "no-priority",
     taskId: taskContent.taskId,
     createAt: taskContent.createdAt,
   };
-  return taskData;
 }
+
+
+// Helper function to get the label or a default value
+function getTaskLabel(taskContent) {
+  return taskContent.label || "No Category";
+}
+
+
+// Helper function to get the title or a default value
+function getTaskTitle(taskContent) {
+  return taskContent.title || "No Title";
+}
+
+
+// Helper function to get the description or a default value
+function getTaskDescription(taskContent) {
+  return taskContent.description || "No Description";
+}
+
 
 // Function to process a task and fetch relevant data
 async function processTasks(taskId, kanbanData) {
@@ -43,6 +60,7 @@ async function processTasks(taskId, kanbanData) {
 
   return processedTask;
 }
+
 
 // Function to process task details and prepare it for display
 function processTaskDetails(taskContent, taskId, kanbanData) {

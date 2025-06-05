@@ -1,4 +1,4 @@
-
+// Returns the HTML template for a single task preview card on the board
 function previewTaskTemplate(taskContent) {
   let { label, fitLabelForCSS, title, description, totalSubtasks, completedSubtasks, progressPercentage, showProgress } = getTaskData(taskContent);
 
@@ -30,9 +30,9 @@ function previewTaskTemplate(taskContent) {
   `;
 }
 
+// Returns the HTML template for a single assignee in the preview card
 function previewAssigneeTemplate(initials, cssClass) {
   return /*html*/`
-
     <div class="assignee-initials ${cssClass}">${initials}</div>
   `;
 }
