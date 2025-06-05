@@ -1,5 +1,7 @@
-
-// Function to search tasks based on the search term
+/**
+ * Searches tasks on the board based on the provided search term.
+ * @param {string} searchTerm - The term to search for in task titles and descriptions.
+ */
 function searchTasks(searchTerm) {
   let found = false;
   const allTasks = document.getElementsByClassName('board-preview-task');
@@ -20,8 +22,9 @@ function searchTasks(searchTerm) {
   }
 }
 
-
-// Function to handle the search input and trigger the search
+/**
+ * Resets the search input and displays all tasks.
+ */
 function resetSearch() {
   const searchInput = document.getElementById('search-input');
   if (searchInput) {

@@ -1,4 +1,6 @@
-// Function to toggle visibility of placeholders for columns without tasks
+/**
+ * Toggles visibility of placeholders for columns without tasks.
+ */
 function loadNoTasksFunctions() {
     toggleNoTasksToDoPlaceholder();
     toggleNoInProogressPlaceholder();
@@ -6,8 +8,9 @@ function loadNoTasksFunctions() {
     toggleNoDonePlaceholder();
 }
 
-
-// Function to toggle visibility of the "No tasks" placeholder in the "To Do" column
+/**
+ * Toggles visibility of the "No tasks" placeholder in the "To Do" column.
+ */
 function toggleNoTasksToDoPlaceholder() {
     let toDoColumn = document.getElementById('toDoCardsColumn');
     let noToDoPlaceholder = document.getElementById('noToDoTasks');
@@ -21,8 +24,9 @@ function toggleNoTasksToDoPlaceholder() {
     }
 }
 
-
-// Function to toggle visibility of the "No tasks" placeholder in the "In Progress" column
+/**
+ * Toggles visibility of the "No tasks" placeholder in the "In Progress" column.
+ */
 function toggleNoInProogressPlaceholder() {
     let inProgressColumn = document.getElementById('inProgressCardsColumn');
     let noInProgressPlaceholder = document.getElementById('noInProgressTasks');
@@ -36,8 +40,9 @@ function toggleNoInProogressPlaceholder() {
     }
 }
 
-
-// Function to toggle visibility of the "No tasks" placeholder in the "Awaiting Feedback" column
+/**
+ * Toggles visibility of the "No tasks" placeholder in the "Awaiting Feedback" column.
+ */
 function toggleNoAwaitFeedbackPlaceholder() {
     let awaitFeedbackColumn = document.getElementById('awaitFeedbackCardsColumn');
     let awaitFeedbackPlaceholder = document.getElementById('noAwaitFeedbackTasks');
@@ -51,8 +56,9 @@ function toggleNoAwaitFeedbackPlaceholder() {
     }
 }
 
-
-// Function to toggle visibility of the "No tasks" placeholder in the "Done" column
+/**
+ * Toggles visibility of the "No tasks" placeholder in the "Done" column.
+ */
 function toggleNoDonePlaceholder() {
     let doneColumn = document.getElementById('doneCardsColumn');
     let donePlaceholder = document.getElementById('noDoneTasks');

@@ -4,8 +4,10 @@ let taskClone = null;
 let draggedTaskId = null;
 let dropPlaceholder = null;
 
-
-// Initializes drag-and-drop for all task containers
+/**
+ * Initializes drag-and-drop for all task containers.
+ * @param {NodeList} taskContainers - The list of task container elements.
+ */
 function initializeDragAndDrop(taskContainers) {
   taskContainers.forEach((container) => {
     setupDragStartListener(container);
@@ -15,8 +17,10 @@ function initializeDragAndDrop(taskContainers) {
   });
 }
 
-
-// Sets up the dragstart event for a task container
+/**
+ * Sets up the dragstart event for a task container.
+ * @param {HTMLElement} container - The task container element.
+ */
 function setupDragStartListener(container) {
   container.addEventListener("dragstart", (event) => {
     const task = event.target.closest('[draggable="true"]');
@@ -29,8 +33,10 @@ function setupDragStartListener(container) {
   });
 }
 
-
-// Sets up the dragend event for a task container
+/**
+ * Sets up the dragend event for a task container.
+ * @param {HTMLElement} container - The task container element.
+ */
 function setupDragEndListener(container) {
   container.addEventListener("dragend", (event) =>
     handleDragEnd(event, () => {
@@ -44,15 +50,20 @@ function setupDragEndListener(container) {
   );
 }
 
-
-// Sets up the dragover event for a task container
+/**
+ * Sets up the dragover event for a task container.
+ * @param {HTMLElement} container - The task container element.
+ */
 function setupDragOverListener(container) {
   container.addEventListener("dragover", (event) => handleContainerDragOver(event, container));
   container.addEventListener("dragleave", handleContainerDragLeave);
 }
 
-
-// Handles the dragover event for a task container
+/**
+ * Handles the dragover event for a task container.
+ * @param {DragEvent} event - The dragover event.
+ * @param {HTMLElement} container - The task container element.
+ */
 function handleContainerDragOver(event, container) {
   event.preventDefault();
   handleContainerAutoScroll(event, container);
@@ -60,8 +71,11 @@ function handleContainerDragOver(event, container) {
   handleDragOver(event, taskClone);
 }
 
-
-// Handles auto-scrolling of the container when dragging near the edges
+/**
+ * Handles auto-scrolling of the container when dragging near the edges.
+ * @param {DragEvent} event - The dragover event.
+ * @param {HTMLElement} container - The task container element.
+ */
 function handleContainerAutoScroll(event, container) {
   const SCROLL_ZONE = 60;
   const SCROLL_SPEED = 15;
@@ -73,8 +87,11 @@ function handleContainerAutoScroll(event, container) {
   }
 }
 
-
-// Handles the drop placeholder logic when dragging over a container
+/**
+ * Handles the drop placeholder logic when dragging over a container.
+ * @param {DragEvent} event - The dragover event.
+ * @param {HTMLElement} container - The task container element.
+ */
 function handleDropPlaceholder(event, container) {
   const taskContainer = getTargetTaskContainer(container);
   if (event.target === dropPlaceholder) return;
@@ -86,8 +103,10 @@ function handleDropPlaceholder(event, container) {
   }
 }
 
-
-// Removes the drop placeholder when dragging leaves the container
+/**
+ * Removes the drop placeholder when dragging leaves the container.
+ * @param {DragEvent} event - The dragleave event.
+ */
 function handleContainerDragLeave(event) {
   if (dropPlaceholder && dropPlaceholder.parentNode) {
     dropPlaceholder.parentNode.removeChild(dropPlaceholder);
@@ -95,23 +114,24 @@ function handleContainerDragLeave(event) {
   }
 }
 
-
-// Sets up the drop event for a task container
+/**
+ * Sets up the drop event for a task container.
+ * @param {HTMLElement} container - The task container element.
+ */
 function setupDropListener(container) {
   container.addEventListener("drop", (event) => {
     const taskContainer = getTargetTaskContainer(container);
-    handleDrop(
-      event,
-      container,
-      draggedTask,
-      draggedTaskId,
+    handleDrop(event, container, draggedTask,draggedTaskId,
       (taskId) => updateTaskStatus(taskId, taskContainer.id)
     );
   });
 }
 
-
-// Handles the dragstart event for a task
+/**
+ * Handles the dragstart event for a task.
+ * @param {DragEvent} event - The dragstart event.
+ * @param {Function} onDragStart - Callback to execute after drag starts.
+ */
 function handleDragStart(event, onDragStart) {
   const task = event.target;
   event.dataTransfer.setData("text/plain", "");
@@ -122,47 +142,11 @@ function handleDragStart(event, onDragStart) {
   cleanUpInvisibleDragImage(invisibleElement);
 }
 
-
-// Creates a visual clone of the dragged task
-function createTaskClone(task, event) {
-  const taskClone = task.cloneNode(true);
-  taskClone.classList.add("dragging-clone");
-  if (task.dataset.taskId) {
-    taskClone.dataset.taskId = task.dataset.taskId;
-  }
-  document.body.appendChild(taskClone);
-  const rect = task.getBoundingClientRect();
-  const offsetX = event.clientX - rect.left;
-  const offsetY = event.clientY - rect.top;
-  taskClone.style.left = `${event.pageX - offsetX}px`;
-  taskClone.style.top = `${event.pageY - offsetY}px`;
-  taskClone.style.width = `${task.offsetWidth}px`;
-  taskClone.style.height = `${task.offsetHeight}px`;
-  return taskClone;
-}
-
-
-// Creates an invisible drag image to hide the default drag icon
-function createInvisibleDragImage(event) {
-  const invisibleElement = document.createElement("div");
-  invisibleElement.style.width = "1px";
-  invisibleElement.style.height = "1px";
-  invisibleElement.style.opacity = "0";
-  document.body.appendChild(invisibleElement);
-  event.dataTransfer.setDragImage(invisibleElement, 0, 0);
-  return invisibleElement;
-}
-
-
-// Removes the invisible drag image after use
-function cleanUpInvisibleDragImage(invisibleElement) {
-  setTimeout(() => {
-    invisibleElement.remove();
-  }, 0);
-}
-
-
-// Handles the dragend event for a task
+/**
+ * Handles the dragend event for a task.
+ * @param {DragEvent} event - The dragend event.
+ * @param {Function} onDragEnd - Callback to execute after drag ends.
+ */
 function handleDragEnd(event, onDragEnd) {
   const task = event.target;
   task.classList.remove("dragging");
@@ -170,18 +154,14 @@ function handleDragEnd(event, onDragEnd) {
   loadNoTasksFunctions();
 }
 
-
-// Updates the position of the task clone during dragover
-function handleDragOver(event, taskClone) {
-  event.preventDefault();
-  if (taskClone) {
-    taskClone.style.left = `${event.pageX - taskClone.offsetWidth / 2}px`;
-    taskClone.style.top = `${event.pageY - taskClone.offsetHeight / 2}px`;
-  }
-}
-
-
-// Handles the drop event and moves the task to the new container
+/**
+ * Handles the drop event and moves the task to the new container.
+ * @param {DragEvent} event - The drop event.
+ * @param {HTMLElement} container - The task container element.
+ * @param {HTMLElement} draggedTask - The dragged task element.
+ * @param {string} taskId - The ID of the dragged task.
+ * @param {Function} onTaskDropped - Callback to execute after the task is dropped.
+ */
 function handleDrop(event, container, draggedTask, taskId, onTaskDropped) {
   event.preventDefault();
   const taskContainer = getTargetTaskContainer(container);
@@ -201,8 +181,9 @@ function handleDrop(event, container, draggedTask, taskId, onTaskDropped) {
   }
 }
 
-
-// Initializes drag-and-drop after the DOM is loaded
+/**
+ * Initializes drag-and-drop after the DOM is loaded.
+ */
 document.addEventListener("DOMContentLoaded", () => {
   const dropContainers = [
     "#drag_drop_todo_container",
@@ -214,8 +195,12 @@ document.addEventListener("DOMContentLoaded", () => {
   initializeDragAndDrop(taskContainers);
 });
 
-
-// Updates the task's status in localStorage or Firebase
+/**
+ * Updates the task's status in localStorage or Firebase.
+ * @param {string} taskId - The ID of the task.
+ * @param {string} newStatusColumnId - The ID of the new status column.
+ * @returns {Promise<void>|void} A promise for logged-in users, or void for guests.
+ */
 function updateTaskStatus(taskId, newStatusColumnId) {
   const isGuest = JSON.parse(localStorage.getItem("isGuest"));
   const newStatus = mapColumnIdToStatus(newStatusColumnId);
@@ -227,15 +212,22 @@ function updateTaskStatus(taskId, newStatusColumnId) {
   }
 }
 
-
-// Handles status update for guest users
+/**
+ * Handles status update for guest users.
+ * @param {string} taskId - The ID of the task.
+ * @param {string} newStatus - The new status to assign.
+ */
 function updateTaskStatusForGuest(taskId, newStatus) {
   updateTaskInLocalStorage(taskId, newStatus);
   localStorage.setItem("guestKanbanData", JSON.stringify(kanbanData));
 }
 
-
-// Handles status update for logged-in users
+/**
+ * Handles status update for logged-in users.
+ * @param {string} taskId - The ID of the task.
+ * @param {string} newStatus - The new status to assign.
+ * @returns {Promise<void>} A promise that resolves when the update is complete.
+ */
 function updateTaskStatusForUser(taskId, newStatus) {
   return updateTaskInFirebase(taskId, newStatus)
     .then(() => {
@@ -246,8 +238,11 @@ function updateTaskStatusForUser(taskId, newStatus) {
     });
 }
 
-
-// Updates kanbanData for the logged-in user after Firebase update
+/**
+ * Updates kanbanData for the logged-in user after Firebase update.
+ * @param {string} taskId - The ID of the task.
+ * @param {string} newStatus - The new status to assign.
+ */
 function updateKanbanDataForUser(taskId, newStatus) {
   if (kanbanData.tasks && kanbanData.tasks[taskId]) {
     kanbanData.tasks[taskId].status = newStatus;
@@ -266,8 +261,11 @@ function updateKanbanDataForUser(taskId, newStatus) {
   }
 }
 
-
-// Maps a column ID to a status string
+/**
+ * Maps a column ID to a status string.
+ * @param {string} columnId - The column ID.
+ * @returns {string} The corresponding status string.
+ */
 function mapColumnIdToStatus(columnId) {
   const columnStatusMap = {
     toDoCardsColumn: "toDo",
@@ -278,27 +276,30 @@ function mapColumnIdToStatus(columnId) {
   return columnStatusMap[columnId];
 }
 
-
-// Updates the task's status in localStorage for guest users
+/**
+ * Updates the task's status in localStorage for guest users.
+ * @param {string} taskId - The ID of the task.
+ * @param {string} newStatus - The new status to assign.
+ */
 function updateTaskInLocalStorage(taskId, newStatus) {
   let data = JSON.parse(localStorage.getItem("guestKanbanData"));
   if (!data?.users?.guest?.assignedTasks) return;
-
   removeTaskFromAllStatuses(data.users.guest.assignedTasks, taskId);
   addTaskToStatus(data.users.guest.assignedTasks, taskId, newStatus);
-
   if (data.tasks?.[taskId]) {
     data.tasks[taskId].status = newStatus;
     data.tasks[taskId].taskId = taskId;
   }
-
   kanbanData = data;
   ensureTaskIdsInKanbanData();
   localStorage.setItem("guestKanbanData", JSON.stringify(kanbanData));
 }
 
-
-// Removes the task from all statuses in localStorage
+/**
+ * Removes the task from all statuses in localStorage.
+ * @param {Object} assignedTasks - The assignedTasks object.
+ * @param {string} taskId - The ID of the task.
+ */
 function removeTaskFromAllStatuses(assignedTasks, taskId) {
   ["toDo", "inProgress", "awaitingFeedback", "done"].forEach(status => {
     if (assignedTasks[status]?.[taskId]) {
@@ -307,15 +308,24 @@ function removeTaskFromAllStatuses(assignedTasks, taskId) {
   });
 }
 
-
-// Adds the task to the new status in localStorage
+/**
+ * Adds the task to the new status in localStorage.
+ * @param {Object} assignedTasks - The assignedTasks object.
+ * @param {string} taskId - The ID of the task.
+ * @param {string} status - The new status to assign.
+ */
 function addTaskToStatus(assignedTasks, taskId, status) {
   if (!assignedTasks[status]) assignedTasks[status] = {};
   assignedTasks[status][taskId] = true;
 }
 
-
-// Removes the task from all statuses in Firebase
+/**
+ * Removes the task from all statuses in Firebase.
+ * @param {string} taskId - The ID of the task.
+ * @param {string} userId - The user ID.
+ * @param {string} baseUrl - The base URL for the API.
+ * @returns {Promise<Array>} A promise that resolves when all deletions are complete.
+ */
 function removeTaskFromOtherStatuses(taskId, userId, baseUrl) {
   const statusPaths = ["toDo", "inProgress", "awaitingFeedback", "done"];
   const deletePromises = statusPaths.map((status) => {
@@ -327,8 +337,14 @@ function removeTaskFromOtherStatuses(taskId, userId, baseUrl) {
   return Promise.all(deletePromises);
 }
 
-
-// Adds the task to the new status in Firebase
+/**
+ * Adds the task to the new status in Firebase.
+ * @param {string} taskId - The ID of the task.
+ * @param {string} newStatus - The new status to assign.
+ * @param {string} userId - The user ID.
+ * @param {string} baseUrl - The base URL for the API.
+ * @returns {Promise<Response>} A promise that resolves when the task is added.
+ */
 function addTaskToNewStatus(taskId, newStatus, userId, baseUrl) {
   const taskPath = `${baseUrl}users/${userId}/assignedTasks/${newStatus}/${taskId}.json`;
   return fetch(taskPath, {
@@ -340,8 +356,12 @@ function addTaskToNewStatus(taskId, newStatus, userId, baseUrl) {
   });
 }
 
-
-// Updates the task's status in Firebase for logged-in users
+/**
+ * Updates the task's status in Firebase for logged-in users.
+ * @param {string} taskId - The ID of the task.
+ * @param {string} newStatus - The new status to assign.
+ * @returns {Promise<void>} A promise that resolves when the update is complete.
+ */
 function updateTaskInFirebase(taskId, newStatus) {
   let user = JSON.parse(localStorage.getItem("loggedInUser"));
   if (!user) {
@@ -351,8 +371,11 @@ function updateTaskInFirebase(taskId, newStatus) {
     .then(() => addTaskToNewStatus(taskId, newStatus, user.userId, BASE_URL));
 }
 
-
-// Gets the target task container based on the ID of the dragged container
+/**
+ * Gets the target task container based on the ID of the dragged container.
+ * @param {HTMLElement} container - The dragged container element.
+ * @returns {HTMLElement|null} The target task container element.
+ */
 function getTargetTaskContainer(container) {
   const map = {
     'drag_drop_todo_container': 'toDoCardsColumn',
@@ -363,8 +386,9 @@ function getTargetTaskContainer(container) {
   return document.getElementById(map[container.id]);
 }
 
-
-// Ensures that all tasks in kanbanData have a taskId property
+/**
+ * Ensures that all tasks in kanbanData have a taskId property.
+ */
 function ensureTaskIdsInKanbanData() {
     if (!kanbanData.tasks) return;
     for (const id in kanbanData.tasks) {

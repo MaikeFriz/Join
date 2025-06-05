@@ -3,8 +3,10 @@ let longPressTimer = null;
 let longPressTriggered = false;
 const LONG_PRESS_DELAY = 250;
 
-
-// Initializes touch drag-and-drop for all task containers
+/**
+ * Initializes touch drag-and-drop for all task containers.
+ * @param {NodeList} taskContainers - The list of task container elements.
+ */
 function initializeTouchDragAndDrop(taskContainers) {
   taskContainers.forEach((container) => {
     container.addEventListener("touchstart", (event) => onTouchStart(event));
@@ -13,8 +15,10 @@ function initializeTouchDragAndDrop(taskContainers) {
   document.addEventListener("touchend", (event) => onTouchEnd(event));
 }
 
-
-// Handles the touchstart event and starts dragging a task
+/**
+ * Handles the touchstart event and starts dragging a task.
+ * @param {TouchEvent} event - The touchstart event.
+ */
 function onTouchStart(event) {
   const task = event.target.closest('[draggable="true"]');
   if (!task) return;
@@ -38,8 +42,10 @@ function onTouchStart(event) {
   }, LONG_PRESS_DELAY);
 }
 
-
-// Handles the touchmove event, moves the task clone, manages placeholder and board scrolling
+/**
+ * Handles the touchmove event, moves the task clone, manages placeholder and board scrolling.
+ * @param {TouchEvent} event - The touchmove event.
+ */
 function onTouchMove(event) {
   if (!taskClone || !isDragging) return;
   const touch = event.touches[0];
@@ -60,8 +66,11 @@ function onTouchMove(event) {
   if (event.cancelable) event.preventDefault();
 }
 
-
-// Shows or removes the drop placeholder depending on the drag position
+/**
+ * Shows or removes the drop placeholder depending on the drag position.
+ * @param {HTMLElement} container - The current container under the touch.
+ * @param {HTMLElement} originContainer - The original container of the dragged task.
+ */
 function handleMobileDropPlaceholder(container, originContainer) {
   if (container && originContainer && container.id !== originContainer.id) {
     const taskContainer = getTargetTaskContainer(container);
@@ -71,8 +80,10 @@ function handleMobileDropPlaceholder(container, originContainer) {
   }
 }
 
-
-// Appends the drop placeholder to the correct task container
+/**
+ * Appends the drop placeholder to the correct task container.
+ * @param {HTMLElement} taskContainer - The container to append the placeholder to.
+ */
 function showMobileDropPlaceholder(taskContainer) {
   if (!dropPlaceholder && taskContainer) {
     dropPlaceholder = document.createElement("div");
@@ -88,8 +99,9 @@ function showMobileDropPlaceholder(taskContainer) {
   }
 }
 
-
-// Removes the drop placeholder from the DOM
+/**
+ * Removes the drop placeholder from the DOM.
+ */
 function removeMobileDropPlaceholder() {
   if (dropPlaceholder && dropPlaceholder.parentNode) {
     dropPlaceholder.parentNode.removeChild(dropPlaceholder);
@@ -97,8 +109,10 @@ function removeMobileDropPlaceholder() {
   }
 }
 
-
-// Moves the visual clone of the dragged task, keeping it within the board boundaries
+/**
+ * Moves the visual clone of the dragged task, keeping it within the board boundaries.
+ * @param {Touch} touch - The touch object from the event.
+ */
 function handleMobileTaskCloneMove(touch) {
   const board = document.getElementById("board_table");
   const bounds = board
@@ -118,8 +132,10 @@ function handleMobileTaskCloneMove(touch) {
   taskClone.style.top = `${top}px`;
 }
 
-
-// Scrolls the board container when dragging near the top or bottom edge
+/**
+ * Scrolls the board container when dragging near the top or bottom edge.
+ * @param {Touch} touch - The touch object from the event.
+ */
 function handleMobileBoardScroll(touch) {
   const SCROLL_ZONE = 60;
   const SCROLL_SPEED = 15;
@@ -134,8 +150,10 @@ function handleMobileBoardScroll(touch) {
   }
 }
 
-
-// Handles the touchend event, drops the task and finalizes the drag operation
+/**
+ * Handles the touchend event, drops the task and finalizes the drag operation.
+ * @param {TouchEvent} event - The touchend event.
+ */
 function onTouchEnd(event) {
   clearTimeout(longPressTimer);
   if (!longPressTriggered) {
@@ -154,8 +172,11 @@ function onTouchEnd(event) {
   finalizeMobileDrag();
 }
 
-
-// Returns the drop container element under the touch position
+/**
+ * Returns the drop container element under the touch position.
+ * @param {Touch} touch - The touch object from the event.
+ * @returns {HTMLElement|null} The drop container element or null.
+ */
 function getDropContainerFromTouch(touch) {
   let elem = document.elementFromPoint(touch.clientX, touch.clientY);
   while (
@@ -172,8 +193,11 @@ function getDropContainerFromTouch(touch) {
   return elem;
 }
 
-
-// Handles dropping the task into the correct container and updating its status
+/**
+ * Handles dropping the task into the correct container and updating its status.
+ * @param {TouchEvent} event - The touchend event.
+ * @param {HTMLElement} dropContainer - The container where the task is dropped.
+ */
 function handleMobileDrop(event, dropContainer) {
   if (dropContainer) {
     handleDrop(
@@ -186,8 +210,9 @@ function handleMobileDrop(event, dropContainer) {
   }
 }
 
-
-// Finalizes the drag operation by cleaning up the clone and resetting state
+/**
+ * Finalizes the drag operation by cleaning up the clone and resetting state.
+ */
 function finalizeMobileDrag() {
   handleDragEnd(
     { target: draggedTask },
@@ -204,6 +229,9 @@ function finalizeMobileDrag() {
   );
 }
 
+/**
+ * Initializes touch drag-and-drop when the DOM is loaded.
+ */
 document.addEventListener("DOMContentLoaded", () => {
   const dropContainers = [
     "#drag_drop_todo_container",
