@@ -2,8 +2,10 @@
 
 const BASE_URL = `https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData/`;
 
-
-// Fetches guest user data from Firebase
+/**
+ * Fetches guest user data from Firebase.
+ * @returns {Promise<Object|null>} The guest user data or null if not found.
+ */
 async function fetchGuestData() {
   const response = await fetch(`${BASE_URL}users/guest.json`);
   const guestData = await response.json();
@@ -11,14 +13,16 @@ async function fetchGuestData() {
   return guestData;
 }
 
-
-// Extracts task IDs from guest data
+/**
+ * Extracts task IDs from guest data.
+ * @param {Object} guestData - The guest user data.
+ * @returns {Array<string>} Array of task IDs.
+ */
 function extractTaskIds(guestData) {
   const taskIds = [];
   if (guestData.assignedTasks) {
     const categories = Object.values(guestData.assignedTasks);
-    for (let categoryIndex = 0; categoryIndex < categories.length; categoryIndex++)
-      {
+    for (let categoryIndex = 0; categoryIndex < categories.length; categoryIndex++) {
       const category = categories[categoryIndex];
       for (const taskId in category) {
         if (category[taskId]) {
@@ -30,8 +34,11 @@ function extractTaskIds(guestData) {
   return taskIds;
 }
 
-
-// Fetches tasks based on the provided task IDs
+/**
+ * Fetches tasks based on the provided task IDs.
+ * @param {Array<string>} taskIds - Array of task IDs.
+ * @returns {Promise<Object>} Object containing tasks keyed by their IDs.
+ */
 async function fetchTasks(taskIds) {
   const tasksArray = [];
   for (let taskIndex = 0; taskIndex < taskIds.length; taskIndex++) {
@@ -47,8 +54,11 @@ async function fetchTasks(taskIds) {
   return tasksObject;
 }
 
-
-// Extracts subtask IDs from the provided tasks
+/**
+ * Extracts subtask IDs from the provided tasks.
+ * @param {Array<Object>} tasksArray - Array of task objects.
+ * @returns {Array<string>} Array of subtask IDs.
+ */
 function extractSubtaskIds(tasksArray) {
   const subtaskIds = [];
   for (let taskIndex = 0; taskIndex < tasksArray.length; taskIndex++) {
@@ -62,8 +72,11 @@ function extractSubtaskIds(tasksArray) {
   return subtaskIds;
 }
 
-
-// Fetches subtasks based on the provided subtask IDs
+/**
+ * Fetches subtasks based on the provided subtask IDs.
+ * @param {Array<string>} subtaskIds - Array of subtask IDs.
+ * @returns {Promise<Object>} Object containing subtasks keyed by their IDs.
+ */
 async function fetchSubtasks(subtaskIds) {
   const subtasksArray = [];
   for (let subtaskIndex = 0; subtaskIndex < subtaskIds.length; subtaskIndex++) {
@@ -79,8 +92,10 @@ async function fetchSubtasks(subtaskIds) {
   return subtasksObject;
 }
 
-
-// Fetches all users' contact data (name, email, phone)
+/**
+ * Fetches all users' contact data (name, email, phone).
+ * @returns {Promise<Object>} Object containing user contact data.
+ */
 async function fetchAllUserContactData() {
   const response = await fetch(`${BASE_URL}users.json`);
   const users = await response.json();
@@ -93,10 +108,14 @@ async function fetchAllUserContactData() {
   return contactData;
 }
 
-
-// Saves structured guest data, tasks, and subtasks to LocalStorage
-function saveGuestDataToLocalStorage( guestData, tasksData, subtasksData, allUserContactData)
- {
+/**
+ * Saves structured guest data, tasks, and subtasks to LocalStorage.
+ * @param {Object} guestData - The guest user data.
+ * @param {Object} tasksData - The tasks data.
+ * @param {Object} subtasksData - The subtasks data.
+ * @param {Object} allUserContactData - All user contact data.
+ */
+function saveGuestDataToLocalStorage(guestData, tasksData, subtasksData, allUserContactData) {
   const structuredData = {
     users: {
       guest: guestData,
@@ -108,8 +127,10 @@ function saveGuestDataToLocalStorage( guestData, tasksData, subtasksData, allUse
   localStorage.setItem("guestKanbanData", JSON.stringify(structuredData));
 }
 
-
-// Fetches and processes Kanban data for guest users
+/**
+ * Fetches and processes Kanban data for guest users.
+ * @returns {Promise<Object|null>} The guest data or null if an error occurs.
+ */
 async function fetchGuestKanbanData() {
   try {
     const guestData = await fetchGuestData();

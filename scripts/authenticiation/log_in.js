@@ -1,4 +1,6 @@
-//Handle loading screen and mobile loading screen
+/**
+ * Handles the loading screen animation and sets up the login form and logo animation reset.
+ */
 function handleLoadingScreen() {
   const loadingScreen = document.getElementById("blue_loading_screen");
   const pageContent = document.querySelector(".page_content");
@@ -19,7 +21,9 @@ function handleLoadingScreen() {
   }, 1200);
 }
 
-// Handles logo animation end event to reset logo styles
+/**
+ * Handles logo animation end event to reset logo styles.
+ */
 function setupLogoAnimationReset() {
   const logoHeader = document.querySelector(".logo_header");
   if (logoHeader) {
@@ -34,8 +38,9 @@ function setupLogoAnimationReset() {
   }
 }
 
-
-// Handles DOMContentLoaded: sets up form, error message, and event listeners for login and guest login
+/**
+ * Sets up the login form, guest button, and forgot password UI on DOMContentLoaded.
+ */
 function setupLoginForm() {
   const form = document.getElementById("log-in-form");
   const emailInput = document.getElementById("input_email");
@@ -47,8 +52,9 @@ function setupLoginForm() {
   hideForgotPasswordInitially(forgotPasswordDiv);
 }
 
-
-// Sets up the guest login button event listener
+/**
+ * Sets up the guest login button event listener.
+ */
 function setupGuestButton() {
   const guestButton = document.getElementById("guestButton");
   if (guestButton) {
@@ -59,8 +65,12 @@ function setupGuestButton() {
   }
 }
 
-
-// Sets up the login form submit event listener
+/**
+ * Sets up the login form submit event listener.
+ * @param {HTMLFormElement} form - The login form element.
+ * @param {HTMLInputElement} emailInput - The email input element.
+ * @param {HTMLInputElement} passwordInput - The password input element.
+ */
 function setupLoginFormSubmit(form, emailInput, passwordInput) {
   if (form) {
     form.addEventListener("submit", function (event) {
@@ -71,33 +81,40 @@ function setupLoginFormSubmit(form, emailInput, passwordInput) {
   }
 }
 
-
-// Hides the forgot password div initially
+/**
+ * Hides the forgot password div initially.
+ * @param {HTMLElement} forgotPasswordDiv - The forgot password div element.
+ */
 function hideForgotPasswordInitially(forgotPasswordDiv) {
   if (forgotPasswordDiv) {
     forgotPasswordDiv.classList.add("d_none_forgot_password-div");
   }
 }
 
-
-// Loading Spinner functions
+/**
+ * Shows the loading spinner.
+ */
 function showLoadingSpinner() {
   document.getElementById("loading_spinner").style.display = "flex";
 }
 
-
+/**
+ * Hides the loading spinner.
+ */
 function hideLoadingSpinner() {
   document.getElementById("loading_spinner").style.display = "none";
 }
 
-
-// Loads guest data from local storage (not implemented)
+/**
+ * Loads guest data from local storage (not implemented).
+ */
 function loadGuestDataFromLocalStorage() {
   return;
 }
 
-
-// Handles guest login: sets guest state, fetches guest data, and redirects to summary
+/**
+ * Handles guest login: sets guest state, fetches guest data, and redirects to summary.
+ */
 async function guestLogin() {
   showLoadingSpinner();
   document.getElementById("input_email").removeAttribute("required");
@@ -109,8 +126,12 @@ async function guestLogin() {
   window.location.href = "./summary.html";
 }
 
-
-// Handles the login form submission: validates input and authenticates user
+/**
+ * Handles the login form submission: validates input and authenticates user.
+ * @param {Event} event - The submit event.
+ * @param {HTMLInputElement} emailInput - The email input element.
+ * @param {HTMLInputElement} passwordInput - The password input element.
+ */
 function handleFormSubmit(event, emailInput, passwordInput) {
   const email = emailInput.value.trim();
   const password = passwordInput.value.trim();
@@ -122,15 +143,21 @@ function handleFormSubmit(event, emailInput, passwordInput) {
   authenticateUser(email, password, errorMessage);
 }
 
-
-// Checks if a user is currently logged in
+/**
+ * Checks if a user is currently logged in.
+ * @returns {boolean} True if a user is logged in, otherwise false.
+ */
 function isUserLoggedIn() {
   const loggedInUser = localStorage.getItem("loggedInUser");
   return loggedInUser !== null;
 }
 
-
-// Clears input field styles and hides error messages
+/**
+ * Clears input field styles and hides error messages.
+ * @param {HTMLInputElement} emailInput - The email input element.
+ * @param {HTMLInputElement} passwordInput - The password input element.
+ * @param {HTMLElement} errorMessage - The error message element.
+ */
 function clearInputStyles(emailInput, passwordInput, errorMessage) {
   emailInput.style.border = "";
   passwordInput.style.border = "";
@@ -141,8 +168,13 @@ function clearInputStyles(emailInput, passwordInput, errorMessage) {
   }
 }
 
-
-// Shows an error message and marks input fields as invalid
+/**
+ * Shows an error message and marks input fields as invalid.
+ * @param {HTMLInputElement} emailInput - The email input element.
+ * @param {HTMLInputElement} passwordInput - The password input element.
+ * @param {HTMLElement} errorMessage - The error message element.
+ * @param {string} message - The error message text.
+ */
 function showError(emailInput, passwordInput, errorMessage, message) {
   errorMessage.textContent = message;
   errorMessage.style.display = "block";
@@ -154,62 +186,12 @@ function showError(emailInput, passwordInput, errorMessage, message) {
   }
 }
 
-
-// Validates the email format using a regex
-function isEmailFormatValid(email) {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email);
-}
-
-
-// Validates login input fields and shows errors if invalid
-function isInputValid(email, password) {
-  const emailInput = document.getElementById("input_email");
-  const passwordInput = document.getElementById("input_password");
-  const errorMessage = document.getElementById("login-error-message");
-  clearInputStyles(emailInput, passwordInput, errorMessage);
-
-  if (!areCredentialsFilled(email, password, emailInput, passwordInput, errorMessage)) {
-    return false;
-  }
-  if (!isEmailFormatValidAndShowError(email, emailInput, passwordInput, errorMessage)) {
-    return false;
-  }
-  return true;
-}
-
-
-// Checks if email and password are filled, shows error if not
-function areCredentialsFilled(email, password, emailInput, passwordInput, errorMessage) {
-  if (!email || !password) {
-    showError(
-      emailInput,
-      passwordInput,
-      errorMessage,
-      "Wrong email or password."
-    );
-    return false;
-  }
-  return true;
-}
-
-
-// Checks if email format is valid, shows error if not
-function isEmailFormatValidAndShowError(email, emailInput, passwordInput, errorMessage) {
-  if (!isEmailFormatValid(email)) {
-    showError(
-      emailInput,
-      passwordInput,
-      errorMessage,
-      "Wrong email or password."
-    );
-    return false;
-  }
-  return true;
-}
-
-
-// Fetches user data from the database and authenticates the user
+/**
+ * Fetches user data from the database and authenticates the user.
+ * @param {string} email - The email value.
+ * @param {string} password - The password value.
+ * @param {HTMLElement} errorMessage - The error message element.
+ */
 function authenticateUser(email, password, errorMessage) {
   fetch(
     "https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData/users.json"
@@ -221,8 +203,13 @@ function authenticateUser(email, password, errorMessage) {
     .catch((error) => handleError(error, errorMessage));
 }
 
-
-// Handles the authentication response: logs in user or shows error
+/**
+ * Handles the authentication response: logs in user or shows error.
+ * @param {Object} data - The user data object.
+ * @param {string} email - The email value.
+ * @param {string} password - The password value.
+ * @param {HTMLElement} errorMessage - The error message element.
+ */
 function handleAuthenticationResponse(data, email, password, errorMessage) {
   const userKey = findUserKey(data, email, password);
   if (userKey) {
@@ -232,8 +219,11 @@ function handleAuthenticationResponse(data, email, password, errorMessage) {
   }
 }
 
-
-// Handles successful login: stores user, hides spinner, and redirects
+/**
+ * Handles successful login: stores user, hides spinner, and redirects.
+ * @param {Object} data - The user data object.
+ * @param {string} userKey - The key of the logged-in user.
+ */
 function handleSuccessfulLogin(data, userKey) {
   hideLoginError();
   resetInputBorders();
@@ -242,8 +232,9 @@ function handleSuccessfulLogin(data, userKey) {
   redirectToSummary();
 }
 
-
-// Handles failed login: shows error, marks inputs, and resets fields
+/**
+ * Handles failed login: shows error, marks inputs, and resets fields.
+ */
 function handleFailedLogin() {
   showLoginError("Check your email and password. Please try again.");
   markInputsAsInvalid();
@@ -256,23 +247,27 @@ function handleFailedLogin() {
   hideLoadingSpinner();
 }
 
-
-// Shows the login error message
+/**
+ * Shows the login error message.
+ * @param {string} message - The error message text.
+ */
 function showLoginError(message) {
   const errorDiv = document.getElementById("login-error-message");
   errorDiv.textContent = message;
   errorDiv.style.display = "block";
 }
 
-
-// Hides the login error message
+/**
+ * Hides the login error message.
+ */
 function hideLoginError() {
   const errorDiv = document.getElementById("login-error-message");
   errorDiv.textContent = "";
 }
 
-
-// Marks the email and password input fields as invalid
+/**
+ * Marks the email and password input fields as invalid.
+ */
 function markInputsAsInvalid() {
   const emailInput = document.getElementById("input_email");
   const passwordInput = document.getElementById("input_password");
@@ -280,8 +275,9 @@ function markInputsAsInvalid() {
   passwordInput.style.border = "1px solid red";
 }
 
-
-// Resets the input field borders to default
+/**
+ * Resets the input field borders to default.
+ */
 function resetInputBorders() {
   const emailInput = document.getElementById("input_email");
   const passwordInput = document.getElementById("input_password");
@@ -289,22 +285,31 @@ function resetInputBorders() {
   passwordInput.style.border = "";
 }
 
-
-// Redirects the user to the summary page after successful login
+/**
+ * Redirects the user to the summary page after successful login.
+ */
 function redirectToSummary() {
   window.location.href = "./summary.html";
 }
 
-
-// Finds the user key in the database matching the given email and password
+/**
+ * Finds the user key in the database matching the given email and password.
+ * @param {Object} data - The user data object.
+ * @param {string} email - The email value.
+ * @param {string} password - The password value.
+ * @returns {string|undefined} The user key if found, otherwise undefined.
+ */
 function findUserKey(data, email, password) {
   return Object.keys(data).find(
     (key) => data[key].email === email && data[key].password === password
   );
 }
 
-
-// Stores the logged-in user in localStorage and clears guest data
+/**
+ * Stores the logged-in user in localStorage and clears guest data.
+ * @param {Object} data - The user data object.
+ * @param {string} userKey - The key of the logged-in user.
+ */
 function storeUserInLocalStorage(data, userKey) {
   const user = data[userKey];
   const loggedInUser = {
@@ -316,8 +321,11 @@ function storeUserInLocalStorage(data, userKey) {
   localStorage.removeItem("guestKanbanData");
 }
 
-
-// Handles errors during authentication and displays an error message
+/**
+ * Handles errors during authentication and displays an error message.
+ * @param {Error} error - The error object.
+ * @param {HTMLElement} errorMessage - The error message element.
+ */
 function handleError(error, errorMessage) {
   hideLoadingSpinner();
   errorMessage.textContent = "Error logging in: " + error.message;
