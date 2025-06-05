@@ -6,6 +6,7 @@ function getTaskContext(taskId) {
     return { existingSubtasks, isGuest };
 }
 
+
 // Saves task and subtasks depending on guest or user mode
 async function saveTaskAndSubtasks(isGuest, taskId, updatedTaskData, removedSubtasks) {
     if (isGuest) {
@@ -14,6 +15,7 @@ async function saveTaskAndSubtasks(isGuest, taskId, updatedTaskData, removedSubt
         await saveEditedTaskForUser(taskId, updatedTaskData, removedSubtasks);
     }
 }
+
 
 // Collects all task data from the edit modal
 function collectTaskData(taskId, existingSubtasks) {
@@ -28,6 +30,7 @@ function collectTaskData(taskId, existingSubtasks) {
 
     return createTaskDataObject(taskId, title, description, createdAt, priority, assignees, category, currentSubtasks);
 }
+
 
 // Creates a task data object
 function createTaskDataObject(taskId, title, description, createdAt, priority, assignees, category, currentSubtasks) {
@@ -44,6 +47,7 @@ function createTaskDataObject(taskId, title, description, createdAt, priority, a
     };
 }
 
+
 // Collects all subtasks from the edit modal
 function collectSubtasks(taskId, existingSubtasks) {
     const subtaskElements = document.querySelectorAll("#display_subtasks .edit-subtask-item");
@@ -58,6 +62,7 @@ function collectSubtasks(taskId, existingSubtasks) {
 
     return currentSubtasks;
 }
+
 
 // Finds or creates a subtask ID for a given subtask title
 function findOrCreateSubtaskId(subtaskTitle, existingSubtasks, taskId) {
@@ -77,6 +82,7 @@ function findOrCreateSubtaskId(subtaskTitle, existingSubtasks, taskId) {
     return nextSubtaskId;
 }
 
+
 // Identifies removed subtasks by comparing existing and current subtasks
 function identifyRemovedSubtasks(existingSubtasks, currentSubtasks) {
     const removedSubtasks = [];
@@ -93,6 +99,7 @@ function identifyRemovedSubtasks(existingSubtasks, currentSubtasks) {
     return removedSubtasks;
 }
 
+
 // Generates the next subtask ID
 function generateNextSubtaskId() {
     const allSubtaskIds = Object.keys(kanbanData.subtasks);
@@ -107,6 +114,7 @@ function generateNextSubtaskId() {
     return `subtask${maxId + 1}`;
 }
 
+
 // Saves edited task and subtasks for guest users in localStorage
 async function saveEditedTaskForGuest(taskId, updatedTaskData, removedSubtasks) {
     kanbanData = JSON.parse(localStorage.getItem("guestKanbanData")) || {tasks: {}, subtasks: {}, users: {}};
@@ -116,11 +124,11 @@ async function saveEditedTaskForGuest(taskId, updatedTaskData, removedSubtasks) 
     localStorage.setItem("guestKanbanData", JSON.stringify(kanbanData));
 }
 
+
 // Updates subtasks for guest users
 function updateGuestSubtasks(taskId, updatedTaskData) {
     const subtaskIds = Object.keys(updatedTaskData.subtasks);
     const subtaskElements = document.querySelectorAll("#display_subtasks .edit-subtask-item");
-
     for (let subtaskIndex = 0; subtaskIndex < subtaskIds.length; subtaskIndex++) {
         const subtaskId = subtaskIds[subtaskIndex];
         const title = subtaskElements[subtaskIndex]?.textContent.trim() || "Untitled Subtask";
@@ -136,6 +144,7 @@ function updateGuestSubtasks(taskId, updatedTaskData) {
     }
 }
 
+
 // Removes deleted subtasks for guest users
 function removeGuestSubtasks(removedSubtasks) {
     for (let subtaskIndex = 0; subtaskIndex < removedSubtasks.length; subtaskIndex++) {
@@ -144,12 +153,14 @@ function removeGuestSubtasks(removedSubtasks) {
     }
 }
 
+
 // Saves edited task and subtasks for registered users in the database
 async function saveEditedTaskForUser(taskId, updatedTaskData, removedSubtasks) {
     await updateTaskInDatabase(taskId, updatedTaskData);
     await deleteRemovedSubtasks(removedSubtasks);
     await waitForDatabaseSaveOperations(taskId);
 }
+
 
 // Deletes removed subtasks from the database
 function deleteRemovedSubtasks(removedSubtasks) {
@@ -160,6 +171,7 @@ function deleteRemovedSubtasks(removedSubtasks) {
     }
     return Promise.all(subtaskDeletePromises);
 }
+
 
 // Waits for all ongoing save operations in the database to finish
 async function waitForDatabaseSaveOperations(taskId) {
@@ -178,6 +190,7 @@ async function waitForDatabaseSaveOperations(taskId) {
     }
 }
 
+
 // Saves all changes to the task and its subtasks
 async function saveEditedTask(taskId) {
     const { existingSubtasks, isGuest } = getTaskContext(taskId);
@@ -189,6 +202,7 @@ async function saveEditedTask(taskId) {
         await saveEditedTaskForUser(taskId, updatedTaskData, removedSubtasks);
     }
 }
+
 
 // Returns the highest subtask ID number
 function getMaxSubtaskIdNumber() {

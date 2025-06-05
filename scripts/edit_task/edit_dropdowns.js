@@ -11,7 +11,8 @@ function toggleEditDropdown() {
       trigger.classList.add("dropdown_open");
     }
 }
-  
+ 
+
 // Toggles the visibility of the category dropdown.
 function toggleCategoryDropdown() {
     const dropdown = document.getElementById("dropdown_options_category");
@@ -25,6 +26,7 @@ function toggleCategoryDropdown() {
       trigger.classList.add("dropdown_open");
     }
   }
+
 
 // Closes the "Assigned to" dropdown if clicked outside.
 function closeAssignedToDropdown(event) {
@@ -42,6 +44,7 @@ function closeAssignedToDropdown(event) {
     }
 }
 
+
 // Closes the category dropdown if clicked outside.
 function closeCategoryDropdown(event) {
     const categoryDropdown = document.getElementById("dropdown_options_category");
@@ -57,6 +60,7 @@ function closeCategoryDropdown(event) {
         categoryTrigger.classList.remove("dropdown_open");
     }
 }
+
 
 // Closes dropdowns when clicking outside of them.
 function closeDropdownOnOutsideClick(event) {

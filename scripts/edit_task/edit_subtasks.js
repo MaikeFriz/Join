@@ -16,6 +16,7 @@ async function displayEditSubtasks(subtasks) {
     }
 }
 
+
 // Fetches the completed status of a specific subtask from the database.
 async function fetchSubtaskStatusFromDatabase(subtaskId) {
     try {
@@ -30,6 +31,7 @@ async function fetchSubtaskStatusFromDatabase(subtaskId) {
     }
 }
 
+
 // Generates the HTML for all subtasks to be displayed in the edit task modal.
 function renderEditSubtasks(subtasks) {
     let subtaskHTML = "";
@@ -42,6 +44,7 @@ function renderEditSubtasks(subtasks) {
     }
     return subtaskHTML;
 }
+
 
 // Adds a new subtask to the UI and clears the input field.
 function addEditSubtask() {
@@ -56,6 +59,7 @@ function addEditSubtask() {
         inputField.value = "";
     }
 }
+
 
 // Removes a specific subtask from the edit task modal based on its ID.
 function removeEditSubtask(subtaskId, subtaskTitle, event) {
@@ -73,6 +77,7 @@ function removeEditSubtask(subtaskId, subtaskTitle, event) {
     }
 }
 
+
 // Uploads a subtask to the database using a PUT request.
 function uploadSubtaskToDatabase(subtaskId, subtaskData) {
     if (!subtaskData || typeof subtaskData !== "object") {
@@ -86,10 +91,12 @@ function uploadSubtaskToDatabase(subtaskId, subtaskData) {
     return fetchFromDatabase(`${BASE_URL}subtasks/${subtaskId}.json`, "PUT", subtaskData);
 }
 
+
 // Deletes a subtask from the database using a DELETE request.
 function deleteSubtaskFromDatabase(subtaskId) {
     return fetchFromDatabase(`${BASE_URL}subtasks/${subtaskId}.json`, "DELETE");
 }
+
 
 // Sends a fetch request to the database with the specified method and body.
 function fetchFromDatabase(url, method, body = null) {

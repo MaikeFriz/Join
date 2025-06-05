@@ -79,6 +79,7 @@ function editTaskTemplate(displayedDueDate, label, fitLabelForCSS, title, descri
     `;
 }
 
+
 // Generates the HTML template for priority buttons.
 function editPriorityTemplate() {
   return /*html*/`
@@ -106,6 +107,7 @@ function editPriorityTemplate() {
   `;
 }
 
+
 // Generates the HTML template for the "Assigned to" dropdown.
 function editAssignedToTemplate(kanbanData) {
   return /*html*/`
@@ -119,6 +121,7 @@ function editAssignedToTemplate(kanbanData) {
     </div>
   `;
 }
+
 
 // Generates the HTML for individual assignee options in the dropdown.
 function editAssignedToDropdownTemplate(name, initials, cssClass, userId) {
@@ -141,6 +144,7 @@ function editAssignedToDropdownTemplate(name, initials, cssClass, userId) {
   `;
 }
 
+
 // Generates the HTML template for the category dropdown.
 function editCategoryTemplate() {
   return /*html*/`
@@ -154,6 +158,7 @@ function editCategoryTemplate() {
   `;
 }
 
+
 // Generates the HTML for a category label.
 function editCategoryLabelTemplate(label, fitLabelForCSS) {
   return `
@@ -163,6 +168,8 @@ function editCategoryLabelTemplate(label, fitLabelForCSS) {
   `;
 }
 
+
+// Generates the HTML for an individual subtask in the edit modal.
 function editSubtaskTemplate(subtaskId, subtaskData) {
   return `
     <div class="edit-subtask-item" data-id="${subtaskId}">

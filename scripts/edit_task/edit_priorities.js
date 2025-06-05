@@ -15,6 +15,7 @@ function setPriorityActive(priority) {
   }
 }
 
+
 // Initializes click event listeners for priority buttons.
 function initializePriorityButtons() {
   const buttons = document.querySelectorAll(".priority-buttons-div > div");
@@ -24,6 +25,7 @@ function initializePriorityButtons() {
     button.addEventListener("click", () => handleButtonClick(button));
   }
 }
+
 
 // Handles the click event for priority buttons and updates the active state.
 function handleButtonClick(clickedButton) {

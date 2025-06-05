@@ -8,6 +8,7 @@ function updateTaskInDatabase(taskId, updatedTaskData) {
     }
 }
 
+
 // Updates the task for a guest user in localStorage.
 function updateTaskForGuest(taskId, updatedTaskData) {
     return new Promise((resolve, reject) => {
@@ -26,6 +27,7 @@ function updateTaskForGuest(taskId, updatedTaskData) {
     });
 }
 
+
 // Updates subtasks for a guest user in localStorage.
 function updateGuestSubtasks(data, updatedTaskData) {
     Object.keys(updatedTaskData.subtasks).forEach((subtaskId) => {
@@ -38,6 +40,7 @@ function updateGuestSubtasks(data, updatedTaskData) {
         }
     });
 }
+
 
 // Updates the task for a registered user in the database.
 function updateTaskForRegisteredUser(taskId, updatedTaskData) {
@@ -53,6 +56,7 @@ function updateTaskForRegisteredUser(taskId, updatedTaskData) {
             return updateRegisteredSubtasks(updatedTaskData);
         });
 }
+
 
 // Updates subtasks for a registered user in the database.
 function updateRegisteredSubtasks(updatedTaskData) {
