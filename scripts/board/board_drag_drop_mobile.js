@@ -49,17 +49,14 @@ function onTouchStart(event) {
 function onTouchMove(event) {
   if (!taskClone || !isDragging) return;
   const touch = event.touches[0];
-
   let container = document.elementFromPoint(touch.clientX, touch.clientY);
   while (container && !['drag_drop_todo_container','drag_drop_progress_container','drag_drop_in_await_container','drag_drop_in_done_container'].includes(container.id)) {
     container = container.parentElement;
   }
-
   let originContainer = draggedTask?.parentElement;
   while (originContainer && !['drag_drop_todo_container','drag_drop_progress_container','drag_drop_in_await_container','drag_drop_in_done_container'].includes(originContainer.id)) {
     originContainer = originContainer.parentElement;
   }
-
   handleMobileDropPlaceholder(container, originContainer);
   handleMobileTaskCloneMove(touch);
   handleMobileBoardScroll(touch);
@@ -118,12 +115,10 @@ function handleMobileTaskCloneMove(touch) {
   const bounds = board
     ? board.getBoundingClientRect()
     : { left: 0, top: 0, right: window.innerWidth, bottom: window.innerHeight };
-
   const minX = bounds.left;
   const minY = bounds.top;
   const maxX = bounds.right - taskClone.offsetWidth;
   const maxY = bounds.bottom - taskClone.offsetHeight;
-
   let left = touch.pageX - taskClone.offsetWidth / 2;
   let top = touch.pageY - taskClone.offsetHeight / 2;
   left = Math.max(minX, Math.min(left, maxX));

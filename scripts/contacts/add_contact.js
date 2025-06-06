@@ -51,9 +51,7 @@ function handleResponsiveContactDetails() {
   const rightSideContent = document.querySelector(".right-side-content-contacts");
   const contactDetails = document.querySelector(".contact-details");
   const contactsList = document.querySelector(".contacts-list");
-
   const contactDetailsVisible = contactDetails && rightSideContent && rightSideContent.contains(contactDetails);
-
   if (isMobile && contactDetailsVisible) {
     if (contactsList) contactsList.classList.add("hide-on-mobile");
     const selected = document.querySelector('.contacts-list ul li.contact-highlight');
@@ -91,7 +89,7 @@ function displayGuestContactDetails(contactId) {
   renderContactDetailsDiv(newDiv);
   addGuestContactDetailListeners(contactId);
   highlightSelectedContact(contactId);
-
+  
   if (window.innerWidth <= 980) {
     showActionButton(contactId);
   }
