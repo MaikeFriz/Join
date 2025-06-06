@@ -1,4 +1,6 @@
-// Handles DOMContentLoaded: checks login, sets up form, and initializes task creation logic
+/**
+ * Handles DOMContentLoaded: checks login, sets up form, and initializes task creation logic.
+ */
 document.addEventListener("DOMContentLoaded", async function () {
   const isGuest = JSON.parse(localStorage.getItem("isGuest"));
   let user = JSON.parse(localStorage.getItem("loggedInUser"));

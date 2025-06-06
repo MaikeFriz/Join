@@ -185,21 +185,25 @@ function getHighestSubtaskIdForGuest() {
 }
 
 /**
- * Gets the highest subtask ID for a user from the database.
- * @returns {Promise<number>} The highest subtask ID.
+ * Fetches all subtask IDs for the user from the database.
+ * @returns {Promise<Array<string>>} Array of subtask IDs.
  */
-async function getHighestSubtaskIdForUser() {
+async function fetchUserSubtaskIds() {
   const response = await fetch(
     "https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData.json"
   );
   const data = await response.json();
-  const subtaskList = Object.keys(data.subtasks || {});
+  return Object.keys(data.subtasks || {});
+}
+
+/**
+ * Gets the highest subtask ID for a user from the database.
+ * @returns {Promise<number>} The highest subtask ID.
+ */
+async function getHighestSubtaskIdForUser() {
+  const subtaskList = await fetchUserSubtaskIds();
   let highestSubtask = 0;
-  for (
-    let subtaskIndex = 0;
-    subtaskIndex < subtaskList.length;
-    subtaskIndex++
-  ) {
+  for (let subtaskIndex = 0; subtaskIndex < subtaskList.length; subtaskIndex++) {
     const subtaskId = subtaskList[subtaskIndex];
     const subtaskNumber = parseInt(subtaskId.replace("subtask", ""));
     if (subtaskNumber > highestSubtask) highestSubtask = subtaskNumber;

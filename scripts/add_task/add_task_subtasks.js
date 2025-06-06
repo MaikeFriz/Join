@@ -223,10 +223,13 @@ function createEditIcons(input, onSave, onCancel) {
   const iconsContainer = document.createElement("div");
   iconsContainer.className = "icons-container";
   iconsContainer.innerHTML = getEditIconsHTML();
-
   let clearIcon = iconsContainer.querySelector(".clear_icon_show_subtask");
 
-  function createDeleteIcon() {
+  /**
+ * Creates the delete icon element for the subtask edit UI.
+ * @returns {HTMLImageElement} The delete icon image element.
+ */
+function createDeleteIcon() {
     const deleteImg = document.createElement("img");
     deleteImg.className = "delete_icon_show_subtask";
     deleteImg.src = "./assets/img/delete.svg";
@@ -234,18 +237,26 @@ function createEditIcons(input, onSave, onCancel) {
     deleteImg.style.cursor = "pointer";
     deleteImg.addEventListener("mousedown", handleDeleteClick);
     return deleteImg;
-  }
+}
 
-  function createClearIcon() {
+/**
+ * Creates the clear icon element for the subtask edit UI.
+ * @returns {HTMLImageElement} The clear icon image element.
+ */
+function createClearIcon() {
     const newClearIcon = document.createElement("img");
     newClearIcon.className = "clear_icon_show_subtask";
     newClearIcon.src = "./assets/img/cancel.svg";
     newClearIcon.alt = "Clear";
     newClearIcon.addEventListener("mousedown", handleClearClick);
     return newClearIcon;
-  }
+}
 
-  function handleDeleteClick(e) {
+/**
+ * Handles the click event for the delete icon, removing the subtask.
+ * @param {MouseEvent} e - The mouse event.
+ */
+function handleDeleteClick(e) {
     e.preventDefault();
     e.stopPropagation();
     const subtaskItem = input.closest(".subtask-item");
@@ -253,53 +264,68 @@ function createEditIcons(input, onSave, onCancel) {
       const subtaskId = subtaskItem.id;
       removeSubtask(subtaskId, subtaskItem);
     }
-  }
+}
 
-  function handleClearClick(e) {
+/**
+ * Handles the click event for the clear icon, clearing the input field.
+ * @param {MouseEvent} e - The mouse event.
+ */
+function handleClearClick(e) {
     e.preventDefault();
     e.stopPropagation();
     input.value = "";
     switchToDeleteIcon();
-  }
+}
 
-  function switchToDeleteIcon() {
+/**
+ * Switches the icon to the delete icon and sets up input event listeners.
+ */
+function switchToDeleteIcon() {
     const deleteImg = createDeleteIcon();
     clearIcon.replaceWith(deleteImg);
     input.addEventListener("input", handleInputChange);
     clearIcon = deleteImg;
-  }
+}
 
-  function switchToClearIcon() {
+/**
+ * Switches the icon to the clear icon and removes input event listeners.
+ */
+function switchToClearIcon() {
     const newClearIcon = createClearIcon();
     clearIcon.replaceWith(newClearIcon);
     input.removeEventListener("input", handleInputChange);
     clearIcon = newClearIcon;
-  }
+}
 
-  function handleInputChange() {
+/**
+ * Handles the input event to switch icons based on input value.
+ */
+function handleInputChange() {
     if (input.value.trim() === "") {
       switchToDeleteIcon();
     }
-  }
-
-  clearIcon.addEventListener("mousedown", handleClearClick);
-
-  input.addEventListener("input", () => {
+}
+clearIcon.addEventListener("mousedown", handleClearClick);
+input.addEventListener("input", () => {
     if (input.value.trim() === "" && !clearIcon.classList.contains("delete_icon_show_subtask")) {
       switchToDeleteIcon();
     } else if (input.value.trim() !== "" && clearIcon.classList.contains("delete_icon_show_subtask")) {
       switchToClearIcon();
     }
-  });
+});
 
-  input.addEventListener("keydown", (e) => {
+/**
+ * Handles the keydown event for the input, saving on Enter.
+ * @param {KeyboardEvent} e - The keyboard event.
+ */
+input.addEventListener("keydown", (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
       onSave();
     }
-  });
+});
 
-  return iconsContainer;
+return iconsContainer;
 }
 
 /**
@@ -313,7 +339,6 @@ function createEditIcons(input, onSave, onCancel) {
 function saveEdit(input, span, subtaskId, inputContainer, deleteButton) {
   const newText = input.value.trim();
   const subtaskItem = inputContainer.closest(".subtask-item");
-
   if (newText !== "") {
     span.textContent = newText;
     subtasksObject[subtaskId].title = newText;
@@ -333,7 +358,6 @@ function cancelEdit(inputContainer, span, deleteButton) {
   const subtaskItem = inputContainer.closest(".subtask-item");
   const subtaskId = subtaskItem ? subtaskItem.id : null;
   if (!subtaskId) return;
-
   const originalText = subtasksObject[subtaskId].title;
   const updatedElement = createSubtaskElement(subtaskId, originalText);
   subtaskItem.replaceWith(updatedElement);

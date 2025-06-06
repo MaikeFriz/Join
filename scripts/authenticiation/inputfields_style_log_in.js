@@ -24,8 +24,14 @@ function updatePasswordIconLogIn(passwordInput, passwordIcon) {
     }
 }
 
+/**
+ * Adds event listeners for toggling password visibility and updating the password icon on input.
+ */
 document.getElementById("toggle_icon").addEventListener("click", togglePasswordLogIn);
 
+/**
+ * Adds an input event listener to update the password icon whenever the password input changes.
+ */
 document.getElementById("input_password").addEventListener("input", function () {
     updatePasswordIconLogIn(
         document.getElementById("input_password"),
@@ -33,6 +39,9 @@ document.getElementById("input_password").addEventListener("input", function () 
     );
 });
 
+/**
+ * Initializes the password icon state on page load.
+ */
 updatePasswordIconLogIn(
     document.getElementById("input_password"),
     document.getElementById("password_icon")
