@@ -14,8 +14,17 @@ document.addEventListener("DOMContentLoaded", async function () {
     return;
   }
 
-  let BASE_URL = `https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData/`;
-  let taskForm = document.getElementById("task_form");
+  /**
+ * The base URL for the kanban database API.
+ * @type {string}
+ */
+let BASE_URL = `https://join-36b1f-default-rtdb.europe-west1.firebasedatabase.app/kanbanData/`;
+
+/**
+ * The task form element from the DOM.
+ * @type {HTMLFormElement}
+ */
+let taskForm = document.getElementById("task_form");
 
   /**
    * Gets all existing task IDs from the database or localStorage.
@@ -64,12 +73,10 @@ document.addEventListener("DOMContentLoaded", async function () {
    */
   async function onTaskFormSubmit(event) {
     event.preventDefault();
-
     if (!validateTaskForm()) {
       hideLoadingSpinner();
       return;
     }
-
     showLoadingSpinner();
     await handleTaskCreation();
     hideLoadingSpinner();
@@ -90,6 +97,33 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
 
   /**
+   * Builds a task object from the provided parameters.
+   * @param {string} label - The task label/category.
+   * @param {string} title - The task title.
+   * @param {string} description - The task description.
+   * @param {string} createdAt - The creation date.
+   * @param {string} updatedAt - The last update date.
+   * @param {string} priority - The task priority.
+   * @param {string} createdBy - The creator's user ID.
+   * @param {Object} assignees - The assigned users.
+   * @param {Object} subtasks - The subtasks object.
+   * @returns {Object} The constructed task object.
+   */
+  function buildTaskObject(label, title, description, createdAt, updatedAt, priority, createdBy, assignees, subtasks) {
+    return {
+      label: label,
+      title: title,
+      description: description,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
+      priority: priority,
+      createdBy: createdBy,
+      assignees: assignees,
+      subtasks: subtasks
+    };
+  }
+
+  /**
    * Collects all task details from the form fields.
    * @returns {Object} The task details object.
    */
@@ -104,18 +138,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     let assignees = getAssignedUsers();
     let label = document.getElementById("category").value;
     let subtasks = getSubtaskDetails();
-
-    return {
-      label: label,
-      title: title,
-      description: description,
-      createdAt: createdAt,
-      updatedAt: updatedAt,
-      priority: priority,
-      createdBy: createdBy,
-      assignees: assignees,
-      subtasks: subtasks
-    };
+    return buildTaskObject(label, title, description, createdAt, updatedAt, priority, createdBy, assignees, subtasks);
   }
 
   /**
@@ -209,28 +232,32 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
 
   /**
-   * Saves the subtasks data to the database or localStorage (for guests).
+   * Saves the subtasks data to localStorage for guests.
    * @param {string} taskId - The task ID.
    * @returns {Promise<Object>} The saved subtasks object.
    */
-  function saveSubtasksData(taskId) {
-    const isGuest = JSON.parse(localStorage.getItem("isGuest"));
-    if (isGuest) {
-      kanbanData = JSON.parse(localStorage.getItem("guestKanbanData")) || { tasks: {}, subtasks: {}, users: {} };
-      let existingSubtasks = kanbanData.subtasks;
-      const updatedSubtasks = prepareSubtasksForDatabase(existingSubtasks, taskId);
-      kanbanData.subtasks = updatedSubtasks;
-      localStorage.setItem("guestKanbanData", JSON.stringify(kanbanData));
-      return Promise.resolve(kanbanData.subtasks);
-    } else {
-      return fetch(`${BASE_URL}subtasks.json`)
-        .then((response) => response.json())
-        .then((existingSubtasks) => {
-          existingSubtasks = existingSubtasks || {};
-          const updatedSubtasks = prepareSubtasksForDatabase(existingSubtasks, taskId);
-          return overwriteSubtaskCollection(updatedSubtasks);
-        });
-    }
+  function saveGuestSubtasksData(taskId) {
+    kanbanData = JSON.parse(localStorage.getItem("guestKanbanData")) || { tasks: {}, subtasks: {}, users: {} };
+    let existingSubtasks = kanbanData.subtasks;
+    const updatedSubtasks = prepareSubtasksForDatabase(existingSubtasks, taskId);
+    kanbanData.subtasks = updatedSubtasks;
+    localStorage.setItem("guestKanbanData", JSON.stringify(kanbanData));
+    return Promise.resolve(kanbanData.subtasks);
+  }
+
+  /**
+   * Saves the subtasks data to the database for registered users.
+   * @param {string} taskId - The task ID.
+   * @returns {Promise<Object>} The saved subtasks object.
+   */
+  function saveUserSubtasksData(taskId) {
+    return fetch(`${BASE_URL}subtasks.json`)
+      .then((response) => response.json())
+      .then((existingSubtasks) => {
+        existingSubtasks = existingSubtasks || {};
+        const updatedSubtasks = prepareSubtasksForDatabase(existingSubtasks, taskId);
+        return overwriteSubtaskCollection(updatedSubtasks);
+      });
   }
 
   /**
@@ -299,8 +326,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         existingTasks = existingTasks || {};
         existingTasks[taskId] = true;
         return fetch(`${BASE_URL}users/${userId}/assignedTasks/${databaseCategory}.json`, {
-          method: "PUT",
-          headers: {
+          method: "PUT", headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(existingTasks),
@@ -324,6 +350,20 @@ document.addEventListener("DOMContentLoaded", async function () {
       return addTaskToGuestCategory(taskId, databaseCategory);
     } else {
       return addTaskToUserCategory(taskId, userId, databaseCategory);
+    }
+  }
+
+  /**
+   * Saves the subtasks data to the database or localStorage depending on user type.
+   * @param {string} taskId - The task ID.
+   * @returns {Promise<Object>} The saved subtasks object.
+   */
+  function saveSubtasksData(taskId) {
+    const isGuest = JSON.parse(localStorage.getItem("isGuest"));
+    if (isGuest) {
+      return saveGuestSubtasksData(taskId);
+    } else {
+      return saveUserSubtasksData(taskId);
     }
   }
 
