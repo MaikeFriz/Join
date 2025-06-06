@@ -17,7 +17,6 @@ function initializeSubtaskListeners() {
   const inputIcons = document.getElementById("input_icons");
   const checkIcon = document.getElementById("check_icon");
   const clearIcon = document.getElementById("clear_icon");
-
   inputSubtask.addEventListener("input", () =>
     toggleIcons(inputSubtask, addIcon, inputIcons)
   );
@@ -387,8 +386,7 @@ async function addSubtask(inputSubtask) {
       subtasksObject[newSubtaskId] = { title: subtaskText, completed: false };
       displaySubtask(newSubtaskId, subtaskText);
       highestSubtaskId++;
-      clearInput(
-        inputSubtask,
+      clearInput( inputSubtask,
         document.getElementById("add_icon"),
         document.getElementById("input_icons")
       );

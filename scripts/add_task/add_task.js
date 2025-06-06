@@ -8,14 +8,41 @@ document.addEventListener("DOMContentLoaded", function () {
   initializePrioritySelection();
   setupAddTaskOverlay();
   setupOverlayClickToBoard();
+  setupCategoryDropdown();
+});
 
+/**
+ * Sets up the category dropdown open/close and option selection logic.
+ */
+function setupCategoryDropdown() {
   const dropdown = document.getElementById("dropdown_category");
   const optionsContainer = document.querySelector(".dropdown_options");
   const selectedText = document.getElementById("dropdown_selected");
   const inputField = document.getElementById("category");
+
+  setupCategoryDropdownToggle(dropdown);
+  setupCategoryDropdownOptions(optionsContainer, selectedText, inputField, dropdown);
+  setupCategoryDropdownClose(dropdown);
+}
+
+/**
+ * Adds click event to toggle the category dropdown open/close.
+ * @param {HTMLElement} dropdown - The dropdown element.
+ */
+function setupCategoryDropdownToggle(dropdown) {
   dropdown.addEventListener("click", function () {
     dropdown.parentElement.classList.toggle("open");
   });
+}
+
+/**
+ * Adds click events to each dropdown option to select and set the value.
+ * @param {HTMLElement} optionsContainer - The container for dropdown options.
+ * @param {HTMLElement} selectedText - The element displaying the selected text.
+ * @param {HTMLElement} inputField - The hidden input field for the category.
+ * @param {HTMLElement} dropdown - The dropdown element.
+ */
+function setupCategoryDropdownOptions(optionsContainer, selectedText, inputField, dropdown) {
   optionsContainer
     .querySelectorAll(".custom-dropdown-option")
     .forEach((option) => {
@@ -25,12 +52,19 @@ document.addEventListener("DOMContentLoaded", function () {
         dropdown.parentElement.classList.remove("open");
       });
     });
+}
+
+/**
+ * Closes the category dropdown if a click occurs outside of it.
+ * @param {HTMLElement} dropdown - The dropdown element.
+ */
+function setupCategoryDropdownClose(dropdown) {
   document.addEventListener("click", function (event) {
     if (!dropdown.parentElement.contains(event.target)) {
       dropdown.parentElement.classList.remove("open");
     }
   });
-});
+}
 
 /**
  * Loads users and sets up the assignee dropdown.
@@ -60,8 +94,7 @@ async function fetchUsers() {
   }
   if (!data || !data.users) return [];
   return Object.entries(data.users).map(([userId, user]) => ({
-    id: userId,
-    name: user.name || "Unnamed User",
+    id: userId, name: user.name || "Unnamed User",
   }));
 }
 
